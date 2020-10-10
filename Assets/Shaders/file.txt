@@ -1,0 +1,6 @@
+I am a file. 
+I need to be here to maintain git folder structure. 
+You may remove me if there are other files in this folder.
+I am just glad to be of help. 
+
+Goodbye....

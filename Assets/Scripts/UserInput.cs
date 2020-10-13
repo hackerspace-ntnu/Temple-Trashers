@@ -10,11 +10,11 @@ public class UserInput : MonoBehaviour
         to the corresponding delegate among the ones defined below.
         Example:
 
-            UserInput input = player_1.GetComponent<UserInput>();
+            UserInput input = player1.GetComponent<UserInput>();
             input.OnInteractPressed += myFunc;
 
             // Now myFunc will be run whenever the "interact"-key is pressed by player 1
-            // nyfunc needs to be a void function without parameters, because that is the form of the button_delegate() defined below
+            // nyfunc needs to be a void function without parameters, because that is the form of the ButtonDelegate() defined below
 
             // To remove the function from the delegate, use the following:
             
@@ -26,45 +26,45 @@ public class UserInput : MonoBehaviour
 
     // Defining a general button-event delegate, this defines the form of every function that can be added to the delegates
     // In this case the functions must be void functions without any parameters
-    public delegate void button_delegate();
+    public delegate void ButtonDelegate();
 
     [Header("Input axes names")]
 
 
     [SerializeField]
-    private string move_vertical_name;
+    private string moveVerticalName;
 
     [SerializeField]
-    private string move_horizontal_name;
+    private string moveHorizontalName;
 
     [SerializeField]
-    private string aim_vertical_name;
+    private string aimVerticalName;
 
     [SerializeField]
-    private string aim_horizontal_name;
+    private string aimHorizontalName;
 
 
     [Header("Input button names")]
     [SerializeField]
-    private string interact_name;
+    private string interactName;
 
     [SerializeField]
-    private string back_name;
+    private string backName;
 
     [SerializeField]
-    private string start_name;
+    private string startName;
 
  
 
-    private Vector2 move_input, aim_input;
-    private bool interact_held = false, back_held = false, start_held = false;
+    private Vector2 moveInput, aimInput;
+    private bool interactHeld = false, backHeld = false, startHeld = false;
 
     // Setting up the delegates for each button event
     // Each of these delegate-pairs correspond to a specific button on a players controller
     // Designate a funtion to Interact if the functionality is interacting with an object, ie taking controll of a turret
     // --||-- Back if the functionality is exiting a menu or similar
     // --||-- Start is usually for opening a start menu, but may be used differently in a game-over state or similar.
-    public button_delegate 
+    public ButtonDelegate
         OnInteractPressed, 
         OnInteractReleased, 
         OnBackPressed, 
@@ -74,49 +74,49 @@ public class UserInput : MonoBehaviour
 
     void Start()
     {
-        updateInput();
+        UpdateInput();
     }
 
     void Update()
     {
-        updateInput();
+        UpdateInput();
     }
 
-    private void updateInput()
+    private void UpdateInput()
     {
 
         //Updates the aim and movement directions, and makes sure they're at most unit-length
 
-        move_input = new Vector2(Input.GetAxis(move_horizontal_name), Input.GetAxis(move_vertical_name));
-        if(move_input.sqrMagnitude > 1) { move_input.Normalize(); }
+        moveInput = new Vector2(Input.GetAxis(moveHorizontalName), Input.GetAxis(moveVerticalName));
+        if(moveInput.sqrMagnitude > 1) { moveInput.Normalize(); }
 
-        aim_input = new Vector2(Input.GetAxis(aim_horizontal_name), Input.GetAxis(aim_vertical_name)).normalized;
-        if(aim_input.sqrMagnitude > 1) { aim_input.Normalize(); }
+        aimInput = new Vector2(Input.GetAxis(aimHorizontalName), Input.GetAxis(aimVerticalName)).normalized;
+        if(aimInput.sqrMagnitude > 1) { aimInput.Normalize(); }
 
         // Updates each button to see whether it is being held down, and invokes the Pressed/Released functions if 
         // the button was pressed/released this frame
 
-        interact_held = Input.GetButton(interact_name);
-        if (Input.GetButtonDown(interact_name))  { OnInteractPressed?.Invoke(); }
-        if (Input.GetButtonUp(interact_name))    { OnInteractReleased?.Invoke(); }
+        interactHeld = Input.GetButton(interactName);
+        if (Input.GetButtonDown(interactName)) { OnInteractPressed?.Invoke(); }
+        if (Input.GetButtonUp(interactName))   { OnInteractReleased?.Invoke(); }
 
-        back_held = Input.GetButton(back_name);
-        if (Input.GetButtonDown(back_name))  { OnBackPressed?.Invoke(); }
-        if (Input.GetButtonUp(back_name))    { OnBackReleased?.Invoke(); }
+        backHeld = Input.GetButton(backName);
+        if (Input.GetButtonDown(backName)) { OnBackPressed?.Invoke(); }
+        if (Input.GetButtonUp(backName))   { OnBackReleased?.Invoke(); }
 
-        start_held = Input.GetButton(start_name);
-        if (Input.GetButtonDown(start_name)) { OnStartPressed?.Invoke(); }  
-        if (Input.GetButtonUp(start_name))   { OnStartReleased?.Invoke(); }
+        startHeld = Input.GetButton(startName);
+        if (Input.GetButtonDown(startName)) { OnStartPressed?.Invoke(); }  
+        if (Input.GetButtonUp(startName))   { OnStartReleased?.Invoke(); }
     }
     //Returns the current direction the player wants to move
-    public Vector2 MoveInput { get => move_input; }
+    public Vector2 MoveInput { get => moveInput; }
     //Returns the current direction the player wants to aim
-    public Vector2 AimInput { get => aim_input; }
+    public Vector2 AimInput { get => aimInput; }
 
 
     // These functions may be used instead of the delegates if you only care about whether a button is held down or not
     // Returns true if the button is being held down, false if not
-    public bool InteractHeld { get => interact_held; }
-    public bool BackHeld { get => back_held; }
-    public bool StartHeld { get => start_held; }
+    public bool InteractHeld { get => interactHeld; }
+    public bool BackHeld { get => backHeld; }
+    public bool StartHeld { get => startHeld; }
 }

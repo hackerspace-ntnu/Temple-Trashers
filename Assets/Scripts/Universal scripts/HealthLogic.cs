@@ -11,7 +11,11 @@ public class Health : MonoBehaviour
     {
         
     }
-    void updateHealth(float input)
+    public virtual void dealDamage(float input)
+    {
+        health -= input;
+    }
+    public virtual void heal(float input)
     {
         health += input;
     }

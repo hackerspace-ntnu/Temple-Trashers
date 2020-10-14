@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class HealthLogic : MonoBehaviour
 {
     public float health;
 
@@ -13,7 +13,14 @@ public class Health : MonoBehaviour
     }
     public virtual void dealDamage(float input)
     {
-        health -= input;
+        if (health < input)
+        {
+            Debug.Log("You are dead, not big surprise");
+        }
+        else
+        {
+            health -= input;
+        }
     }
     public virtual void heal(float input)
     {

@@ -34,15 +34,14 @@ public class BulletLogic : MonoBehaviour
     }
     
     //On collision -> call collided objects damagelogic if it has one and destroy this bullet
-    private void OnCollisionEnter(Collision collision)
-    {/*
-        if (collision.gameObject.GetComponent<HealthLogic>)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<HealthLogic>())
         {
-           // collision.gameObject.GetComponent(HealthLogic).updateHealth(damage);
-            Debug.Log("Took "+damage+" damage");
+            other.gameObject.GetComponent<HealthLogic>().dealDamage(damage);
             
         }
-        GameObject.Destroy(gameObject);*/
+        GameObject.Destroy(gameObject);
     }
 
     // Update is called once per frame

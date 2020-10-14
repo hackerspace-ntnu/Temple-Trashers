@@ -13,7 +13,7 @@ public class TowerLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("LaunchProjectile", 2.0f, 1f);
+        //InvokeRepeating("LaunchProjectile", 2.0f, 1f);
     }
 
     // Update is called once per frame

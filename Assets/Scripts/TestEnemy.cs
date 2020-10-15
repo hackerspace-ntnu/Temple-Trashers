@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class TestEnemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    int dmg = 1000;
 
-    // Update is called once per frame
-    void Update()
+    void OnCollisionEnter()
     {
-        
+        Debug.Log("HIT");
+        BaseController.Instance.DealDamage(dmg);
     }
 }

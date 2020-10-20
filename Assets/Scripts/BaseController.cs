@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseController : MonoBehaviour
 {
 
     // Base Singleton
+    // Use "BaseController.Instance.DealDamage(int dmg) to damage the base
     public static BaseController Instance;
 
     // Base stats
@@ -30,15 +29,10 @@ public class BaseController : MonoBehaviour
 
     void Start()
     {
-        // Starts the game with max health (should this be in start or awake?)
+        // Starts the game with max health
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     // Call to deal damage to the base
     public void DealDamage(int dmg)
@@ -50,8 +44,7 @@ public class BaseController : MonoBehaviour
     private void Die(){
 
         Debug.Log("DIED");
-        //Funksjonalitet for gui og restart
-        //BIG EXPLOTION
+        //BIG EXPLOSION
 
         // Creates the GUI "GameOverScreen"
         Instantiate(GameOverScreen);

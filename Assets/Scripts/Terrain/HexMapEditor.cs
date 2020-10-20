@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+[ExecuteAlways]
 public class HexMapEditor : MonoBehaviour {
 
 	public Color[] colors;

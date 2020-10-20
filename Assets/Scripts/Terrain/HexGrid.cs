@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Dynamic;
+using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteAlways]
 public class HexGrid : MonoBehaviour {
 
 	public int width = 6;
@@ -16,20 +18,58 @@ public class HexGrid : MonoBehaviour {
 	Canvas gridCanvas;
 	HexMesh hexMesh;
 
-	void Awake () {
+	public bool recalculate;
+
+	void Awake()
+	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
+		if(cells == null)
+        {
+			ResetCells();
+        }
+	}
+
+    private void Update()
+    {
+        if (recalculate)
+        {
+			recalculate = false;
+			ResetCells();
+        }
+    }
+    void ResetCells()
+    {
+		// Remove previous cells
+		cells = GetComponentsInChildren<HexCell>();
+		if (cells != null)
+		{
+			foreach (HexCell cell in cells)
+			{
+				DestroyImmediate(cell.gameObject);
+
+			}
+			while (gridCanvas.transform.childCount > 0)
+			{
+				DestroyImmediate(gridCanvas.transform.GetChild(0).gameObject);
+			}
+		}
+
 		cells = new HexCell[height * width];
 
-		for (int z = 0, i = 0; z < height; z++) {
-			for (int x = 0; x < width; x++) {
+		for (int z = 0, i = 0; z < height; z++)
+		{
+			for (int x = 0; x < width; x++)
+			{
 				CreateCell(x, z, i++);
 			}
 		}
+
+		Refresh();
 	}
 
-	void Start () {
+    void Start () {
 		hexMesh.Triangulate(cells);
 	}
 

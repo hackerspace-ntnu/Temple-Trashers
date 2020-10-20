@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[ExecuteAlways]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour {
 
@@ -14,9 +15,9 @@ public class HexMesh : MonoBehaviour {
 
 	void Awake () {
 		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-		mat = GetComponent<MeshRenderer>().material;
-		mat.SetVector("vector2Tiling", new Vector2(HexMetrics.innerRadius/3, 1/3f));
-		meshCollider = gameObject.AddComponent<MeshCollider>();
+		mat = GetComponent<MeshRenderer>().sharedMaterial;
+		mat.SetVector("vector2Tiling", new Vector2(0.866025404f/ (HexMetrics.outerRadius * 3), 1 / (HexMetrics.outerRadius * 3)));
+		meshCollider = gameObject.GetComponent<MeshCollider>();
 		hexMesh.name = "Hex Mesh";
 		vertices = new List<Vector3>();
 		colors = new List<Color>();
@@ -28,6 +29,7 @@ public class HexMesh : MonoBehaviour {
 		vertices.Clear();
 		colors.Clear();
 		triangles.Clear();
+
 		for (int i = 0; i < cells.Length; i++) {
 			Triangulate(cells[i]);
 		}

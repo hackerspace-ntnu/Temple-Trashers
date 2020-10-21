@@ -13,6 +13,8 @@ public class TowerLogic : MonoBehaviour
     public float bulletDamage;
     public UserInput input;
     public Transform rotAxis;
+
+    private bool active = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,42 @@ public class TowerLogic : MonoBehaviour
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
         newBullet.GetComponent<BulletLogic>().setDamage(bulletDamage);
     }
+
+    public void enterTurret()
+    {
+        this.active = true;
+        Debug.Log("Entered turret");
+    }
+    public void exitTurret()
+    {
+        this.active = false;
+        Debug.Log("Left turret");
+    }
+
+    private Vector3 rotationSpeed = new Vector3(0, 200f, 0);
     void Update()
     {
+        if(this.active) // If the tower is "active" (The player enters the tower)
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                this.transform.Rotate(-this.rotationSpeed*Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                this.transform.Rotate(this.rotationSpeed * Time.deltaTime);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if(active)
+            {
+                this.exitTurret();
+            } else
+            {
+                this.enterTurret();
+            }
+        }
     }
 }

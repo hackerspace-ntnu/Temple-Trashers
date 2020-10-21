@@ -14,7 +14,7 @@ public class Tower_SpawnShot : MonoBehaviour
     void shoot()
     {
         GameObject newBullet = Instantiate(bullet, this.transform);
-        //newBullet.setSpeed(bulletSpeed);
+        newBullet.GetComponent<BulletLogic>().setSpeed(bulletSpeed);
     }
     // Update is called once per frame
     void Update()

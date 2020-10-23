@@ -7,6 +7,7 @@ public class TowerLogic : MonoBehaviour
     public Vector3 lookingTowards;
     public GameObject bulletSpawnPoint;
     public GameObject towerRotationPoint;
+    public GameObject arrowPointer;
     //public bool autoShoot;
     public GameObject bullet;
     public float bulletSpeed;
@@ -27,8 +28,10 @@ public class TowerLogic : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<UserInput>())
-        {
+        { 
             input = other.GetComponent<UserInput>();
+
+            //render arrowPointer
         }
     }
     //remove UserInput if user leaves radius
@@ -37,6 +40,8 @@ public class TowerLogic : MonoBehaviour
         if (other.GetComponent<UserInput>() == input)
         {
             input = null;
+            
+            //unrender pointer
         }
     }
 

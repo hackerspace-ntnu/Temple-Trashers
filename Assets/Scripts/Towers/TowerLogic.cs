@@ -63,6 +63,7 @@ public class TowerLogic : MonoBehaviour
     {
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
         newBullet.GetComponent<BulletLogic>().setDamage(bulletDamage);
+        newBullet.transform.SetParent(this.transform);
     }
    
 }

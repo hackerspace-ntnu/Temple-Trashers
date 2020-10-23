@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9153342871586358702}
-  - component: {fileID: 9153342871586358690}
+  - component: {fileID: 9179370649236198499}
   m_Layer: 0
   m_Name: HexCell
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9153342871586358690
+--- !u!114 &9179370649236198499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,18 +40,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9153342871586358689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bc3816a9e4753a4fb36c39f1a28e4f1, type: 3}
+  m_Script: {fileID: 11500000, guid: e3d3de04c7eaa4677adc5cb5e120ecef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   coordinates:
     x: 0
     z: 0
   color: {r: 0, g: 0, b: 0, a: 0}
-  neighbors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   uiRect: {fileID: 0}
+  placedTurret: 0
+  neighbors: []

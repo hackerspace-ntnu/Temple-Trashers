@@ -32,7 +32,7 @@ public class HexCell : MonoBehaviour {
 	public bool placedTurret;
 
 	[SerializeField]
-	HexCell[] neighbors;
+	HexCell[] neighbors = null;
 
 	public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];

@@ -309,6 +309,7 @@ public class HexMesh : MonoBehaviour {
 		triangles.Add(vertexIndex + 2);
 	}
 
+
 	void AddTriangleColor (Color color) {
 		colors.Add(color);
 		colors.Add(color);
@@ -327,6 +328,7 @@ public class HexMesh : MonoBehaviour {
 		vertices.Add(v2);
 		vertices.Add(v3);
 		vertices.Add(v4);
+
 		triangles.Add(vertexIndex);
 		triangles.Add(vertexIndex + 2);
 		triangles.Add(vertexIndex + 1);

@@ -81,3 +81,4 @@ public static class HexMetrics {
 		return HexEdgeType.Cliff;
     }
 }
+

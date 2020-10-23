@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
+
 public struct HexCoordinates {
 
 	[SerializeField]

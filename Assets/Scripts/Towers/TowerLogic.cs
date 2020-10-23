@@ -32,6 +32,7 @@ public class TowerLogic : MonoBehaviour
             input = other.GetComponent<UserInput>();
 
             //render arrowPointer
+            arrowPointer.GetComponent<Renderer>().enabled = true;
         }
     }
     //remove UserInput if user leaves radius
@@ -40,8 +41,9 @@ public class TowerLogic : MonoBehaviour
         if (other.GetComponent<UserInput>() == input)
         {
             input = null;
-            
+
             //unrender pointer
+            arrowPointer.GetComponent<Renderer>().enabled = false;
         }
     }
 

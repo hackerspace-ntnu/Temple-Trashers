@@ -15,6 +15,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private GameObject GameOverScreen;
 
+    //Explosion
+    [SerializeField]
+    private GameObject Explosion;
 
     void Awake()
     {
@@ -42,10 +45,9 @@ public class BaseController : MonoBehaviour
     }
 
     private void Die(){
-
         Debug.Log("DIED");
         //BIG EXPLOSION
-
+        Instantiate(Explosion, this.transform.position, new Quaternion(0,0,0,0),this.transform);
         // Creates the GUI "GameOverScreen"
         Instantiate(GameOverScreen);
     }

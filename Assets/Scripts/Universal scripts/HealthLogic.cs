@@ -13,7 +13,7 @@ public class HealthLogic : MonoBehaviour
     }
     public virtual void dealDamage(float input)
     {
-        if (health < input)
+        if (health <= input)
         {
             Debug.Log("You are dead, not big surprise");
         }

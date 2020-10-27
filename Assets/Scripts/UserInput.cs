@@ -69,6 +69,8 @@ public class UserInput : MonoBehaviour
         OnStartPressed,
         OnStartReleased;
 
+  
+    void speedBoost() { }
     void Start()
     {
         UpdateInput();
@@ -84,14 +86,18 @@ public class UserInput : MonoBehaviour
         // Updates the aim and movement directions, and makes sure they're at most unit-length
 
         moveInput = new Vector2(Input.GetAxis(moveHorizontalName), Input.GetAxis(moveVerticalName));
-        moveInputRaw = new Vector2(Input.GetAxisRaw(moveHorizontalName), Input.GetAxisRaw(moveVerticalName));
         if (moveInput.sqrMagnitude > 1)
             moveInput.Normalize();
+        moveInputRaw = new Vector2(Input.GetAxisRaw(moveHorizontalName), Input.GetAxisRaw(moveVerticalName));
+        if (moveInputRaw.sqrMagnitude > 1)
+            moveInputRaw.Normalize();
 
         aimInput = new Vector2(Input.GetAxis(aimHorizontalName), Input.GetAxis(aimVerticalName));
-        aimInputRaw = new Vector2(Input.GetAxisRaw(aimHorizontalName), Input.GetAxisRaw(aimVerticalName));
         if (aimInput.sqrMagnitude > 1)
             aimInput.Normalize();
+        aimInputRaw = new Vector2(Input.GetAxisRaw(aimHorizontalName), Input.GetAxisRaw(aimVerticalName));
+        if (aimInputRaw.sqrMagnitude > 1)
+            aimInputRaw.Normalize();
 
         // Updates each button to see whether it is being held down, and invokes the Pressed/Released functions if 
         // the button was pressed/released this frame

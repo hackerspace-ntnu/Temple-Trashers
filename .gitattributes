@@ -21,4 +21,6 @@
 
 # Other binary formats
 *.dll filter=lfs diff=lfs merge=lfs -text
-* text = auto
+
+# Auto detect text files and perform LF normalization
+* text=auto

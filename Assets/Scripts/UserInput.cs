@@ -30,27 +30,27 @@ public class UserInput : MonoBehaviour
 
     [Header("Input axes names")]
     [SerializeField]
-    private string moveVerticalName;
+    private string moveVerticalName = null;
 
     [SerializeField]
-    private string moveHorizontalName;
+    private string moveHorizontalName = null;
 
     [SerializeField]
-    private string aimVerticalName;
+    private string aimVerticalName = null;
 
     [SerializeField]
-    private string aimHorizontalName;
+    private string aimHorizontalName = null;
 
 
     [Header("Input button names")]
     [SerializeField]
-    private string interactName;
+    private string interactName = null;
 
     [SerializeField]
-    private string backName;
+    private string backName = null;
 
     [SerializeField]
-    private string startName;
+    private string startName = null;
 
 
     private Vector2 moveInput, aimInput, moveInputRaw, aimInputRaw;

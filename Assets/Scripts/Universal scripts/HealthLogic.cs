@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class HealthLogic : MonoBehaviour
 {
-    public float health;
+    public delegate void onStatusUpdate();
+    public onStatusUpdate OnDeath;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float health;
+    public float maxHealth;
+    
     public virtual void dealDamage(float input)
     {
         if (health < input)
         {
-            Debug.Log("You are dead, not big surprise");
+            OnDeath?.Invoke();
+            //Debug.Log("You are dead, not big surprise");
         }
         else
         {
@@ -25,10 +25,9 @@ public class HealthLogic : MonoBehaviour
     public virtual void heal(float input)
     {
         health += input;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(health > maxHealth && maxHealth > 0)
+        {
+            health = maxHealth;
+        }
     }
 }

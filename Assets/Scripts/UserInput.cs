@@ -53,7 +53,7 @@ public class UserInput : MonoBehaviour
     private string startName = null;
 
 
-    private Vector2 moveInput, aimInput;
+    private Vector2 moveInput, aimInput, moveInputRaw, aimInputRaw;
     private bool interactHeld = false, backHeld = false, startHeld = false;
 
     // Setting up the delegates for each button event
@@ -69,6 +69,8 @@ public class UserInput : MonoBehaviour
         OnStartPressed,
         OnStartReleased;
 
+  
+     
     void Start()
     {
         UpdateInput();
@@ -86,10 +88,16 @@ public class UserInput : MonoBehaviour
         moveInput = new Vector2(Input.GetAxis(moveHorizontalName), Input.GetAxis(moveVerticalName));
         if (moveInput.sqrMagnitude > 1)
             moveInput.Normalize();
+        moveInputRaw = new Vector2(Input.GetAxisRaw(moveHorizontalName), Input.GetAxisRaw(moveVerticalName));
+        if (moveInputRaw.sqrMagnitude > 1)
+            moveInputRaw.Normalize();
 
-        aimInput = new Vector2(Input.GetAxis(aimHorizontalName), Input.GetAxis(aimVerticalName)).normalized;
+        aimInput = new Vector2(Input.GetAxis(aimHorizontalName), Input.GetAxis(aimVerticalName));
         if (aimInput.sqrMagnitude > 1)
             aimInput.Normalize();
+        aimInputRaw = new Vector2(Input.GetAxisRaw(aimHorizontalName), Input.GetAxisRaw(aimVerticalName));
+        if (aimInputRaw.sqrMagnitude > 1)
+            aimInputRaw.Normalize();
 
         // Updates each button to see whether it is being held down, and invokes the Pressed/Released functions if 
         // the button was pressed/released this frame
@@ -115,9 +123,11 @@ public class UserInput : MonoBehaviour
 
     //Returns the current direction the player wants to move
     public Vector2 MoveInput => moveInput;
+    public Vector2 MoveInputRaw => moveInputRaw;
 
     //Returns the current direction the player wants to aim
     public Vector2 AimInput => aimInput;
+    public Vector2 AimInputRaw => aimInputRaw;
 
 
     // These functions may be used instead of the delegates if you only care about whether a button is held down or not
@@ -125,4 +135,5 @@ public class UserInput : MonoBehaviour
     public bool InteractHeld => interactHeld;
     public bool BackHeld => backHeld;
     public bool StartHeld => startHeld;
+
 }

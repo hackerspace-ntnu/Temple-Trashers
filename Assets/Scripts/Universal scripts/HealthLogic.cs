@@ -2,27 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthLogic : MonoBehaviour {
+public class HealthLogic : MonoBehaviour
+{
+    public delegate void onStatusUpdate();
+    public onStatusUpdate OnDeath;
+
     public float health;
-
-    void Start() {
-        
-    }
-
-    public virtual void DealDamage(float input) {
-
-        if (health <= input) {
-            Debug.Log("You are dead, not big surprise");
-        } else {
+    public float maxHealth;
+    
+    public virtual void dealDamage(float input)
+    {
+        if (health <= input)
+        {
+            OnDeath?.Invoke();
+            //Debug.Log("You are dead, not big surprise");
+        }
+        else
+        {
             health -= input;
         }
 
     }
     public virtual void Heal(float input) {
         health += input;
-    }
-    // Update is called once per frame
-    void Update() {
-        
+        if (health > maxHealth && maxHealth > 0)
+        {
+            health = maxHealth;
+        }
     }
 }

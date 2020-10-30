@@ -14,6 +14,7 @@ public class TowerLogic : MonoBehaviour
     public float bulletDamage;
     public UserInput input;
     public Transform rotAxis;
+    public float rotationMaxSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class TowerLogic : MonoBehaviour
             input = other.GetComponent<UserInput>();
 
             //render arrowPointer
+            arrowPointer.GetComponent<Renderer>().enabled = true;
         }
     }
     //remove UserInput if user leaves radius
@@ -40,8 +42,9 @@ public class TowerLogic : MonoBehaviour
         if (other.GetComponent<UserInput>() == input)
         {
             input = null;
-            
+
             //unrender pointer
+            arrowPointer.GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -51,9 +54,14 @@ public class TowerLogic : MonoBehaviour
     {
         if (input)
         {
-            float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 360 / Mathf.PI;
+            float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 180 - 90 / Mathf.PI;
+
+            if(angle > 0.01f)
+            {
             rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
-            towerRotationPoint.transform.rotation = rotAxis.rotation;
+                Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
+                //towerRotationPoint.transform.rotation = rotAxis.rotation;
+            }
         }
     }
 
@@ -61,6 +69,7 @@ public class TowerLogic : MonoBehaviour
     {
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
         newBullet.GetComponent<BulletLogic>().setDamage(bulletDamage);
+        newBullet.transform.SetParent(this.transform);
     }
    
 }

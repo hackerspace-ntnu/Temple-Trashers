@@ -13,6 +13,8 @@ public class HexGrid : MonoBehaviour {
 	public HexCell cellPrefab;
 	public Text cellLabelPrefab;
 
+	public Texture2D noise;
+
 	HexCell[] cells;
 
 	Canvas gridCanvas;
@@ -20,7 +22,11 @@ public class HexGrid : MonoBehaviour {
 
 	public bool recalculate;
 
-	void Awake()
+    private void OnEnable()
+    {
+		HexMetrics.noiseSource = noise;
+	}
+    void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
@@ -118,10 +124,46 @@ public class HexGrid : MonoBehaviour {
 			new Vector2(HexMetrics.outerRadius * 2, HexMetrics.innerRadius * 2);
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 		cell.uiRect = label.rectTransform;
+
+		//cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.position).x);
 	}
 
 	public void Refresh()
     {
 		hexMesh.Triangulate(cells);
+    }
+
+	public HexCell[] GetEdgeCells()
+    {
+		HexCell[] edgeCells = new HexCell[2 * width + 2 * height - 4];
+		// Get the lower edge
+		int i = 0;
+		Vector2Int currentPos = new Vector2Int(0, 0);
+
+		for(int x = 0; x < width - 1; x++)
+        {
+			edgeCells[i] = cells[currentPos.x + currentPos.y*width];
+			i++;
+			currentPos = currentPos + new Vector2Int(1, 0);
+        }
+		for (int x = 0; x < height-1; x++)
+		{
+			edgeCells[i] = cells[currentPos.x + currentPos.y * width];
+			i++;
+			currentPos = currentPos + new Vector2Int(0, 1);
+		}
+		for (int x = 0; x < width - 1; x++)
+		{
+			edgeCells[i] = cells[currentPos.x + currentPos.y * width];
+			i++;
+			currentPos = currentPos + new Vector2Int(-1, 0);
+		}
+		for (int x = 0; x < height-1; x++)
+		{
+			edgeCells[i] = cells[currentPos.x + currentPos.y * width];
+			i++;
+			currentPos = currentPos + new Vector2Int(0, -1);
+		}
+		return edgeCells;
     }
 }

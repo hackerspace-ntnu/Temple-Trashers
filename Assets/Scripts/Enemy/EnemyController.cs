@@ -25,6 +25,6 @@ public class EnemyController : MonoBehaviour
     {
         HealthLogic healthComponent = collision.collider.GetComponent<HealthLogic>();
         if (healthComponent)
-            healthComponent.dealDamage(damageDealt);
+            healthComponent.DealDamage(damageDealt);
     }
 }

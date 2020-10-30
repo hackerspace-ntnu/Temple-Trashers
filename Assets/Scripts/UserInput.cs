@@ -70,7 +70,7 @@ public class UserInput : MonoBehaviour
         OnStartReleased;
 
   
-    void speedBoost() { }
+     
     void Start()
     {
         UpdateInput();

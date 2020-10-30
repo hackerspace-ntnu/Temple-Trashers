@@ -9,7 +9,6 @@ public class PlayerStateController : MonoBehaviour
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
-
     public enum PlayerStates
     {
         Lifting,

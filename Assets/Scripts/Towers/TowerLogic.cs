@@ -53,7 +53,7 @@ public class TowerLogic : MonoBehaviour
     {
         if (input)
         {
-            float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 360 / Mathf.PI;
+            float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 180 / Mathf.PI - 90f;
             rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
             towerRotationPoint.transform.rotation = rotAxis.rotation;
         }

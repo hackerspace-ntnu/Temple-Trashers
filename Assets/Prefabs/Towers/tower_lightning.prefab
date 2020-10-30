@@ -260,6 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e4ba8d6a04ad7459c262f744b30b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightningRadius: 2.5
+  damage: 10
 --- !u!136 &4940800382082599726
 CapsuleCollider:
   m_ObjectHideFlags: 0

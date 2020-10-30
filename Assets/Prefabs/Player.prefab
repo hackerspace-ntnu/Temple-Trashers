@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 114662515065578399}
   - component: {fileID: 114662515065578393}
   - component: {fileID: 114662515065578392}
+  - component: {fileID: -8708350152375794423}
+  - component: {fileID: 1291009955035072478}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -99,6 +101,33 @@ MonoBehaviour:
   interactName: Fire1
   backName: Fire2
   startName: Fire3
+--- !u!114 &-8708350152375794423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114662515065578398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 4245655479757749272}
+--- !u!114 &1291009955035072478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114662515065578398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  maxHealth: 5
 --- !u!1 &127912581477815038
 GameObject:
   m_ObjectHideFlags: 0

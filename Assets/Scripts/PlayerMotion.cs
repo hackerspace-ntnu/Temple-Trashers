@@ -31,7 +31,6 @@ public class PlayerMotion : MonoBehaviour
     {
         updateSpeed();
         updateRotation();
-        
     }
 
     private void updateSpeed()

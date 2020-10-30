@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public Transform playerBase;
 
+    [ReadOnly]
     public Transform currentTarget;
 
     public float damageDealt = 1.0f;

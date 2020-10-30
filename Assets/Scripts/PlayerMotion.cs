@@ -12,6 +12,7 @@ public class PlayerMotion : MonoBehaviour
     [SerializeField]
     private float playerSpeed, playerAcceleration;
 
+    private PlayerStateController state;
     private UserInput input;
     private Rigidbody body;
 
@@ -21,6 +22,7 @@ public class PlayerMotion : MonoBehaviour
 
     void Start()
     {
+        state = GetComponent<PlayerStateController>();
         input = GetComponent<UserInput>();
         body = GetComponent<Rigidbody>();
     }
@@ -34,6 +36,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void updateSpeed()
     {
+        if(state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
         Vector3 currentspeed = body.velocity;
         Vector3 speedDifference = new Vector3(input.MoveInputRaw.x * playerSpeed - currentspeed.x, 0f, input.MoveInputRaw.y * playerSpeed - currentspeed.z).normalized;
 

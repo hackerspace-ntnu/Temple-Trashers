@@ -40,6 +40,7 @@ public class EnemySpawn : MonoBehaviour
         GameObject enemyPrefab = enemyObject[Random.Range(0, enemyObject.Length)];
 
         // Creates the random object at the random 3D position.
-        Instantiate(enemyPrefab, trans.position, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, trans.position, Quaternion.identity);
+        enemy.transform.SetParent(this.transform);
     }
 }

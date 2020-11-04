@@ -15,8 +15,8 @@ public class HealthLogic : MonoBehaviour
     {
         if (health <= input)
         {
-            OnDeath?.Invoke();
-            //Debug.Log("You are dead, not big surprise");
+            SendMessage("Die");
+            //OnDeath?.Invoke();
         }
         else
         {

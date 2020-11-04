@@ -14,6 +14,14 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    private void Awake()
+    {
+        if (playerBase == null)
+        {
+            playerBase = BaseController.Instance.transform;
+        }
+    }
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -35,5 +43,10 @@ public class EnemyController : MonoBehaviour
     public void OnPlayerDetected(Transform playerTransform)
     {
         currentTarget = playerTransform;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

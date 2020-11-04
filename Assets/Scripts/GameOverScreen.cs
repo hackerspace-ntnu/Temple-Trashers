@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class GameOverScreen : MonoBehaviour
 {
-    [SerializeField]
-    private Text timerText;
+    public Text timerText;
     void Start()
     {
-        Debug.Log("Game Over Screen Instantiated");
         StartCoroutine(Countdown(5));
     }
 
@@ -31,7 +29,6 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {   
-        Debug.Log("RESTARTED");
         // Reloads the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

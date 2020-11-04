@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 3515612305777872196}
   - component: {fileID: 1759242131}
   - component: {fileID: 3531771237580499680}
+  - component: {fileID: 4697867369539754102}
   m_Layer: 0
   m_Name: tower_wheel
   m_TagString: Untagged
@@ -164,7 +165,7 @@ MonoBehaviour:
   towerRotationPoint: {fileID: 3011992938053616436}
   arrowPointer: {fileID: 8557351424284430801}
   bullet: {fileID: 4237738930188430962, guid: 1cacc95863cb82a4da5dcf8bb67f5ef2, type: 3}
-  bulletSpeed: 20
+  bulletSpeed: 5
   bulletDamage: 5
   input: {fileID: 0}
   rotAxis: {fileID: 0}
@@ -198,10 +199,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 2.5
+  m_Radius: 2.49
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!54 &3531771237580499680
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,6 +219,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &4697867369539754102
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983117196373584133}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.27, y: 2.21, z: 1.27}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.15, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3011992938053616436
 GameObject:
   m_ObjectHideFlags: 0

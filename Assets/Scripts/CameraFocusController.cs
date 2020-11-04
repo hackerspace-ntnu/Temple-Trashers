@@ -21,6 +21,7 @@ public class CameraFocusController : MonoBehaviour
     //Maximum speed the camera moves at
     public float moveSpeed;
 
+    public float smoothing;
 
     //Variables for calculating the ideal position of the camera
     private float distance;
@@ -44,7 +45,7 @@ public class CameraFocusController : MonoBehaviour
 
     void Update()
     {
-        transform.position =  Vector3.MoveTowards(transform.position, boundingBoxCenter(), moveSpeed*Time.deltaTime);
+        transform.position =  Vector3.Lerp(transform.position, boundingBoxCenter(), smoothing*Time.deltaTime);
     }
 
 

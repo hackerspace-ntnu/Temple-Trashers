@@ -38,7 +38,7 @@ public class BulletLogic : MonoBehaviour
     {
         if (other.GetComponent<HealthLogic>())
         {
-            other.gameObject.GetComponent<HealthLogic>().dealDamage(damage);
+            other.gameObject.GetComponent<HealthLogic>().DealDamage(damage);
             
         }
         GameObject.Destroy(gameObject);

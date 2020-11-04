@@ -36,7 +36,7 @@ public class PlayerStateController : MonoBehaviour
         switch (currentState)
         {
             case PlayerStates.Dead:
-                health.heal(health.maxHealth);
+                health.Heal(health.maxHealth);
                 mesh.enabled = true;
                 //Spill av revive anim
                 break;

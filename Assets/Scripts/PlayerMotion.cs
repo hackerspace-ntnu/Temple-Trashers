@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMotion : MonoBehaviour
 {
@@ -11,49 +12,20 @@ public class PlayerMotion : MonoBehaviour
      *  Also currently updates the animation of the player to match the movement speed;
     */
 
-  
-
     [SerializeField]
-    private float playerSpeed, playerAcceleration;
-
-    
-
-
-    private PlayerControls controls;
-    private Vector2 move;
-
-
-    private PlayerStateController state;
-    private UserInput input;
-    private Rigidbody body;
+    private float playerSpeed = 0f, playerAcceleration = 0f;
+    private PlayerStateController state = null;
+    private Rigidbody body = null;
 
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
-    private Animator anim;
-
+    private Animator anim = null;
     
-
     //Sets up required instances for input to work. 
-    void Awake()
-    {
-        controls = new PlayerControls();
-        controls.MovePlayer.Select.performed += ctx => Sel();
-        controls.MovePlayer.Interact.performed += ctx => Inter();
-        controls.MovePlayer.Back.performed += ctx => Backk();
-
-        controls.MovePlayer.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.MovePlayer.Move.canceled += ctx => move = Vector2.zero;
-    }
-
-    
-
-
-
     void Start()
     {
         
         state = GetComponent<PlayerStateController>();
-        input = GetComponent<UserInput>();
         body = GetComponent<Rigidbody>();
     }
 
@@ -73,7 +45,7 @@ public class PlayerMotion : MonoBehaviour
         if (state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
         // Debug.Log("Move");
 
-        Vector2 m = new Vector2(move.x, move.y) * 2f;
+        Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;
 
         Vector3 currentspeed = body.velocity;
         Vector3 speedDifference = new Vector3(m.x * playerSpeed - currentspeed.x, 0f, m.y* playerSpeed - currentspeed.z).normalized;
@@ -85,7 +57,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void updateRotation()
     {
-        Vector2 m = new Vector2(move.x, move.y);
+        Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y);
         if (m.sqrMagnitude > 0.001f)
         {
             body.rotation = Quaternion.RotateTowards(
@@ -94,31 +66,6 @@ public class PlayerMotion : MonoBehaviour
                 Time.fixedDeltaTime * 360f * 3f
             ) ;
         }
-    }
-
-    //Sends a log-message when button is pressed. 
-    void Sel()
-    {
-        Debug.Log("Select is pressed ");
-    }
-    void Inter()
-    {
-        Debug.Log("Interact is pressed ");
-    }
-    void Backk()
-    {
-        Debug.Log("Back is pressed ");
-    }
-
-    private void OnEnable()
-    {
-        controls.MovePlayer.Enable(); 
-      
-    }
-
-    private void OnDisable()
-    {
-        controls.MovePlayer.Disable(); 
     }
 
 }

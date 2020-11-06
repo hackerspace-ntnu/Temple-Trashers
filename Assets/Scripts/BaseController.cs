@@ -9,15 +9,18 @@ public class BaseController : MonoBehaviour
 
     // Base stats
     [SerializeField]
-    private int maxHealth = 1000, currentHealth;
+    private int maxHealth = 1000, currentHealth = 1000;
 
     // GameOverScreen
     [SerializeField]
-    private GameObject GameOverScreen;
+    private GameObject GameOverScreen = null;
 
     //Explosion
     [SerializeField]
-    private GameObject Explosion;
+    private GameObject Explosion = null;
+
+    [SerializeField]
+    private Transform spawnPoint = null;
 
     void Awake()
     {
@@ -51,4 +54,5 @@ public class BaseController : MonoBehaviour
         // Creates the GUI "GameOverScreen"
         Instantiate(GameOverScreen);
     }
+    public Transform SpawnPoint { get => spawnPoint; }
 }

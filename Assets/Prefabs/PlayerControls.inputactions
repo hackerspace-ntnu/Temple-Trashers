@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "f58f564c-dd7b-4661-8f49-74dbe2b5c641",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -38,10 +38,10 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Check",
-                    "type": "Button",
-                    "id": "bfaf3956-bacd-40f8-88ca-053208b7ba76",
-                    "expectedControlType": "Button",
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "670ffa49-f141-4faa-b767-43bb99498b67",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -49,22 +49,11 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "a4a09441-b547-4f50-8193-31672f588400",
-                    "path": "<Joystick>/stick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b4b324da-3b3d-41cb-b081-5fa29dc82106",
-                    "path": "<HID::Unknown DUALSHOCK 4 Wireless Controller>/button8",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -72,10 +61,10 @@
                 {
                     "name": "",
                     "id": "4ccb76c3-0a4d-46a5-b31c-c82dbc4a390c",
-                    "path": "<HID::Unknown DUALSHOCK 4 Wireless Controller>/button2",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -83,27 +72,50 @@
                 {
                     "name": "",
                     "id": "8bbeed11-d267-4918-a98f-2a919b1981d1",
-                    "path": "<HID::Unknown DUALSHOCK 4 Wireless Controller>/button3",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "a8ddaa7e-a735-44e5-813a-b90030521fce",
-                    "path": "<Keyboard>/space",
+                    "id": "a4a09441-b547-4f50-8193-31672f588400",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Check",
+                    "groups": "Controller",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "767861f2-1ef3-49f8-9778-934b8125bcff",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    private Text timerText;
+    private Text timerText = null;
     void Start()
     {
         Debug.Log("Game Over Screen Instantiated");

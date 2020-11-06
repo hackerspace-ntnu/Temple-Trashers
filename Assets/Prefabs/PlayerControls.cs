@@ -20,7 +20,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""f58f564c-dd7b-4661-8f49-74dbe2b5c641"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -51,10 +51,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Check"",
-                    ""type"": ""Button"",
-                    ""id"": ""bfaf3956-bacd-40f8-88ca-053208b7ba76"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""670ffa49-f141-4faa-b767-43bb99498b67"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -62,22 +62,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""a4a09441-b547-4f50-8193-31672f588400"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b4b324da-3b3d-41cb-b081-5fa29dc82106"",
-                    ""path"": ""<HID::Unknown DUALSHOCK 4 Wireless Controller>/button8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Controller"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -85,10 +74,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4ccb76c3-0a4d-46a5-b31c-c82dbc4a390c"",
-                    ""path"": ""<HID::Unknown DUALSHOCK 4 Wireless Controller>/button2"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Controller"",
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -96,29 +85,52 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8bbeed11-d267-4918-a98f-2a919b1981d1"",
-                    ""path"": ""<HID::Unknown DUALSHOCK 4 Wireless Controller>/button3"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Controller"",
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a8ddaa7e-a735-44e5-813a-b90030521fce"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""a4a09441-b547-4f50-8193-31672f588400"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Check"",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""767861f2-1ef3-49f8-9778-934b8125bcff"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Controller"",
+            ""bindingGroup"": ""Controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // MovePlayer
         m_MovePlayer = asset.FindActionMap("MovePlayer", throwIfNotFound: true);
@@ -126,7 +138,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Interact = m_MovePlayer.FindAction("Interact", throwIfNotFound: true);
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
         m_MovePlayer_Back = m_MovePlayer.FindAction("Back", throwIfNotFound: true);
-        m_MovePlayer_Check = m_MovePlayer.FindAction("Check", throwIfNotFound: true);
+        m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -180,7 +192,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Interact;
     private readonly InputAction m_MovePlayer_Select;
     private readonly InputAction m_MovePlayer_Back;
-    private readonly InputAction m_MovePlayer_Check;
+    private readonly InputAction m_MovePlayer_Aim;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -189,7 +201,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Interact => m_Wrapper.m_MovePlayer_Interact;
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
         public InputAction @Back => m_Wrapper.m_MovePlayer_Back;
-        public InputAction @Check => m_Wrapper.m_MovePlayer_Check;
+        public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -211,9 +223,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Back.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
                 @Back.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
                 @Back.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
-                @Check.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCheck;
-                @Check.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCheck;
-                @Check.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCheck;
+                @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -230,19 +242,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Back.started += instance.OnBack;
                 @Back.performed += instance.OnBack;
                 @Back.canceled += instance.OnBack;
-                @Check.started += instance.OnCheck;
-                @Check.performed += instance.OnCheck;
-                @Check.canceled += instance.OnCheck;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
     public MovePlayerActions @MovePlayer => new MovePlayerActions(this);
+    private int m_ControllerSchemeIndex = -1;
+    public InputControlScheme ControllerScheme
+    {
+        get
+        {
+            if (m_ControllerSchemeIndex == -1) m_ControllerSchemeIndex = asset.FindControlSchemeIndex("Controller");
+            return asset.controlSchemes[m_ControllerSchemeIndex];
+        }
+    }
     public interface IMovePlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
-        void OnCheck(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
 }

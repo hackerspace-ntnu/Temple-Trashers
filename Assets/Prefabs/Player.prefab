@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114662515065578393}
   - component: {fileID: -8708350152375794423}
   - component: {fileID: 1291009955035072478}
-  - component: {fileID: 1826458812462264779}
+  - component: {fileID: 1236807801843815042}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 0}
   mesh: {fileID: 4245655479757749272}
 --- !u!114 &1291009955035072478
 MonoBehaviour:
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   maxHealth: 5
---- !u!114 &1826458812462264779
+--- !u!114 &1236807801843815042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,27 +119,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 114662515065578398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: 592e6ca9ae732e844803d8abc9e0e931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 8b82a8d608a484fe09211550e2283152, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: MovePlayer
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &127912581477815038
 GameObject:
   m_ObjectHideFlags: 0

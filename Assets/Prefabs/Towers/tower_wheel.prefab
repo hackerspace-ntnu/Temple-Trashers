@@ -167,7 +167,7 @@ MonoBehaviour:
   bulletSpeed: 20
   bulletDamage: 5
   input: {fileID: 0}
-  rotAxis: {fileID: 0}
+  rotAxis: {fileID: 769070955576516685}
   rotationMaxSpeed: 0
 --- !u!95 &3515612305777872196
 Animator:

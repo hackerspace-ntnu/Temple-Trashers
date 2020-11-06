@@ -23,9 +23,6 @@ public class BaseController : MonoBehaviour
             print("Tried to make two bases, removed the latter");
             Destroy(gameObject);
         }
-
-        // Position base at the middle of the terrain
-        transform.position = new Vector3(HexMetrics.chunkSizeX * HexMetrics.innerRadius / 2f, 0, HexMetrics.chunkSizeZ * HexMetrics.outerRadius / 4);
     }
 
     private void Die(){

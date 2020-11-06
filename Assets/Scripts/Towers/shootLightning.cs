@@ -21,7 +21,7 @@ public class shootLightning : MonoBehaviour
         }
         foreach (var zap in ZappTargets)
         {
-            zap.GetComponent<HealthLogic>().dealDamage(damage);
+            zap.GetComponent<HealthLogic>().DealDamage(damage);
         }
         ZappTargets.Clear();
     }

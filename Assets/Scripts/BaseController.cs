@@ -2,9 +2,7 @@
 
 public class BaseController : MonoBehaviour
 {
-
     // Base Singleton
-    // Use "BaseController.Instance.DealDamage(int dmg) to damage the base
     public static BaseController Instance;
 
     // Base stats
@@ -22,6 +20,10 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint = null;
 
+    // Death flag
+    private bool dead = false;
+
+
     void Awake()
     {
         // Makes sure there is only one base
@@ -33,26 +35,15 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        // Starts the game with max health
-        currentHealth = maxHealth;
-    }
-
-
-    // Call to deal damage to the base
-    public void DealDamage(int dmg)
-    {
-        currentHealth -= dmg;
-        if ( currentHealth <= 0 ) { Die(); }
-    }
-
     private void Die(){
-        Debug.Log("DIED");
-        //BIG EXPLOSION
-        Instantiate(Explosion, this.transform.position, new Quaternion(0,0,0,0),this.transform);
-        // Creates the GUI "GameOverScreen"
-        Instantiate(GameOverScreen);
+        if(dead == false)
+        {
+            //BIG EXPLOSION
+            Instantiate(Explosion, this.transform.position, new Quaternion(0, 0, 0, 0), this.transform);
+            // Creates the GUI "GameOverScreen"
+            Instantiate(GameOverScreen);
+        }
+        dead = true;
     }
     public Transform SpawnPoint { get => spawnPoint; }
 }

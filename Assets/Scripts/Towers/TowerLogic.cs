@@ -19,7 +19,9 @@ public class TowerLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
+        Vector3 v = new Vector3(hexGrid.GetCell(transform.position).transform.position.x, 0, hexGrid.GetCell(transform.position).transform.position.z);
+        transform.position = v;
     }
     private void FixedUpdate()
     {
@@ -70,6 +72,7 @@ public class TowerLogic : MonoBehaviour
     {
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
         newBullet.GetComponent<BulletLogic>().setDamage(bulletDamage);
+        newBullet.GetComponent<BulletLogic>().setSpeed(bulletSpeed);
         newBullet.transform.SetParent(this.transform);
     }
    

@@ -2,9 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class HexGridChunk : MonoBehaviour
 {
-    //HexCell[] cells;
+    HexCell[] cells;
 
     HexMesh hexmesh;
     Canvas gridCanvas;
@@ -14,20 +15,34 @@ public class HexGridChunk : MonoBehaviour
         gridCanvas = GetComponentInChildren<Canvas>();
         hexmesh = GetComponentInChildren<HexMesh>();
 
-        //cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+        cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
     }
 
     private void Start()
     {
-        //hexmesh.Triangulate(cells);
+        hexmesh.Triangulate(cells);
+    }
+
+    private void Update()
+    {
+        if(cells.Length == 0)
+        {
+            cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+            print(cells.Length);
+        }
     }
 
     public void AddCell(int index, HexCell cell)
     {
-        //cells[index] = cell;
+        cells[index] = cell;
         cell.transform.SetParent(transform, false);
         cell.uiRect.SetParent(gridCanvas.transform, false);
 
+    }
+
+    public void Refresh()
+    {
+        hexmesh.Triangulate(cells);
     }
 }
 

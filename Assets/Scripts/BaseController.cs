@@ -5,10 +5,6 @@ public class BaseController : MonoBehaviour
     // Base Singleton
     public static BaseController Instance;
 
-    // Base stats
-    [SerializeField]
-    private int maxHealth = 1000, currentHealth = 1000;
-
     // GameOverScreen
     [SerializeField]
     private GameObject GameOverScreen = null;

@@ -18,9 +18,7 @@ public class CameraFocusController : MonoBehaviour
     //Minimum distance the camera is from the focusObjects
     public float minDistance;
     
-    //Maximum speed the camera moves at
-    public float moveSpeed;
-
+    //The Lerp-point, higher = more snappy and responsive
     public float smoothing;
 
     //Variables for calculating the ideal position of the camera

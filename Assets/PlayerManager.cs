@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
     private int playerIndex;
     private PlayerInput input;
     [SerializeField]
-    private GameObject playerPrefab;
+    private GameObject playerPrefab = null;
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
     private void Awake()
@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
     {
         instantiatedPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
+        Camera.main.GetComponent<CameraFocusController>().addFocusObject(instantiatedPlayer.transform);
     }
     public void RespawnPlayer(float delay)
     {

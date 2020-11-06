@@ -5,14 +5,24 @@ public class BaseController : MonoBehaviour
     // Base Singleton
     public static BaseController Instance;
 
-    // GameOverScreen
-    public GameObject GameOverScreen;
+    // Base stats
+    [SerializeField]
+    private int maxHealth = 1000, currentHealth = 1000;
 
-    // Explosion
-    public GameObject Explosion;
+    // GameOverScreen
+    [SerializeField]
+    private GameObject GameOverScreen = null;
+
+    //Explosion
+    [SerializeField]
+    private GameObject Explosion = null;
+
+    [SerializeField]
+    private Transform spawnPoint = null;
 
     // Death flag
     private bool dead = false;
+
 
     void Awake()
     {
@@ -35,4 +45,5 @@ public class BaseController : MonoBehaviour
         }
         dead = true;
     }
+    public Transform SpawnPoint { get => spawnPoint; }
 }

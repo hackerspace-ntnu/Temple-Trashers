@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerMotion : MonoBehaviour
 {
@@ -9,23 +11,25 @@ public class PlayerMotion : MonoBehaviour
      *  
      *  Also currently updates the animation of the player to match the movement speed;
     */
-    [SerializeField]
-    private float playerSpeed, playerAcceleration;
 
-    private PlayerStateController state;
-    private UserInput input;
-    private Rigidbody body;
+    [SerializeField]
+    private float playerSpeed = 0f, playerAcceleration = 0f;
+    private PlayerStateController state = null;
+    private Rigidbody body = null;
 
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
-    private Animator anim;
-
+    private Animator anim = null;
+    
+    //Sets up required instances for input to work. 
     void Start()
     {
+        
         state = GetComponent<PlayerStateController>();
-        input = GetComponent<UserInput>();
         body = GetComponent<Rigidbody>();
     }
+
+    
 
     private void FixedUpdate()
     {
@@ -35,24 +39,32 @@ public class PlayerMotion : MonoBehaviour
 
     private void updateSpeed()
     {
-        if(state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
+
+
+
+        if (state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
+        // Debug.Log("Move");
+
+        Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;
+
         Vector3 currentspeed = body.velocity;
-        Vector3 speedDifference = new Vector3(input.MoveInputRaw.x * playerSpeed - currentspeed.x, 0f, input.MoveInputRaw.y * playerSpeed - currentspeed.z).normalized;
+        Vector3 speedDifference = new Vector3(m.x * playerSpeed - currentspeed.x, 0f, m.y* playerSpeed - currentspeed.z).normalized;
 
-        body.AddForce(speedDifference * playerAcceleration * input.MoveInput.magnitude * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        body.AddForce(speedDifference * playerAcceleration * m.magnitude * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
-        anim.SetFloat("Speed", input.MoveInput.sqrMagnitude);
+        anim.SetFloat("Speed", m.sqrMagnitude);
     }
 
     private void updateRotation()
     {
-        if (input.MoveInputRaw.sqrMagnitude > 0.001f)
+        Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y);
+        if (m.sqrMagnitude > 0.001f)
         {
             body.rotation = Quaternion.RotateTowards(
                 transform.rotation,
-                Quaternion.LookRotation(new Vector3(input.MoveInputRaw.x, 0f, input.MoveInputRaw.y), Vector3.up),
-                Time.fixedDeltaTime * 360f
-            );
+                Quaternion.LookRotation(new Vector3(m.x, 0f, m.y), Vector3.up),
+                Time.fixedDeltaTime * 360f * 3f
+            ) ;
         }
     }
 

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5829545455071137387}
   - component: {fileID: 5829545455071137386}
   - component: {fileID: 5829545455071137385}
-  - component: {fileID: 5829545455071137384}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -114,20 +113,6 @@ MonoBehaviour:
   currentHealth: 100
   GameOverScreen: {fileID: 6406541465688870762, guid: cf6616ecfd76d4b379c4e4fd196293af, type: 3}
   Explosion: {fileID: 8540785681650497039, guid: 2c5fbfe28e3b404499f4e21b605c375f, type: 3}
---- !u!114 &5829545455071137384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5829545455071137399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430e1dd17bf1e354cb2a2c87b312b6ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respawnPoint: {fileID: 5829545456270998754}
-  respawnTime: 5
 --- !u!1 &5829545456270998753
 GameObject:
   m_ObjectHideFlags: 0

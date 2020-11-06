@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health;
     private PlayerStates currentState = PlayerStates.Alive;
+    private PlayerInput input;
+    private PlayerManager manager;
+
+    private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
+    private bool interact = false, back = false, select = false;
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
@@ -19,26 +25,24 @@ public class PlayerStateController : MonoBehaviour
     private void Start()
     {
         health = GetComponent<HealthLogic>();
-        health.OnDeath += die; 
+        health.OnDeath += Die; 
     }
 
-    private void die()
+    private void Die()
     {
         if(currentState == PlayerStates.Dead) { return; }
-        setState(PlayerStates.Dead);
-        PlayerRespawnController.Instance.waitForRespawn(this);
+        SetState(PlayerStates.Dead);
+        manager.RespawnPlayer(1f);
+        Destroy(gameObject);
     }
 
-    private void setState(PlayerStates state)
+    private void SetState(PlayerStates state)
     {
         if(currentState == state) { return; }
 
         switch (currentState)
         {
             case PlayerStates.Dead:
-                health.Heal(health.maxHealth);
-                mesh.enabled = true;
-                //Spill av revive anim
                 break;
             default:
                 break;
@@ -49,8 +53,6 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Lifting:
                 break;
             case PlayerStates.Dead:
-                mesh.enabled = false;
-                //Spill av døds anim
                 break;
             case PlayerStates.Alive:
                 break;
@@ -59,14 +61,47 @@ public class PlayerStateController : MonoBehaviour
         }
         currentState = state;
     }
-    public void revive()
+    public void Revive()
     {
         
         if(currentState == PlayerStates.Dead)
         {
-            setState(PlayerStates.Alive);
+            SetState(PlayerStates.Alive);
         }
     }
 
+
+    public void SetUpInput(PlayerInput input, PlayerManager manager)
+    {
+        this.input = input;
+        this.manager = manager;
+        input.actions["Move"].performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        input.actions["Move"].canceled += ctx => moveInput = Vector2.zero;
+        input.actions["Aim"].performed += ctx => aimInput = ctx.ReadValue<Vector2>();
+        input.actions["Aim"].canceled += ctx => aimInput = Vector2.zero;
+        input.actions["Interact"].performed += ctx => interact = true;
+        input.actions["Back"].performed += ctx => back = true;
+        input.actions["Select"].performed += ctx => select = true;
+    }
+
     public PlayerStates CurrentState { get => currentState; }
+
+    private void OnDestroy()
+    {
+        input.actions["Move"].performed -= ctx => moveInput = ctx.ReadValue<Vector2>();
+        input.actions["Move"].canceled -= ctx => moveInput = Vector2.zero;
+        input.actions["Aim"].performed -= ctx => aimInput = ctx.ReadValue<Vector2>();
+        input.actions["Aim"].canceled -= ctx => aimInput = Vector2.zero;
+        input.actions["Interact"].performed -= ctx => interact = true;
+        input.actions["Back"].performed -= ctx => back = true;
+        input.actions["Select"].performed -= ctx => select = true;
+    }
+    
+
+
+    public Vector2 MoveInput { get => moveInput; }
+    public Vector2 AimInput { get => aimInput; }
+    public bool Interact { get => interact; }
+    public bool Back { get => back; }
+    public bool Select { get => select; }
 }

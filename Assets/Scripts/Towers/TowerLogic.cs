@@ -12,7 +12,7 @@ public class TowerLogic : MonoBehaviour
     public GameObject bullet;
     public float bulletSpeed;
     public float bulletDamage;
-    public UserInput input;
+    public TurretInput input;
     public Transform rotAxis;
     public float rotationMaxSpeed;
 
@@ -30,9 +30,9 @@ public class TowerLogic : MonoBehaviour
     //Insert UserInput of nearby player
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<UserInput>())
+        if (other.GetComponent<TurretInput>())
         { 
-            input = other.GetComponent<UserInput>();
+            input = other.GetComponent<TurretInput>();
 
             //render arrowPointer
             arrowPointer.GetComponent<Renderer>().enabled = true;
@@ -41,7 +41,7 @@ public class TowerLogic : MonoBehaviour
     //remove UserInput if user leaves radius
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<UserInput>() == input)
+        if (other.GetComponent<TurretInput>() == input)
         {
             input = null;
 
@@ -56,11 +56,12 @@ public class TowerLogic : MonoBehaviour
     {
         if (input)
         {
-            float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 180 - 90 / Mathf.PI;
-
-            if(angle > 0.01f)
+            
+            Vector2 aim = input.GetAimInput();
+            if (aim.sqrMagnitude > 0.01f)
             {
-            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
+                float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI;// - 90;
+                rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
                 Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
                 //towerRotationPoint.transform.rotation = rotAxis.rotation;
             }

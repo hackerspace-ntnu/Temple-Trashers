@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public Text timerText;
+    [SerializeField]
+    private Text timerText = null;
+
     void Start()
     {
         StartCoroutine(Countdown(5));

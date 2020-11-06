@@ -15,20 +15,26 @@ public class HexMapEditor : MonoBehaviour {
 	}
 
 	void Update () {
+        return;
+        /*
 		if (
 			Input.GetMouseButton(0) &&
 			!EventSystem.current.IsPointerOverGameObject()
 		) {
 			HandleInput();
 		}
+        */
 	}
 
 	void HandleInput () {
+        return;
+        /*
 		Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast(inputRay, out hit)) {
 			EditCell(hexGrid.GetCell(hit.point));
 		}
+        */
 	}
 
 	int activeElevation;

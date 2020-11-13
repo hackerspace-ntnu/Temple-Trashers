@@ -8,24 +8,18 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField]
     private Text timerText = null;
 
-    void Start()
+    public float time = 5f;
+
+    private void Update()
     {
-        StartCoroutine(Countdown(5));
-    }
+        timerText.text = Mathf.Round(time).ToString();
+        // Fix UI
+        time = time - Time.deltaTime;
 
-
-
-    IEnumerator Countdown(int seconds)
-    {
-        int counter = seconds;
-        while (counter > 0)
+        if(time <= 0)
         {
-            timerText.text = counter.ToString();
-            yield return new WaitForSeconds(1);
-            // Fix UI
-            counter--;
+            Restart();
         }
-        Restart();
     }
 
 

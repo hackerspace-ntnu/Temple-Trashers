@@ -22,6 +22,8 @@ public class HexMesh : MonoBehaviour {
 		vertices = new List<Vector3>();
 		colors = new List<Color>();
 		triangles = new List<int>();
+
+		GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	public void Triangulate (HexCell[] cells) {

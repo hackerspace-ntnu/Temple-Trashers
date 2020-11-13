@@ -15,7 +15,7 @@ public class HexGrid : MonoBehaviour {
 	public Color defaultColor = Color.white;
 
 	public HexCell cellPrefab;
-	public Text cellLabelPrefab;
+	//public Text cellLabelPrefab;
 
 	public Texture2D noise;
 
@@ -124,6 +124,7 @@ public class HexGrid : MonoBehaviour {
 				}
 			}
 		}
+		/*
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.anchoredPosition =
 			new Vector2(position.x, position.z);
@@ -131,7 +132,7 @@ public class HexGrid : MonoBehaviour {
 			new Vector2(HexMetrics.outerRadius * 2, HexMetrics.innerRadius * 2);
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 		cell.uiRect = label.rectTransform;
-
+		*/
 		AddCellToChunk(x, z, cell);
 	}
 

@@ -11,10 +11,4 @@ public class ExplosionController : MonoBehaviour
     {
         LeanTween.scale(gameObject, new Vector3(2, 2, 2), 1.5f).setEase(explosionCurve).setOnComplete(() => Destroy(gameObject));
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

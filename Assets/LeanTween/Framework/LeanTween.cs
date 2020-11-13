@@ -4043,9 +4043,9 @@ public class LTGUI {
                             Debug.Log(firstTouch());
                             Debug.Log(buttonLevels[i]);
                         }*/
-                        if(pressedWithinRect( buttons[i] )){
+                        /*if(pressedWithinRect( buttons[i] )){
                             hasNoOverlap = false; // there is an overlapping button that is higher
-                        }
+                        }*/
                     }
                 }
             }
@@ -4083,7 +4083,7 @@ public class LTGUI {
 
         return new Vector2(Mathf.NegativeInfinity,Mathf.NegativeInfinity);
     }
-
+   
 }
 
 namespace DentedPixel { public class LeanDummy {}  }

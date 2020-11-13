@@ -30,10 +30,9 @@ public class PlayerStateController : MonoBehaviour
 
     private void Die()
     {
-        if(currentState == PlayerStates.Dead) { return; }
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
-        Camera.main.GetComponent<CameraFocusController>().removeFocusObject(transform);
+        CameraFocusController.Instance?.removeFocusObject(transform);
         Destroy(gameObject);
     }
 
@@ -62,14 +61,7 @@ public class PlayerStateController : MonoBehaviour
         }
         currentState = state;
     }
-    public void Revive()
-    {
-        
-        if(currentState == PlayerStates.Dead)
-        {
-            SetState(PlayerStates.Alive);
-        }
-    }
+
 
 
     public void SetUpInput(PlayerInput input, PlayerManager manager)

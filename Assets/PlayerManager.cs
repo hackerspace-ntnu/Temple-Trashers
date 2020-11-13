@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
     {
         instantiatedPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
-        Camera.main.GetComponent<CameraFocusController>().addFocusObject(instantiatedPlayer.transform);
+        CameraFocusController.Instance?.addFocusObject(instantiatedPlayer.transform);
     }
     public void RespawnPlayer(float delay)
     {

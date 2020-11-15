@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 [ExecuteAlways]
 public class HexGrid : MonoBehaviour {
@@ -12,12 +13,8 @@ public class HexGrid : MonoBehaviour {
 
 	public HexGridChunk chunkPrefab;
 
-	public Color defaultColor = Color.white;
-
 	public HexCell cellPrefab;
 	//public Text cellLabelPrefab;
-
-	public Texture2D noise;
 
 	HexGridChunk[] chunks;
 	HexCell[] cells;
@@ -25,11 +22,15 @@ public class HexGrid : MonoBehaviour {
 
 	public bool recalculate;
 
-    private void OnEnable()
+	[Header("Noise")]
+	public Texture2D noise;
+
+
+	private void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
 	}
-    void Awake()
+	void Awake()
 	{
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
@@ -51,7 +52,7 @@ public class HexGrid : MonoBehaviour {
 
 			CreateChunks();
 			CreateCells();
-        }
+		}
     }
 
 	void CreateChunks()
@@ -105,7 +106,6 @@ public class HexGrid : MonoBehaviour {
 		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 		cell.transform.localPosition = position;
 		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-		cell.color = defaultColor;
 
 		if (x > 0) {
 			cell.SetNeighbor(HexDirection.W, cells[i - 1]);
@@ -133,6 +133,9 @@ public class HexGrid : MonoBehaviour {
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 		cell.uiRect = label.rectTransform;
 		*/
+
+		cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.localPosition).y * cell.materials.Length * 1.1f);
+
 		AddCellToChunk(x, z, cell);
 	}
 

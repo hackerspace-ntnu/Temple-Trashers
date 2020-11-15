@@ -36,6 +36,7 @@ public class HexGridChunk : MonoBehaviour
     {
         cells[index] = cell;
         cell.transform.SetParent(transform, false);
+        //cell.Elevation = Mathf.RoundToInt(HexMetrics.SampleNoise(cell.coordinates).x*cell.materials.Length);
         //cell.uiRect.SetParent(gridCanvas.transform, false);
 
     }

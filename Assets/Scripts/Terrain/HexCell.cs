@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
@@ -8,7 +9,7 @@ public class HexCell : MonoBehaviour {
 
 	private int elevation;
 
-	public RectTransform uiRect;
+	//public RectTransform uiRect;
 
 	public int Elevation
     {
@@ -21,20 +22,35 @@ public class HexCell : MonoBehaviour {
 			elevation = value;
 			Vector3 position = transform.localPosition;
 			position.y = value * HexMetrics.elevationStep;
+			position.y +=
+				(HexMetrics.SampleNoise(position).y * 2f - 1f) *
+				HexMetrics.elevationPerturbStrength;
 			transform.localPosition = position;
-
-			Vector3 uiPosition = uiRect.localPosition;
-			uiPosition.z = elevation * -HexMetrics.elevationStep;
-			uiRect.localPosition = uiPosition;
         }
     }
+	public float pertubValue;
 
+	public Vector3 Position
+    {
+        get
+        {
+			return transform.localPosition;
+        }
+    }
 	public bool placedTurret;
+
+	public Material[] materials;
+	public Color[] colors;
 
 	[SerializeField]
 	HexCell[] neighbors = null;
 
-	public HexCell GetNeighbor (HexDirection direction) {
+    private void Start()
+	{
+		pertubValue = HexMetrics.SampleNoise(Position).y;
+		GetComponent<MeshRenderer>().material = materials[elevation];
+    }
+    public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
 	}
 

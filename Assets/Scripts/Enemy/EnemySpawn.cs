@@ -14,6 +14,9 @@ public class EnemySpawn : MonoBehaviour
     public float waitingForNextSpawn = 1;
     public float theCountdown = 1;
 
+    [Header("Enemy Variables")]
+    public float speed = 1f;
+
     private HexCell[] edgeCells;
 
     void Start()
@@ -39,6 +42,8 @@ public class EnemySpawn : MonoBehaviour
         // Choose a new enemy to spawn from the array (note I specifically call it a 'prefab' to avoid confusing myself!)
         GameObject enemyPrefab = enemyObject[Random.Range(0, enemyObject.Length)];
 
+        // Pass along the enemy settings
+        enemyPrefab.GetComponent<EnemyController>().speed = speed;
         // Creates the random object at the random 3D position.
         GameObject enemy = Instantiate(enemyPrefab, trans.position, Quaternion.identity);
         enemy.transform.SetParent(this.transform);

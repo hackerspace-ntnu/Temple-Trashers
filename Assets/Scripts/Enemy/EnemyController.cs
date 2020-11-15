@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    public float speed = 5f;
+
     private void Awake()
     {
         if (playerBase == null)
@@ -24,8 +26,9 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         currentTarget = playerBase;
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
     }
 
     void FixedUpdate()

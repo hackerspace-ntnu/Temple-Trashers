@@ -48,9 +48,13 @@ MonoBehaviour:
   coordinates:
     x: 0
     z: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
-  uiRect: {fileID: 0}
+  color: {r: 1, g: 1, b: 1, a: 0}
   placedTurret: 0
+  materials:
+  - {fileID: 2100000, guid: 7e71529f907d85044a7c0ca8a7ded427, type: 2}
+  - {fileID: 2100000, guid: 332544463a71e204ab1e82b2cedc8366, type: 2}
+  - {fileID: 2100000, guid: 47b9c4dcd85e0f94aa0be763a5fa0d40, type: 2}
+  - {fileID: 2100000, guid: d493742714093a045a48df9b8b6b8184, type: 2}
   neighbors:
   - {fileID: 0}
   - {fileID: 0}

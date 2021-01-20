@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-[ExecuteAlways]
+[ExecuteInEditMode]
 public class HexGrid : MonoBehaviour {
 
 	private int cellCountX, cellCountZ;
@@ -30,7 +30,7 @@ public class HexGrid : MonoBehaviour {
     {
 		HexMetrics.noiseSource = noise;
 	}
-	void Awake()
+	private void Start()
 	{
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;

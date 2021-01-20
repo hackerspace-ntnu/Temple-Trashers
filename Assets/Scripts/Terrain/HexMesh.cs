@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[ExecuteAlways]
+[ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour {
 
@@ -50,15 +50,17 @@ public class HexMesh : MonoBehaviour {
 	}
 
 	void Triangulate (HexDirection direction, HexCell cell) {
-		Vector3 center = cell.Position;
-		Vector3 v1 = center + HexMetrics.GetFirstSolidCorner(direction);
-		Vector3 v2 = center + HexMetrics.GetSecondSolidCorner(direction);
+		if(cell != null){
+			Vector3 center = cell.Position;
+			Vector3 v1 = center + HexMetrics.GetFirstSolidCorner(direction);
+			Vector3 v2 = center + HexMetrics.GetSecondSolidCorner(direction);
 
-		AddTriangle(center, v1, v2);
-		AddTriangleColor(cell.color);
+			AddTriangle(center, v1, v2);
+			AddTriangleColor(cell.color);
 
-		if (direction <= HexDirection.SE) {
-			TriangulateConnection(direction, cell, v1, v2);
+			if (direction <= HexDirection.SE) {
+				TriangulateConnection(direction, cell, v1, v2);
+			}
 		}
 	}
 

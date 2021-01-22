@@ -40,7 +40,6 @@ public class HexMapEditor : MonoBehaviour {
 	int activeElevation;
 	void EditCell(HexCell cell)
     {
-		cell.color = activeColor;
 		cell.Elevation = activeElevation;
     }
 

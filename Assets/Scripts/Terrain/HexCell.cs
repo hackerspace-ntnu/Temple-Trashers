@@ -1,16 +1,17 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine;
+using Unity.Mathematics;
 
 [ExecuteInEditMode]
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
 
-	public Color color;
-
 	private int elevation;
 
 	//public RectTransform uiRect;
-
+	private Vector3 position;
+	private Vector3 newPos;
 	public int Elevation
     {
         get
@@ -20,7 +21,7 @@ public class HexCell : MonoBehaviour {
         set
         {
 			elevation = value;
-			Vector3 position = transform.localPosition;
+			position = transform.localPosition;
 			position.y = value * HexMetrics.elevationStep;
 			position.y +=
 				(HexMetrics.SampleNoise(position).y * 2f - 1f) *
@@ -40,17 +41,23 @@ public class HexCell : MonoBehaviour {
 	public bool placedTurret;
 
 	public Material[] materials;
-	public Color[] colors;
+
+
+	public float animationScale = 10f;
 
 	[SerializeField]
 	HexCell[] neighbors = null;
+
+	private Transform hq;
 
     private void Start()
 	{
 		pertubValue = HexMetrics.SampleNoise(Position).y;
 		GetComponent<MeshRenderer>().material = materials[elevation];
+		hq = GameObject.Find("Base").transform;
     }
-    public HexCell GetNeighbor (HexDirection direction) {
+	
+ public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
 	}
 
@@ -68,5 +75,4 @@ public class HexCell : MonoBehaviour {
     {
 		return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
     }
-
 }

@@ -17,13 +17,6 @@ public class EnemySpawn : MonoBehaviour
     [Header("Enemy Variables")]
     public float speed = 1f;
 
-    private HexCell[] edgeCells;
-
-    void Start()
-    {
-        edgeCells = hexGrid.GetEdgeCells();
-    }
-
     void Update()
     {
         // timer to spawn the next goodie Object
@@ -35,9 +28,10 @@ public class EnemySpawn : MonoBehaviour
         }
     }
     
+    int enemies = 0;
     void SpawnEnemy()
     {
-        Transform trans = edgeCells[Random.Range(0, edgeCells.Length)].transform;
+        Transform trans = hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform;
 
         // Choose a new enemy to spawn from the array (note I specifically call it a 'prefab' to avoid confusing myself!)
         GameObject enemyPrefab = enemyObject[Random.Range(0, enemyObject.Length)];
@@ -47,5 +41,8 @@ public class EnemySpawn : MonoBehaviour
         // Creates the random object at the random 3D position.
         GameObject enemy = Instantiate(enemyPrefab, trans.position, Quaternion.identity);
         enemy.transform.SetParent(this.transform);
+
+        enemies++;
+        
     }
 }

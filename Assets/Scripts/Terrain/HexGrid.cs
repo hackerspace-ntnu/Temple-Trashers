@@ -1,7 +1,8 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
+using Unity.Jobs;
+using Unity.Mathematics;
+using Unity.Collections;
 
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour {
@@ -15,23 +16,28 @@ public class HexGrid : MonoBehaviour {
 
 	public HexCell cellPrefab;
 	//public Text cellLabelPrefab;
-
+    
 	HexGridChunk[] chunks;
-	HexCell[] cells;
-	HexCell[] edgeCells;
+	public HexCell[] cells;
+	public HexCell[] edgeCells;
 
 	public bool recalculate;
 
 	[Header("Noise")]
 	public Texture2D noise;
 
+    [Header("Terrain Animation")]
+    public bool enabled = false;
+    [SerializeField]
+    private Transform hq;
+    public float scale = 0.1f;
+    public float speed = 0.5f;
 
 	private void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
 	}
-	private void Start()
-	{
+	private void Start() {
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
@@ -39,7 +45,8 @@ public class HexGrid : MonoBehaviour {
 		CreateCells();
 
 		edgeCells = GetEdgeCells();
-	}
+        hq = GameObject.FindGameObjectWithTag("Base").transform;
+    }
 
     private void Update()
     {
@@ -52,7 +59,47 @@ public class HexGrid : MonoBehaviour {
 
 			CreateChunks();
 			CreateCells();
+
+			edgeCells = GetEdgeCells();
 		}
+
+        // Terain floating job
+        if (enabled)
+        {
+            NativeArray<float3> cellPosArray = new NativeArray<float3>(cells.Length, Allocator.TempJob);
+            NativeArray<float> cellElevation = new NativeArray<float>(cells.Length, Allocator.TempJob);
+            NativeArray<float> result = new NativeArray<float>(cells.Length, Allocator.TempJob);
+            for (int i = 0; i < cells.Length; i++)
+            {
+                cellPosArray[i] = cells[i].transform.position;
+            }
+            CellAnimJob cellAnim = new CellAnimJob
+            {
+                time = Time.realtimeSinceStartup,
+                targetPos = hq.position,
+                currPosArray = cellPosArray,
+                scale = scale,
+                speed = speed,
+                elevationStep = HexMetrics.elevationStep,
+                elevation = cellElevation,
+                adjustment = result,
+            };
+
+            JobHandle jobHandle = cellAnim.Schedule(cells.Length, 100);
+            jobHandle.Complete();
+
+            // Apply the values
+            for (int i = 0; i < cells.Length; i++)
+            {
+                cells[i].transform.position = new Vector3(
+                    cells[i].transform.position.x,
+                    result[i],
+                    cells[i].transform.position.z);
+            }
+            cellPosArray.Dispose();
+            cellElevation.Dispose();
+            result.Dispose();
+        }
     }
 
 	void CreateChunks()
@@ -72,6 +119,11 @@ public class HexGrid : MonoBehaviour {
 			{
 				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
 				chunk.transform.SetParent(transform);
+                chunk.transform.position -= new Vector3(
+                    HexMetrics.innerRadius * cellCountX,
+                    0,
+                    HexMetrics.outerRadius * cellCountZ * 1.5f / 2f
+                    );
 			}
 		}
 	}
@@ -181,14 +233,32 @@ public class HexGrid : MonoBehaviour {
 			i++;
 			currentPos = currentPos + new Vector2Int(0, -1);
 		}
-		foreach (HexCell cell in edgeCells)
-        {
-			cell.color = Color.red;
-        }
 		foreach (HexGridChunk chunk in chunks)
         {
 			chunk.Refresh();
         }
 		return edgeCells;
     }
+}
+
+public struct CellAnimJob : IJobParallelFor{
+	public NativeArray<float3> currPosArray;
+    public NativeArray<float> elevation;
+	[ReadOnly] public float3 targetPos;
+	[ReadOnly] public float time;
+    [ReadOnly] public float scale;
+    [ReadOnly] public float speed;
+    [ReadOnly] public float elevationStep;
+    
+    public NativeArray<float> adjustment;
+	
+    public void Execute(int index){
+	    // Animated terrain waves
+		// Distance between cell and the base
+       	float dst = math.sqrt(
+            (targetPos.x - currPosArray[index].x) * (targetPos.x - currPosArray[index].x) +
+            (targetPos.z - currPosArray[index].z) * (targetPos.z - currPosArray[index].z));
+
+        adjustment[index] = math.sin(-2 * math.PI * time * speed + dst) * scale;
+	}
 }

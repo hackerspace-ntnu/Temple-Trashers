@@ -26,6 +26,9 @@ public class HexGrid : MonoBehaviour {
 	[Header("Noise")]
 	public Texture2D noise;
 
+    [Header("Noise Scale")]
+    public float noiseScale;
+
     [Header("Terrain Animation")]
     public bool enabled = false;
     [SerializeField]
@@ -36,6 +39,7 @@ public class HexGrid : MonoBehaviour {
 	private void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
+        HexMetrics.noiseScale = noiseScale;
 	}
 	private void Start() {
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;

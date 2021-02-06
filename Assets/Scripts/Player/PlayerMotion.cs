@@ -33,10 +33,15 @@ public class PlayerMotion : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //updateSpeed();
+        //updateRotation();
+    }
+
+    public void move()
+    {
         updateSpeed();
         updateRotation();
     }
-
     private void updateSpeed()
     {
 

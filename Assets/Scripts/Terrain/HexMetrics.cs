@@ -22,7 +22,7 @@ public static class HexMetrics {
 
 	public static Texture2D noiseSource;
 
-	public const float noiseScale = 0.003f;
+	public static float noiseScale = 0.003f;
 
 	public const float elevationPerturbStrength = 1f;
 

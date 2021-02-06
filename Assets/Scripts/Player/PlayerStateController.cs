@@ -6,34 +6,60 @@ using UnityEngine.InputSystem;
 public class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health;
-    private PlayerStates currentState = PlayerStates.Alive;
+    private PlayerStates currentState = PlayerStates.Free;
     private PlayerInput input;
     private PlayerManager manager;
+    private PlayerMotion motion;
 
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
+
+    private List<Interactable> interactables = new List<Interactable>();
+    private Interactable focusedInteractable;
+    private bool liftingInteractable = false;
+    private GameObject liftedObject;
+
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
     public enum PlayerStates
     {
+        InAnimation,
         Lifting,
         Dead,
-        Alive
+        Free
     }
 
     private void Start()
     {
+        motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
         health.OnDeath += Die; 
+    }
+    private void FixedUpdate()
+    {
+        switch (currentState)
+        {
+            case PlayerStates.InAnimation:
+                break;
+            case PlayerStates.Lifting:
+                motion.move();
+                break;
+            case PlayerStates.Dead:
+                break;
+            case PlayerStates.Free:
+                motion.move();
+                break;
+            default:
+                break;
+        }
     }
 
     private void Die()
     {
-        if(currentState == PlayerStates.Dead) { return; }
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
-        Camera.main.GetComponent<CameraFocusController>().removeFocusObject(transform);
+        CameraFocusController.Instance?.removeFocusObject(transform);
         Destroy(gameObject);
     }
 
@@ -55,21 +81,14 @@ public class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.Dead:
                 break;
-            case PlayerStates.Alive:
+            case PlayerStates.Free:
                 break;
             default:
                 break;
         }
         currentState = state;
     }
-    public void Revive()
-    {
-        
-        if(currentState == PlayerStates.Dead)
-        {
-            SetState(PlayerStates.Alive);
-        }
-    }
+
 
 
     public void SetUpInput(PlayerInput input, PlayerManager manager)
@@ -97,7 +116,66 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Back"].performed -= ctx => back = true;
         input.actions["Select"].performed -= ctx => select = true;
     }
-    
+
+
+    public void addInteractable(Interactable a)
+    {
+        if (interactables.Contains(a))
+        {
+            Debug.LogWarning("Tried to add interactable twice to same player: " + a);
+            return;
+        }
+        interactables.Add(a);
+    }
+
+    public void removeInteractable(Interactable a)
+    {
+        interactables.Remove(a);
+    }
+
+    private void updateFocusedInteractable()
+    {
+        //Lifted objects take top priority
+        if (liftingInteractable)
+        {
+            if (focusedInteractable == null)
+            {
+                liftingInteractable = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        //Get closest interactable otherwise
+        Interactable closest = focusedInteractable;
+        float dist = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
+        foreach (Interactable i in interactables)
+        {
+            if ((i.transform.position - transform.position).sqrMagnitude < dist)
+            {
+                dist = (i.transform.position - transform.position).sqrMagnitude;
+                closest = i;
+            }
+        }
+        setFocusedInteractable(closest);
+    }
+    private void setFocusedInteractable(Interactable a)
+    {
+        if(focusedInteractable == a) { return; }
+        focusedInteractable?.unFocus(this);
+        a?.focus(this);
+        focusedInteractable = a;
+    }
+    public void lift(GameObject a)
+    {
+        liftedObject = a;
+        setFocusedInteractable(a.GetComponent<Interactable>());
+        liftingInteractable = true;
+        SetState(PlayerStates.Lifting);
+        //Might set script to remove rigidbody of lifted object
+    }
 
 
     public Vector2 MoveInput { get => moveInput; }
@@ -105,4 +183,6 @@ public class PlayerStateController : MonoBehaviour
     public bool Interact { get => interact; }
     public bool Back { get => back; }
     public bool Select { get => select; }
+
+    
 }

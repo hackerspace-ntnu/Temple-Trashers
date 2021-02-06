@@ -9,6 +9,8 @@ public class HexCell : MonoBehaviour {
 
 	private int elevation;
 
+    [SerializeField]
+    private MeshRenderer mesh;
 	//public RectTransform uiRect;
 	private Vector3 position;
 	private Vector3 newPos;
@@ -53,7 +55,7 @@ public class HexCell : MonoBehaviour {
     private void Start()
 	{
 		pertubValue = HexMetrics.SampleNoise(Position).y;
-		GetComponent<MeshRenderer>().material = materials[elevation];
+        mesh.material = materials[elevation];
 		hq = GameObject.Find("Base").transform;
     }
 	

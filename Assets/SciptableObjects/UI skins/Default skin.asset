@@ -18,3 +18,11 @@ MonoBehaviour:
     m_PressedSprite: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: e79bed420eaefbd429cb879c9580ca67, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
+  defaultColor: {r: 0.4716981, g: 0.46012816, b: 0.46012816, a: 0}
+  defaultIcon: {fileID: 0}
+  confirmColor: {r: 0.3622641, g: 1, b: 0.41138718, a: 0}
+  confirmIcon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  declineColor: {r: 1, g: 0.3150943, b: 0.34603822, a: 0}
+  declineIcon: {fileID: 0}
+  warningColor: {r: 0.990566, g: 0.5956389, b: 0, a: 0}
+  warningIcon: {fileID: 0}

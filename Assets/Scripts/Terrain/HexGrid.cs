@@ -51,7 +51,6 @@ public class HexGrid : MonoBehaviour {
 		edgeCells = GetEdgeCells();
         hq = GameObject.FindGameObjectWithTag("Base").transform;
     }
-
     private void Update()
     {
         if (recalculate)
@@ -149,6 +148,7 @@ public class HexGrid : MonoBehaviour {
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+        Debug.Log(index + " " + cells.Length);
 		return cells[index];
 	}
 
@@ -219,7 +219,7 @@ public class HexGrid : MonoBehaviour {
 			i++;
 			currentPos = currentPos + new Vector2Int(1, 0);
         }
-		for (int x = 0; x < cellCountZ-1; x++)
+		for (int x = 0; x < cellCountZ - 1; x++)
 		{
 			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
 			i++;
@@ -231,7 +231,7 @@ public class HexGrid : MonoBehaviour {
 			i++;
 			currentPos = currentPos + new Vector2Int(-1, 0);
 		}
-		for (int x = 0; x < cellCountZ-1; x++)
+		for (int x = 0; x < cellCountZ - 1; x++)
 		{
 			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
 			i++;
@@ -243,6 +243,8 @@ public class HexGrid : MonoBehaviour {
         }
 		return edgeCells;
     }
+
+    
 }
 
 public struct CellAnimJob : IJobParallelFor{

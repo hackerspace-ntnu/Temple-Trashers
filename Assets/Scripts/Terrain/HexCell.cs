@@ -7,14 +7,17 @@ public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
 
-	private int elevation;
+    // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
+    public bool isOccupied;
+    public GameObject occupier;
 
     [SerializeField]
     private MeshRenderer mesh;
 	//public RectTransform uiRect;
 	private Vector3 position;
 	private Vector3 newPos;
-	public int Elevation
+	private int elevation;
+    public int Elevation
     {
         get
         {
@@ -40,7 +43,6 @@ public class HexCell : MonoBehaviour {
 			return transform.localPosition;
         }
     }
-	public bool placedTurret;
 
 	public Material[] materials;
 
@@ -59,7 +61,7 @@ public class HexCell : MonoBehaviour {
 		hq = GameObject.Find("Base").transform;
     }
 	
- public HexCell GetNeighbor (HexDirection direction) {
+    public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
 	}
 

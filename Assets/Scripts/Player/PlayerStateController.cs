@@ -19,7 +19,6 @@ public class PlayerStateController : MonoBehaviour
     private bool liftingInteractable = false;
     private GameObject liftedObject;
 
-
     [SerializeField]
     private SkinnedMeshRenderer mesh;
     public enum PlayerStates

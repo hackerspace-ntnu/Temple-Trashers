@@ -26,7 +26,9 @@ public class PlayerStateController : MonoBehaviour
         InAnimation,
         Lifting,
         Dead,
-        Free
+        Free,
+        Building,
+        InTurretMenu
     }
 
     private void Start()
@@ -48,6 +50,10 @@ public class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.Free:
                 motion.move();
+                break;
+            case PlayerStates.Building:
+                break;
+            case PlayerStates.InTurretMenu:
                 break;
             default:
                 break;
@@ -81,6 +87,10 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Dead:
                 break;
             case PlayerStates.Free:
+                break;
+            case PlayerStates.Building:
+                break;
+            case PlayerStates.InTurretMenu:
                 break;
             default:
                 break;

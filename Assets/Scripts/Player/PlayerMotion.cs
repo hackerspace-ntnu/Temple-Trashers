@@ -48,7 +48,6 @@ public class PlayerMotion : MonoBehaviour
 
 
         if (state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
-        // Debug.Log("Move");
 
         Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;
 

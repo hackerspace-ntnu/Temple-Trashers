@@ -8,7 +8,7 @@ public class PlayerStateController : MonoBehaviour
     private HealthLogic health; // Refrence to the health script
     private PlayerStates currentState = PlayerStates.Free; // The current player state
     private PlayerInput input;  // Controller input
-    private PlayerManager manager;
+    private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
 
@@ -148,7 +148,7 @@ public class PlayerStateController : MonoBehaviour
 
 
 
-    public void SetUpInput(PlayerInput input, PlayerManager manager)
+    public void SetUpInput(PlayerInput input, PlayerSpecificManager manager)
     {
         this.input = input;
         this.manager = manager;

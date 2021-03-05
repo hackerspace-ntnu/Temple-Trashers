@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Enemy_PlayerDetector : MonoBehaviour
 {
-    public EnemyController controller;
+    public Enemy enemy;
 
     void OnTriggerEnter(Collider collider)
     {
         // If the colliding object is a player:
         if (collider.GetComponent<PlayerStateController>())
-            controller.OnPlayerDetected(collider.transform);
+            enemy.OnPlayerDetected(collider.transform);
     }
 }

@@ -37,7 +37,7 @@ public class EnemyManager : MonoBehaviour
         GameObject enemyPrefab = enemyObject[Random.Range(0, enemyObject.Length)];
 
         // Pass along the enemy settings
-        enemyPrefab.GetComponent<EnemyController>().speed = speed;
+        enemyPrefab.GetComponent<Enemy>().speed = speed;
         // Creates the random object at the random 3D position.
         GameObject enemy = Instantiate(enemyPrefab, trans.position, Quaternion.identity);
         enemy.transform.SetParent(this.transform);

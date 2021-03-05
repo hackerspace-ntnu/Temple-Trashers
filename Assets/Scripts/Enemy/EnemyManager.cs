@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawn : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
     public HexGrid hexGrid;
 

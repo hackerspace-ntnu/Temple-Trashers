@@ -10,6 +10,7 @@ public class PlayerStateController : MonoBehaviour
     private PlayerInput input;
     private PlayerManager manager;
     private PlayerMotion motion;
+    private PlayerUi ui;
 
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
@@ -49,11 +50,13 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Dead:
                 break;
             case PlayerStates.Free:
+                if (Select){ SetState(PlayerStates.InTurretMenu); return; }
                 motion.move();
                 break;
             case PlayerStates.Building:
                 break;
             case PlayerStates.InTurretMenu:
+                ui.select();
                 break;
             default:
                 break;

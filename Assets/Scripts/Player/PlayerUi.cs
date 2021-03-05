@@ -4,15 +4,46 @@ using UnityEngine;
 
 public class PlayerUi : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private PlayerStateController state = null;
+    private GameObject ui = null;
+    private quadrants selectedElement = quadrants.None;
+
+
+    //the following "quadrants" enum represents the corresponding radial section of the radialUi
+    public enum quadrants
     {
-        
+        NorthWest,
+        NorthEast,
+        SouthEast,
+        SouthWest,
+        None
     }
 
-    // Update is called once per frame
-    void Update()
+
+    //Sets up required components to handle input
+    void Start()
     {
-        
+        state = GetComponent<PlayerStateController>();
+        //ui = GetComponent <radialMenu>();
+    }
+
+    public void select()
+    {
+        updatePos();
+    }
+    
+    private void updatePos()
+    {
+        /*
+        if (state.CurrentState != PlayerStateController.PlayerStates.InTurretMenu) {return;}
+        switch (state)
+        {
+            case (state.AimInput == Vector2.zero):
+                selectedElement = quadrants.None;
+                break;
+
+        }*/
+
     }
 }

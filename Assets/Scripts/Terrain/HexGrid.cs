@@ -30,7 +30,7 @@ public class HexGrid : MonoBehaviour {
     public float noiseScale;
 
     [Header("Terrain Animation")]
-    public bool enabled = false;
+    public bool isEnabled = false;
     [SerializeField]
     private Transform hq;
     public float scale = 0.1f;
@@ -41,7 +41,7 @@ public class HexGrid : MonoBehaviour {
 		HexMetrics.noiseSource = noise;
         HexMetrics.noiseScale = noiseScale;
 	}
-	private void Start() {
+	private void Awake() {
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
@@ -67,7 +67,7 @@ public class HexGrid : MonoBehaviour {
 		}
 
         // Terain floating job
-        if (enabled)
+        if (isEnabled)
         {
             NativeArray<float3> cellPosArray = new NativeArray<float3>(cells.Length, Allocator.TempJob);
             NativeArray<float> cellElevation = new NativeArray<float>(cells.Length, Allocator.TempJob);
@@ -143,13 +143,13 @@ public class HexGrid : MonoBehaviour {
 			}
 		}
 	}
-
+    // Returns the HexCell at a given position
 	public HexCell GetCell (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
+        position -= cells[0].transform.position;
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-        Debug.Log(index + " " + cells.Length);
-		return cells[index];
+        return cells[index];
 	}
 
 

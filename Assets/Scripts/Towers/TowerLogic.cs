@@ -20,7 +20,7 @@ public class TowerLogic : MonoBehaviour
     void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
-        Vector3 v = new Vector3(hexGrid.GetCell(transform.position).transform.position.x, 0, hexGrid.GetCell(transform.position).transform.position.z);
+        Vector3 v = hexGrid.GetCell(transform.position).transform.position;
         transform.position = v;
     }
     private void FixedUpdate()

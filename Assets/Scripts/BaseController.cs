@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class BaseController : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class BaseController : MonoBehaviour
 
     // Death flag
     private bool dead = false;
+
+    // Loot in collection range
+    private List<Transform> loot = new List<Transform>();
+
+    // Stored Resources
+    public int crystals = 0;
 
 
     void Awake()
@@ -42,4 +49,30 @@ public class BaseController : MonoBehaviour
         dead = true;
     }
     public Transform SpawnPoint { get => spawnPoint; }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponentInChildren<Loot>() && !loot.Contains(other.transform))
+        {
+            loot.Add(other.GetComponentInChildren<Loot>().transform);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponentInChildren<Loot>())
+        {
+            loot.Remove(other.transform);
+        }
+    }
+
+    private void Update()
+    {
+        // Collect loot
+        if(loot.Count != 0)
+        {
+            loot[0].GetComponent<Loot>().Absorb();
+            crystals++;
+            loot.Remove(loot[0]);
+        }
+    }
 }

@@ -52,6 +52,17 @@ public class PlayerStateController : MonoBehaviour
             default:
                 break;
         }
+
+        updateFocusedInteractable();
+        // Update interactables for new non interactable items
+        /*foreach(Interactable i in interactables)
+        {
+            if (!i.canInteract)
+            {
+                removeInteractable(i);
+            }
+        }*/
+        
     }
 
     private void Die()
@@ -98,9 +109,37 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Move"].canceled += ctx => moveInput = Vector2.zero;
         input.actions["Aim"].performed += ctx => aimInput = ctx.ReadValue<Vector2>();
         input.actions["Aim"].canceled += ctx => aimInput = Vector2.zero;
-        input.actions["Interact"].performed += ctx => interact = true;
+        input.actions["Interact"].performed += ctx => OnInteract();
         input.actions["Back"].performed += ctx => back = true;
         input.actions["Select"].performed += ctx => select = true;
+    }
+
+    private void OnInteract()   // Gets called when interact button is pressed
+    {
+        if(focusedInteractable != null)
+        {
+            focusedInteractable.Interact(this); // interact with the current target
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.GetComponent<Interactable>())
+        {
+            if (other.GetComponent<Interactable>().canInteract)
+            {
+                addInteractable(other.GetComponent<Interactable>());
+            }
+        }    
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Interactable>())
+        {
+            removeInteractable(other.GetComponent<Interactable>());
+        }
     }
 
     public PlayerStates CurrentState { get => currentState; }
@@ -121,7 +160,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if (interactables.Contains(a))
         {
-            Debug.LogWarning("Tried to add interactable twice to same player: " + a);
+            //Debug.LogWarning("Tried to add interactable twice to same player: " + a);
             return;
         }
         interactables.Add(a);
@@ -134,12 +173,32 @@ public class PlayerStateController : MonoBehaviour
 
     private void updateFocusedInteractable()
     {
+        if(interactables.Count == 0)
+        {
+            if(focusedInteractable != null) // We are out of range to interact, remove the selected interactable
+            {
+                focusedInteractable.Unfocus(this);
+                focusedInteractable = null;
+            }
+            return;
+        }
+        else if(interactables.Count == 1) // If there is only one interactable object choose that object
+        {
+            setFocusedInteractable(interactables[0]);
+            return;
+        }
+        if(focusedInteractable == null)
+        {
+            removeInteractable(focusedInteractable);
+        }
+
         //Lifted objects take top priority
         if (liftingInteractable)
         {
             if (focusedInteractable == null)
             {
                 liftingInteractable = false;
+                return;
             }
             else
             {
@@ -160,20 +219,32 @@ public class PlayerStateController : MonoBehaviour
         }
         setFocusedInteractable(closest);
     }
+
     private void setFocusedInteractable(Interactable a)
     {
-        if(focusedInteractable == a) { return; }
-        focusedInteractable?.unFocus(this);
-        a?.focus(this);
+        if(focusedInteractable == a) { return; } // This is allready the focused interactable
+        focusedInteractable?.Unfocus(this);
+        a?.Focus(this);
         focusedInteractable = a;
+        a.GetComponent<MeshRenderer>().enabled = true;
     }
-    public void lift(GameObject a)
+
+    public void Lift(GameObject a)
     {
         liftedObject = a;
-        setFocusedInteractable(a.GetComponent<Interactable>());
         liftingInteractable = true;
         SetState(PlayerStates.Lifting);
-        //Might set script to remove rigidbody of lifted object
+    }
+
+    public void Drop(GameObject a)
+    {
+        liftedObject = null;
+        liftingInteractable = false;
+        SetState(PlayerStates.Free);
+        if (!a.GetComponent<Interactable>().canInteract) // Check if we can still interact with the object
+        {
+            removeInteractable(a.GetComponent<Interactable>());
+        }
     }
 
 

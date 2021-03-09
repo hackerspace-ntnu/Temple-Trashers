@@ -63,6 +63,19 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
+
+
+    public void build(GameObject tower)
+    {
+        SetState(PlayerStates.Building);
+        //objektsomskalbygges = tower;
+    }
+
+    public void setStateFree()
+    {
+        SetState(PlayerStates.Free);
+    }
+
     private void Die()
     {
         SetState(PlayerStates.Dead);

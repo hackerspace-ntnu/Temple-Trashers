@@ -36,10 +36,12 @@ public class PlayerStateController : MonoBehaviour
     {
         motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
-        health.OnDeath += Die; 
+        health.OnDeath += Die;
+        ui = GetComponent<PlayerUi>();
     }
     private void FixedUpdate()
     {
+        Debug.Log(currentState);
         switch (currentState)
         {
             case PlayerStates.InAnimation:
@@ -50,13 +52,25 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Dead:
                 break;
             case PlayerStates.Free:
-                if (Select){ SetState(PlayerStates.InTurretMenu); return; }
+                if (Select){ SetState(PlayerStates.InTurretMenu);}
+                else { 
                 motion.move();
-                break;
-            case PlayerStates.Building:
+                }
                 break;
             case PlayerStates.InTurretMenu:
                 ui.select();
+
+                if (!Select) {
+                    Debug.Log("ye..?");
+                    if (ui.getSelectedSegment()) {
+                        Debug.Log("Påggers");
+                        lift(ui.getSelectedSegment());
+                        }
+                    else
+                    {
+                        SetState(PlayerStates.Free);
+                    }
+                }
                 break;
             default:
                 break;
@@ -65,11 +79,6 @@ public class PlayerStateController : MonoBehaviour
 
 
 
-    public void build(GameObject tower)
-    {
-        SetState(PlayerStates.Building);
-        //objektsomskalbygges = tower;
-    }
 
     public void setStateFree()
     {
@@ -104,8 +113,6 @@ public class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.Free:
                 break;
-            case PlayerStates.Building:
-                break;
             case PlayerStates.InTurretMenu:
                 break;
             default:
@@ -127,6 +134,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Interact"].performed += ctx => interact = true;
         input.actions["Back"].performed += ctx => back = true;
         input.actions["Select"].performed += ctx => select = true;
+        input.actions["Select"].canceled += ctx => select = false;
     }
 
     public PlayerStates CurrentState { get => currentState; }
@@ -140,6 +148,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Interact"].performed -= ctx => interact = true;
         input.actions["Back"].performed -= ctx => back = true;
         input.actions["Select"].performed -= ctx => select = true;
+        input.actions["Select"].canceled -= ctx => select = false;
     }
 
 

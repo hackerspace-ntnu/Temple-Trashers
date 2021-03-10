@@ -7,9 +7,10 @@ public class PlayerUi : MonoBehaviour
 {
     [SerializeField]
     private PlayerStateController state = null;
-    private GameObject ui = null;
+    public GameObject ui;
+    public int uiSegmentAmount = 4;
 
-    public GameObject[] uiSegments;
+
     private GameObject selectedSegment = null;
 
 
@@ -18,53 +19,56 @@ public class PlayerUi : MonoBehaviour
     void Start()
     {
         state = GetComponent<PlayerStateController>();
-        //ui = GetComponent <radialMenu>();
-        //ui.active = true;
+        
+        //uiSegments =
+    }
+
+    public GameObject getSelectedSegment()
+    {
+        return selectedSegment;
     }
 
     public void select()
     {
+        ui.gameObject.SetActive(true);
         updatePos();
+        ui.gameObject.SetActive(true);
         if (!state.Select)
         {
-            //ui.active = false;
+            ui.gameObject.SetActive(false);
+            /*
             if (selectedSegment)
             {
-                // state.build(selectedSegment.getTowerObject());  
-                //To be added when the ui has a refference to an actual corresponding towerObject
-                state.build(selectedSegment); 
+                
+                state.lift(selectedSegment);
               
                 return;
-            }
-            else
-            {
-                state.setStateFree();
-                return;
-            }
+            }*/
         }
     }
     
     //Finds which segment of the radialUi the control stick is pointing towards
     private void updatePos()
     {
-        
-        if (state.CurrentState != PlayerStateController.PlayerStates.InTurretMenu) {return;}
+        if (state.CurrentState != PlayerStateController.PlayerStates.InTurretMenu) { Debug.Log("Er ikke i turretMenu, så  skyter tilbake"); return;}
         if (state.AimInput != Vector2.zero) {
-            float angle = Mathf.Atan2(state.AimInput.x, state.AimInput.x)/Mathf.PI;
-            angle *= 180;
-            angle += 90f;
+            float angle = Mathf.Atan2(state.AimInput.x, state.AimInput.y)/Mathf.PI;
+            angle *= 180; 
+            angle += 45f;
             if (angle < 0)
             {
                 angle += 360;
             }
-
-            for(int i = 0; i < uiSegments.Length; i++)
+            
+            for(int i = 0; i < uiSegmentAmount; i++)
             {
-                if(angle > i * (360/uiSegments.Length) && angle < (i+1)* (360 / uiSegments.Length))
+                if(angle > i * (360/uiSegmentAmount) && angle < (i+1)* (360 / uiSegmentAmount))
                 {
-                    selectedSegment = uiSegments[i];
+                    selectedSegment = ui.GetComponent<UIController>().getTower(i);
+                    Debug.Log(i);
                 }
             }
+
         }
         else
         {

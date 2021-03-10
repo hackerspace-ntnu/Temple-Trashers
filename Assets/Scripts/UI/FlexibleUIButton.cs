@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class FlexibleUIButton : FlexibleUI
 {
+
     public enum ButtonType
     {
         Default,
@@ -15,22 +16,29 @@ public class FlexibleUIButton : FlexibleUI
         Warning
     }
     Image image;
-    Image icon;
+    public Image icon;
     Button button;
     public ButtonType buttonType;
+
+    public void setIcon(Image iconIn)
+    {
+        icon = iconIn;
+    }
 
     protected override void onSkinUI()
     {
         base.onSkinUI();
+
+
         image = GetComponent<Image>();
         button = GetComponent<Button>();
-        icon = transform.Find("Icon").GetComponent<Image>();
+       // icon = transform.Find("Icon").GetComponent<Image>();
 
         button.transition = Selectable.Transition.SpriteSwap;
         button.targetGraphic = image;
 
         //Setting the UI-objects to match the scriptableObject:
-        image.sprite = skinData.buttonSprite;
+        //image.sprite = skinData.buttonSprite;
         image.type = Image.Type.Sliced;
         button.spriteState = skinData.buttonSpriteState;
 
@@ -38,22 +46,22 @@ public class FlexibleUIButton : FlexibleUI
         {
             case ButtonType.Confirm:
                 image.color = skinData.confirmColor;
-                icon.sprite = skinData.confirmIcon;
+               // icon.sprite = skinData.confirmIcon;
                 break;
 
             case ButtonType.Decline:
                 image.color = skinData.declineColor;
-                icon.sprite = skinData.declineIcon;
+              //  icon.sprite = skinData.declineIcon;
                 break;
 
             case ButtonType.Warning:
                 image.color = skinData.warningColor;
-                icon.sprite = skinData.warningIcon;
+              //  icon.sprite = skinData.warningIcon;
                 break;
 
             case ButtonType.Default:
                 image.color = skinData.defaultColor;
-                icon.sprite = skinData.defaultIcon;
+              //  icon.sprite = skinData.defaultIcon;
                 break;
         }
         

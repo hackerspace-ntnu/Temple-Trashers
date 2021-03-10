@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    private UserInput input;
+    public TowerScript[] towers;
+    public FlexibleUIButton[] menuSegments;
+    private List<GameObject> towersInMenu = new List<GameObject>();
 
 
-    public void setUserInput(UserInput currentIpnut)
-    {
-        input = currentIpnut;
-    }
-    public UserInput getUserInput()
-    {
-        return input;
-    }
-    // Start is called before the first frame update
     void Start()
     {
-        
+        if (towers.Length == 4 && menuSegments.Length == 4)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                menuSegments[i].setIcon(towers[i].icon);
+            }
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public GameObject getTower(int index)
     {
-        float angle = Mathf.Atan2(input.AimInput.y, input.AimInput.x) * 180 - 90 / Mathf.PI;
-
+       Debug.Log(index);
+       for (int i = 0; i < menuSegments.Length; i++)
+        {
+            towersInMenu.Add(towers[i].tower);
+        }
+        return towersInMenu[index];
     }
+
 }

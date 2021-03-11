@@ -10,6 +10,7 @@ public class PlayerStateController : MonoBehaviour
     private PlayerInput input;
     private PlayerManager manager;
     private PlayerMotion motion;
+    private PlayerUi ui;
 
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
@@ -26,14 +27,17 @@ public class PlayerStateController : MonoBehaviour
         InAnimation,
         Lifting,
         Dead,
-        Free
+        Free,
+        Building,
+        InTurretMenu
     }
 
     private void Start()
     {
         motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
-        health.OnDeath += Die; 
+        health.OnDeath += Die;
+        ui = GetComponent<PlayerUi>();
     }
     private void FixedUpdate()
     {
@@ -47,11 +51,35 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Dead:
                 break;
             case PlayerStates.Free:
+                if (Select){ SetState(PlayerStates.InTurretMenu);}
+                else { 
                 motion.move();
+                }
+                break;
+            case PlayerStates.InTurretMenu:
+                ui.select();
+
+                if (!Select) {
+                    if (ui.getSelectedSegment()) {
+                        lift(ui.getSelectedSegment());
+                        }
+                    else
+                    {
+                        SetState(PlayerStates.Free);
+                    }
+                }
                 break;
             default:
                 break;
         }
+    }
+
+
+
+
+    public void setStateFree()
+    {
+        SetState(PlayerStates.Free);
     }
 
     private void Die()
@@ -82,6 +110,8 @@ public class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.Free:
                 break;
+            case PlayerStates.InTurretMenu:
+                break;
             default:
                 break;
         }
@@ -101,6 +131,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Interact"].performed += ctx => interact = true;
         input.actions["Back"].performed += ctx => back = true;
         input.actions["Select"].performed += ctx => select = true;
+        input.actions["Select"].canceled += ctx => select = false;
     }
 
     public PlayerStates CurrentState { get => currentState; }
@@ -114,6 +145,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Interact"].performed -= ctx => interact = true;
         input.actions["Back"].performed -= ctx => back = true;
         input.actions["Select"].performed -= ctx => select = true;
+        input.actions["Select"].canceled -= ctx => select = false;
     }
 
 

@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616d81097162c5b40a9ba5cef5a2ecdd, type: 3}
   m_Name: Wheel
   m_EditorClassIdentifier: 
+  towerName: Wheel Tower
+  cost: 10
+  tower: {fileID: 2983117196373584133, guid: d9c9ddbe5ecd2cf4cae3474198d951df, type: 3}
+  icon: {fileID: 0}

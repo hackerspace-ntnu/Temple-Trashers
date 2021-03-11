@@ -36,14 +36,6 @@ public class PlayerUi : MonoBehaviour
         if (!state.Select)
         {
             ui.gameObject.SetActive(false);
-            /*
-            if (selectedSegment)
-            {
-                
-                state.lift(selectedSegment);
-              
-                return;
-            }*/
         }
     }
     
@@ -65,7 +57,6 @@ public class PlayerUi : MonoBehaviour
                 if(angle > i * (360/uiSegmentAmount) && angle < (i+1)* (360 / uiSegmentAmount))
                 {
                     selectedSegment = ui.GetComponent<UIController>().getTower(i);
-                    Debug.Log(i);
                 }
             }
 

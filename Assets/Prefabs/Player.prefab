@@ -1514,29 +1514,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 114662515065578395}
     m_Modifications:
-    - target: {fileID: 445809877, guid: b61728c964df50c49816a660ebcebac5, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
-    - target: {fileID: 553671314, guid: b61728c964df50c49816a660ebcebac5, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
-    - target: {fileID: 1644175595, guid: b61728c964df50c49816a660ebcebac5, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
-    - target: {fileID: 3343324965087557671, guid: b61728c964df50c49816a660ebcebac5, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
     - target: {fileID: 6628829286497587751, guid: b61728c964df50c49816a660ebcebac5, type: 3}
       propertyPath: m_Name
       value: radialMenu
       objectReference: {fileID: 0}
     - target: {fileID: 6628829286497587751, guid: b61728c964df50c49816a660ebcebac5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8366836783192862019, guid: b61728c964df50c49816a660ebcebac5, type: 3}
       propertyPath: m_LocalPosition.x

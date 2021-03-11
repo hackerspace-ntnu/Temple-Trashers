@@ -41,7 +41,6 @@ public class PlayerStateController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Debug.Log(currentState);
         switch (currentState)
         {
             case PlayerStates.InAnimation:
@@ -61,9 +60,7 @@ public class PlayerStateController : MonoBehaviour
                 ui.select();
 
                 if (!Select) {
-                    Debug.Log("ye..?");
                     if (ui.getSelectedSegment()) {
-                        Debug.Log("Påggers");
                         lift(ui.getSelectedSegment());
                         }
                     else

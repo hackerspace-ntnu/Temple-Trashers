@@ -20,9 +20,6 @@ public class BaseController : MonoBehaviour
     // Death flag
     private bool dead = false;
 
-    // Loot in collection range
-    private List<Transform> loot = new List<Transform>();
-
     // Stored Resources
     public int crystals = 0;
 
@@ -52,9 +49,9 @@ public class BaseController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInChildren<Loot>() && !loot.Contains(other.transform))
+        if (other.GetComponentInChildren<Loot>())
         {
-            other.GetComponentInChildren<Loot>().Absorb();
+            other.GetComponentInChildren<Loot>().Absorb(this);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -62,17 +59,6 @@ public class BaseController : MonoBehaviour
         if (other.GetComponentInChildren<Loot>())
         {
             other.GetComponentInChildren<Loot>().CancelAbsorb();
-        }
-    }
-
-    private void Update()
-    {
-        // Collect loot
-        if(loot.Count != 0)
-        {
-            loot[0].GetComponent<Loot>().Absorb();
-            crystals++;
-            loot.Remove(loot[0]);
         }
     }
 }

@@ -7,13 +7,19 @@ public class Loot : Interactable
     public Material selectionMaterial;  // Selection / highlight material
     private List<MeshRenderer> mr = new List<MeshRenderer>();          // All mesh renderers attached to the object
     [ReadOnly]
-    public bool carried = false;    // Is the object being carried
-    private bool destroy = false;   // Set the object to be destroyed
-    private Vector3 absorbTarget; // The position to be absorbed in
+    public bool carried = false;        // Is the object being carried
+    private bool destroy = false;       // Set the object to be destroyed
+    private Vector3 absorbTarget;       // The position to be absorbed in
+    BaseController b;                   // The base
+    private float dissolveState = 0;    // The current dissolve state
 
     private void Start()
     {
         mr.Add(GetComponent<MeshRenderer>());
+        foreach(MeshRenderer childRenderer in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.Add(childRenderer);
+        }
     }
 
     public override void Interact(PlayerStateController player)
@@ -24,22 +30,16 @@ public class Loot : Interactable
             carried = true;
             player.Lift(gameObject);
             transform.SetParent(player.transform);
-            Transform[] children = player.GetComponentsInChildren<Transform>();
-            foreach(Transform t in children)
-            {
-                if (t.name == "Luggage")
-                {
-                    transform.position = t.position;
-                    return;
-                }
-            }
+            transform.position = player.inventory.position;
         }
         else
         {
             // Drop the loot!
             carried = false;
             transform.parent = null;
-            if (destroy) // If i'm to be destroyed, prevent me from being interacted with
+
+            // If i'm to be destroyed, prevent me from being interacted with
+            if (destroy) 
             {
                 canInteract = false;
             }
@@ -58,9 +58,10 @@ public class Loot : Interactable
         Unhighlight();
     }
 
-    public void Absorb()
+    public void Absorb(BaseController b)
     {
         // Set the object to be destroyed
+        this.b = b;
         destroy = true;        
     }
 
@@ -71,19 +72,33 @@ public class Loot : Interactable
 
     private void Update()
     {
-        if (destroy && !canInteract) // Destroy the loot with animation
+        if (destroy && !canInteract) // Destroy the loot properly (to be replaced with animation)
         {
             transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
-            if(Vector3.Distance(transform.position, absorbTarget) < 0.3f)
+            if (Vector3.Distance(transform.position, absorbTarget) < 0.3f)
             {
                 for(int y = 0; y < mr.Count; y++)
                 {
-                    mr[y].material.SetFloat("State", mr[y].material.GetFloat("State") + Time.deltaTime);
+                    if (mr[y] != null) // Check if list item is empty
+                    {
+                        if (mr[y].material.HasProperty("State")) // Check if the material has the correct property
+                        {
+                            mr[y].material.SetFloat("State", dissolveState); // Continue animation
+
+                            if (mr[0].material.GetFloat("State") / mr[0].material.GetFloat("Rate") > 1) // If the animation is done finish.
+                            {
+                                b.crystals++;
+                                Destroy(gameObject);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mr.RemoveAt(y);
+                        return;
+                    }
                 }
-                if (mr[0].material.GetFloat("State") / mr[0].material.GetFloat("Rate") > 1)
-                {
-                    Destroy(gameObject);
-                }
+                dissolveState += Time.deltaTime;
             }
         }
     }

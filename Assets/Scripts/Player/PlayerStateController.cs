@@ -5,19 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateController : MonoBehaviour
 {
-    private HealthLogic health;
-    private PlayerStates currentState = PlayerStates.Free;
-    private PlayerInput input;
+    private HealthLogic health; // Refrence to the health script
+    private PlayerStates currentState = PlayerStates.Free; // The current player state
+    private PlayerInput input;  // Controller input
     private PlayerManager manager;
     private PlayerMotion motion;
 
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
 
-    private List<Interactable> interactables = new List<Interactable>();
-    private Interactable focusedInteractable;
-    private bool liftingInteractable = false;
-    private GameObject liftedObject;
+    private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
+    private Interactable focusedInteractable;   // The current focused interactable
+    private GameObject liftedObject;            // Object being lifted
+    public Transform inventory;                 // Where items are carried
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
@@ -53,16 +53,7 @@ public class PlayerStateController : MonoBehaviour
                 break;
         }
 
-        updateFocusedInteractable();
-        // Update interactables for new non interactable items
-        /*foreach(Interactable i in interactables)
-        {
-            if (!i.canInteract)
-            {
-                removeInteractable(i);
-            }
-        }*/
-        
+        UpdateFocusedInteractable();        
     }
 
     private void Die()
@@ -129,7 +120,7 @@ public class PlayerStateController : MonoBehaviour
         {
             if (other.GetComponent<Interactable>().canInteract)
             {
-                addInteractable(other.GetComponent<Interactable>());
+                AddInteractable(other.GetComponent<Interactable>());
             }
         }    
     }
@@ -138,7 +129,7 @@ public class PlayerStateController : MonoBehaviour
     {
         if (other.GetComponent<Interactable>())
         {
-            removeInteractable(other.GetComponent<Interactable>());
+            RemoveInteractable(other.GetComponent<Interactable>());
         }
     }
 
@@ -156,57 +147,47 @@ public class PlayerStateController : MonoBehaviour
     }
 
 
-    public void addInteractable(Interactable a)
+    public void AddInteractable(Interactable a)
     {
-        if (interactables.Contains(a))
+        if (interactables.Contains(a)) // Do not add an interactable twice
         {
-            //Debug.LogWarning("Tried to add interactable twice to same player: " + a);
             return;
         }
         interactables.Add(a);
     }
 
-    public void removeInteractable(Interactable a)
+    public void RemoveInteractable(Interactable a)
     {
         interactables.Remove(a);
     }
 
-    private void updateFocusedInteractable()
+    // Update the focused interactable based on distance from player
+    private void UpdateFocusedInteractable()
     {
-        if(interactables.Count == 0)
+        if(interactables.Count == 0) 
         {
-            if(focusedInteractable != null) // We are out of range to interact, remove the selected interactable
+            if (focusedInteractable != null) // The object we were focusing is no longer focusable
             {
                 focusedInteractable.Unfocus(this);
                 focusedInteractable = null;
             }
+            // Otherwise do nothing
             return;
         }
-        else if(interactables.Count == 1) // If there is only one interactable object choose that object
+        else if(interactables.Count == 1) // If there is only one interactable object select that object
         {
-            setFocusedInteractable(interactables[0]);
+            SetFocusedInteractable(interactables[0]);
             return;
         }
-        if(focusedInteractable == null)
+
+        // Lifted objects are top priority
+        if (liftedObject != null && focusedInteractable != liftedObject)
         {
-            removeInteractable(focusedInteractable);
+            SetFocusedInteractable(liftedObject.GetComponent<Interactable>());
+            return;
         }
 
-        //Lifted objects take top priority
-        if (liftingInteractable)
-        {
-            if (focusedInteractable == null)
-            {
-                liftingInteractable = false;
-                return;
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        //Get closest interactable otherwise
+        // Otherwise get closest interactable
         Interactable closest = focusedInteractable;
         float dist = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
         foreach (Interactable i in interactables)
@@ -217,10 +198,10 @@ public class PlayerStateController : MonoBehaviour
                 closest = i;
             }
         }
-        setFocusedInteractable(closest);
+        SetFocusedInteractable(closest);
     }
 
-    private void setFocusedInteractable(Interactable a)
+    private void SetFocusedInteractable(Interactable a)
     {
         if(focusedInteractable == a) { return; } // This is allready the focused interactable
         focusedInteractable?.Unfocus(this);
@@ -231,21 +212,18 @@ public class PlayerStateController : MonoBehaviour
     public void Lift(GameObject a)
     {
         liftedObject = a;
-        liftingInteractable = true;
         SetState(PlayerStates.Lifting);
     }
 
     public void Drop(GameObject a)
     {
         liftedObject = null;
-        liftingInteractable = false;
         SetState(PlayerStates.Free);
         if (!a.GetComponent<Interactable>().canInteract) // Check if we can still interact with the object
         {
-            removeInteractable(a.GetComponent<Interactable>());
+            RemoveInteractable(a.GetComponent<Interactable>());
         }
     }
-
 
     public Vector2 MoveInput { get => moveInput; }
     public Vector2 AimInput { get => aimInput; }

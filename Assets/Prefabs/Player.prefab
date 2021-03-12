@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactMat: {fileID: 0}
+  inventory: {fileID: 2090017730266697988}
   mesh: {fileID: 4245655479757749272}
 --- !u!114 &1291009955035072478
 MonoBehaviour:

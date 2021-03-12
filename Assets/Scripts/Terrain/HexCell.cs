@@ -56,6 +56,10 @@ public class HexCell : MonoBehaviour {
 
     private void Start()
 	{
+        if(mesh == null)
+        {
+            mesh = GetComponent<MeshRenderer>();
+        }
 		pertubValue = HexMetrics.SampleNoise(Position).y;
         mesh.material = materials[elevation];
 		hq = GameObject.Find("Base").transform;

@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Loot : Interactable
 {
-    private MeshRenderer mr;
+    public Material selectionMaterial;  // Selection / highlight material
+    private List<MeshRenderer> mr = new List<MeshRenderer>();          // All mesh renderers attached to the object
     [ReadOnly]
-    public bool carried = false;
-    private bool destroy = false;
+    public bool carried = false;    // Is the object being carried
+    private bool destroy = false;   // Set the object to be destroyed
     private Vector3 absorbTarget; // The position to be absorbed in
 
     private void Start()
     {
-        mr = GetComponent<MeshRenderer>();
+        mr.Add(GetComponent<MeshRenderer>());
     }
 
     public override void Interact(PlayerStateController player)
     {
-        StartCoroutine(SelectDelay(0.5f));
         if (!carried)
         {
             // Carry the loot!
@@ -44,6 +44,7 @@ public class Loot : Interactable
                 canInteract = false;
             }
             player.Drop(gameObject);
+            absorbTarget = transform.position + new Vector3(0, 3, 0); 
         }
     }
 
@@ -57,33 +58,77 @@ public class Loot : Interactable
         Unhighlight();
     }
 
-    private IEnumerator SelectDelay(float delay)
-    {
-        mr.materials[mr.materials.Length - 1].SetVector("HoloColor", Color.red);
-        yield return new WaitForSeconds(delay);
-        mr.materials[mr.materials.Length - 1].SetVector("HoloColor", selectionMaterial.GetVector("HoloColor"));
-    }
-
     public void Absorb()
     {
         // Set the object to be destroyed
-        destroy = true;
-        absorbTarget = transform.position + new Vector3(0, 3, 0);        
+        destroy = true;        
+    }
+
+    public void CancelAbsorb()
+    {
+        destroy = false;
     }
 
     private void Update()
     {
-        if (destroy && !canInteract)
+        if (destroy && !canInteract) // Destroy the loot with animation
         {
             transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
             if(Vector3.Distance(transform.position, absorbTarget) < 0.3f)
             {
-                mr.material.SetFloat("State", mr.material.GetFloat("State") + Time.deltaTime);
-                if (mr.material.GetFloat("State") / mr.material.GetFloat("Rate") > 1)
+                for(int y = 0; y < mr.Count; y++)
+                {
+                    mr[y].material.SetFloat("State", mr[y].material.GetFloat("State") + Time.deltaTime);
+                }
+                if (mr[0].material.GetFloat("State") / mr[0].material.GetFloat("Rate") > 1)
                 {
                     Destroy(gameObject);
                 }
             }
         }
     }
+
+    public void Highlight()
+    {
+        // Apply the hologram material on all existing meshes
+        for(int y = 0; y < mr.Count; y++)
+        {
+            if(mr[y] != null)
+            {
+                Material[] newMat = new Material[mr[y].materials.Length + 1];
+                for (int i = 0; i < newMat.Length; i++)
+                {
+                    if (i < newMat.Length - 1)
+                    {
+                        newMat[i] = mr[y].materials[i];
+                    }
+                    else
+                    {
+                        newMat[i] = selectionMaterial;
+                    }
+                    mr[y].materials = newMat;
+                }
+            }
+        }
+        
+    }
+
+    public void Unhighlight()
+    {
+        // Remove selection material from all meshes
+        for(int y = 0; y < mr.Count; y++)
+        {
+            if (mr[y] != null)
+            {
+                Material[] newMat = new Material[mr[y].materials.Length - 1];
+                for (int i = 0; i < newMat.Length; i++)
+                {
+                    newMat[i] = mr[y].materials[i];
+                }
+                mr[y].materials = newMat;
+            }
+        }
+    }
+
+    
 }

@@ -54,14 +54,14 @@ public class BaseController : MonoBehaviour
     {
         if (other.GetComponentInChildren<Loot>() && !loot.Contains(other.transform))
         {
-            loot.Add(other.GetComponentInChildren<Loot>().transform);
+            other.GetComponentInChildren<Loot>().Absorb();
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponentInChildren<Loot>())
         {
-            loot.Remove(other.transform);
+            other.GetComponentInChildren<Loot>().CancelAbsorb();
         }
     }
 

@@ -226,7 +226,6 @@ public class PlayerStateController : MonoBehaviour
         focusedInteractable?.Unfocus(this);
         a?.Focus(this);
         focusedInteractable = a;
-        a.GetComponent<MeshRenderer>().enabled = true;
     }
 
     public void Lift(GameObject a)

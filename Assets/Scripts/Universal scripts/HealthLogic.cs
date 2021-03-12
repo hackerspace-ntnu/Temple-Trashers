@@ -15,8 +15,9 @@ public class HealthLogic : MonoBehaviour
     {
         if (health <= input)
         {
-            SendMessage("Die");
-            //OnDeath?.Invoke();
+            //SendMessage("Die");
+            OnDeath?.Invoke();
+            Destroy(gameObject);
         }
         else
         {

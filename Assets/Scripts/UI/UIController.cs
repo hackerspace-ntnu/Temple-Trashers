@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     public TowerScript[] towers;
-    public FlexibleUIButton[] menuSegments;
+    public GameObject[] menuSegments;
     private List<GameObject> towersInMenu = new List<GameObject>();
 
 
@@ -15,7 +15,8 @@ public class UIController : MonoBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                menuSegments[i].setIcon(towers[i].icon);
+                menuSegments[i].GetComponentInChildren<SpriteRenderer>().sprite = towers[i].icon;
+                //menuSegments[i].setIcon(towers[i].icon);
             }
         }
     }

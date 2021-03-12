@@ -42,7 +42,7 @@ public class PlayerUi : MonoBehaviour
     //Finds which segment of the radialUi the control stick is pointing towards
     private void updatePos()
     {
-        if (state.CurrentState != PlayerStateController.PlayerStates.InTurretMenu) { Debug.Log("Er ikke i turretMenu, så  skyter tilbake"); return;}
+        if (state.CurrentState != PlayerStateController.PlayerStates.InTurretMenu) { Debug.Log("You seem to be in the wrong state for the UI"); return;}
         if (state.AimInput != Vector2.zero) {
             float angle = Mathf.Atan2(state.AimInput.x, state.AimInput.y)/Mathf.PI;
             angle *= 180; 

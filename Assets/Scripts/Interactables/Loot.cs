@@ -12,6 +12,7 @@ public class Loot : Interactable
     private Vector3 absorbTarget;       // The position to be absorbed in
     BaseController b;                   // The base
     private float dissolveState = 0;    // The current dissolve state
+    public Transform target;            // The ray target
 
     private void Start()
     {
@@ -75,7 +76,7 @@ public class Loot : Interactable
         if (destroy && !canInteract) // Destroy the loot properly (to be replaced with animation)
         {
             transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
-            if (Vector3.Distance(transform.position, absorbTarget) < 0.3f)
+            if (Vector3.Distance(transform.position, absorbTarget) < 0.7f)
             {
                 for(int y = 0; y < mr.Count; y++)
                 {
@@ -84,10 +85,12 @@ public class Loot : Interactable
                         if (mr[y].material.HasProperty("State")) // Check if the material has the correct property
                         {
                             mr[y].material.SetFloat("State", dissolveState); // Continue animation
+                            b.ArcLengthVFX(transform, 1 - dissolveState);
 
                             if (mr[0].material.GetFloat("State") / mr[0].material.GetFloat("Rate") > 1) // If the animation is done finish.
                             {
                                 b.crystals++;
+                                b.RemoveRayVFX(transform, 10f);
                                 Destroy(gameObject);
                             }
                         }

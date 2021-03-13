@@ -58,6 +58,13 @@ public class PlayerStateController : MonoBehaviour
 
     private void Die()
     {
+        // Drop anything we are carrying
+        if (liftedObject != null) 
+        {
+            liftedObject.GetComponent<Interactable>().Interact(this);
+            SetFocusedInteractable(null);
+
+        }
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
         CameraFocusController.Instance?.removeFocusObject(transform);
@@ -177,6 +184,10 @@ public class PlayerStateController : MonoBehaviour
         else if(interactables.Count == 1) // If there is only one interactable object select that object
         {
             SetFocusedInteractable(interactables[0]);
+            return;
+        }
+        else if(focusedInteractable == null) // Wait until we have at least one object to interact with
+        {
             return;
         }
 

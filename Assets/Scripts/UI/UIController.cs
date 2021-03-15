@@ -35,7 +35,7 @@ public class UIController : MonoBehaviour
     }
     public void highlightSegment(int index)
     {
-        LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseInOutBounce();
+        LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseLinear();
         menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
     }
     public void normalizeSegments()

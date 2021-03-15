@@ -37,6 +37,8 @@ public class PlayerUi : MonoBehaviour
         {
             ui.gameObject.SetActive(false);
         }
+        ui.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
+            Camera.main.transform.rotation * Vector3.up);
     }
     
     //Finds which segment of the radialUi the control stick is pointing towards
@@ -56,7 +58,13 @@ public class PlayerUi : MonoBehaviour
             {
                 if(angle > i * (360/uiSegmentAmount) && angle < (i+1)* (360 / uiSegmentAmount))
                 {
-                    selectedSegment = ui.GetComponent<UIController>().getTower(i);
+                   // if (selectedSegment && selectedSegment != ui.GetComponent<UIController>().getTower(i))
+                    //{
+
+                        ui.GetComponentInChildren<UIController>().normalizeSegments();
+                    //}
+                    ui.GetComponentInChildren<UIController>().highlightSegment(i);
+                    selectedSegment = ui.GetComponentInChildren<UIController>().getTower(i);
                 }
             }
 
@@ -64,6 +72,7 @@ public class PlayerUi : MonoBehaviour
         else
         {
             selectedSegment = null;
+            ui.GetComponentInChildren<UIController>().normalizeSegments();
         }
 
     }

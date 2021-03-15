@@ -8,6 +8,10 @@ public class shootLightning : MonoBehaviour
     public float damage;
     //public int maxTargets;
     private List<GameObject> ZappTargets = new List<GameObject>();
+
+    private List<GameObject> lightningboltPool = new List<GameObject>();
+
+
     public void shoot()
     {
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, LightningRadius);

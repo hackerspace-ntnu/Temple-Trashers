@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616d81097162c5b40a9ba5cef5a2ecdd, type: 3}
   m_Name: Lightning
   m_EditorClassIdentifier: 
-  towerName: 
-  cost: 0
-  tower: {fileID: 0}
+  towerName: Lightning Tower
+  cost: 20
+  tower: {fileID: 7425059109847644991, guid: 9677e5fb9e99ddf4bbf4000797a3847f, type: 3}
+  icon: {fileID: 21300000, guid: a3ab2cbdce5b9d54989e1093d4c59277, type: 3}

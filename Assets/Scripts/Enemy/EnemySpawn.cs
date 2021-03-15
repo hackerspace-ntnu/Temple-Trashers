@@ -11,11 +11,11 @@ public class EnemySpawn : MonoBehaviour
 
     //Time it takes to spawn enemies
     [Space(3)]
-    public float waitingForNextSpawn = 1;
-    public float theCountdown = 1;
+    public float respawnTime = 1;
+    private float theCountdown = 1;
 
     [Header("Enemy Variables")]
-    public float speed = 1f;
+    public float speed = 5f;
 
     void Update()
     {
@@ -24,7 +24,7 @@ public class EnemySpawn : MonoBehaviour
         if (theCountdown <= 0)
         {
             SpawnEnemy();
-            theCountdown = waitingForNextSpawn;
+            theCountdown = respawnTime;
         }
     }
     
@@ -43,6 +43,5 @@ public class EnemySpawn : MonoBehaviour
         enemy.transform.SetParent(this.transform);
 
         enemies++;
-        
     }
 }

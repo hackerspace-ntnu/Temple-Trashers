@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public List<SpriteRenderer> iconHolders;
     public Sprite highlightSprite;
     public Sprite normalSprite;
+    private GameObject selected;
 
 
     void Start()
@@ -23,7 +24,7 @@ public class UIController : MonoBehaviour
         }
     }
     //Gets the tower gameobject stored in the corresponding scriptableobject that the uisegments uses.
-    public GameObject getTower(int index)
+    public GameObject GetTower(int index)
     {
        for (int i = 0; i < menuSegments.Length; i++)
         {
@@ -32,21 +33,24 @@ public class UIController : MonoBehaviour
         return towersInMenu[index];
     }
     //Sets a single UI element to the highlight texture.
-    public void highlightSegment(int index)
+    public void HighlightSegment(int index)
     {
         LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseLinear();
         menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
+        selected = menuSegments[index];
     }
 
     //Sets all UI elements back to their non-highlighted textures.
-    public void normalizeSegments()
+    public void NormalizeSegments()
         
     {
         for (int i = 0; i < menuSegments.Length; i++)
         {
+            if (menuSegments[i] != selected) { 
             LeanTween.scale(menuSegments[i], new Vector3(1, 1, 1), 0.2f).setEaseLinear();
             menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
         }
-            
+        }
+
     }
 }

@@ -57,11 +57,11 @@ public class PlayerStateController : MonoBehaviour
                 }
                 break;
             case PlayerStates.InTurretMenu:
-                ui.select();
-
+                ui.Select();
+                motion.move();
                 if (!Select) {
-                    if (ui.getSelectedSegment()) {
-                        lift(ui.getSelectedSegment());
+                    if (ui.GetSelectedSegment()) {
+                        lift(ui.GetSelectedSegment());
                         }
                     else
                     {
@@ -77,7 +77,7 @@ public class PlayerStateController : MonoBehaviour
 
 
 
-    public void setStateFree()
+    public void SetStateFree()
     {
         SetState(PlayerStates.Free);
     }

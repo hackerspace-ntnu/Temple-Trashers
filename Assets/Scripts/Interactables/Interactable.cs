@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    public bool canInteract = true;
 
-    public virtual void focus(PlayerStateController player)
+    public virtual void Focus(PlayerStateController player)
     {
         Debug.Log("I am focused");
     }
 
-    public virtual void unFocus(PlayerStateController player)
+    public virtual void Unfocus(PlayerStateController player)
     {
         Debug.Log("I am unfocused (Aren't we all?)");
     }
 
-    public virtual void interact(PlayerStateController player)
+    public virtual void Interact(PlayerStateController player)
     {
         Debug.Log("Player interacted");
     }

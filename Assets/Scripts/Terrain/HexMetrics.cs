@@ -92,6 +92,10 @@ public static class HexMetrics {
 	public static Vector4 SampleNoise(Vector3 position)
     {
 		//return Mathf.PerlinNoise(position.x/scale, position.z/scale);
+        if(noiseSource == null)
+        {
+            noiseSource = GameObject.Find("Terrain").GetComponent<HexGrid>().noise;
+        }
 		return noiseSource.GetPixelBilinear(
 			position.x * noiseScale, 
 			position.z * noiseScale

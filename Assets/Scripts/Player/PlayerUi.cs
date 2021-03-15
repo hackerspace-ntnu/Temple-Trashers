@@ -19,8 +19,6 @@ public class PlayerUi : MonoBehaviour
     void Start()
     {
         state = GetComponent<PlayerStateController>();
-        
-        //uiSegments =
     }
 
     public GameObject getSelectedSegment()
@@ -30,13 +28,15 @@ public class PlayerUi : MonoBehaviour
 
     public void select()
     {
+        //Turns on the UI
         ui.gameObject.SetActive(true);
         updatePos();
-        ui.gameObject.SetActive(true);
+        //Turns off the UI if button no longer held
         if (!state.Select)
         {
             ui.gameObject.SetActive(false);
         }
+        //Points the UI to the main camera
         ui.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
             Camera.main.transform.rotation * Vector3.up);
     }
@@ -58,17 +58,17 @@ public class PlayerUi : MonoBehaviour
             {
                 if(angle > i * (360/uiSegmentAmount) && angle < (i+1)* (360 / uiSegmentAmount))
                 {
-                   // if (selectedSegment && selectedSegment != ui.GetComponent<UIController>().getTower(i))
-                    //{
-
-                        ui.GetComponentInChildren<UIController>().normalizeSegments();
-                    //}
+                    //Sets all ui segments to their normal non-highlighted texture
+                    ui.GetComponentInChildren<UIController>().normalizeSegments();
+                    //Highlights the selected segment
                     ui.GetComponentInChildren<UIController>().highlightSegment(i);
+                    //Sets the current selected tower gameobject derived from the corresponding scriptable object
                     selectedSegment = ui.GetComponentInChildren<UIController>().getTower(i);
                 }
             }
 
         }
+        //The controller points to nothing
         else
         {
             selectedSegment = null;

@@ -61,7 +61,7 @@ public class PlayerStateController : MonoBehaviour
                 motion.move();
                 if (!Select) {
                     if (ui.GetSelectedSegment()) {
-                        lift(ui.GetSelectedSegment());
+                        Lift(ui.GetSelectedSegment());
                         }
                     else
                     {

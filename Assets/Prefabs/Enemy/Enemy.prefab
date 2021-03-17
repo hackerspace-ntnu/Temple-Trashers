@@ -225,7 +225,7 @@ MonoBehaviour:
   playerBase: {fileID: 0}
   currentTarget: {fileID: 0}
   damageDealt: 1
-  speed: 1
+  speed: 10
 --- !u!136 &490591066213595821
 CapsuleCollider:
   m_ObjectHideFlags: 0

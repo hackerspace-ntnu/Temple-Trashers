@@ -689,6 +689,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8637078598552028506}
   - component: {fileID: 8637078598552028505}
+  - component: {fileID: 8942675849461820197}
   m_Layer: 0
   m_Name: AxeTurret
   m_TagString: Untagged
@@ -723,12 +724,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2bc224978c68d4da8990702c6562b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 1
   handAxe: {fileID: 8637078597895983120}
   totemAxe: {fileID: 1454252028979051526}
   spawnPoint: {fileID: 8637078598880068123}
   axeProjectilePrefab: {fileID: 4457567029400409728, guid: 9d91c902236040645aee6f6bcd82b99f, type: 3}
   projectileSpeed: 20
   forwardTransform: {fileID: 929849385462332844}
+  rotationAxis: {fileID: 929849385462332844}
+--- !u!136 &8942675849461820197
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8637078598552028507}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.71
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.74, z: 0}
 --- !u!1 &8637078598880068124
 GameObject:
   m_ObjectHideFlags: 0

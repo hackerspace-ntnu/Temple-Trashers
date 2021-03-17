@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8607017613604087971}
   - component: {fileID: 6875339549223077291}
   - component: {fileID: 6071318723223736320}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AxeProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,8 +46,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.5, y: 0.9, z: 1.5}
+  m_Center: {x: 0.38, y: 0, z: -0.49}
 --- !u!95 &8607017613604087971
 Animator:
   serializedVersion: 3

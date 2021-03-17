@@ -63,7 +63,8 @@ public class Loot : Interactable
     {
         // Set the object to be destroyed
         this.b = b;
-        destroy = true;        
+        destroy = true;
+        GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
     }
 
     public void CancelAbsorb()

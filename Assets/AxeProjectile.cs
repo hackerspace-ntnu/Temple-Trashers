@@ -15,6 +15,7 @@ public class AxeProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.GetComponent<HealthLogic>())
         {
             other.gameObject.GetComponent<HealthLogic>().DealDamage(damage);

@@ -153,21 +153,18 @@ public class PlayerStateController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.GetComponent<Interactable>())
+        Interactable inter = other.GetComponentInParent<Interactable>();
+        if (inter != null && inter.canInteract)
         {
-            if (other.GetComponent<Interactable>().canInteract)
-            {
-                AddInteractable(other.GetComponent<Interactable>());
-            }
+            AddInteractable(inter); 
         }    
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Interactable>())
+        if (other.GetComponentInParent<Interactable>())
         {
-            RemoveInteractable(other.GetComponent<Interactable>());
+            RemoveInteractable(other.GetComponentInParent<Interactable>());
         }
     }
 

@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7e71529f907d85044a7c0ca8a7ded427, type: 2}
+  - {fileID: -6478536213147159724, guid: 05ee4b0994cd44aa4b897b92cc902ae4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,11 +128,12 @@ MonoBehaviour:
   coordinates:
     x: 0
     z: 0
+  isOccupied: 0
+  occupier: {fileID: 0}
   mesh: {fileID: 816763163768567949}
   pertubValue: 0.63529414
-  placedTurret: 0
   materials:
-  - {fileID: -6478536213147159724, guid: 05ee4b0994cd44aa4b897b92cc902ae4, type: 3}
+  - {fileID: 2100000, guid: 919257dcdf876a846b6ac6a24b222022, type: 2}
   animationScale: 0.1
   neighbors:
   - {fileID: 0}

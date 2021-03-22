@@ -15,4 +15,4 @@ MonoBehaviour:
   towerName: Wheel Tower
   cost: 10
   tower: {fileID: 2983117196373584133, guid: d9c9ddbe5ecd2cf4cae3474198d951df, type: 3}
-  icon: {fileID: 21300000, guid: 3b3228b7e3c795e4fbef743f62da0202, type: 3}
+  icon: {fileID: 21300000, guid: f80fae3def271ef40a6d22ba620a34bf, type: 3}

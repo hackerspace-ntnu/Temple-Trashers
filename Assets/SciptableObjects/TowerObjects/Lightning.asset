@@ -15,4 +15,4 @@ MonoBehaviour:
   towerName: Lightning Tower
   cost: 20
   tower: {fileID: 7425059109847644991, guid: 9677e5fb9e99ddf4bbf4000797a3847f, type: 3}
-  icon: {fileID: 21300000, guid: a3ab2cbdce5b9d54989e1093d4c59277, type: 3}
+  icon: {fileID: 21300000, guid: fa8af8745608b524f9f1ec52216dbb43, type: 3}

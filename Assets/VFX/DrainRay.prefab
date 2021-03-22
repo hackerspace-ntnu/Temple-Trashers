@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 850085007610440996}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: -4.35, y: 2.1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2977432110045038672}
@@ -88,12 +88,12 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 1.7070961, y: 0.9899998, z: 0.80541646}
+      - m_Value: {x: -4.35, y: 14.860001, z: 1}
         m_Name: Target
         m_Overridden: 1
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 1.4351999, y: 2.2963197, z: 27.412317, w: 0}
+      - m_Value: {x: 5.7407994, y: 9.185279, z: 109.64927, w: 0}
         m_Name: Color
         m_Overridden: 1
     m_Uint:
@@ -129,6 +129,8 @@ VFXRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

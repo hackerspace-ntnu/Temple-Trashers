@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Loot : Interactable
+public class Loot : Towers
 {
     public Material selectionMaterial;  // Selection / highlight material
     private List<MeshRenderer> mr = new List<MeshRenderer>();          // All mesh renderers attached to the object

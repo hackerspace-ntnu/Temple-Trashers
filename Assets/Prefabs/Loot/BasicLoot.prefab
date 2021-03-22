@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8559068543562805916}
   m_Layer: 0
   m_Name: BasicLoot
-  m_TagString: Untagged
+  m_TagString: Loot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

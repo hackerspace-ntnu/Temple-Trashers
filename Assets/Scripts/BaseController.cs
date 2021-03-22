@@ -54,10 +54,11 @@ public class BaseController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Loot loot = other.GetComponentInChildren<Loot>();
-        if (loot != null)
+        
+        if (other.tag == "Loot")
         {
-           loot.Absorb(this);
+            Loot loot = other.GetComponent<Loot>();
+            loot.Absorb(this);
 
             // Add VFX
             if(GetIdVFX(other.transform) == -1) // Check that we have not added one already
@@ -76,9 +77,10 @@ public class BaseController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        Loot loot = other.GetComponentInChildren<Loot>();
-        if (loot != null)
+        
+        if (other.tag == "Loot")
         {
+            Loot loot = other.GetComponent<Loot>();
             // Stop the absorbtion
             loot.CancelAbsorb();
             // Remove VFX

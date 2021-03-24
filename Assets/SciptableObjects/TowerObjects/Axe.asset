@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 616d81097162c5b40a9ba5cef5a2ecdd, type: 3}
-  m_Name: Wheel
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  towerName: Wheel Tower
+  towerName: Axe Tower
   cost: 10
-  tower: {fileID: 2983117196373584133, guid: d9c9ddbe5ecd2cf4cae3474198d951df, type: 3}
+  tower: {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
   icon: {fileID: 21300000, guid: 3b3228b7e3c795e4fbef743f62da0202, type: 3}

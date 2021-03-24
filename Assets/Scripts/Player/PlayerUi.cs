@@ -51,7 +51,11 @@ public class PlayerUi : MonoBehaviour
         if (state.AimInput != Vector2.zero) {
             float angle = Mathf.Atan2(state.AimInput.x, state.AimInput.y)/Mathf.PI;
             angle *= 180; 
-            angle += 45f;
+
+            //Degree-tilt on segments
+            angle -= 45f;
+
+            //absoluteValue of angle
             if (angle < 0)
             {
                 angle += 360;

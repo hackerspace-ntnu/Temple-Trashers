@@ -30,15 +30,12 @@ public class Loot : Interactable
             // Carry the loot!
             carried = true;
             player.Lift(gameObject);
-            transform.SetParent(player.transform);
-            transform.position = player.inventory.position;
+            
         }
         else
         {
             // Drop the loot!
             carried = false;
-            transform.parent = null;
-
             // If i'm to be destroyed, prevent me from being interacted with
             if (destroy) 
             {

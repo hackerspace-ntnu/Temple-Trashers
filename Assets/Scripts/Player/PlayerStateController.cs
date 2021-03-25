@@ -41,11 +41,13 @@ public class PlayerStateController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        UpdateFocusedInteractable();
         switch (currentState)
         {
             case PlayerStates.InAnimation:
                 break;
             case PlayerStates.Lifting:
+                //global
                 motion.move();
                 break;
             case PlayerStates.Dead:
@@ -53,27 +55,32 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 if (Select){ SetState(PlayerStates.InTurretMenu);}
                 else { 
+                //global
                 motion.move();
                 }
                 break;
             case PlayerStates.InTurretMenu:
+                //global
                 ui.Select();
                 motion.move();
-                if (!Select) {
-                    if (ui.GetSelectedSegment()) {
-                        Lift(ui.GetSelectedSegment());
-                        }
-                    else
-                    {
-                        SetState(PlayerStates.Free);
-                    }
+                break;
+            case PlayerStates.Building:
+                //global
+                motion.move();
+                //case specific
+                if (back)
+                {
+                    RemoveInteractable(liftedObject.GetComponent<Interactable>());
+                    Destroy(liftedObject);
+                    liftedObject = null;
+                    SetState(PlayerStates.Free);
                 }
                 break;
             default:
                 break;
         }
 
-        UpdateFocusedInteractable();        
+            
     }
 
 
@@ -99,7 +106,7 @@ public class PlayerStateController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void SetState(PlayerStates state)
+    public void SetState(PlayerStates state)
     {
         if(currentState == state) { return; }
 
@@ -120,6 +127,10 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 break;
             case PlayerStates.InTurretMenu:
+
+                break;
+            case PlayerStates.Building:
+                AddInteractable(liftedObject.GetComponent<Interactable>());
                 break;
             default:
                 break;
@@ -139,6 +150,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Aim"].canceled += ctx => aimInput = Vector2.zero;
         input.actions["Interact"].performed += ctx => OnInteract();
         input.actions["Back"].performed += ctx => back = true;
+        input.actions["Back"].canceled += ctx => back = false;
         input.actions["Select"].performed += ctx => select = true;
         input.actions["Select"].canceled += ctx => select = false;
     }
@@ -148,6 +160,12 @@ public class PlayerStateController : MonoBehaviour
         if(focusedInteractable != null)
         {
             focusedInteractable.Interact(this); // interact with the current target
+        }
+
+        if(currentState == PlayerStates.Building)
+        {
+            // Build the turret we are holding
+            Drop(focusedInteractable.gameObject);
         }
     }
 
@@ -178,6 +196,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Aim"].canceled -= ctx => aimInput = Vector2.zero;
         input.actions["Interact"].performed -= ctx => interact = true;
         input.actions["Back"].performed -= ctx => back = true;
+        input.actions["Back"].performed -= ctx => back = false;
         input.actions["Select"].performed -= ctx => select = true;
         input.actions["Select"].canceled -= ctx => select = false;
     }
@@ -253,11 +272,14 @@ public class PlayerStateController : MonoBehaviour
     {
         liftedObject = a;
         SetState(PlayerStates.Lifting);
+        a.transform.SetParent(transform);
+        a.transform.position = inventory.position;
     }
 
     public void Drop(GameObject a)
     {
         liftedObject = null;
+        a.transform.parent = null;
         SetState(PlayerStates.Free);
         if (!a.GetComponent<Interactable>().canInteract) // Check if we can still interact with the object
         {

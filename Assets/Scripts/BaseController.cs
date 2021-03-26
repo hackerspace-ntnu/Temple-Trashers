@@ -54,13 +54,14 @@ public class BaseController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Loot loot = other.GetComponentInChildren<Loot>();
+        PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
+        Loot loot = player.GetComponentInChildren<Loot>();
         if (loot != null)
         {
            loot.Absorb(this);
 
             // Add VFX
-            if(GetIdVFX(other.transform) == -1) // Check that we have not added one already
+            if(GetIdVFX(player.transform) == -1) // Check that we have not added one already
             {
                 GameObject ray = Instantiate(drainRay, transform.position, transform.rotation);
                 ray.transform.SetParent(transform);
@@ -76,13 +77,14 @@ public class BaseController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        Loot loot = other.GetComponentInChildren<Loot>();
+        PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
+        Loot loot = player.GetComponentInChildren<Loot>();
         if (loot != null)
         {
             // Stop the absorbtion
             loot.CancelAbsorb();
             // Remove VFX
-            RemoveRayVFX(other.transform, 0f);            
+            RemoveRayVFX(player.transform, 0f);            
         }
     }
     
@@ -113,7 +115,7 @@ public class BaseController : MonoBehaviour
         }
         
     }
-
+    // Returns -1 if t does not contain loot, -2 if loot was not registered
     public int GetIdVFX(Transform t)
     {
         Transform target = t.GetComponentInChildren<Loot>().target;

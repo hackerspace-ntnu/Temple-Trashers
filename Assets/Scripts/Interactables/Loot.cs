@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Loot : Towers
+public class Loot : Interactable
 {
     public Material selectionMaterial;  // Selection / highlight material
     private List<MeshRenderer> mr = new List<MeshRenderer>();          // All mesh renderers attached to the object
@@ -16,7 +16,6 @@ public class Loot : Towers
 
     private void Start()
     {
-        mr.Add(GetComponent<MeshRenderer>());
         foreach(MeshRenderer childRenderer in GetComponentsInChildren<MeshRenderer>())
         {
             mr.Add(childRenderer);
@@ -103,15 +102,15 @@ public class Loot : Towers
             }
         }
     }
-
+    private Material[] newMat;
     public void Highlight()
     {
-        // Apply the hologram material on all existing meshes
+        // Add the hologram material on all existing meshes
         for(int y = 0; y < mr.Count; y++)
         {
             if(mr[y] != null)
             {
-                Material[] newMat = new Material[mr[y].materials.Length + 1];
+                newMat = new Material[mr[y].materials.Length + 1];
                 for (int i = 0; i < newMat.Length; i++)
                 {
                     if (i < newMat.Length - 1)
@@ -136,7 +135,7 @@ public class Loot : Towers
         {
             if (mr[y] != null)
             {
-                Material[] newMat = new Material[mr[y].materials.Length - 1];
+                newMat = new Material[mr[y].materials.Length - 1];
                 for (int i = 0; i < newMat.Length; i++)
                 {
                     newMat[i] = mr[y].materials[i];

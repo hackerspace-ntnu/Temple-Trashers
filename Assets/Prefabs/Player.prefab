@@ -700,7 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2090017730266697988}
   - component: {fileID: 6700271196105514323}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Luggage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

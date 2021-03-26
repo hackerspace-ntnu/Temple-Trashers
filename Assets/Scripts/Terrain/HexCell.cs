@@ -83,4 +83,10 @@ public class HexCell : MonoBehaviour {
     {
 		return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
     }
+
+    public void SetTower(GameObject tower)
+    {
+        isOccupied = true;
+        occupier = tower;
+    }
 }

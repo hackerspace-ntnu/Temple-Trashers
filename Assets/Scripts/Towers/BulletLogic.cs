@@ -14,21 +14,20 @@ public class BulletLogic : MonoBehaviour
         GameObject.Destroy(gameObject, 10.0f);
     }
     //Get-ers and Set-ers
-    public void setSpeed(float newSpeed)
+    public void SetSpeed(float newSpeed)
     {
         bulletSpeed = newSpeed;
     }
-
-    public float getSpeed()
+    public float GetSpeed()
     {
         return bulletSpeed;
     }
 
-    public void setDamage(float bulletDamage)
+    public void SetDamage(float bulletDamage)
     {
         damage = bulletDamage;
     }
-    public float getDamage()
+    public float GetDamage()
     {
         return damage;
     }
@@ -39,7 +38,6 @@ public class BulletLogic : MonoBehaviour
         if (other.GetComponent<HealthLogic>())
         {
             other.gameObject.GetComponent<HealthLogic>().DealDamage(damage);
-            
         }
         GameObject.Destroy(gameObject);
     }
@@ -49,6 +47,5 @@ public class BulletLogic : MonoBehaviour
     {
         //move the bullet with specified speed
         transform.position += transform.forward *bulletSpeed * Time.deltaTime;
-       
     }
 }

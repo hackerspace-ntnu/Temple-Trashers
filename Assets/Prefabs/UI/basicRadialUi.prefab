@@ -48,8 +48,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
   - {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
   menuSegments:
-  - {fileID: 4318313169925171475}
   - {fileID: 1101525838174688385}
+  - {fileID: 4318313169925171475}
   iconHolders:
   - {fileID: 7132063826683214633}
   - {fileID: 4633515314931662736}
@@ -326,7 +326,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7485679914231017279}
-  m_LocalRotation: {x: -0.38268343, y: 0.92387956, z: -0, w: 0}
+  m_LocalRotation: {x: -0.3826879, y: 0.9238777, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

@@ -141,6 +141,7 @@ MonoBehaviour:
   state: {fileID: 0}
   ui: {fileID: 4069506910156550759}
   uiSegmentAmount: 2
+  segmentTiltDegrees: -225
 --- !u!1 &127912581477815038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,7 +1099,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7251295758811238743}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6406079784938845286
 GameObject:

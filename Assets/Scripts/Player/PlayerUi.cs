@@ -9,6 +9,7 @@ public class PlayerUi : MonoBehaviour
     private PlayerStateController state = null;
     public GameObject ui;
     public int uiSegmentAmount = 4;
+    public float segmentTiltDegrees;
     private Transform mainCameraTransform;
 
 
@@ -62,8 +63,8 @@ public class PlayerUi : MonoBehaviour
             float angle = Mathf.Atan2(state.AimInput.x, state.AimInput.y)/Mathf.PI;
             angle *= 180; 
 
-            //Degree-tilt on segments
-            angle -= 45f;
+            //Degree-tilt on segments to accomadate for tilted menus.
+            angle += segmentTiltDegrees;
 
             //absoluteValue of angle
             if (angle < 0)

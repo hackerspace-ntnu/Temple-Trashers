@@ -15,9 +15,8 @@ public class TurretInput : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            print("WaitAndPrint " + Time.time);
-
-            PlaceTower(tower, transform.position);
+            //print("WaitAndPrint " + Time.time);
+            //PlaceTower(tower, transform.position);
         }
     }
     void Start()
@@ -39,13 +38,15 @@ public class TurretInput : MonoBehaviour
         }
         return player.AimInput;
     }
+
     public PlayerStateController.PlayerStates CurrentPlayerState()
     {
         return player.CurrentState;
     }
+
     public void PlaceTower(GameObject tower, Vector3 position) {
         HexCell cell = hexGrid.GetCell(position);
         cell.isOccupied = true;
-        cell.occupier = Instantiate(tower, cell.transform.position, cell.transform.rotation);
+        cell.occupier = Instantiate(tower, cell.transform);
     }
 }

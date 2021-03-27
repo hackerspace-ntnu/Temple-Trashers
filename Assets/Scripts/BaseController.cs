@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.VFX;
 
 public class BaseController : MonoBehaviour
 {
@@ -18,6 +20,13 @@ public class BaseController : MonoBehaviour
 
     // Death flag
     private bool dead = false;
+
+    // Stored Resources
+    public int crystals = 0;
+
+    // Lightning arc
+    public GameObject drainRay;
+    private List<Ray> rays = new List<Ray>();
 
 
     void Awake()
@@ -42,4 +51,98 @@ public class BaseController : MonoBehaviour
         dead = true;
     }
     public Transform SpawnPoint { get => spawnPoint; }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.tag == "Loot")
+        {
+            Loot loot = other.GetComponent<Loot>();
+            loot.Absorb(this);
+
+            // Add VFX
+            if(GetIdVFX(other.transform) == -1) // Check that we have not added one already
+            {
+                GameObject ray = Instantiate(drainRay, transform.position, transform.rotation);
+                ray.transform.SetParent(transform);
+
+                Transform target = ray.GetComponentsInChildren<Transform>()[1];
+                target.SetParent(loot.transform);
+                target.localPosition = Vector3.zero;
+
+                rays.Add(new Ray(ray.transform, target));
+                loot.target = target;
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        
+        if (other.tag == "Loot")
+        {
+            Loot loot = other.GetComponent<Loot>();
+            // Stop the absorbtion
+            loot.CancelAbsorb();
+            // Remove VFX
+            RemoveRayVFX(other.transform, 0f);            
+        }
+    }
+    
+    public void RemoveRayVFX(Transform target, float delay)
+    {
+        int i = GetIdVFX(target);
+        if(i >= 0)
+        {
+            Transform t = rays[i].target;
+            Transform r = rays[i].ray;
+            rays.RemoveAt(i);
+            Destroy(r.gameObject, delay);
+            Destroy(t.gameObject, delay);
+        }
+    }
+
+    public void ArcLengthVFX(Transform target, float change)
+    {
+        int i = GetIdVFX(target);
+        if(i >= 0)
+        {
+            Transform r = rays[i].ray;
+            r.GetComponent<VisualEffect>().SetFloat("Length", change);
+            if (change <= 0.1)
+            {
+                r.GetComponent<VisualEffect>().SendEvent("OnDie");
+            }
+        }
+        
+    }
+
+    public int GetIdVFX(Transform t)
+    {
+        Transform target = t.GetComponentInChildren<Loot>().target;
+        if(target != null)
+        {
+            for (int i = 0; i < rays.Count; i++)
+            {
+                if (rays[i].target == target)
+                {
+                    return i;
+                }
+            }
+            return -2;
+        }
+        return -1;
+    }
 }
+
+public struct Ray
+{
+    public Transform ray;
+    public Transform target;
+
+    public Ray(Transform Ray, Transform Target)
+    {
+        ray = Ray;
+        target = Target;
+    }
+}
+

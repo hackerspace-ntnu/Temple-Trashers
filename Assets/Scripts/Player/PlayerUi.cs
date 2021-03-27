@@ -38,6 +38,16 @@ public class PlayerUi : MonoBehaviour
         if (!state.Select)
         {
             ui.gameObject.SetActive(false);
+            if (GetSelectedSegment())
+            {
+                GameObject spawnedTower = Instantiate(GetSelectedSegment());
+                state.Lift(spawnedTower);
+                state.SetState(PlayerStateController.PlayerStates.Building);
+            }
+            else
+            {
+                state.SetState(PlayerStateController.PlayerStates.Free);
+            }
         }
         //Points the UI to the main camera
         ui.transform.LookAt(transform.position + mainCameraTransform.rotation * Vector3.forward,

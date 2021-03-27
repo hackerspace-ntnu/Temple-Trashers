@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateController : MonoBehaviour
 {
-    private HealthLogic health;
-    private PlayerStates currentState = PlayerStates.Free;
-    private PlayerInput input;
+    private HealthLogic health; // Refrence to the health script
+    private PlayerStates currentState = PlayerStates.Free; // The current player state
+    private PlayerInput input;  // Controller input
     private PlayerManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
@@ -15,10 +15,10 @@ public class PlayerStateController : MonoBehaviour
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
 
-    private List<Interactable> interactables = new List<Interactable>();
-    private Interactable focusedInteractable;
-    private bool liftingInteractable = false;
-    private GameObject liftedObject;
+    private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
+    private Interactable focusedInteractable;   // The current focused interactable
+    private GameObject liftedObject;            // Object being lifted
+    public Transform inventory;                 // Where items are carried
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
@@ -41,11 +41,13 @@ public class PlayerStateController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        UpdateFocusedInteractable();
         switch (currentState)
         {
             case PlayerStates.InAnimation:
                 break;
             case PlayerStates.Lifting:
+                //global
                 motion.move();
                 break;
             case PlayerStates.Dead:
@@ -53,25 +55,32 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 if (Select){ SetState(PlayerStates.InTurretMenu);}
                 else { 
+                //global
                 motion.move();
                 }
                 break;
             case PlayerStates.InTurretMenu:
+                //global
                 ui.Select();
                 motion.move();
-                if (!Select) {
-                    if (ui.GetSelectedSegment()) {
-                        lift(ui.GetSelectedSegment());
-                        }
-                    else
-                    {
-                        SetState(PlayerStates.Free);
-                    }
+                break;
+            case PlayerStates.Building:
+                //global
+                motion.move();
+                //case specific
+                if (back)
+                {
+                    RemoveInteractable(liftedObject.GetComponent<Interactable>());
+                    Destroy(liftedObject);
+                    liftedObject = null;
+                    SetState(PlayerStates.Free);
                 }
                 break;
             default:
                 break;
         }
+
+            
     }
 
 
@@ -84,13 +93,20 @@ public class PlayerStateController : MonoBehaviour
 
     private void Die()
     {
+        // Drop anything we are carrying
+        if (liftedObject != null) 
+        {
+            liftedObject.GetComponent<Interactable>().Interact(this);
+            SetFocusedInteractable(null);
+
+        }
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
         CameraFocusController.Instance?.removeFocusObject(transform);
         Destroy(gameObject);
     }
 
-    private void SetState(PlayerStates state)
+    public void SetState(PlayerStates state)
     {
         if(currentState == state) { return; }
 
@@ -111,6 +127,10 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 break;
             case PlayerStates.InTurretMenu:
+
+                break;
+            case PlayerStates.Building:
+                AddInteractable(liftedObject.GetComponent<Interactable>());
                 break;
             default:
                 break;
@@ -128,10 +148,42 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Move"].canceled += ctx => moveInput = Vector2.zero;
         input.actions["Aim"].performed += ctx => aimInput = ctx.ReadValue<Vector2>();
         input.actions["Aim"].canceled += ctx => aimInput = Vector2.zero;
-        input.actions["Interact"].performed += ctx => interact = true;
+        input.actions["Interact"].performed += ctx => OnInteract();
         input.actions["Back"].performed += ctx => back = true;
+        input.actions["Back"].canceled += ctx => back = false;
         input.actions["Select"].performed += ctx => select = true;
         input.actions["Select"].canceled += ctx => select = false;
+    }
+
+    private void OnInteract()   // Gets called when interact button is pressed
+    {
+        if(focusedInteractable != null)
+        {
+            focusedInteractable.Interact(this); // interact with the current target
+        }
+
+        if(currentState == PlayerStates.Building)
+        {
+            // Build the turret we are holding
+            Drop(focusedInteractable.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Interactable inter = other.GetComponentInParent<Interactable>();
+        if (inter != null && inter.canInteract)
+        {
+            AddInteractable(inter); 
+        }    
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponentInParent<Interactable>())
+        {
+            RemoveInteractable(other.GetComponentInParent<Interactable>());
+        }
     }
 
     public PlayerStates CurrentState { get => currentState; }
@@ -144,42 +196,57 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Aim"].canceled -= ctx => aimInput = Vector2.zero;
         input.actions["Interact"].performed -= ctx => interact = true;
         input.actions["Back"].performed -= ctx => back = true;
+        input.actions["Back"].performed -= ctx => back = false;
         input.actions["Select"].performed -= ctx => select = true;
         input.actions["Select"].canceled -= ctx => select = false;
     }
 
 
-    public void addInteractable(Interactable a)
+    public void AddInteractable(Interactable a)
     {
-        if (interactables.Contains(a))
+        if (interactables.Contains(a)) // Do not add an interactable twice
         {
-            Debug.LogWarning("Tried to add interactable twice to same player: " + a);
             return;
         }
         interactables.Add(a);
     }
 
-    public void removeInteractable(Interactable a)
+    public void RemoveInteractable(Interactable a)
     {
         interactables.Remove(a);
     }
 
-    private void updateFocusedInteractable()
+    // Update the focused interactable based on distance from player
+    private void UpdateFocusedInteractable()
     {
-        //Lifted objects take top priority
-        if (liftingInteractable)
+        if(interactables.Count == 0) 
         {
-            if (focusedInteractable == null)
+            if (focusedInteractable != null) // The object we were focusing is no longer focusable
             {
-                liftingInteractable = false;
+                focusedInteractable.Unfocus(this);
+                focusedInteractable = null;
             }
-            else
-            {
-                return;
-            }
+            // Otherwise do nothing
+            return;
+        }
+        else if(interactables.Count == 1) // If there is only one interactable object select that object
+        {
+            SetFocusedInteractable(interactables[0]);
+            return;
+        }
+        else if(focusedInteractable == null) // Wait until we have at least one object to interact with
+        {
+            return;
         }
 
-        //Get closest interactable otherwise
+        // Lifted objects are top priority
+        if (liftedObject != null && focusedInteractable != liftedObject)
+        {
+            SetFocusedInteractable(liftedObject.GetComponent<Interactable>());
+            return;
+        }
+
+        // Otherwise get closest interactable
         Interactable closest = focusedInteractable;
         float dist = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
         foreach (Interactable i in interactables)
@@ -190,24 +257,35 @@ public class PlayerStateController : MonoBehaviour
                 closest = i;
             }
         }
-        setFocusedInteractable(closest);
-    }
-    private void setFocusedInteractable(Interactable a)
-    {
-        if(focusedInteractable == a) { return; }
-        focusedInteractable?.unFocus(this);
-        a?.focus(this);
-        focusedInteractable = a;
-    }
-    public void lift(GameObject a)
-    {
-        liftedObject = a;
-        setFocusedInteractable(a.GetComponent<Interactable>());
-        liftingInteractable = true;
-        SetState(PlayerStates.Lifting);
-        //Might set script to remove rigidbody of lifted object
+        SetFocusedInteractable(closest);
     }
 
+    private void SetFocusedInteractable(Interactable a)
+    {
+        if(focusedInteractable == a) { return; } // This is allready the focused interactable
+        focusedInteractable?.Unfocus(this);
+        a?.Focus(this);
+        focusedInteractable = a;
+    }
+
+    public void Lift(GameObject a)
+    {
+        liftedObject = a;
+        SetState(PlayerStates.Lifting);
+        a.transform.SetParent(transform);
+        a.transform.position = inventory.position;
+    }
+
+    public void Drop(GameObject a)
+    {
+        liftedObject = null;
+        a.transform.parent = null;
+        SetState(PlayerStates.Free);
+        if (!a.GetComponent<Interactable>().canInteract) // Check if we can still interact with the object
+        {
+            RemoveInteractable(a.GetComponent<Interactable>());
+        }
+    }
 
     public Vector2 MoveInput { get => moveInput; }
     public Vector2 AimInput { get => aimInput; }

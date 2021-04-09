@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
         {
             for (int i = 0; i < towers.Length; i++)
             {
+                menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
                 iconHolders[i].sprite = towers[i].icon;
             }
         }
@@ -36,6 +37,7 @@ public class UIController : MonoBehaviour
     public void HighlightSegment(int index)
     {
         LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseLinear();
+        iconHolders[index].sprite = towers[index].iconHighlight;
         menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
         selected = menuSegments[index];
     }
@@ -48,6 +50,7 @@ public class UIController : MonoBehaviour
         {
             if (menuSegments[i] != selected) { 
             LeanTween.scale(menuSegments[i], new Vector3(1, 1, 1), 0.2f).setEaseLinear();
+            iconHolders[i].sprite = towers[i].icon;
             menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
         }
         }

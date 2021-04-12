@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerName: Axe Tower
   cost: 10
-  tower: {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
-  icon: {fileID: 21300000, guid: 3b3228b7e3c795e4fbef743f62da0202, type: 3}
+  tower: {fileID: 3049860759449414087, guid: 2a1e6d3988707374cb7a56af40c64f56, type: 3}
+  icon: {fileID: 21300000, guid: f80fae3def271ef40a6d22ba620a34bf, type: 3}
+  iconHighlight: {fileID: 21300000, guid: 19685a87494c2494fb77214dd0805ae5, type: 3}

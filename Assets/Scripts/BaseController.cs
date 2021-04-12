@@ -57,8 +57,8 @@ public class BaseController : MonoBehaviour
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player.GetComponentInChildren<Loot>();
         if (loot != null)
-        {
-           loot.Absorb(this);
+            {
+            loot.Absorb(this);
 
             // Add VFX
             if(GetIdVFX(player.transform) == -1) // Check that we have not added one already

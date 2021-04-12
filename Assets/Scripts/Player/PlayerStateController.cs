@@ -45,6 +45,7 @@ public class PlayerStateController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        UpdateFocusedInteractable();
         switch (currentState)
         {
             case PlayerStates.InAnimation:
@@ -52,51 +53,31 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Lifting:
                 //global
                 motion.move();
-                UpdateFocusedInteractable();
                 break;
             case PlayerStates.Dead:
-                //global
-                interactables.Clear();
-                UpdateFocusedInteractable();
                 break;
             case PlayerStates.Free:
                 if (Select){ SetState(PlayerStates.InTurretMenu);}
                 else { 
                 //global
                 motion.move();
-                UpdateFocusedInteractable();
-
                 }
                 break;
             case PlayerStates.InTurretMenu:
                 //global
                 ui.Select();
                 motion.move();
-                interactables.Clear();
-                UpdateFocusedInteractable();
-                //case-specific
-                if (!Select) {
-                    if (ui.GetSelectedSegment()) {
-                        GameObject spawnedTower = Instantiate(ui.GetSelectedSegment());
-                        SetFocusedInteractable(spawnedTower.GetComponent<Interactable>());
                         //Lift(spawnedTower);
-                        SetState(PlayerStates.Building);
-                    }
-                    
-                    else
-                    {
-                        SetState(PlayerStates.Free);
-                    }
-                }
                 break;
             case PlayerStates.Building:
                 //global
                 motion.move();
                 targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
                 focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
-                //case-specific
+                //case specific
                 if (back)
                 {
+                    RemoveInteractable(liftedObject.GetComponent<Interactable>());
                     Destroy(liftedObject);
                     liftedObject = null;
                     SetState(PlayerStates.Free);
@@ -133,7 +114,7 @@ public class PlayerStateController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void SetState(PlayerStates state)
+    public void SetState(PlayerStates state)
     {
         if(currentState == state) { return; }
 
@@ -154,8 +135,10 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 break;
             case PlayerStates.InTurretMenu:
+
                 break;
             case PlayerStates.Building:
+                AddInteractable(liftedObject.GetComponent<Interactable>());
                 break;
             default:
                 break;

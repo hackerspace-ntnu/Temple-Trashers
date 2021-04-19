@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerLogic : MonoBehaviour
+public class TowerLogic : Interactable
 {
     public Vector3 lookingTowards;
     public GameObject bulletSpawnPoint;
@@ -25,45 +25,38 @@ public class TowerLogic : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        changeDirection();
+        ChangeDirection();
     }
-    //Insert UserInput of nearby player
-    private void OnTriggerEnter(Collider other)
+
+    // Allow turret to be operated when focused
+    public override void Focus(PlayerStateController player)
     {
-        if (other.GetComponent<TurretInput>())
-        { 
-            input = other.GetComponent<TurretInput>();
+        input = player.GetComponent<TurretInput>();
 
-            //render arrowPointer
-            arrowPointer.GetComponent<Renderer>().enabled = true;
-        }
+        //render arrowPointer
+        arrowPointer.GetComponent<Renderer>().enabled = true;
     }
-    //remove UserInput if user leaves radius
-    private void OnTriggerExit(Collider other)
+
+    // When player leaves, prevent it from changing the turret position
+    public override void Unfocus(PlayerStateController player)
     {
-        if (other.GetComponent<TurretInput>() == input)
-        {
-            input = null;
+        input = null;
 
-            //unrender pointer
-            arrowPointer.GetComponent<Renderer>().enabled = false;
-        }
+        //unrender pointer
+        arrowPointer.GetComponent<Renderer>().enabled = false;
     }
-
 
     //Rotational-Movement using UserInput
-    void changeDirection()
+    void ChangeDirection()
     {
         if (input)
         {
-            
             Vector2 aim = input.GetAimInput();
             if (aim.sqrMagnitude > 0.01f)
             {
                 float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI;// - 90;
                 rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
                 Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
-                //towerRotationPoint.transform.rotation = rotAxis.rotation;
             }
         }
     }
@@ -71,8 +64,8 @@ public class TowerLogic : MonoBehaviour
     void LaunchProjectile()
     {
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
-        newBullet.GetComponent<BulletLogic>().setDamage(bulletDamage);
-        newBullet.GetComponent<BulletLogic>().setSpeed(bulletSpeed);
+        newBullet.GetComponent<BulletLogic>().SetDamage(bulletDamage);
+        newBullet.GetComponent<BulletLogic>().SetSpeed(bulletSpeed);
         newBullet.transform.SetParent(this.transform);
     }
    

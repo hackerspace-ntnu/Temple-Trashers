@@ -5,7 +5,7 @@ using UnityEngine;
 public class AxeAnimationSyncher : MonoBehaviour
 {
     public AxeTowerController controller;
-    // Start is called before the first frame update
+
     public void animationGrabEvent()
     {
         controller.grab();

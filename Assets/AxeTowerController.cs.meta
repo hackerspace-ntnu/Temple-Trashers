@@ -3,7 +3,13 @@ guid: bc2bc224978c68d4da8990702c6562b7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - handAxe: {instanceID: 0}
+  - totemAxe: {instanceID: 0}
+  - spawnPoint: {instanceID: 0}
+  - axeProjectilePrefab: {fileID: 4457567029400409728, guid: 9d91c902236040645aee6f6bcd82b99f, type: 3}
+  - forwardTransform: {instanceID: 0}
+  - rotationAxis: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

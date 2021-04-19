@@ -20,6 +20,9 @@ public class PlayerStateController : MonoBehaviour
     private GameObject liftedObject;            // Object being lifted
     public Transform inventory;                 // Where items are carried
 
+    private HexGrid terrain;    // Refrence to the terrain
+    private HexCell targetCell;
+
     [SerializeField]
     private SkinnedMeshRenderer mesh;
     public enum PlayerStates
@@ -38,6 +41,7 @@ public class PlayerStateController : MonoBehaviour
         health = GetComponent<HealthLogic>();
         health.OnDeath += Die;
         ui = GetComponent<PlayerUi>();
+        terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
     }
     private void FixedUpdate()
     {
@@ -63,10 +67,13 @@ public class PlayerStateController : MonoBehaviour
                 //global
                 ui.Select();
                 motion.move();
+                        //Lift(spawnedTower);
                 break;
             case PlayerStates.Building:
                 //global
                 motion.move();
+                targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
+                focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
                 //case specific
                 if (back)
                 {
@@ -75,12 +82,14 @@ public class PlayerStateController : MonoBehaviour
                     liftedObject = null;
                     SetState(PlayerStates.Free);
                 }
+                if (interact)
+                {
+                    SetState(PlayerStates.Free);
+                }
                 break;
             default:
                 break;
         }
-
-            
     }
 
 
@@ -97,9 +106,8 @@ public class PlayerStateController : MonoBehaviour
         if (liftedObject != null) 
         {
             liftedObject.GetComponent<Interactable>().Interact(this);
-            SetFocusedInteractable(null);
-
         }
+        SetFocusedInteractable(null);
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
         CameraFocusController.Instance?.removeFocusObject(transform);
@@ -165,7 +173,9 @@ public class PlayerStateController : MonoBehaviour
         if(currentState == PlayerStates.Building)
         {
             // Build the turret we are holding
+            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
             Drop(focusedInteractable.gameObject);
+            RemoveInteractable(focusedInteractable);
         }
     }
 
@@ -196,7 +206,7 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Aim"].canceled -= ctx => aimInput = Vector2.zero;
         input.actions["Interact"].performed -= ctx => interact = true;
         input.actions["Back"].performed -= ctx => back = true;
-        input.actions["Back"].performed -= ctx => back = false;
+        input.actions["Back"].canceled -= ctx => back = false;
         input.actions["Select"].performed -= ctx => select = true;
         input.actions["Select"].canceled -= ctx => select = false;
     }

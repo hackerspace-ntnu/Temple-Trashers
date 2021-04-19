@@ -225,7 +225,7 @@ MonoBehaviour:
   playerBase: {fileID: 0}
   currentTarget: {fileID: 0}
   damageDealt: 1
-  speed: 10
+  speed: 1
 --- !u!136 &490591066213595821
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -304,8 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36286781665dc37498a44f6eb6d18e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomNumber: 0
-  currency: {fileID: 1871430940910420114, guid: 3390c5d27787cf04498e04bb0b71fc84, type: 3}
+  currency: {fileID: 2870417267695294741, guid: ee7b3eee67eb1bc4895e9c6f5677febf, type: 3}
 --- !u!1 &6681559575030372356
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class PlayerStateController : MonoBehaviour
         Dead,
         Free,
         Building,
-        InTurretMenu
+        InTurretMenu,
     }
 
     private void Start()
@@ -58,7 +58,7 @@ public class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.Free:
                 if (Select){ SetState(PlayerStates.InTurretMenu);}
-                else { 
+                else {
                 //global
                 motion.move();
                 }
@@ -92,9 +92,6 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
-
-
-
     public void SetStateFree()
     {
         SetState(PlayerStates.Free);
@@ -103,7 +100,7 @@ public class PlayerStateController : MonoBehaviour
     private void Die()
     {
         // Drop anything we are carrying
-        if (liftedObject != null) 
+        if (liftedObject != null)
         {
             liftedObject.GetComponent<Interactable>().Interact(this);
         }
@@ -118,14 +115,6 @@ public class PlayerStateController : MonoBehaviour
     {
         if(currentState == state) { return; }
 
-        switch (currentState)
-        {
-            case PlayerStates.Dead:
-                break;
-            default:
-                break;
-        }
-
         switch (state)
         {
             case PlayerStates.Lifting:
@@ -135,7 +124,6 @@ public class PlayerStateController : MonoBehaviour
             case PlayerStates.Free:
                 break;
             case PlayerStates.InTurretMenu:
-
                 break;
             case PlayerStates.Building:
                 AddInteractable(liftedObject.GetComponent<Interactable>());
@@ -145,8 +133,6 @@ public class PlayerStateController : MonoBehaviour
         }
         currentState = state;
     }
-
-
 
     public void SetUpInput(PlayerInput input, PlayerSpecificManager manager)
     {
@@ -184,8 +170,8 @@ public class PlayerStateController : MonoBehaviour
         Interactable inter = other.GetComponentInParent<Interactable>();
         if (inter != null && inter.canInteract)
         {
-            AddInteractable(inter); 
-        }    
+            AddInteractable(inter);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -211,7 +197,6 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Select"].canceled -= ctx => select = false;
     }
 
-
     public void AddInteractable(Interactable a)
     {
         if (interactables.Contains(a)) // Do not add an interactable twice
@@ -229,7 +214,7 @@ public class PlayerStateController : MonoBehaviour
     // Update the focused interactable based on distance from player
     private void UpdateFocusedInteractable()
     {
-        if(interactables.Count == 0) 
+        if(interactables.Count == 0)
         {
             if (focusedInteractable != null) // The object we were focusing is no longer focusable
             {
@@ -302,6 +287,4 @@ public class PlayerStateController : MonoBehaviour
     public bool Interact { get => interact; }
     public bool Back { get => back; }
     public bool Select { get => select; }
-
-    
 }

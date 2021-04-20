@@ -147,6 +147,12 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Back"].canceled += ctx => back = false;
         input.actions["Select"].performed += ctx => select = true;
         input.actions["Select"].canceled += ctx => select = false;
+
+        #region Developer hotkeys
+
+        input.actions["Ready for next wave"].performed += ctx => EnemyWaveManager.ReadyForNextWave();
+
+        #endregion Developer hotkeys
     }
 
     private void OnInteract()   // Gets called when interact button is pressed

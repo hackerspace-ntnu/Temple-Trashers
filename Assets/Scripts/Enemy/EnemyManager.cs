@@ -1,47 +1,68 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyManager : MonoBehaviour
 {
+    private static EnemyManager SINGLETON;
+
+    public static readonly Type[] ENEMY_TYPES = {typeof(PlaceholderEnemy)};
+    private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
+
+    public GameObject[] enemyPrefabs;
+
     public HexGrid hexGrid;
-
-    //Array of enemy objects
-    public GameObject[] enemyObject;
-
-    //Time it takes to spawn enemies
-    [Space(3)]
-    public float respawnTime = 1;
-    private float theCountdown = 1;
 
     [Header("Enemy Variables")]
     public float speed = 5f;
 
-    void Update()
+    void Awake()
     {
-        // timer to spawn the next goodie Object
-        theCountdown -= Time.deltaTime;
-        if (theCountdown <= 0)
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            SpawnEnemy();
-            theCountdown = respawnTime;
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
+        SINGLETON = this;
+
+        #endregion Singleton boilerplate
+
+        foreach (GameObject prefab in enemyPrefabs)
+        {
+            Type enemyType = prefab.GetComponent<Enemy>().GetType();
+            if (ENEMY_TYPE_TO_PREFAB.ContainsKey(enemyType))
+                throw new ArgumentException($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
+
+            ENEMY_TYPE_TO_PREFAB.Add(enemyType, prefab);
         }
     }
-    
-    int enemies = 0;
-    void SpawnEnemy()
+
+    public void SpawnEnemy(Type enemyType)
     {
-        Transform trans = hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform;
-
-        // Choose a new enemy to spawn from the array (note I specifically call it a 'prefab' to avoid confusing myself!)
-        GameObject enemyPrefab = enemyObject[Random.Range(0, enemyObject.Length)];
-
+        GameObject prefab = GetEnemyPrefab(enemyType);
+        Vector3 spawnPos = ChoosePosForSpawningEnemy();
+        Enemy spawnedEnemy = Instantiate(prefab, spawnPos, Quaternion.identity, transform).GetComponent<Enemy>();
         // Pass along the enemy settings
-        enemyPrefab.GetComponent<Enemy>().speed = speed;
-        // Creates the random object at the random 3D position.
-        GameObject enemy = Instantiate(enemyPrefab, trans.position, Quaternion.identity);
-        enemy.transform.SetParent(this.transform);
+        spawnedEnemy.speed = speed;
+    }
 
-        enemies++;
+    private Vector3 ChoosePosForSpawningEnemy()
+    {
+        return hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform.position;
+    }
+
+    public static GameObject GetEnemyPrefab(Type enemyType)
+    {
+        return ENEMY_TYPE_TO_PREFAB[enemyType];
     }
 }

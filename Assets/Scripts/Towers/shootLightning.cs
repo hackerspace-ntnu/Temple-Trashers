@@ -12,6 +12,9 @@ public class shootLightning : MonoBehaviour
     private List<GameObject> lightningboltPool = new List<GameObject>();
 
 
+    //This script should be called by lightning tower using the shoot() function from the animation controller.
+
+
     public void shoot()
     {
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, LightningRadius);
@@ -37,7 +40,13 @@ public class shootLightning : MonoBehaviour
     {
         if (target.GetComponent<HealthLogic>() && !ZappTargets.Contains(target))
         {
+            if (ZappTargets.Count > 0)
+            {
+                GameObject previousTarget = ZappTargets[ZappTargets.Count - 1];
+            }
+            
             ZappTargets.Add(target);
+            //%TODO add lightning-effect between target.position and previousTarget.position.
         }
     }
 

@@ -8,6 +8,8 @@ public class shootLightning : MonoBehaviour
     public float damage;
     //public int maxTargets;
     private List<GameObject> ZappTargets = new List<GameObject>();
+    private List<Ray> rays = new List<Ray>();
+    public GameObject drainRay;
 
     private List<GameObject> lightningboltPool = new List<GameObject>();
 
@@ -61,5 +63,17 @@ public class shootLightning : MonoBehaviour
                 checkZap(hitCollider.gameObject);
             }
         }
+    }
+    private void lightningVFX(Transform previousTarget, Transform newTarget)
+    {
+        GameObject ray = Instantiate(drainRay, previousTarget.position, previousTarget.rotation);
+        ray.transform.SetParent(previousTarget.transform);
+
+        //component[1] so we get the first child and not the parent itself.
+        Transform target = ray.GetComponentsInChildren<Transform>()[1];
+        target.SetParent(newTarget);
+        target.localPosition = Vector3.zero;
+
+        //rays.Add(new Ray(ray.transform, target));
     }
 }

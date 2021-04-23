@@ -57,6 +57,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Ready for next wave"",
+                    ""type"": ""Button"",
+                    ""id"": ""0292f4fa-f566-411f-a1a7-367de1e92915"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -257,6 +265,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d61bf77-1cda-452c-927e-df6ea1888261"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Ready for next wave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -293,6 +312,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
         m_MovePlayer_Back = m_MovePlayer.FindAction("Back", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
+        m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -347,6 +367,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Select;
     private readonly InputAction m_MovePlayer_Back;
     private readonly InputAction m_MovePlayer_Aim;
+    private readonly InputAction m_MovePlayer_Readyfornextwave;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -356,6 +377,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
         public InputAction @Back => m_Wrapper.m_MovePlayer_Back;
         public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
+        public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -380,6 +402,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Readyfornextwave.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
+                @Readyfornextwave.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
+                @Readyfornextwave.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -399,6 +424,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Readyfornextwave.started += instance.OnReadyfornextwave;
+                @Readyfornextwave.performed += instance.OnReadyfornextwave;
+                @Readyfornextwave.canceled += instance.OnReadyfornextwave;
             }
         }
     }
@@ -428,5 +456,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnReadyfornextwave(InputAction.CallbackContext context);
     }
 }

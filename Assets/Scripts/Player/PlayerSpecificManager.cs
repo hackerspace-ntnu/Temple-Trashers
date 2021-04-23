@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerManager : MonoBehaviour
+
+public class PlayerSpecificManager : MonoBehaviour
 {
     private static int playerNum = 0;
     private int playerIndex;

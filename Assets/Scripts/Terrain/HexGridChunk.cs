@@ -28,7 +28,6 @@ public class HexGridChunk : MonoBehaviour
         if(cells.Length == 0)
         {
             cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
-            print(cells.Length);
         }
     }
 

@@ -35,7 +35,7 @@ public class BaseController : MonoBehaviour
         if ( Instance == null ) { Instance = this; }
         else
         {
-            print("Tried to make two bases, removed the latter");
+            Debug.LogWarning("Tried to make two bases, removed the latter");
             Destroy(gameObject);
         }
     }

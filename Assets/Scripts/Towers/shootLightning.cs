@@ -4,39 +4,37 @@ using UnityEngine;
 
 public class shootLightning : MonoBehaviour
 {
+    //The radius for the turret and all it's targets.
     public float LightningRadius;
+    //Damage per zap.
     public float damage;
-    //public int maxTargets;
+    //Marked objects
     private List<GameObject> ZappTargets = new List<GameObject>();
-    private List<Ray> rays = new List<Ray>();
+    //Lightning VFX
     public GameObject drainRay;
-    private List<GameObject> lightningboltPool = new List<GameObject>();
 
+    //Should be player and enemy layers.
     public LayerMask ShockLayers;
+
+    //*********************************************************************************************************
     //This script should be called by lightning tower using the shoot() function from the animation controller.
+    //*********************************************************************************************************
 
 
     public void shoot()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, LightningRadius, ShockLayers);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.GetComponent<HealthLogic>())
-            {
-               // addZap(hitCollider.gameObject);
-                checkZap(hitCollider.gameObject);
-            }
-        }
+        checkZap(this.gameObject);
+
         foreach (var zap in ZappTargets)
         {
             zap.GetComponent<HealthLogic>().DealDamage(damage);
         }
+        //Clear all marked objects.
         ZappTargets.Clear();
     }
 
 
-
-
+    //Marks soon-to-be zapped objects and adds a VFX.
     private void addZap(GameObject target)
     {
         if (target.GetComponent<HealthLogic>() && !ZappTargets.Contains(target))
@@ -59,6 +57,7 @@ public class shootLightning : MonoBehaviour
         }
     }
 
+    //checks for non-marked zappable objects
     private void checkZap(GameObject target)
     {
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, LightningRadius, ShockLayers);
@@ -67,10 +66,12 @@ public class shootLightning : MonoBehaviour
             if (!ZappTargets.Contains(hitCollider.gameObject) && hitCollider.GetComponent<HealthLogic>())
             {
                 addZap(hitCollider.gameObject);
-              //  checkZap(hitCollider.gameObject);
             }
         }
     }
+
+
+    //Lightning VFX
     private void lightningVFX(Transform previousTarget, Transform newTarget)
     {
         GameObject ray = Instantiate(drainRay, previousTarget.position, previousTarget.rotation);
@@ -83,7 +84,5 @@ public class shootLightning : MonoBehaviour
         //Destroying effect after 0.3 seconds:
         Transform r = ray.transform;
         Destroy(r.gameObject, 0.3f);
-
-        //rays.Add(new Ray(ray.transform, target));
     }
 }

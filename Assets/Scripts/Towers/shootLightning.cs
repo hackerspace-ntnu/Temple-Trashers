@@ -24,7 +24,7 @@ public class shootLightning : MonoBehaviour
         {
             if (hitCollider.GetComponent<HealthLogic>())
             {
-                addZap(hitCollider.gameObject);
+               // addZap(hitCollider.gameObject);
                 checkZap(hitCollider.gameObject);
             }
         }
@@ -42,13 +42,21 @@ public class shootLightning : MonoBehaviour
     {
         if (target.GetComponent<HealthLogic>() && !ZappTargets.Contains(target))
         {
+            GameObject previousTarget = null;
             if (ZappTargets.Count > 0)
             {
-                GameObject previousTarget = ZappTargets[ZappTargets.Count - 1];
+                previousTarget = ZappTargets[ZappTargets.Count - 1];
             }
-            
+            else
+            {
+                previousTarget = this.gameObject;
+            }
+            lightningVFX(previousTarget.transform, target.transform);
+
             ZappTargets.Add(target);
-            //%TODO add lightning-effect between target.position and previousTarget.position.
+            checkZap(target);
+
+
         }
     }
 
@@ -60,7 +68,7 @@ public class shootLightning : MonoBehaviour
             if (!ZappTargets.Contains(hitCollider.gameObject) && hitCollider.GetComponent<HealthLogic>())
             {
                 addZap(hitCollider.gameObject);
-                checkZap(hitCollider.gameObject);
+              //  checkZap(hitCollider.gameObject);
             }
         }
     }
@@ -73,10 +81,9 @@ public class shootLightning : MonoBehaviour
         Transform target = ray.GetComponentsInChildren<Transform>()[1];
         target.SetParent(newTarget);
         target.localPosition = Vector3.zero;
-
-        //Destroying effect after 1 second:
+        //Destroying effect after 0.3 seconds:
         Transform r = ray.transform;
-        Destroy(r.gameObject, 1f);
+        Destroy(r.gameObject, 0.3f);
 
         //rays.Add(new Ray(ray.transform, target));
     }

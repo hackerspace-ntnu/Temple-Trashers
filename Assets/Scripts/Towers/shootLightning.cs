@@ -10,16 +10,15 @@ public class shootLightning : MonoBehaviour
     private List<GameObject> ZappTargets = new List<GameObject>();
     private List<Ray> rays = new List<Ray>();
     public GameObject drainRay;
-
     private List<GameObject> lightningboltPool = new List<GameObject>();
 
-
+    public LayerMask ShockLayers;
     //This script should be called by lightning tower using the shoot() function from the animation controller.
 
 
     public void shoot()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, LightningRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, LightningRadius, ShockLayers);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponent<HealthLogic>())
@@ -62,7 +61,7 @@ public class shootLightning : MonoBehaviour
 
     private void checkZap(GameObject target)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, LightningRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, LightningRadius, ShockLayers);
         foreach (var hitCollider in hitColliders)
         {
             if (!ZappTargets.Contains(hitCollider.gameObject) && hitCollider.GetComponent<HealthLogic>())

@@ -74,6 +74,10 @@ public class shootLightning : MonoBehaviour
         target.SetParent(newTarget);
         target.localPosition = Vector3.zero;
 
+        //Destroying effect after 1 second:
+        Transform r = ray.transform;
+        Destroy(r.gameObject, 1f);
+
         //rays.Add(new Ray(ray.transform, target));
     }
 }

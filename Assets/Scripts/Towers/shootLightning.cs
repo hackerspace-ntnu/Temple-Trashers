@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class shootLightning : MonoBehaviour
 {
-    //The radius for the turret and all it's targets.
-    public float LightningRadius;
-    //Damage per zap.
-    public float damage;
-    //Marked objects
-    private List<GameObject> ZappTargets = new List<GameObject>();
-    //Lightning VFX
-    public GameObject drainRay;
-
-    //Should be player and enemy layers.
-    public LayerMask ShockLayers;
 
     //*********************************************************************************************************
     //This script should be called by lightning tower using the shoot() function from the animation controller.
     //*********************************************************************************************************
+
+
+    //The radius for the turret and all it's targets.
+    public float LightningRadius = 4;
+    //Damage per zap.
+    public float damage = 10;
+    //Lightning VFX
+    public GameObject drainRay;
+    //LighntingEffect duration
+    public float effectDuration = 0.3f;
+    //What layers the collider will check in, should be player and enemy layers.
+    public LayerMask ShockLayers;
+
+
+    //Marked objects
+    private List<GameObject> ZappTargets = new List<GameObject>();
 
 
     public void shoot()
@@ -49,15 +54,12 @@ public class shootLightning : MonoBehaviour
                 previousTarget = this.gameObject;
             }
             lightningVFX(previousTarget.transform, target.transform);
-
             ZappTargets.Add(target);
             checkZap(target);
-
-
         }
     }
 
-    //checks for non-marked zappable objects
+    //Checks for non-marked zappable objects.
     private void checkZap(GameObject target)
     {
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, LightningRadius, ShockLayers);
@@ -76,13 +78,13 @@ public class shootLightning : MonoBehaviour
     {
         GameObject ray = Instantiate(drainRay, previousTarget.position, previousTarget.rotation);
         ray.transform.SetParent(previousTarget.transform);
-
         //component[1] so we get the first child and not the parent itself.
         Transform target = ray.GetComponentsInChildren<Transform>()[1];
         target.SetParent(newTarget);
         target.localPosition = Vector3.zero;
-        //Destroying effect after 0.3 seconds:
+
+        //Destroying effect after duration:
         Transform r = ray.transform;
-        Destroy(r.gameObject, 0.3f);
+        Destroy(r.gameObject, effectDuration);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LightningShootable : MonoBehaviour
@@ -44,15 +45,7 @@ public class LightningShootable : MonoBehaviour
     {
         if (target.GetComponent<HealthLogic>() && !zappTargets.Contains(target))
         {
-            GameObject previousTarget = null;
-            if (zappTargets.Count > 0)
-            {
-                previousTarget = zappTargets[zappTargets.Count - 1];
-            }
-            else
-            {
-                previousTarget = this.gameObject;
-            }
+            GameObject previousTarget = zappTargets.LastOrDefault() ?? gameObject;
             LightningVFX(previousTarget.transform, target.transform);
             zappTargets.Add(target);
             CheckZap(target);
@@ -76,15 +69,13 @@ public class LightningShootable : MonoBehaviour
     //Lightning VFX
     private void LightningVFX(Transform previousTarget, Transform newTarget)
     {
-        GameObject ray = Instantiate(drainRay, previousTarget.position, previousTarget.rotation);
-        ray.transform.SetParent(previousTarget.transform);
+        GameObject ray = Instantiate(drainRay, previousTarget.position, previousTarget.rotation, previousTarget.transform);
         //component[1] so we get the first child and not the parent itself.
         Transform target = ray.GetComponentsInChildren<Transform>()[1];
         target.SetParent(newTarget);
         target.localPosition = Vector3.zero;
 
         //Destroying effect after duration:
-        Transform r = ray.transform;
-        Destroy(r.gameObject, effectDuration);
+        Destroy(ray, effectDuration);
     }
 }

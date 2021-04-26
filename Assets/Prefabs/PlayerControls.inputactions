@@ -44,6 +44,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Ready for next wave",
+                    "type": "Button",
+                    "id": "0292f4fa-f566-411f-a1a7-367de1e92915",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -242,6 +250,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d61bf77-1cda-452c-927e-df6ea1888261",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Ready for next wave",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

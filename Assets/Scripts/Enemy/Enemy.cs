@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     public Transform playerBase;
 

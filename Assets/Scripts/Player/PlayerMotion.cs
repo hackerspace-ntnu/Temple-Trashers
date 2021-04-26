@@ -20,21 +20,13 @@ public class PlayerMotion : MonoBehaviour
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
     private Animator anim = null;
-    
+
     //Sets up required instances for input to work. 
     void Start()
     {
-        
+
         state = GetComponent<PlayerStateController>();
         body = GetComponent<Rigidbody>();
-    }
-
-    
-
-    private void FixedUpdate()
-    {
-        //updateSpeed();
-        //updateRotation();
     }
 
     public void move()
@@ -42,13 +34,10 @@ public class PlayerMotion : MonoBehaviour
         updateSpeed();
         updateRotation();
     }
+
     private void updateSpeed()
     {
-
-
-
         if (state.CurrentState == PlayerStateController.PlayerStates.Dead) { return; }
-        // Debug.Log("Move");
 
         Vector2 m = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;
 
@@ -69,8 +58,7 @@ public class PlayerMotion : MonoBehaviour
                 transform.rotation,
                 Quaternion.LookRotation(new Vector3(m.x, 0f, m.y), Vector3.up),
                 Time.fixedDeltaTime * 360f * 3f
-            ) ;
+            );
         }
     }
-
 }

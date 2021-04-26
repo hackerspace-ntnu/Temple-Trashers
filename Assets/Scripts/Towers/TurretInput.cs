@@ -15,7 +15,6 @@ public class TurretInput : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            //print("WaitAndPrint " + Time.time);
             //PlaceTower(tower, transform.position);
         }
     }

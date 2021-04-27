@@ -7,6 +7,9 @@ public class DropLogic : MonoBehaviour
     private int randomNumber;
     public GameObject currency; //put loot here
 
+    //Maybe drop crystals in quantities in the rate of 3 to 0 instead of using currency? Crystals are what we are carrying back to base after all. 
+
+
     private void Start()
     {
         GetComponent<HealthLogic>().OnDeath += DropLoot;    

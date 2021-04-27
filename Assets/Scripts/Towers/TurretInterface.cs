@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface TurretInterface
 {
-    //Function to be called in animation controller to make the turret fire.
+    // Called through animation events on `.anim` files to make the turret fire.
     void Shoot();
 }

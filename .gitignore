@@ -25,7 +25,6 @@
 
 # Visual Studio cache directory
 .vs/
-.vsconfig
 
 # Gradle cache directory
 .gradle/
@@ -75,6 +74,6 @@ crashlytics-build.properties
 # Custom patterns
 #
 .idea/
-
+.vsconfig
 *.blend1
 *.blend1.meta

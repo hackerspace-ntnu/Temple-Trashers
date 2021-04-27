@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeTowerController : Interactable
+public class AxeTowerController : Interactable, TurretInterface
 {
     public MeshRenderer handAxe, totemAxe;
     public Transform spawnPoint;
@@ -45,7 +45,7 @@ public class AxeTowerController : Interactable
         handAxe.enabled = true;
         totemAxe.enabled = false;
     }
-    public void toss()
+    public void Shoot()
     {
         handAxe.enabled = false;
         Rigidbody projectileBody =  Instantiate(axeProjectilePrefab, spawnPoint.position, spawnPoint.rotation).GetComponent<Rigidbody>();

@@ -12,7 +12,7 @@ public class AxeAnimationSyncher : MonoBehaviour
     }
     public void animationTossEvent()
     {
-        controller.toss();
+        controller.Shoot();
     }
     public void animationSpawnEvent()
     {

@@ -2,17 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretInterface : MonoBehaviour
+public interface TurretInterface
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //Function to be called in animation controller to make the turret fire.
+    void Shoot();
 }

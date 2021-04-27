@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningShootable : MonoBehaviour
+public class LightningShootable : MonoBehaviour, TurretInterface
 {
 
     //*********************************************************************************************************

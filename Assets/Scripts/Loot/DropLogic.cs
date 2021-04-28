@@ -6,9 +6,8 @@ public class DropLogic : MonoBehaviour
 {
     //Loot to be instantiated
     public GameObject lootPrefab;
+    //Extra height to be added when instantiating loot.
     public float spawnHeight = 2;
-
-    //Maybe drop crystals in quantities in the rate of 3 to 0 instead of using currency? Crystals are what we are carrying back to base after all. 
 
 
     private void Start()

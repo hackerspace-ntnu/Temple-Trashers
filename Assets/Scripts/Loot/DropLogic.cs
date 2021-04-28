@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class DropLogic : MonoBehaviour
 {
-    private int randomNumber;
-    public GameObject currency; //put loot here
-
-    //Maybe drop crystals in quantities in the rate of 3 to 0 instead of using currency? Crystals are what we are carrying back to base after all. 
+    //Loot to be instantiated
+    public GameObject lootPrefab;
+    //Extra height to be added when instantiating loot.
+    public float spawnHeight = 2;
 
 
     private void Start()
     {
+        //Using delegates to add loot drop function to death
         GetComponent<HealthLogic>().OnDeath += DropLoot;    
     }
 
     private void DropLoot()
     {
-        randomNumber = Random.Range(0, 100); //Random number between 0-100
+        //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.
+        Instantiate(lootPrefab, transform.position + new Vector3(0, spawnHeight, 0), Quaternion.identity);
 
-        if (randomNumber >= 0 && randomNumber <= 80) //80% probability for:
-        {
-            Instantiate(currency, transform.position + new Vector3(0, 4, 0), Quaternion.identity); //... instantiating currency at position of enemy upon death. Need the new vector for the loot to spawn over the map.
-        }
     }
 }

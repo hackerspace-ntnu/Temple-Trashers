@@ -6,6 +6,7 @@ public class DropLogic : MonoBehaviour
 {
     //Loot to be instantiated
     public GameObject lootPrefab;
+    public float spawnHeight = 2;
 
     private void Start()
     {
@@ -16,7 +17,7 @@ public class DropLogic : MonoBehaviour
     private void DropLoot()
     {
         //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.
-        Instantiate(lootPrefab, transform.position + new Vector3(0, 4, 0), Quaternion.identity);
+        Instantiate(lootPrefab, transform.position + new Vector3(0, spawnHeight, 0), Quaternion.identity);
 
     }
 }

@@ -63,9 +63,6 @@ public class Loot : Interactable
 
     public void Absorb(BaseController b)
     {
-        //Add resources to inventory
-        inventory.AddResource(lootValue);
-
         // Set the object to be destroyed
         this.b = b;
         destroy = true;
@@ -97,6 +94,10 @@ public class Loot : Interactable
                             {
                                 b.crystals++;
                                 b.RemoveRayVFX(transform, 10f);
+
+                                //Add resources to inventory
+                                inventory.AddResource(lootValue);
+
                                 Destroy(gameObject);
                             }
                         }

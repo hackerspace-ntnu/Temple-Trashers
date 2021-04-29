@@ -28,7 +28,7 @@ public class PlayerUi : MonoBehaviour
 
     public GameObject GetSelectedSegment()
     {
-        return selectedSegment.tower as GameObject;
+        return selectedSegment.tower;
     }
 
     public int GetSelectedCost()
@@ -49,7 +49,6 @@ public class PlayerUi : MonoBehaviour
             {
                 if (inventory.SubtractResource(GetSelectedCost()))
                 {
-                    Debug.Log(inventory.GetResourceAmount());
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
                     state.Lift(spawnedTower);
                     state.SetState(PlayerStateController.PlayerStates.Building);

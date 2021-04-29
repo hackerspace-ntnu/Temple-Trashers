@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance { get { return _instance; } }
 
     //Total amount of resources.
-    private int resourceAmount = 0;
+    private int resourceAmount = 100;
 
 
     //Get-er

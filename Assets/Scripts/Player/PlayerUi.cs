@@ -12,8 +12,8 @@ public class PlayerUi : MonoBehaviour
     public float segmentTiltDegrees;
     private Transform mainCameraTransform;
 
-
-    private GameObject selectedSegment = null;
+    private InventoryManager inventory;
+    private TowerScript selectedSegment = null;
 
 
 
@@ -22,12 +22,13 @@ public class PlayerUi : MonoBehaviour
     {
         state = GetComponent<PlayerStateController>();
         mainCameraTransform = Camera.main.transform;
+        inventory = InventoryManager.Instance;
 
     }
 
     public GameObject GetSelectedSegment()
     {
-        return selectedSegment;
+        return selectedSegment.tower as GameObject;
     }
 
     public void Select()
@@ -39,11 +40,15 @@ public class PlayerUi : MonoBehaviour
         if (!state.Select)
         {
             ui.gameObject.SetActive(false);
-            if (GetSelectedSegment())
+            if (selectedSegment)
             {
-                GameObject spawnedTower = Instantiate(GetSelectedSegment());
-                state.Lift(spawnedTower);
-                state.SetState(PlayerStateController.PlayerStates.Building);
+                if (inventory.SubtractResource(selectedSegment.cost))
+                {
+                    Debug.Log(inventory.GetResourceAmount());
+                    GameObject spawnedTower = Instantiate(GetSelectedSegment());
+                    state.Lift(spawnedTower);
+                    state.SetState(PlayerStateController.PlayerStates.Building);
+                }
             }
             else
             {

@@ -10,5 +10,5 @@ public class TowerScript : ScriptableObject
    public int cost;
    public GameObject tower;
    public Sprite icon;
-    public Sprite iconHighlight;
+   public Sprite iconHighlight;
 }

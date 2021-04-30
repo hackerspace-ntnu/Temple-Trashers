@@ -56,10 +56,6 @@ public class PlayerUi : MonoBehaviour
             }
             else
             {
-                if (selectedSegment)
-                {
-                    inventory.AddResource(GetSelectedCost());
-                }
                 state.SetState(PlayerStateController.PlayerStates.Free);
             }
         }

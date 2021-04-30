@@ -14,12 +14,18 @@ public class Loot : Interactable
     private float dissolveState = 0;    // The current dissolve state
     public Transform target;            // The ray target
 
+    //Loot-value to resources in inventory
+    public int lootValue = 10;
+    private InventoryManager inventory;
+
     private void Start()
     {
         foreach(MeshRenderer childRenderer in GetComponentsInChildren<MeshRenderer>())
         {
             mr.Add(childRenderer);
         }
+
+        inventory = InventoryManager.Instance;
     }
 
     public override void Interact(PlayerStateController player)
@@ -88,6 +94,10 @@ public class Loot : Interactable
                             {
                                 b.crystals++;
                                 b.RemoveRayVFX(transform, 10f);
+
+                                //Add resources to inventory
+                                inventory.AddResource(lootValue);
+
                                 Destroy(gameObject);
                             }
                         }

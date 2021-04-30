@@ -11,6 +11,7 @@ public class PlayerStateController : MonoBehaviour
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
+    private InventoryManager inventoryManager;
 
     private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
     private bool interact = false, back = false, select = false;
@@ -42,6 +43,7 @@ public class PlayerStateController : MonoBehaviour
         health.OnDeath += Die;
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
+        inventoryManager = InventoryManager.Instance;
     }
     private void FixedUpdate()
     {
@@ -77,6 +79,9 @@ public class PlayerStateController : MonoBehaviour
                 //case specific
                 if (back)
                 {
+                    //Refund turret
+                    inventoryManager.AddResource(ui.GetSelectedCost());
+                    
                     RemoveInteractable(liftedObject.GetComponent<Interactable>());
                     Destroy(liftedObject);
                     liftedObject = null;

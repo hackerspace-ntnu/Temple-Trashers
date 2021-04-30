@@ -6,7 +6,7 @@ public class UIController : MonoBehaviour
 {
     public TowerScript[] towers;
     public GameObject[] menuSegments;
-    private List<GameObject> towersInMenu = new List<GameObject>();
+    private List<TowerScript> towersInMenu = new List<TowerScript>();
     public List<SpriteRenderer> iconHolders;
     public Sprite highlightSprite;
     public Sprite normalSprite;
@@ -25,11 +25,11 @@ public class UIController : MonoBehaviour
         }
     }
     //Gets the tower gameobject stored in the corresponding scriptableobject that the uisegments uses.
-    public GameObject GetTower(int index)
+    public TowerScript GetTower(int index)
     {
        for (int i = 0; i < menuSegments.Length; i++)
         {
-            towersInMenu.Add(towers[i].tower);
+            towersInMenu.Add(towers[i]);
         }
         return towersInMenu[index];
     }

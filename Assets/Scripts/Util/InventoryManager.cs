@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     //Singleton related logic
     private static InventoryManager _instance;
     public static InventoryManager Instance { get { return _instance; } }
+    public ResourceUI ui;
 
     //Total amount of resources.
     private int resourceAmount = 100;
@@ -23,12 +24,15 @@ public class InventoryManager : MonoBehaviour
     {
         if (amount > 0)
         {
+            
             resourceAmount += amount;
+            ui.UpdateUI();
         }
     }
     public void AddResource()
     {
         resourceAmount ++;
+        ui.UpdateUI();
     }
 
     //Subtracters
@@ -36,6 +40,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (amount <= resourceAmount) {
             resourceAmount -= amount;
+            ui.UpdateUI();
             return true;
         }
         return false;
@@ -45,6 +50,7 @@ public class InventoryManager : MonoBehaviour
         if (resourceAmount >= 1)
         {
             resourceAmount --;
+            ui.UpdateUI();
             return true;
         }
         return false;

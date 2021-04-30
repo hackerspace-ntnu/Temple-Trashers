@@ -12,9 +12,10 @@ public class ResourceUI : MonoBehaviour
     void Start()
     {
         inventory = InventoryManager.Instance;
+        UpdateUI();
     }
 
-    void Update()
+    public void UpdateUI()
     {
         resourceAmount.text = inventory.GetResourceAmount().ToString();
     }

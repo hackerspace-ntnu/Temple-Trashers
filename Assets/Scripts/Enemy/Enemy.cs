@@ -24,7 +24,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    void Start()
+    protected void Start()
     {
         currentTarget = playerBase;
         agent = GetComponent<NavMeshAgent>();

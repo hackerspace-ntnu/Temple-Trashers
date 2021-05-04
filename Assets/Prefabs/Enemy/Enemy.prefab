@@ -237,7 +237,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.4
-  m_Height: 1.6
+  m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!54 &6258525490855855638
@@ -290,8 +290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 5
+  health: 1
+  maxHealth: 1
 --- !u!114 &5307998303341428611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,8 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36286781665dc37498a44f6eb6d18e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootPrefab: {fileID: 6789703756748737066, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
-  spawnHeight: 2
+  lootPrefab: {fileID: 8630265067307965030, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
+  spawnHeight: 1.5
 --- !u!1 &6681559575030372356
 GameObject:
   m_ObjectHideFlags: 0

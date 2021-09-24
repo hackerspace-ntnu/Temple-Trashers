@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+public class UIControllerWheel : MonoBehaviour
 {
     public TowerScript[] towers;
     public GameObject[] menuSegments;
@@ -27,7 +27,8 @@ public class UIController : MonoBehaviour
     //Gets the tower gameobject stored in the corresponding scriptableobject that the uisegments uses.
     public TowerScript GetTower(int index)
     {
-       for (int i = 0; i < menuSegments.Length; i++)
+        towersInMenu.Clear();
+        for (int i = 0; i < menuSegments.Length; i++)
         {
             towersInMenu.Add(towers[i]);
         }

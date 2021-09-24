@@ -25,6 +25,8 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private SkinnedMeshRenderer mesh;
 
+    public PlayerStates CurrentState { get => currentState; }
+
     public enum PlayerStates
     {
         IN_ANIMATION,
@@ -100,6 +102,19 @@ public partial class PlayerStateController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        Interactable interactable = other.GetComponentInParent<Interactable>();
+        if (interactable != null && interactable.canInteract)
+            AddInteractable(interactable);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponentInParent<Interactable>())
+            RemoveInteractable(other.GetComponentInParent<Interactable>());
+    }
+
     public void SetStateFree()
     {
         SetState(PlayerStates.FREE);
@@ -160,21 +175,6 @@ public partial class PlayerStateController : MonoBehaviour
             RemoveInteractable(focusedInteractable);
         }
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        Interactable interactable = other.GetComponentInParent<Interactable>();
-        if (interactable != null && interactable.canInteract)
-            AddInteractable(interactable);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.GetComponentInParent<Interactable>())
-            RemoveInteractable(other.GetComponentInParent<Interactable>());
-    }
-
-    public PlayerStates CurrentState { get => currentState; }
 
     public void AddInteractable(Interactable interactable)
     {

@@ -18,26 +18,6 @@ public class TowerConstructor : MonoBehaviour
     private HexGrid terrain;
     private HexCell targetCell;
 
-    public void BuildTurret()
-    {
-        // Construction assignments
-        transform.position = targetCell.transform.position;
-        targetCell.occupier = gameObject;
-
-        // Visual changes
-        ToggleHologram();
-
-        // Activate all components
-        foreach (MonoBehaviour component in components)
-            component.enabled = true;
-
-        foreach (Animator anim in animators)
-            anim.enabled = true;
-
-        // Clean up
-        Destroy(this);
-    }
-
     void Start()
     {
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
@@ -75,6 +55,26 @@ public class TowerConstructor : MonoBehaviour
     void FixedUpdate()
     {
         targetCell = terrain.GetCell(transform.position + Vector3.forward * HexMetrics.outerRadius);
+    }
+
+    public void BuildTurret()
+    {
+        // Construction assignments
+        transform.position = targetCell.transform.position;
+        targetCell.occupier = gameObject;
+
+        // Visual changes
+        ToggleHologram();
+
+        // Activate all components
+        foreach (MonoBehaviour component in components)
+            component.enabled = true;
+
+        foreach (Animator anim in animators)
+            anim.enabled = true;
+
+        // Clean up
+        Destroy(this);
     }
 
     public void ToggleHologram()

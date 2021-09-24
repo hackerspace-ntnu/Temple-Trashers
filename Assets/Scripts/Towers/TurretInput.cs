@@ -10,15 +10,6 @@ public class TurretInput : MonoBehaviour
     private PlayerStateController player;
     private HexGrid hexGrid;
 
-    private IEnumerator WaitAndPrint(float waitTime)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(waitTime);
-            //PlaceTower(tower, transform.position);
-        }
-    }
-
     void Start()
     {
         hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
@@ -26,6 +17,15 @@ public class TurretInput : MonoBehaviour
 
         coroutine = WaitAndPrint(5.0f);
         StartCoroutine(coroutine);
+    }
+
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            //PlaceTower(tower, transform.position);
+        }
     }
 
     public Vector2 GetAimInput()

@@ -28,6 +28,8 @@ public class BaseController : MonoBehaviour
     public GameObject drainRay;
     private List<Ray> rays = new List<Ray>();
 
+    public Transform SpawnPoint { get => spawnPoint; }
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -47,20 +49,6 @@ public class BaseController : MonoBehaviour
 
         #endregion Singleton boilerplate
     }
-
-    private void Die()
-    {
-        if (!dead)
-        {
-            //BIG EXPLOSION
-            Instantiate(explosion, transform.position, Quaternion.identity, transform);
-            // Creates the GUI "GameOverScreen"
-            Instantiate(gameOverScreen);
-        }
-
-        dead = true;
-    }
-    public Transform SpawnPoint { get => spawnPoint; }
 
     void OnTriggerEnter(Collider other)
     {
@@ -98,6 +86,19 @@ public class BaseController : MonoBehaviour
             // Remove VFX
             RemoveRayVFX(player.transform, 0f);
         }
+    }
+
+    private void Die()
+    {
+        if (!dead)
+        {
+            //BIG EXPLOSION
+            Instantiate(explosion, transform.position, Quaternion.identity, transform);
+            // Creates the GUI "GameOverScreen"
+            Instantiate(gameOverScreen);
+        }
+
+        dead = true;
     }
 
     public void RemoveRayVFX(Transform target, float delay)
@@ -142,16 +143,3 @@ public class BaseController : MonoBehaviour
         return -2;
     }
 }
-
-public struct Ray
-{
-    public Transform ray;
-    public Transform target;
-
-    public Ray(Transform Ray, Transform Target)
-    {
-        ray = Ray;
-        target = Target;
-    }
-}
-

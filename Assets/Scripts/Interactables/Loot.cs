@@ -32,55 +32,14 @@ public class Loot : Interactable
     public int lootValue = 10;
     private InventoryManager inventory;
 
+    private Material[] newMat;
+
     void Start()
     {
         foreach (MeshRenderer childRenderer in GetComponentsInChildren<MeshRenderer>())
             meshRenderers.Add(childRenderer);
 
         inventory = InventoryManager.Singleton;
-    }
-
-    public override void Interact(PlayerStateController player)
-    {
-        if (!carried)
-        {
-            // Carry the loot!
-            carried = true;
-            player.Lift(gameObject);
-        } else
-        {
-            // Drop the loot!
-            carried = false;
-            // If i'm to be destroyed, prevent me from being interacted with
-            if (destroy)
-                canInteract = false;
-
-            player.Drop(gameObject);
-            absorbTarget = transform.position + new Vector3(0, 3, 0);
-        }
-    }
-
-    public override void Focus(PlayerStateController player)
-    {
-        Highlight();
-    }
-
-    public override void Unfocus(PlayerStateController player)
-    {
-        Unhighlight();
-    }
-
-    public void Absorb(BaseController baseController)
-    {
-        // Set the object to be destroyed
-        this.baseController = baseController;
-        destroy = true;
-        GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
-    }
-
-    public void CancelAbsorb()
-    {
-        destroy = false;
     }
 
     void Update()
@@ -125,7 +84,49 @@ public class Loot : Interactable
             }
         }
     }
-    private Material[] newMat;
+
+    public override void Interact(PlayerStateController player)
+    {
+        if (!carried)
+        {
+            // Carry the loot!
+            carried = true;
+            player.Lift(gameObject);
+        } else
+        {
+            // Drop the loot!
+            carried = false;
+            // If i'm to be destroyed, prevent me from being interacted with
+            if (destroy)
+                canInteract = false;
+
+            player.Drop(gameObject);
+            absorbTarget = transform.position + new Vector3(0, 3, 0);
+        }
+    }
+
+    public override void Focus(PlayerStateController player)
+    {
+        Highlight();
+    }
+
+    public override void Unfocus(PlayerStateController player)
+    {
+        Unhighlight();
+    }
+
+    public void Absorb(BaseController baseController)
+    {
+        // Set the object to be destroyed
+        this.baseController = baseController;
+        destroy = true;
+        GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
+    }
+
+    public void CancelAbsorb()
+    {
+        destroy = false;
+    }
 
     public void Highlight()
     {

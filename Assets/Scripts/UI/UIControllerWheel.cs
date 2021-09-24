@@ -6,7 +6,7 @@ public class UIControllerWheel : MonoBehaviour
 {
     public TowerScript[] towers;
     public GameObject[] menuSegments;
-    public List<TowerScript> towersInMenu = new List<TowerScript>();
+    private List<TowerScript> towersInMenu = new List<TowerScript>();
     public List<SpriteRenderer> iconHolders;
     public Sprite highlightSprite;
     public Sprite normalSprite;
@@ -32,7 +32,6 @@ public class UIControllerWheel : MonoBehaviour
         {
             towersInMenu.Add(towers[i]);
         }
-        //TowerScript temp = towersInMenu[index];
         return towersInMenu[index];
     }
     //Sets a single UI element to the highlight texture.

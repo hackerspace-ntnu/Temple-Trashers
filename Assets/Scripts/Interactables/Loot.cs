@@ -109,7 +109,7 @@ public class Loot : Interactable
                                 baseController.RemoveRayVFX(transform, 10f);
 
                                 //Add resources to inventory
-                                inventory.AddResource(lootValue);
+                                inventory.ResourceAmount += lootValue;
 
                                 Destroy(gameObject);
                             }

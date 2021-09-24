@@ -4,32 +4,15 @@ using UnityEngine;
 
 public class BulletLogic : MonoBehaviour
 {
+    private float bulletSpeed;
+    private float damage;
 
-    public float bulletSpeed;
-    public float damage;
+    public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
+    public float Damage { get => damage; set => damage = value; }
 
     void Start()
     {
         Destroy(gameObject, 10.0f);
-    }
-
-    //Get-ers and Set-ers
-    public void SetSpeed(float newSpeed)
-    {
-        bulletSpeed = newSpeed;
-    }
-    public float GetSpeed()
-    {
-        return bulletSpeed;
-    }
-
-    public void SetDamage(float bulletDamage)
-    {
-        damage = bulletDamage;
-    }
-    public float GetDamage()
-    {
-        return damage;
     }
 
     //On collision -> call collided objects damagelogic if it has one and destroy this bullet

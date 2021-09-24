@@ -17,6 +17,6 @@ public class ResourceUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        resourceAmount.text = inventory.GetResourceAmount().ToString();
+        resourceAmount.text = inventory.ResourceAmount.ToString();
     }
 }

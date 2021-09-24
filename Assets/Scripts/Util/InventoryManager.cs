@@ -12,47 +12,14 @@ public class InventoryManager : MonoBehaviour
     //Total amount of resources.
     private int resourceAmount = 100;
 
-    //Get-er
-    public int GetResourceAmount()
+    public int ResourceAmount
     {
-        return resourceAmount;
-    }
-
-    //Adders
-    public void AddResource(int amount)
-    {
-        if (amount > 0)
+        get => resourceAmount;
+        set
         {
-            
-            resourceAmount += amount;
+            resourceAmount = value;
             ui.UpdateUI();
         }
-    }
-    public void AddResource()
-    {
-        resourceAmount ++;
-        ui.UpdateUI();
-    }
-
-    //Subtracters
-    public bool SubtractResource(int amount)
-    {
-        if (amount <= resourceAmount) {
-            resourceAmount -= amount;
-            ui.UpdateUI();
-            return true;
-        }
-        return false;
-    }
-    public bool SubtractResource()
-    {
-        if (resourceAmount >= 1)
-        {
-            resourceAmount --;
-            ui.UpdateUI();
-            return true;
-        }
-        return false;
     }
 
     void Awake()

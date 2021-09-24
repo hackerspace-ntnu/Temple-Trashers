@@ -16,14 +16,11 @@ public class FlexibleUIButton : FlexibleUI
     }
 
     Image image;
-    public Image icon;
+    private Image icon;
     Button button;
     public ButtonType buttonType;
 
-    public void setIcon(Image iconIn)
-    {
-        icon = iconIn;
-    }
+    public Image Icon { get => icon; set => icon = value; }
 
     protected override void OnSkinUI()
     {

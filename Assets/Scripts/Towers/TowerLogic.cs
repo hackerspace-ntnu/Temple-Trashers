@@ -75,7 +75,7 @@ public class TowerLogic : Interactable
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
         newBullet.transform.SetParent(transform);
         BulletLogic newBulletLogic = newBullet.GetComponent<BulletLogic>();
-        newBulletLogic.SetDamage(bulletDamage);
-        newBulletLogic.SetSpeed(bulletSpeed);
+        newBulletLogic.Damage = bulletDamage;
+        newBulletLogic.BulletSpeed = bulletSpeed;
     }
 }

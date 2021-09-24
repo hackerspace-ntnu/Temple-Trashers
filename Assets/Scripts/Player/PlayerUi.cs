@@ -45,7 +45,8 @@ public class PlayerUi : MonoBehaviour
             ui.gameObject.SetActive(false);
             if (selectedSegment)
             {
-                if (inventory.SubtractResource(GetSelectedCost()))
+                inventory.ResourceAmount -= GetSelectedCost();
+                if (inventory.ResourceAmount >= 0)
                 {
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
                     state.Lift(spawnedTower);

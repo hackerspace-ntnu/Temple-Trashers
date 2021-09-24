@@ -83,7 +83,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (back)
                 {
                     //Refund turret
-                    inventoryManager.AddResource(ui.GetSelectedCost());
+                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
 
                     RemoveInteractable(liftedObject.GetComponent<Interactable>());
                     Destroy(liftedObject);

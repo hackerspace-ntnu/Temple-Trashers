@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ResourceUI : MonoBehaviour
 {
-    public Text resourceAmount = null;
+    public Text resourceAmount;
 
     private InventoryManager inventory;
 

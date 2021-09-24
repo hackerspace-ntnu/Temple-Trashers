@@ -6,9 +6,10 @@ public class ExplosionController : MonoBehaviour
 {
     public AnimationCurve explosionCurve;
 
-    // Start is called before the first frame update
     void Start()
     {
-        LeanTween.scale(gameObject, new Vector3(2, 2, 2), 1.5f).setEase(explosionCurve).setOnComplete(() => Destroy(gameObject));
+        LeanTween.scale(gameObject, new Vector3(2, 2, 2), 1.5f)
+            .setEase(explosionCurve)
+            .setOnComplete(() => Destroy(gameObject));
     }
 }

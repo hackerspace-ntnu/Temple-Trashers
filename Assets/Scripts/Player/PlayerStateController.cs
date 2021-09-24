@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// The input-related code is in `PlayerStateController_Input.cs`.
+/// </summary>
 public class PlayerStateController : MonoBehaviour
 {
-    private HealthLogic health; // Refrence to the health script
-    private PlayerStates currentState = PlayerStates.Free; // The current player state
-    private PlayerInput input;  // Controller input
+    private HealthLogic health; // Reference to the health script
+    private PlayerStates currentState = PlayerStates.FREE; // The current player state
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
@@ -17,63 +18,68 @@ public class PlayerStateController : MonoBehaviour
     private bool interact = false, back = false, select = false;
 
     private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
-    private Interactable focusedInteractable;   // The current focused interactable
-    private GameObject liftedObject;            // Object being lifted
-    public Transform inventory;                 // Where items are carried
+    private Interactable focusedInteractable; // The currently focused interactable
+    private GameObject liftedObject; // Object being lifted
+    public Transform inventory; // Where items are carried
 
-    private HexGrid terrain;    // Refrence to the terrain
+    private HexGrid terrain; // Reference to the terrain
     private HexCell targetCell;
 
     [SerializeField]
     private SkinnedMeshRenderer mesh;
+
     public enum PlayerStates
     {
-        InAnimation,
-        Lifting,
-        Dead,
-        Free,
-        Building,
-        InTurretMenu,
+        IN_ANIMATION,
+        LIFTING,
+        DEAD,
+        FREE,
+        BUILDING,
+        IN_TURRET_MENU,
     }
 
-    private void Start()
+    void Start()
     {
         motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
-        health.OnDeath += Die;
+        health.onDeath += Die;
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         inventoryManager = InventoryManager.Singleton;
     }
-    private void FixedUpdate()
+
+    void FixedUpdate()
     {
         UpdateFocusedInteractable();
         switch (currentState)
         {
-            case PlayerStates.InAnimation:
+            case PlayerStates.IN_ANIMATION:
                 break;
-            case PlayerStates.Lifting:
+            case PlayerStates.LIFTING:
                 //global
-                motion.move();
+                motion.Move();
                 break;
-            case PlayerStates.Dead:
+            case PlayerStates.DEAD:
                 break;
-            case PlayerStates.Free:
-                if (Select){ SetState(PlayerStates.InTurretMenu);}
-                else {
-                //global
-                motion.move();
+            case PlayerStates.FREE:
+                if (Select)
+                    SetState(PlayerStates.IN_TURRET_MENU);
+                else
+                {
+                    //global
+                    motion.Move();
                 }
+
                 break;
-            case PlayerStates.InTurretMenu:
+            case PlayerStates.IN_TURRET_MENU:
                 //global
                 ui.Select();
-                motion.move();
-                        //Lift(spawnedTower);
+                motion.Move();
+                //Lift(spawnedTower);
                 break;
-            case PlayerStates.Building:
+            case PlayerStates.BUILDING:
                 //global
-                motion.move();
+                motion.Move();
                 targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
                 focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
                 //case specific
@@ -81,16 +87,16 @@ public class PlayerStateController : MonoBehaviour
                 {
                     //Refund turret
                     inventoryManager.AddResource(ui.GetSelectedCost());
-                    
+
                     RemoveInteractable(liftedObject.GetComponent<Interactable>());
                     Destroy(liftedObject);
                     liftedObject = null;
-                    SetState(PlayerStates.Free);
+                    SetState(PlayerStates.FREE);
                 }
+
                 if (interact)
-                {
-                    SetState(PlayerStates.Free);
-                }
+                    SetState(PlayerStates.FREE);
+
                 break;
             default:
                 break;
@@ -99,43 +105,47 @@ public class PlayerStateController : MonoBehaviour
 
     public void SetStateFree()
     {
-        SetState(PlayerStates.Free);
+        SetState(PlayerStates.FREE);
     }
 
     private void Die()
     {
         // Drop anything we are carrying
         if (liftedObject != null)
-        {
             liftedObject.GetComponent<Interactable>().Interact(this);
-        }
+
         SetFocusedInteractable(null);
-        SetState(PlayerStates.Dead);
+        SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
-        CameraFocusController.Singleton.removeFocusObject(transform);
+
+        CameraFocusController.Singleton.RemoveFocusObject(transform);
         Destroy(gameObject);
     }
 
     public void SetState(PlayerStates state)
     {
-        if(currentState == state) { return; }
+        if (state == currentState)
+            return;
 
         switch (state)
         {
-            case PlayerStates.Lifting:
+            case PlayerStates.LIFTING:
                 break;
-            case PlayerStates.Dead:
+            case PlayerStates.DEAD:
                 break;
-            case PlayerStates.Free:
+            case PlayerStates.FREE:
                 break;
-            case PlayerStates.InTurretMenu:
+            case PlayerStates.IN_TURRET_MENU:
                 break;
-            case PlayerStates.Building:
+            case PlayerStates.BUILDING:
                 AddInteractable(liftedObject.GetComponent<Interactable>());
+                break;
+            case PlayerStates.IN_ANIMATION:
                 break;
             default:
                 break;
         }
+
         currentState = state;
     }
 
@@ -160,14 +170,13 @@ public class PlayerStateController : MonoBehaviour
         #endregion Developer hotkeys
     }
 
-    private void OnInteract()   // Gets called when interact button is pressed
+    // Gets called when interact button is pressed
+    private void OnInteract()
     {
-        if(focusedInteractable != null)
-        {
+        if (focusedInteractable != null)
             focusedInteractable.Interact(this); // interact with the current target
-        }
 
-        if(currentState == PlayerStates.Building)
+        if (currentState == PlayerStates.BUILDING)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
@@ -176,26 +185,22 @@ public class PlayerStateController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        Interactable inter = other.GetComponentInParent<Interactable>();
-        if (inter != null && inter.canInteract)
-        {
-            AddInteractable(inter);
-        }
+        Interactable interactable = other.GetComponentInParent<Interactable>();
+        if (interactable != null && interactable.canInteract)
+            AddInteractable(interactable);
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.GetComponentInParent<Interactable>())
-        {
             RemoveInteractable(other.GetComponentInParent<Interactable>());
-        }
     }
 
     public PlayerStates CurrentState { get => currentState; }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         input.actions["Move"].performed -= ctx => moveInput = ctx.ReadValue<Vector2>();
         input.actions["Move"].canceled -= ctx => moveInput = Vector2.zero;
@@ -208,45 +213,41 @@ public class PlayerStateController : MonoBehaviour
         input.actions["Select"].canceled -= ctx => select = false;
     }
 
-    public void AddInteractable(Interactable a)
+    public void AddInteractable(Interactable interactable)
     {
-        if (interactables.Contains(a)) // Do not add an interactable twice
-        {
+        if (interactables.Contains(interactable)) // Do not add an interactable twice
             return;
-        }
-        interactables.Add(a);
+
+        interactables.Add(interactable);
     }
 
-    public void RemoveInteractable(Interactable a)
+    public void RemoveInteractable(Interactable interactable)
     {
-        interactables.Remove(a);
+        interactables.Remove(interactable);
     }
 
     // Update the focused interactable based on distance from player
     private void UpdateFocusedInteractable()
     {
-        if(interactables.Count == 0)
+        if (interactables.Count == 0)
         {
             if (focusedInteractable != null) // The object we were focusing is no longer focusable
             {
                 focusedInteractable.Unfocus(this);
                 focusedInteractable = null;
             }
+
             // Otherwise do nothing
             return;
-        }
-        else if(interactables.Count == 1) // If there is only one interactable object select that object
+        } else if (interactables.Count == 1) // If there is only one interactable object select that object
         {
             SetFocusedInteractable(interactables[0]);
             return;
-        }
-        else if(focusedInteractable == null) // Wait until we have at least one object to interact with
-        {
+        } else if (focusedInteractable == null) // Wait until we have at least one object to interact with
             return;
-        }
 
         // Lifted objects are top priority
-        if (liftedObject != null && focusedInteractable != liftedObject)
+        if (liftedObject != null && liftedObject != focusedInteractable.gameObject)
         {
             SetFocusedInteractable(liftedObject.GetComponent<Interactable>());
             return;
@@ -263,34 +264,41 @@ public class PlayerStateController : MonoBehaviour
                 closest = i;
             }
         }
+
         SetFocusedInteractable(closest);
     }
 
-    private void SetFocusedInteractable(Interactable a)
+    private void SetFocusedInteractable(Interactable interactable)
     {
-        if(focusedInteractable == a) { return; } // This is allready the focused interactable
-        focusedInteractable?.Unfocus(this);
-        a?.Focus(this);
-        focusedInteractable = a;
+        if (focusedInteractable == interactable)
+        {
+            // This is already the focused interactable
+            return;
+        }
+
+        if (focusedInteractable)
+            focusedInteractable.Unfocus(this);
+        if (interactable)
+            interactable.Focus(this);
+        focusedInteractable = interactable;
     }
 
-    public void Lift(GameObject a)
+    public void Lift(GameObject obj)
     {
-        liftedObject = a;
-        SetState(PlayerStates.Lifting);
-        a.transform.SetParent(transform);
-        a.transform.position = inventory.position;
+        liftedObject = obj;
+        SetState(PlayerStates.LIFTING);
+        obj.transform.SetParent(transform);
+        obj.transform.position = inventory.position;
     }
 
-    public void Drop(GameObject a)
+    public void Drop(GameObject obj)
     {
         liftedObject = null;
-        a.transform.parent = null;
-        SetState(PlayerStates.Free);
-        if (!a.GetComponent<Interactable>().canInteract) // Check if we can still interact with the object
-        {
-            RemoveInteractable(a.GetComponent<Interactable>());
-        }
+        obj.transform.parent = null;
+        SetState(PlayerStates.FREE);
+        // Check if we can still interact with the object
+        if (!obj.GetComponent<Interactable>().canInteract)
+            RemoveInteractable(obj.GetComponent<Interactable>());
     }
 
     public Vector2 MoveInput { get => moveInput; }

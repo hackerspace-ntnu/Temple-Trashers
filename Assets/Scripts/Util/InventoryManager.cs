@@ -12,7 +12,6 @@ public class InventoryManager : MonoBehaviour
     //Total amount of resources.
     private int resourceAmount = 100;
 
-
     //Get-er
     public int GetResourceAmount()
     {
@@ -55,10 +54,6 @@ public class InventoryManager : MonoBehaviour
         }
         return false;
     }
-
-
-
-
 
     void Awake()
     {

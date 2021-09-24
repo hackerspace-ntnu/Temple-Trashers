@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HealthLogic : MonoBehaviour
 {
-    public delegate void onStatusUpdate();
+    public delegate void OnStatusUpdate();
 
-    public onStatusUpdate OnDeath;
+    public OnStatusUpdate onDeath;
 
     public float health;
     public float maxHealth;
@@ -14,21 +14,15 @@ public class HealthLogic : MonoBehaviour
     public virtual void DealDamage(float input)
     {
         if (health <= input)
-        {
-            OnDeath?.Invoke();
-        }
+            onDeath?.Invoke();
         else
-        {
             health -= input;
-        }
     }
 
     public virtual void Heal(float input)
     {
         health += input;
         if (health > maxHealth && maxHealth > 0)
-        {
             health = maxHealth;
-        }
     }
 }

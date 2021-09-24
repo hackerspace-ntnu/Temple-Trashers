@@ -6,25 +6,22 @@ using UnityEngine.UI;
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    private Text timerText = null;
+    private Text timerText;
 
     public float time = 5f;
 
-    private void Update()
+    void Update()
     {
         timerText.text = Mathf.Round(time).ToString();
         // Fix UI
-        time = time - Time.deltaTime;
+        time -= Time.deltaTime;
 
-        if(time <= 0)
-        {
+        if (time <= 0)
             Restart();
-        }
     }
 
-
     public void Restart()
-    {   
+    {
         // Reloads the scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

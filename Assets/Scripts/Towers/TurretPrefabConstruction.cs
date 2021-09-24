@@ -14,19 +14,13 @@ public class TurretPrefabConstruction : Interactable
     }
 
     public override void Interact(PlayerStateController player)
-    {
-        
-    }
+    {}
 
     public override void Focus(PlayerStateController player)
-    {
-
-    }
+    {}
 
     public override void Unfocus(PlayerStateController player)
-    {
-        
-    }
+    {}
 
     public void FocusCell(HexCell targetCell)
     {

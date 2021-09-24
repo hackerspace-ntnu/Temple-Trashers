@@ -8,14 +8,16 @@ public class AxeAnimationSyncher : MonoBehaviour
 
     public void animationGrabEvent()
     {
-        controller.grab();
+        controller.Grab();
     }
+
     public void animationTossEvent()
     {
         controller.Shoot();
     }
+
     public void animationSpawnEvent()
     {
-        controller.spawn();
+        controller.Spawn();
     }
 }

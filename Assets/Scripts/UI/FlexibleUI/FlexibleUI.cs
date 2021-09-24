@@ -6,23 +6,20 @@ public class FlexibleUI : MonoBehaviour
 {
     public FlexibleUIData skinData;
 
+    /// <summary>
+    /// Lets you edit UI and update the corresponding `ScriptoableObject` automatically.
+    /// </summary>
+    protected virtual void OnSkinUI()
+    {}
 
-
-    //Let's you edit UI and update the corresponding scriptoableobject automaticly
-    protected virtual void onSkinUI()
-    {
-
-    }
     public virtual void Awake()
     {
-        onSkinUI();
+        OnSkinUI();
     }
 
     public virtual void Update()
     {
         if (Application.isEditor)
-        {
-            onSkinUI();
-        }
+            OnSkinUI();
     }
 }

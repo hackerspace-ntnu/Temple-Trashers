@@ -7,7 +7,9 @@ public class TowerLogic : Interactable
     public Vector3 lookingTowards;
     public GameObject bulletSpawnPoint;
     public GameObject towerRotationPoint;
+
     public GameObject arrowPointer;
+
     //public bool autoShoot;
     public GameObject bullet;
     public float bulletSpeed;
@@ -16,14 +18,19 @@ public class TowerLogic : Interactable
     public Transform rotAxis;
     public float rotationMaxSpeed;
 
-    // Start is called before the first frame update
+    private Renderer arrowPointerRenderer;
+
     void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
-        Vector3 v = hexGrid.GetCell(transform.position).transform.position;
-        transform.position = v;
+        Vector3 cellPos = hexGrid.GetCell(transform.position).transform.position;
+        transform.position = cellPos;
+
+        // Some towers might not use an arrow pointer
+        arrowPointerRenderer = arrowPointer ? arrowPointer.GetComponent<Renderer>() : null;
     }
-    private void FixedUpdate()
+
+    void FixedUpdate()
     {
         ChangeDirection();
     }
@@ -34,7 +41,8 @@ public class TowerLogic : Interactable
         input = player.GetComponent<TurretInput>();
 
         //render arrowPointer
-        arrowPointer.GetComponent<Renderer>().enabled = true;
+        if (arrowPointerRenderer)
+            arrowPointerRenderer.enabled = true;
     }
 
     // When player leaves, prevent it from changing the turret position
@@ -43,30 +51,31 @@ public class TowerLogic : Interactable
         input = null;
 
         //unrender pointer
-        arrowPointer.GetComponent<Renderer>().enabled = false;
+        if (arrowPointerRenderer)
+            arrowPointerRenderer.enabled = false;
     }
 
     //Rotational-Movement using UserInput
-    void ChangeDirection()
+    private void ChangeDirection()
     {
-        if (input)
+        if (!input)
+            return;
+
+        Vector2 aim = input.GetAimInput();
+        if (aim.sqrMagnitude > 0.01f)
         {
-            Vector2 aim = input.GetAimInput();
-            if (aim.sqrMagnitude > 0.01f)
-            {
-                float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI;// - 90;
-                rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
-                Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
-            }
+            float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI; // - 90;
+            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
+            Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
         }
     }
 
-    void LaunchProjectile()
+    private void LaunchProjectile()
     {
         GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
-        newBullet.GetComponent<BulletLogic>().SetDamage(bulletDamage);
-        newBullet.GetComponent<BulletLogic>().SetSpeed(bulletSpeed);
-        newBullet.transform.SetParent(this.transform);
+        newBullet.transform.SetParent(transform);
+        BulletLogic newBulletLogic = newBullet.GetComponent<BulletLogic>();
+        newBulletLogic.SetDamage(bulletDamage);
+        newBulletLogic.SetSpeed(bulletSpeed);
     }
-   
 }

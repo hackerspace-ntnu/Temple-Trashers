@@ -8,8 +8,8 @@ public class TowerConstructor : MonoBehaviour
     private bool hologram = false;
 
     public List<Material[]> oldMaterials = new List<Material[]>();
-    private SkinnedMeshRenderer[] skinmr;
-    private MeshRenderer[] mr;
+    private SkinnedMeshRenderer[] skinnedMeshRenderers;
+    private MeshRenderer[] meshRenderers;
 
     // Component lists
     private List<MonoBehaviour> components = new List<MonoBehaviour>();
@@ -28,57 +28,51 @@ public class TowerConstructor : MonoBehaviour
         ToggleHologram();
 
         // Activate all components
-        foreach(MonoBehaviour m in components)
-        {
-            m.enabled = true;
-        }
-        foreach(Animator anim in animators)
-        {
+        foreach (MonoBehaviour component in components)
+            component.enabled = true;
+
+        foreach (Animator anim in animators)
             anim.enabled = true;
-        }
 
         // Clean up
         Destroy(this);
     }
 
-    private void Start()
+    void Start()
     {
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         ToggleHologram();
 
         // Deactivate turret scripts
-        foreach(MonoBehaviour c in GetComponentsInChildren(typeof(MonoBehaviour)))
+        foreach (MonoBehaviour component in GetComponentsInChildren<MonoBehaviour>())
         {
-            if(c != this)
+            if (component != this)
             {
-                components.Add(c);
-                c.enabled = false;
+                components.Add(component);
+                component.enabled = false;
             }
         }
-        foreach(Animator anim in GetComponentsInChildren(typeof(Animator)))
+
+        foreach (Animator anim in GetComponentsInChildren<Animator>())
         {
             animators.Add(anim);
             anim.enabled = false;
         }
 
         // Find all materials and store them
-        mr = GetComponentsInChildren<MeshRenderer>();
-        skinmr = GetComponentsInChildren<SkinnedMeshRenderer>();
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
 
-        for(int i = 0; i < skinmr.Length + mr.Length; i++)
+        for (int i = 0; i < skinnedMeshRenderers.Length + meshRenderers.Length; i++)
         {
-            if(i < mr.Length)
-            {
-                oldMaterials.Add(mr[i].materials);
-            }
+            if (i < meshRenderers.Length)
+                oldMaterials.Add(meshRenderers[i].materials);
             else
-            {
-                oldMaterials.Add(skinmr[i - mr.Length].materials);
-            }
+                oldMaterials.Add(skinnedMeshRenderers[i - meshRenderers.Length].materials);
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         targetCell = terrain.GetCell(transform.position + Vector3.forward * HexMetrics.outerRadius);
     }
@@ -88,34 +82,26 @@ public class TowerConstructor : MonoBehaviour
         // Turn off hologram material
         if (hologram)
         {
-            for(int i = 0; i < oldMaterials.Count; i++)
-            {
-                if (i < mr.Length)
-                {
-                    mr[i].materials = oldMaterials[i];
-                }
-                else
-                {
-                    skinmr[i - mr.Length].materials = oldMaterials[i];
-                }               
-            }
-            hologram = true;
-        }
-        else // Turn on hologram material
-        {
-            Material[] newMat = new Material[1];
-            newMat[0] = hologramMaterial;
             for (int i = 0; i < oldMaterials.Count; i++)
             {
-                if(i < mr.Length)
-                {
-                    mr[i].materials = newMat;
-                }
+                if (i < meshRenderers.Length)
+                    meshRenderers[i].materials = oldMaterials[i];
                 else
-                {
-                    skinmr[i - mr.Length].materials = newMat;
-                }
+                    skinnedMeshRenderers[i - meshRenderers.Length].materials = oldMaterials[i];
             }
+        }
+        // Turn on hologram material
+        else
+        {
+            Material[] newMat = { hologramMaterial };
+            for (int i = 0; i < oldMaterials.Count; i++)
+            {
+                if (i < meshRenderers.Length)
+                    meshRenderers[i].materials = newMat;
+                else
+                    skinnedMeshRenderers[i - meshRenderers.Length].materials = newMat;
+            }
+
             hologram = true;
         }
     }

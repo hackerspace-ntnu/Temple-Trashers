@@ -8,11 +8,14 @@ public class PlayerSpecificManager : MonoBehaviour
     private static int playerNum = 0;
     private int playerIndex;
     private PlayerInput input;
+
     [SerializeField]
-    private GameObject playerPrefab = null;
+    private GameObject playerPrefab;
+
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
-    private void Awake()
+
+    void Awake()
     {
         playerIndex = playerNum;
         playerNum++;
@@ -31,15 +34,15 @@ public class PlayerSpecificManager : MonoBehaviour
         instantiatedPlayer.SetUpInput(input, this);
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }
+
     public void RespawnPlayer(float delay)
     {
-        StartCoroutine(waitForRespawn(delay));
+        StartCoroutine(WaitForRespawn(delay));
     }
-    private IEnumerator waitForRespawn(float delay)
+
+    private IEnumerator WaitForRespawn(float delay)
     {
         yield return new WaitForSeconds(delay);
         InitializePlayer();
     }
-
-    
 }

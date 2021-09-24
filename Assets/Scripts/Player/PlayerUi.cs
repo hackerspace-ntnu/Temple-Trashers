@@ -86,11 +86,11 @@ public class PlayerUi : MonoBehaviour
                 if(angle > i * (360/uiSegmentAmount) && angle < (i+1)* (360 / uiSegmentAmount))
                 {
                     //Sets all ui segments to their normal non-highlighted texture
-                    ui.GetComponentInChildren<UIController>().NormalizeSegments();
+                    ui.GetComponentInChildren<UIControllerWheel>().NormalizeSegments();
                     //Highlights the selected segment
-                    ui.GetComponentInChildren<UIController>().HighlightSegment(i);
+                    ui.GetComponentInChildren<UIControllerWheel>().HighlightSegment(i);
                     //Sets the current selected tower gameobject derived from the corresponding scriptable object
-                    selectedSegment = ui.GetComponentInChildren<UIController>().GetTower(i);
+                    selectedSegment = ui.GetComponentInChildren<UIControllerWheel>().GetTower(i);
                 }
             }
 
@@ -99,7 +99,7 @@ public class PlayerUi : MonoBehaviour
         else
         {
             selectedSegment = null;
-            ui.GetComponentInChildren<UIController>().NormalizeSegments();
+            ui.GetComponentInChildren<UIControllerWheel>().NormalizeSegments();
         }
 
     }

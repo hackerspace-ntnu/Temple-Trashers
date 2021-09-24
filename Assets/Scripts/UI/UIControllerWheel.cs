@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+public class UIControllerWheel : MonoBehaviour
 {
     public TowerScript[] towers;
     public GameObject[] menuSegments;
-    private List<TowerScript> towersInMenu = new List<TowerScript>();
+    public List<TowerScript> towersInMenu = new List<TowerScript>();
     public List<SpriteRenderer> iconHolders;
     public Sprite highlightSprite;
     public Sprite normalSprite;
@@ -27,10 +27,12 @@ public class UIController : MonoBehaviour
     //Gets the tower gameobject stored in the corresponding scriptableobject that the uisegments uses.
     public TowerScript GetTower(int index)
     {
-       for (int i = 0; i < menuSegments.Length; i++)
+        towersInMenu.Clear();
+        for (int i = 0; i < menuSegments.Length; i++)
         {
             towersInMenu.Add(towers[i]);
         }
+        //TowerScript temp = towersInMenu[index];
         return towersInMenu[index];
     }
     //Sets a single UI element to the highlight texture.

@@ -20,7 +20,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (playerBase == null)
         {
-            playerBase = BaseController.Instance.transform;
+            playerBase = BaseController.Singleton.transform;
         }
     }
 

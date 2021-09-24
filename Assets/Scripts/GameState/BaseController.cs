@@ -4,8 +4,8 @@ using UnityEngine.VFX;
 
 public class BaseController : MonoBehaviour
 {
-    // Base Singleton
-    public static BaseController Instance;
+    private static BaseController SINGLETON;
+    public static BaseController Singleton => SINGLETON;
 
     // GameOverScreen
     [SerializeField]
@@ -31,13 +31,22 @@ public class BaseController : MonoBehaviour
 
     void Awake()
     {
-        // Makes sure there is only one base
-        if ( Instance == null ) { Instance = this; }
-        else
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            Debug.LogWarning("Tried to make two bases, removed the latter");
-            Destroy(gameObject);
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
         }
+
+        SINGLETON = this;
+
+        #endregion Singleton boilerplate
     }
 
     private void Die(){

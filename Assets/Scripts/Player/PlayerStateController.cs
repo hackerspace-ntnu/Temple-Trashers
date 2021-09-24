@@ -43,7 +43,7 @@ public class PlayerStateController : MonoBehaviour
         health.OnDeath += Die;
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
-        inventoryManager = InventoryManager.Instance;
+        inventoryManager = InventoryManager.Singleton;
     }
     private void FixedUpdate()
     {
@@ -112,7 +112,7 @@ public class PlayerStateController : MonoBehaviour
         SetFocusedInteractable(null);
         SetState(PlayerStates.Dead);
         manager.RespawnPlayer(1f);
-        CameraFocusController.Instance?.removeFocusObject(transform);
+        CameraFocusController.Singleton.removeFocusObject(transform);
         Destroy(gameObject);
     }
 

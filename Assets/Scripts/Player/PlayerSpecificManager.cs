@@ -21,7 +21,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
     void Start()
     {
-        spawnPoint = BaseController.Instance ? BaseController.Instance.SpawnPoint.position : Vector3.zero;
+        spawnPoint = BaseController.Singleton ? BaseController.Singleton.SpawnPoint.position : Vector3.zero;
         InitializePlayer();
     }
 
@@ -29,7 +29,7 @@ public class PlayerSpecificManager : MonoBehaviour
     {
         instantiatedPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
-        CameraFocusController.Instance?.addFocusObject(instantiatedPlayer.transform);
+        CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }
     public void RespawnPlayer(float delay)
     {

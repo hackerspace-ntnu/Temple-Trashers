@@ -22,7 +22,7 @@ public class PlayerUi : MonoBehaviour
     {
         state = GetComponent<PlayerStateController>();
         mainCameraTransform = Camera.main.transform;
-        inventory = InventoryManager.Instance;
+        inventory = InventoryManager.Singleton;
 
     }
 

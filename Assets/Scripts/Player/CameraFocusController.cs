@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CameraFocusController : MonoBehaviour
 {
-    //Singelton for ease of use
-    public static CameraFocusController Instance;
+    private static CameraFocusController SINGLETON;
+    public static CameraFocusController Singleton => SINGLETON;
 
     //Transforms the camera tris to focus on
     [SerializeField]
@@ -27,10 +27,22 @@ public class CameraFocusController : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            Instance = this;
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
         }
+
+        SINGLETON = this;
+
+        #endregion Singleton boilerplate
 
         viewDir = -transform.forward;
 
@@ -67,7 +79,7 @@ public class CameraFocusController : MonoBehaviour
         distance = Mathf.Sqrt(radialDist*radialDist + minDistance*minDistance);
         return center + distance * viewDir;
     }
-    //To add a focus point to the camera, use CameraFocusController.Instance.addFocusObject( your transform );
+    //To add a focus point to the camera, use CameraFocusController.Singleton.addFocusObject( your transform );
     public void addFocusObject(Transform obj)
     {
         if (!focusObjects.Contains(obj))

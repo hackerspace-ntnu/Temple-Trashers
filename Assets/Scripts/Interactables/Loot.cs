@@ -25,7 +25,7 @@ public class Loot : Interactable
             mr.Add(childRenderer);
         }
 
-        inventory = InventoryManager.Instance;
+        inventory = InventoryManager.Singleton;
     }
 
     public override void Interact(PlayerStateController player)

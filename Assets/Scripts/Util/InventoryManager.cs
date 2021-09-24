@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    //Singleton related logic
-    private static InventoryManager _instance;
-    public static InventoryManager Instance { get { return _instance; } }
+    private static InventoryManager SINGLETON;
+    public static InventoryManager Singleton => SINGLETON;
+
     public ResourceUI ui;
 
     //Total amount of resources.
@@ -60,16 +60,23 @@ public class InventoryManager : MonoBehaviour
 
 
 
-    //Singleton-related function
-    private void Awake()
+    void Awake()
     {
-        if (_instance != null && _instance != this)
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            Destroy(this.gameObject);
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
         }
-        else
-        {
-            _instance = this;
-        }
+
+        SINGLETON = this;
+
+        #endregion Singleton boilerplate
     }
 }

@@ -11,7 +11,7 @@ public class ResourceUI : MonoBehaviour
 
     void Start()
     {
-        inventory = InventoryManager.Instance;
+        inventory = InventoryManager.Singleton;
         UpdateUI();
     }
 

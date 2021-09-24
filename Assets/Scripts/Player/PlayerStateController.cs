@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// The input-related code is in `PlayerStateController_Input.cs`.
 /// </summary>
-public class PlayerStateController : MonoBehaviour
+public partial class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health; // Reference to the health script
     private PlayerStates currentState = PlayerStates.FREE; // The current player state
@@ -13,9 +13,6 @@ public class PlayerStateController : MonoBehaviour
     private PlayerMotion motion;
     private PlayerUi ui;
     private InventoryManager inventoryManager;
-
-    private Vector2 moveInput = Vector2.zero, aimInput = Vector2.zero;
-    private bool interact = false, back = false, select = false;
 
     private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
     private Interactable focusedInteractable; // The currently focused interactable
@@ -149,27 +146,6 @@ public class PlayerStateController : MonoBehaviour
         currentState = state;
     }
 
-    public void SetUpInput(PlayerInput input, PlayerSpecificManager manager)
-    {
-        this.input = input;
-        this.manager = manager;
-        input.actions["Move"].performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.actions["Move"].canceled += ctx => moveInput = Vector2.zero;
-        input.actions["Aim"].performed += ctx => aimInput = ctx.ReadValue<Vector2>();
-        input.actions["Aim"].canceled += ctx => aimInput = Vector2.zero;
-        input.actions["Interact"].performed += ctx => OnInteract();
-        input.actions["Back"].performed += ctx => back = true;
-        input.actions["Back"].canceled += ctx => back = false;
-        input.actions["Select"].performed += ctx => select = true;
-        input.actions["Select"].canceled += ctx => select = false;
-
-        #region Developer hotkeys
-
-        input.actions["Ready for next wave"].performed += ctx => EnemyWaveManager.ReadyForNextWave();
-
-        #endregion Developer hotkeys
-    }
-
     // Gets called when interact button is pressed
     private void OnInteract()
     {
@@ -199,19 +175,6 @@ public class PlayerStateController : MonoBehaviour
     }
 
     public PlayerStates CurrentState { get => currentState; }
-
-    void OnDestroy()
-    {
-        input.actions["Move"].performed -= ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.actions["Move"].canceled -= ctx => moveInput = Vector2.zero;
-        input.actions["Aim"].performed -= ctx => aimInput = ctx.ReadValue<Vector2>();
-        input.actions["Aim"].canceled -= ctx => aimInput = Vector2.zero;
-        input.actions["Interact"].performed -= ctx => interact = true;
-        input.actions["Back"].performed -= ctx => back = true;
-        input.actions["Back"].canceled -= ctx => back = false;
-        input.actions["Select"].performed -= ctx => select = true;
-        input.actions["Select"].canceled -= ctx => select = false;
-    }
 
     public void AddInteractable(Interactable interactable)
     {
@@ -300,10 +263,4 @@ public class PlayerStateController : MonoBehaviour
         if (!obj.GetComponent<Interactable>().canInteract)
             RemoveInteractable(obj.GetComponent<Interactable>());
     }
-
-    public Vector2 MoveInput { get => moveInput; }
-    public Vector2 AimInput { get => aimInput; }
-    public bool Interact { get => interact; }
-    public bool Back { get => back; }
-    public bool Select { get => select; }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 401785646664150570}
   - component: {fileID: 8540039738276690605}
   m_Layer: 0
-  m_Name: R1
+  m_Name: Segment 1 - Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5163687379953104602}
   - component: {fileID: 5717948543165637213}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Axe icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,13 +107,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671451464140223410}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.54946035, w: 0.8355198}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 401785646664150570}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -66.66}
 --- !u!212 &5717948543165637213
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -154,15 +154,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f80fae3def271ef40a6d22ba620a34bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.18, y: 2.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1050727322773367263
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 7059639067386698208}
   - component: {fileID: 3442901109344144039}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Lightning icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,13 +189,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050727322773367263}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.83551973, w: 0.5494604}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6819937708015371253}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 113.34}
 --- !u!212 &3442901109344144039
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -236,15 +236,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fa8af8745608b524f9f1ec52216dbb43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.72, y: 2.92}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1790350882470690467
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 5952657339188967765}
   - component: {fileID: 7470162488746946180}
   m_Layer: 0
-  m_Name: R0
+  m_Name: Segment 0 - Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 6819937708015371253}
   - component: {fileID: 8563854926741933519}
   m_Layer: 0
-  m_Name: R2
+  m_Name: Segment 2 - Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 1086503869059733102}
   - component: {fileID: 5176013073041785980}
   m_Layer: 0
-  m_Name: R3
+  m_Name: Segment 3 - Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -544,20 +544,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towers:
-  - {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
+  - {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
   - {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
   - {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
   - {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
   menuSegments:
-  - {fileID: 4560548831214354366}
-  - {fileID: 2354633271838427093}
-  - {fileID: 466455444454892074}
   - {fileID: 1790350882470690467}
+  - {fileID: 466455444454892074}
+  - {fileID: 2354633271838427093}
+  - {fileID: 4560548831214354366}
   iconHolders:
-  - {fileID: 1090719741646943878}
-  - {fileID: 3442901109344144039}
-  - {fileID: 5717948543165637213}
   - {fileID: 5157628190221379722}
+  - {fileID: 5717948543165637213}
+  - {fileID: 3442901109344144039}
+  - {fileID: 1090719741646943878}
   highlightSprite: {fileID: 21300000, guid: e79bed420eaefbd429cb879c9580ca67, type: 3}
   normalSprite: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
 --- !u!1 &5091847297515756018
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 1669172320741284494}
   - component: {fileID: 5157628190221379722}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Wheel icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,7 +653,7 @@ GameObject:
   - component: {fileID: 1933977163224671801}
   - component: {fileID: 1090719741646943878}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Axe icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -666,13 +666,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8365513838354856328}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.54946035, w: 0.8355198}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1086503869059733102}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -66.66}
 --- !u!212 &1090719741646943878
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -713,15 +713,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f80fae3def271ef40a6d22ba620a34bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.18, y: 2.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8586861311650135967

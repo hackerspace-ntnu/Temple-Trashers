@@ -27,10 +27,8 @@ public class HexCell : MonoBehaviour {
         {
 			elevation = value;
 			position = transform.localPosition;
-			position.y = value * HexMetrics.elevationStep;
-			position.y +=
-				(HexMetrics.SampleNoise(position).y * 2f - 1f) *
-				HexMetrics.elevationPerturbStrength;
+			//position.y = value * HexMetrics.elevationStep;
+			//position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
 			transform.localPosition = position;
         }
     }
@@ -50,7 +48,7 @@ public class HexCell : MonoBehaviour {
 	public float animationScale = 10f;
 
 	[SerializeField]
-	HexCell[] neighbors = null;
+	HexCell[] neighbors;
 
 	private Transform hq;
 

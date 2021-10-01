@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 850085007610440996}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.35, y: 2.1, z: 1}
+  m_LocalPosition: {x: -4.19, y: 1.37, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2977432110045038672}
@@ -88,7 +88,7 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: -4.35, y: 14.860001, z: 1}
+      - m_Value: {x: -4.19, y: 14.13, z: 1}
         m_Name: Target
         m_Overridden: 1
     m_Vector4f:

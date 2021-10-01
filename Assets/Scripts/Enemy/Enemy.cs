@@ -22,6 +22,7 @@ public abstract class Enemy : MonoBehaviour
         {
             playerBase = BaseController.Singleton.transform;
         }
+        GetComponent<HealthLogic>().onDeath += Die;
     }
 
     protected void Start()

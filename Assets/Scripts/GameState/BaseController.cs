@@ -48,6 +48,7 @@ public class BaseController : MonoBehaviour
         SINGLETON = this;
 
         #endregion Singleton boilerplate
+        GetComponent<HealthLogic>().onDeath += Die;
     }
 
     void OnTriggerEnter(Collider other)

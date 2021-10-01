@@ -224,7 +224,7 @@ Animator:
   m_GameObject: {fileID: 7425059109847644991}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81827cd3e6ce5b64bb5a766268887e21, type: 2}
+  m_Controller: {fileID: 9100000, guid: 17a1762f61ae49e4195bdbc8bd7177be, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -261,13 +261,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e4ba8d6a04ad7459c262f744b30b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightningRadius: 4
+  lightningRadius: 3
   damage: 10
-  drainRay: {fileID: 0}
+  drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
   effectDuration: 0.3
   shockLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2816
 --- !u!136 &4940800382082599726
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -394,7 +394,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 670224309865224971, guid: bed32b35a3ae905428bcc793227ed154, type: 3}
+  - {fileID: 2100000, guid: 192726f5656b1453f8ff6459c6882247, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -278,6 +278,52 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""deaea30b-aee8-4db5-bc8c-98b23625b044"",
+            ""actions"": [
+                {
+                    ""name"": ""MouseMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""1aa781e4-b54b-4cca-b2aa-0f093d7005e1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""MouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c44b654-f1cc-47d0-a098-d6bb4dd2bb35"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""09c7330c-b070-42f6-8ae4-0d8ee27aa928"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MouseMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4162ed88-c961-49d0-8761-fe84917eb277"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -287,6 +333,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -313,6 +364,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Back = m_MovePlayer.FindAction("Back", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
+        m_Menu_MouseClick = m_Menu.FindAction("MouseClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +486,47 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public MovePlayerActions @MovePlayer => new MovePlayerActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_MouseMove;
+    private readonly InputAction m_Menu_MouseClick;
+    public struct MenuActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MenuActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MouseMove => m_Wrapper.m_Menu_MouseMove;
+        public InputAction @MouseClick => m_Wrapper.m_Menu_MouseClick;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @MouseMove.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
+                @MouseMove.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
+                @MouseMove.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseMove;
+                @MouseClick.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
+                @MouseClick.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
+                @MouseClick.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MouseMove.started += instance.OnMouseMove;
+                @MouseMove.performed += instance.OnMouseMove;
+                @MouseMove.canceled += instance.OnMouseMove;
+                @MouseClick.started += instance.OnMouseClick;
+                @MouseClick.performed += instance.OnMouseClick;
+                @MouseClick.canceled += instance.OnMouseClick;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -457,5 +553,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnBack(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnMouseMove(InputAction.CallbackContext context);
+        void OnMouseClick(InputAction.CallbackContext context);
     }
 }

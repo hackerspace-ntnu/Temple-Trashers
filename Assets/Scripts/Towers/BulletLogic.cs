@@ -4,48 +4,30 @@ using UnityEngine;
 
 public class BulletLogic : MonoBehaviour
 {
+    private float bulletSpeed;
+    private float damage;
 
-    public float bulletSpeed;
-    public float damage;
+    public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
+    public float Damage { get => damage; set => damage = value; }
 
-    // Start is called before the first frame update
     void Start()
     {
-        GameObject.Destroy(gameObject, 10.0f);
-    }
-    //Get-ers and Set-ers
-    public void SetSpeed(float newSpeed)
-    {
-        bulletSpeed = newSpeed;
-    }
-    public float GetSpeed()
-    {
-        return bulletSpeed;
+        Destroy(gameObject, 10.0f);
     }
 
-    public void SetDamage(float bulletDamage)
-    {
-        damage = bulletDamage;
-    }
-    public float GetDamage()
-    {
-        return damage;
-    }
-    
-    //On collision -> call collided objects damagelogic if it has one and destroy this bullet
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<HealthLogic>())
-        {
-            other.gameObject.GetComponent<HealthLogic>().DealDamage(damage);
-        }
-        GameObject.Destroy(gameObject);
-    }
-
-    // Update is called once per frame
     void Update()
     {
         //move the bullet with specified speed
-        transform.position += transform.forward *bulletSpeed * Time.deltaTime;
+        transform.position += transform.forward * bulletSpeed * Time.deltaTime;
+    }
+
+    //On collision -> call collided objects damagelogic if it has one and destroy this bullet
+    void OnTriggerEnter(Collider other)
+    {
+        HealthLogic healthLogic = other.GetComponent<HealthLogic>();
+        if (healthLogic)
+            healthLogic.DealDamage(damage);
+
+        Destroy(gameObject);
     }
 }

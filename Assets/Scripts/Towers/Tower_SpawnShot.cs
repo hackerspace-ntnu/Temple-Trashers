@@ -6,19 +6,10 @@ public class Tower_SpawnShot : MonoBehaviour
 {
     public GameObject bullet;
     public float bulletSpeed;
-    // Start is called before the first frame update
-    void Start()
+
+    public void Shoot()
     {
-       
-    }
-    void shoot()
-    {
-        GameObject newBullet = Instantiate(bullet, this.transform);
-        newBullet.GetComponent<BulletLogic>().SetSpeed(bulletSpeed);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject newBullet = Instantiate(bullet, transform);
+        newBullet.GetComponent<BulletLogic>().BulletSpeed = bulletSpeed;
     }
 }

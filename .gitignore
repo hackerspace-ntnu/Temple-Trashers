@@ -75,5 +75,6 @@ crashlytics-build.properties
 #
 .idea/
 .vsconfig
+
 *.blend1
 *.blend1.meta

@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class ResourceUI : MonoBehaviour
 {
-    public Text resourceAmount = null;
+    public Text resourceAmount;
 
     private InventoryManager inventory;
 
     void Start()
     {
-        inventory = InventoryManager.Instance;
+        inventory = InventoryManager.Singleton;
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        resourceAmount.text = inventory.GetResourceAmount().ToString();
+        resourceAmount.text = inventory.ResourceAmount.ToString();
     }
 }

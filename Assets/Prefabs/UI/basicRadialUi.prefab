@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 6082874490471795529}
   - component: {fileID: 2695702019472352132}
   m_Layer: 0
-  m_Name: S2
+  m_Name: Segment 0 - Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ Transform:
   m_Children:
   - {fileID: 6350616774893144723}
   m_Father: {fileID: 1649954534808338643}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &2695702019472352132
 SpriteRenderer:
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 148420775306995779}
   - component: {fileID: 8293990270285925428}
   m_Layer: 0
-  m_Name: S1
+  m_Name: Segment 1 - Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ Transform:
   m_Children:
   - {fileID: 2153637227108331102}
   m_Father: {fileID: 1649954534808338643}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8293990270285925428
 SpriteRenderer:
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 2153637227108331102}
   - component: {fileID: 4633515314931662736}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Lightning icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,12 +326,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7485679914231017279}
-  m_LocalRotation: {x: -0.3826879, y: 0.9238777, z: -0, w: 0}
+  m_LocalRotation: {x: -0.38268343, y: 0.92387956, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 148420775306995779}
   - {fileID: 6082874490471795529}
+  - {fileID: 148420775306995779}
   m_Father: {fileID: 2960750554700515203}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: -45}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 6350616774893144723}
   - component: {fileID: 7132063826683214633}
   m_Layer: 0
-  m_Name: Icon
+  m_Name: Axe icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

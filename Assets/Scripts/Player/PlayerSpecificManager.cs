@@ -8,11 +8,14 @@ public class PlayerSpecificManager : MonoBehaviour
     private static int playerNum = 0;
     private int playerIndex;
     private PlayerInput input;
+
     [SerializeField]
-    private GameObject playerPrefab = null;
+    private GameObject playerPrefab;
+
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
-    private void Awake()
+
+    void Awake()
     {
         playerIndex = playerNum;
         playerNum++;
@@ -21,7 +24,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
     void Start()
     {
-        spawnPoint = BaseController.Instance ? BaseController.Instance.SpawnPoint.position : Vector3.zero;
+        spawnPoint = BaseController.Singleton ? BaseController.Singleton.SpawnPoint.position : Vector3.zero;
         InitializePlayer();
     }
 
@@ -29,17 +32,17 @@ public class PlayerSpecificManager : MonoBehaviour
     {
         instantiatedPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
-        CameraFocusController.Instance?.addFocusObject(instantiatedPlayer.transform);
+        CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }
+
     public void RespawnPlayer(float delay)
     {
-        StartCoroutine(waitForRespawn(delay));
+        StartCoroutine(WaitForRespawn(delay));
     }
-    private IEnumerator waitForRespawn(float delay)
+
+    private IEnumerator WaitForRespawn(float delay)
     {
         yield return new WaitForSeconds(delay);
         InitializePlayer();
     }
-
-    
 }

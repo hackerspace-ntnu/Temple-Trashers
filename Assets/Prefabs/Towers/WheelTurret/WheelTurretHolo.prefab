@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 3732561439934950897}
   - component: {fileID: 732105527430625372}
   m_Layer: 0
-  m_Name: Tower_Wheel Holo
+  m_Name: WheelTurretHolo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4fd1a3795e38f42b486c9bd6a8fc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 2983117196373584133, guid: d9c9ddbe5ecd2cf4cae3474198d951df, type: 3}
+  canInteract: 1
+  tower: {fileID: 2983117196373584133, guid: a86ee555d85992147a70625145af137b, type: 3}
 --- !u!1 &4780342758878589116
 GameObject:
   m_ObjectHideFlags: 0

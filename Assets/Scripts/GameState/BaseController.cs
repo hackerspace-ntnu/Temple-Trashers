@@ -4,19 +4,19 @@ using UnityEngine.VFX;
 
 public class BaseController : MonoBehaviour
 {
-    // Base Singleton
-    public static BaseController Instance;
+    private static BaseController SINGLETON;
+    public static BaseController Singleton => SINGLETON;
 
     // GameOverScreen
     [SerializeField]
-    private GameObject GameOverScreen = null;
+    private GameObject gameOverScreen;
 
     //Explosion
     [SerializeField]
-    private GameObject Explosion = null;
+    private GameObject explosion;
 
     [SerializeField]
-    private Transform spawnPoint = null;
+    private Transform spawnPoint;
 
     // Death flag
     private bool dead = false;
@@ -28,54 +28,54 @@ public class BaseController : MonoBehaviour
     public GameObject drainRay;
     private List<Ray> rays = new List<Ray>();
 
+    public Transform SpawnPoint { get => spawnPoint; }
 
     void Awake()
     {
-        // Makes sure there is only one base
-        if ( Instance == null ) { Instance = this; }
-        else
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            Debug.LogWarning("Tried to make two bases, removed the latter");
-            Destroy(gameObject);
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
         }
+
+        SINGLETON = this;
+
+        #endregion Singleton boilerplate
     }
 
-    private void Die(){
-        if(dead == false)
-        {
-            //BIG EXPLOSION
-            Instantiate(Explosion, this.transform.position, new Quaternion(0, 0, 0, 0), this.transform);
-            // Creates the GUI "GameOverScreen"
-            Instantiate(GameOverScreen);
-        }
-        dead = true;
-    }
-    public Transform SpawnPoint { get => spawnPoint; }
-
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player.GetComponentInChildren<Loot>();
         if (loot != null)
-            {
+        {
             loot.Absorb(this);
 
             // Add VFX
-            if(GetIdVFX(player.transform) == -1) // Check that we have not added one already
+            if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
             {
-                GameObject ray = Instantiate(drainRay, transform.position, transform.rotation);
-                ray.transform.SetParent(transform);
+                Transform ray = Instantiate(drainRay, transform.position, transform.rotation).transform;
+                ray.SetParent(transform);
 
+                // 1 is the index of the first child (after the parent itself)
                 Transform target = ray.GetComponentsInChildren<Transform>()[1];
                 target.SetParent(loot.transform);
                 target.localPosition = Vector3.zero;
 
-                rays.Add(new Ray(ray.transform, target));
+                rays.Add(new Ray(ray, target));
                 loot.target = target;
             }
         }
     }
-    private void OnTriggerExit(Collider other)
+
+    void OnTriggerExit(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player.GetComponentInChildren<Loot>();
@@ -84,65 +84,62 @@ public class BaseController : MonoBehaviour
             // Stop the absorbtion
             loot.CancelAbsorb();
             // Remove VFX
-            RemoveRayVFX(player.transform, 0f);            
+            RemoveRayVFX(player.transform, 0f);
         }
     }
-    
+
+    private void Die()
+    {
+        if (!dead)
+        {
+            //BIG EXPLOSION
+            Instantiate(explosion, transform.position, Quaternion.identity, transform);
+            // Creates the GUI "GameOverScreen"
+            Instantiate(gameOverScreen);
+        }
+
+        dead = true;
+    }
+
     public void RemoveRayVFX(Transform target, float delay)
     {
         int i = GetIdVFX(target);
-        if(i >= 0)
+        if (i >= 0)
         {
-            Transform t = rays[i].target;
-            Transform r = rays[i].ray;
+            Ray ray = rays[i];
             rays.RemoveAt(i);
-            Destroy(r.gameObject, delay);
-            Destroy(t.gameObject, delay);
+            Destroy(ray.ray.gameObject, delay);
+            Destroy(ray.target.gameObject, delay);
         }
     }
 
     public void ArcLengthVFX(Transform target, float change)
     {
         int i = GetIdVFX(target);
-        if(i >= 0)
+        if (i >= 0)
         {
             Transform r = rays[i].ray;
             r.GetComponent<VisualEffect>().SetFloat("Length", change);
-            if (change <= 0.1)
-            {
+            if (change <= 0.1f)
                 r.GetComponent<VisualEffect>().SendEvent("OnDie");
-            }
         }
-        
     }
-    // Returns -1 if t does not contain loot, -2 if loot was not registered
+
+    /// <summary>
+    /// Returns -1 if `t` does not contain loot, -2 if loot was not registered
+    /// </summary>
     public int GetIdVFX(Transform t)
     {
         Transform target = t.GetComponentInChildren<Loot>().target;
-        if(target != null)
+        if (target == null)
+            return -1;
+
+        for (int i = 0; i < rays.Count; i++)
         {
-            for (int i = 0; i < rays.Count; i++)
-            {
-                if (rays[i].target == target)
-                {
-                    return i;
-                }
-            }
-            return -2;
+            if (rays[i].target == target)
+                return i;
         }
-        return -1;
+
+        return -2;
     }
 }
-
-public struct Ray
-{
-    public Transform ray;
-    public Transform target;
-
-    public Ray(Transform Ray, Transform Target)
-    {
-        ray = Ray;
-        target = Target;
-    }
-}
-

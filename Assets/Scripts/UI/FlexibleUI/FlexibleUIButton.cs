@@ -7,32 +7,28 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class FlexibleUIButton : FlexibleUI
 {
-
     public enum ButtonType
     {
-        Default,
-        Confirm,
-        Decline,
-        Warning
+        DEFAULT,
+        CONFIRM,
+        DECLINE,
+        WARNING,
     }
+
     Image image;
-    public Image icon;
+    private Image icon;
     Button button;
     public ButtonType buttonType;
 
-    public void setIcon(Image iconIn)
-    {
-        icon = iconIn;
-    }
+    public Image Icon { get => icon; set => icon = value; }
 
-    protected override void onSkinUI()
+    protected override void OnSkinUI()
     {
-        base.onSkinUI();
-
+        base.OnSkinUI();
 
         image = GetComponent<Image>();
         button = GetComponent<Button>();
-       // icon = transform.Find("Icon").GetComponent<Image>();
+        // icon = transform.Find("Icon").GetComponent<Image>();
 
         button.transition = Selectable.Transition.SpriteSwap;
         button.targetGraphic = image;
@@ -44,30 +40,25 @@ public class FlexibleUIButton : FlexibleUI
 
         switch (buttonType)
         {
-            case ButtonType.Confirm:
+            case ButtonType.CONFIRM:
                 image.color = skinData.confirmColor;
-               // icon.sprite = skinData.confirmIcon;
+                // icon.sprite = skinData.confirmIcon;
                 break;
 
-            case ButtonType.Decline:
+            case ButtonType.DECLINE:
                 image.color = skinData.declineColor;
-              //  icon.sprite = skinData.declineIcon;
+                //  icon.sprite = skinData.declineIcon;
                 break;
 
-            case ButtonType.Warning:
+            case ButtonType.WARNING:
                 image.color = skinData.warningColor;
-              //  icon.sprite = skinData.warningIcon;
+                //  icon.sprite = skinData.warningIcon;
                 break;
 
-            case ButtonType.Default:
+            case ButtonType.DEFAULT:
                 image.color = skinData.defaultColor;
-              //  icon.sprite = skinData.defaultIcon;
+                //  icon.sprite = skinData.defaultIcon;
                 break;
         }
-        
-      
-
-
-
     }
 }

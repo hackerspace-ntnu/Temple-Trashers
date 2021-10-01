@@ -4,72 +4,41 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    //Singleton related logic
-    private static InventoryManager _instance;
-    public static InventoryManager Instance { get { return _instance; } }
+    private static InventoryManager SINGLETON;
+    public static InventoryManager Singleton => SINGLETON;
+
     public ResourceUI ui;
 
     //Total amount of resources.
     private int resourceAmount = 100;
 
-
-    //Get-er
-    public int GetResourceAmount()
+    public int ResourceAmount
     {
-        return resourceAmount;
-    }
-
-    //Adders
-    public void AddResource(int amount)
-    {
-        if (amount > 0)
+        get => resourceAmount;
+        set
         {
-            
-            resourceAmount += amount;
+            resourceAmount = value;
             ui.UpdateUI();
         }
     }
-    public void AddResource()
-    {
-        resourceAmount ++;
-        ui.UpdateUI();
-    }
 
-    //Subtracters
-    public bool SubtractResource(int amount)
+    void Awake()
     {
-        if (amount <= resourceAmount) {
-            resourceAmount -= amount;
-            ui.UpdateUI();
-            return true;
-        }
-        return false;
-    }
-    public bool SubtractResource()
-    {
-        if (resourceAmount >= 1)
+        #region Singleton boilerplate
+
+        if (SINGLETON != null)
         {
-            resourceAmount --;
-            ui.UpdateUI();
-            return true;
+            if (SINGLETON != this)
+            {
+                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
         }
-        return false;
-    }
 
+        SINGLETON = this;
 
-
-
-
-    //Singleton-related function
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
+        #endregion Singleton boilerplate
     }
 }

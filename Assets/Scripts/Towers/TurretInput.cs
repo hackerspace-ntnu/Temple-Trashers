@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class TurretInput : MonoBehaviour
 {
+    public GameObject tower;
 
     private IEnumerator coroutine;
-    PlayerStateController player;
-    HexGrid hexGrid;
-    public GameObject tower;
+    private PlayerStateController player;
+    private HexGrid hexGrid;
+
+    void Start()
+    {
+        hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
+        player = GetComponent<PlayerStateController>();
+
+        coroutine = WaitAndPrint(5.0f);
+        StartCoroutine(coroutine);
+    }
+
     private IEnumerator WaitAndPrint(float waitTime)
     {
         while (true)
@@ -18,23 +27,12 @@ public class TurretInput : MonoBehaviour
             //PlaceTower(tower, transform.position);
         }
     }
-    void Start()
-    {
-        hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
-        player = GetComponent<PlayerStateController>();
-
-        coroutine = WaitAndPrint(5.0f);
-        StartCoroutine(coroutine);
-
-
-    }
 
     public Vector2 GetAimInput()
     {
-        if(player.CurrentState == PlayerStateController.PlayerStates.Dead)
-        {
+        if (player.CurrentState == PlayerStateController.PlayerStates.DEAD)
             return Vector2.zero;
-        }
+
         return player.AimInput;
     }
 
@@ -43,7 +41,8 @@ public class TurretInput : MonoBehaviour
         return player.CurrentState;
     }
 
-    public void PlaceTower(GameObject tower, Vector3 position) {
+    public void PlaceTower(GameObject tower, Vector3 position)
+    {
         HexCell cell = hexGrid.GetCell(position);
         cell.isOccupied = true;
         cell.occupier = Instantiate(tower, cell.transform);

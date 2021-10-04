@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CameraFocusController : MonoBehaviour
 {
-    private static CameraFocusController SINGLETON;
-    public static CameraFocusController Singleton => SINGLETON;
+    public static CameraFocusController Singleton { get; private set; }
 
     // Transforms the camera tries to focus on
     [SerializeField]
@@ -30,18 +29,18 @@ public class CameraFocusController : MonoBehaviour
     {
         #region Singleton boilerplate
 
-        if (SINGLETON != null)
+        if (Singleton != null)
         {
-            if (SINGLETON != this)
+            if (Singleton != this)
             {
-                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
                 Destroy(gameObject);
             }
 
             return;
         }
 
-        SINGLETON = this;
+        Singleton = this;
 
         #endregion Singleton boilerplate
 

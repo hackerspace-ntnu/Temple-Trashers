@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,12 +17,11 @@ public abstract class Enemy : MonoBehaviour
 
     public float speed = 5f;
 
-    private void Awake()
+    void Awake()
     {
         if (playerBase == null)
-        {
             playerBase = BaseController.Singleton.transform;
-        }
+
         GetComponent<HealthLogic>().onDeath += Die;
     }
 
@@ -35,6 +35,11 @@ public abstract class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         agent.destination = currentTarget.position;
+    }
+
+    void OnDestroy()
+    {
+        GetComponent<HealthLogic>().onDeath -= Die;
     }
 
     void OnCollisionEnter(Collision collision)

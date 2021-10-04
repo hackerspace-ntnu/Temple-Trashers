@@ -109,10 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af755870c7ae4186a96141b01af8563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  GameOverScreen: {fileID: 6406541465688870762, guid: cf6616ecfd76d4b379c4e4fd196293af, type: 3}
-  Explosion: {fileID: 8540785681650497039, guid: 2c5fbfe28e3b404499f4e21b605c375f, type: 3}
+  gameOverScreen: {fileID: 6406541465688870762, guid: cf6616ecfd76d4b379c4e4fd196293af, type: 3}
+  explosion: {fileID: 8540785681650497039, guid: 2c5fbfe28e3b404499f4e21b605c375f, type: 3}
+  spawnPoint: {fileID: 0}
+  crystals: 0
+  drainRay: {fileID: 0}
 --- !u!1 &5829545456270998753
 GameObject:
   m_ObjectHideFlags: 0

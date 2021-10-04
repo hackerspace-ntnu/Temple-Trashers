@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    private static InventoryManager SINGLETON;
-    public static InventoryManager Singleton => SINGLETON;
+    public static InventoryManager Singleton { get; private set; }
 
     public ResourceUI ui;
 
@@ -26,18 +25,18 @@ public class InventoryManager : MonoBehaviour
     {
         #region Singleton boilerplate
 
-        if (SINGLETON != null)
+        if (Singleton != null)
         {
-            if (SINGLETON != this)
+            if (Singleton != this)
             {
-                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
                 Destroy(gameObject);
             }
 
             return;
         }
 
-        SINGLETON = this;
+        Singleton = this;
 
         #endregion Singleton boilerplate
     }

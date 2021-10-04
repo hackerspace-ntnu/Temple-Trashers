@@ -4,8 +4,7 @@ using UnityEngine.VFX;
 
 public class BaseController : MonoBehaviour
 {
-    private static BaseController SINGLETON;
-    public static BaseController Singleton => SINGLETON;
+    public static BaseController Singleton { get; private set; }
 
     // GameOverScreen
     [SerializeField]
@@ -28,26 +27,27 @@ public class BaseController : MonoBehaviour
     public GameObject drainRay;
     private List<Ray> rays = new List<Ray>();
 
-    public Transform SpawnPoint { get => spawnPoint; }
+    public Transform SpawnPoint => spawnPoint;
 
     void Awake()
     {
         #region Singleton boilerplate
 
-        if (SINGLETON != null)
+        if (Singleton != null)
         {
-            if (SINGLETON != this)
+            if (Singleton != this)
             {
-                Debug.LogWarning($"There's more than one {SINGLETON.GetType()} in the scene!");
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
                 Destroy(gameObject);
             }
 
             return;
         }
 
-        SINGLETON = this;
+        Singleton = this;
 
         #endregion Singleton boilerplate
+
         GetComponent<HealthLogic>().onDeath += Die;
     }
 

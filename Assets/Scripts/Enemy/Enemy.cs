@@ -16,12 +16,11 @@ public abstract class Enemy : MonoBehaviour
 
     public float speed = 5f;
 
-    private void Awake()
+    void Awake()
     {
         if (playerBase == null)
-        {
             playerBase = BaseController.Singleton.transform;
-        }
+
         GetComponent<HealthLogic>().onDeath += Die;
     }
 

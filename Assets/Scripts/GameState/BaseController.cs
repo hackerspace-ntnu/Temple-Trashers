@@ -51,6 +51,11 @@ public class BaseController : MonoBehaviour
         GetComponent<HealthLogic>().onDeath += Die;
     }
 
+    void OnDestroy()
+    {
+        GetComponent<HealthLogic>().onDeath -= Die;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();

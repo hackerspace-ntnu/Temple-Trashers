@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -34,6 +35,11 @@ public abstract class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         agent.destination = currentTarget.position;
+    }
+
+    void OnDestroy()
+    {
+        GetComponent<HealthLogic>().onDeath -= Die;
     }
 
     void OnCollisionEnter(Collision collision)

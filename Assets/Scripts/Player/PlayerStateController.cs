@@ -8,7 +8,6 @@ using UnityEngine;
 public partial class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health; // Reference to the health script
-    private PlayerStates currentState = PlayerStates.FREE; // The current player state
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
@@ -30,7 +29,7 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform HeldItemBone;
 
-    public PlayerStates CurrentState { get => currentState; }
+    public PlayerStates CurrentState { get; private set; } = PlayerStates.FREE;
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -59,7 +58,7 @@ public partial class PlayerStateController : MonoBehaviour
     void FixedUpdate()
     {
         UpdateFocusedInteractable();
-        switch (currentState)
+        switch (CurrentState)
         {
             case PlayerStates.IN_ANIMATION:
                 break;
@@ -87,7 +86,7 @@ public partial class PlayerStateController : MonoBehaviour
                 targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
                 focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
                 //case specific
-                if (cancel)
+                if (Cancel)
                 {
                     //Refund turret
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();
@@ -98,7 +97,7 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.FREE);
                 }
 
-                if (interact)
+                if (Interact)
                     SetState(PlayerStates.FREE);
 
                 break;
@@ -137,12 +136,12 @@ public partial class PlayerStateController : MonoBehaviour
 
     public void SetState(PlayerStates state)
     {
-        if (state == currentState)
+        if (state == CurrentState)
             return;
 
-        onPlayerStateChange?.Invoke(state, currentState); //In case any script wants to subscribe to state change events
+        onPlayerStateChange?.Invoke(state, CurrentState); //In case any script wants to subscribe to state change events
         //Cleanup from previous state
-        switch (currentState)
+        switch (CurrentState)
         {
             case PlayerStates.IN_ANIMATION:
                 break;
@@ -187,7 +186,7 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
         }
 
-        currentState = state;
+        CurrentState = state;
     }
 
     // Gets called when interact button is pressed
@@ -200,7 +199,7 @@ public partial class PlayerStateController : MonoBehaviour
             RemoveInteractable(focusedInteractable);
         }
 
-        if (currentState == PlayerStates.BUILDING)
+        if (CurrentState == PlayerStates.BUILDING)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);

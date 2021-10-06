@@ -87,7 +87,7 @@ public partial class PlayerStateController : MonoBehaviour
                 targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
                 focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
                 //case specific
-                if (back)
+                if (cancel)
                 {
                     //Refund turret
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();

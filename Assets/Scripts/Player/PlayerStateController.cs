@@ -92,9 +92,9 @@ public partial class PlayerStateController : MonoBehaviour
                     //Refund turret
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();
 
-                    RemoveInteractable(liftedObject.GetComponent<Interactable>());
-                    Destroy(liftedObject);
-                    liftedObject = null;
+                    RemoveInteractable(heldInteractable);
+                    Destroy(heldInteractable);
+                    heldInteractable = null;
                     SetState(PlayerStates.FREE);
                 }
 

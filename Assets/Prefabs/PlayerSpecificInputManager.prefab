@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8271515093982491628}
   - component: {fileID: 1734480206911826329}
   m_Layer: 0
-  m_Name: PlayerInput
+  m_Name: PlayerSpecificInputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7bf271733b11e40af2033949e5823a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 114662515065578398, guid: 546898e4c5ddf12449ff9ccab4a7f0fe, type: 3}
+  playerPrefab: {fileID: 4071846026879171966, guid: 4a93d4ce1bd162147948d6455121006d, type: 3}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &1734480206911826329
 MonoBehaviour:
   m_ObjectHideFlags: 0

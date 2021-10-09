@@ -49,7 +49,7 @@ public class PlayerUi : MonoBehaviour
                 if (inventory.ResourceAmount >= 0)
                 {
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
-                    state.Lift(spawnedTower);
+                    state.PrepareTurret(spawnedTower.GetComponent<Interactable>());
                     state.SetState(PlayerStateController.PlayerStates.BUILDING);
                 }
             } else
@@ -58,6 +58,10 @@ public class PlayerUi : MonoBehaviour
             }
         }
 
+    }
+
+    private void LateUpdate()
+    {
         //Points the UI to the main camera
         Vector3 lookAtPos = transform.position + mainCameraTransform.rotation * Vector3.forward;
         ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);

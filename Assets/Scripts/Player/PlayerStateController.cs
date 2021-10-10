@@ -93,7 +93,7 @@ public partial class PlayerStateController : MonoBehaviour
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();
 
                     RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable);
+                    Destroy(heldInteractable.gameObject);
                     heldInteractable = null;
                     SetState(PlayerStates.FREE);
                 }

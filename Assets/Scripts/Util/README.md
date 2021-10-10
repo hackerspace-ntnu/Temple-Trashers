@@ -1,0 +1,1 @@
+This directory contains utility scripts, oftenmost used to keep track of different variables. An example of this is the InventoryManager which keeps track of and updates the amount of resources shared by *all* players.

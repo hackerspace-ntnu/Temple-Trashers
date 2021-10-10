@@ -1,0 +1,10 @@
+--- Wave 0 ---
+5 placeholder1
+
+--- Wave 1 ---
+5 placeholder1
+// Pauses for 30 seconds after all the previously listed enemies have been killed
+pause 30
+
+5 placeholder2
+5 placeholder1

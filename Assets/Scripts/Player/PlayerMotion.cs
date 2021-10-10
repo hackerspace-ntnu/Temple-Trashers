@@ -51,7 +51,7 @@ public class PlayerMotion : MonoBehaviour
         Vector3 force = speedDifference * playerAcceleration * scaledMoveInput.magnitude * Time.fixedDeltaTime;
         body.AddForce(force, ForceMode.VelocityChange);
 
-        anim.SetFloat("Speed", scaledMoveInput.sqrMagnitude);
+        anim.SetFloat("Speed", body.velocity.sqrMagnitude/Mathf.Pow(playerSpeed,2));
     }
 
     private void UpdateRotation()

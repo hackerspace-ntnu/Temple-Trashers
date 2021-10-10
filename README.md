@@ -4,8 +4,9 @@
 
 The game is developed by "spillprosjektgruppa", a project under Hackerspace NTNU. The project is open-source and free for all who are interested. For other projects and information, take a look at <a href="https://www.hackerspace-ntnu.no/">Hackerspace's website.</a>
 
-To try out our tech demo, please have a look at our current release: <a href="https://github.com/hackerspace-ntnu/HackerSpace_NTNU_SpillProsjekt/releases/tag/v0.1-alpha"> Here.</a>
 
+To try out our tech demo, please have a look at our current release: <a href="https://github.com/hackerspace-ntnu/HackerSpace_NTNU_SpillProsjekt/releases/tag/v0.1-alpha"> Here.</a>
+The tech demo's release article can be found <a href="https://www.hackerspace-ntnu.no/news/54/"> here.</a>
 ---
 
 *[Guide for utvikling](Assets/README.md)*

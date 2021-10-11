@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum PlayerStates
@@ -23,7 +24,7 @@ public partial class PlayerStateController : MonoBehaviour
     private PlayerUi ui;
     private InventoryManager inventoryManager;
 
-    private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
+    private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
     private Interactable heldInteractable;
     private Interactable focusedInteractable; // The currently focused interactable
     private GameObject liftedObject; // Object being lifted
@@ -207,9 +208,6 @@ public partial class PlayerStateController : MonoBehaviour
 
     public void AddInteractable(Interactable interactable)
     {
-        if (interactables.Contains(interactable)) // Do not add an interactable twice
-            return;
-
         interactables.Add(interactable);
     }
 
@@ -233,7 +231,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
         } else if (interactables.Count == 1) // If there is only one interactable object select that object
         {
-            SetFocusedInteractable(interactables[0]);
+            SetFocusedInteractable(interactables.Single());
             return;
         } else if (focusedInteractable == null && heldInteractable == null) // Wait until we have at least one object to interact with
             return;

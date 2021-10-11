@@ -57,7 +57,6 @@ public class PlayerUi : MonoBehaviour
                 state.SetState(PlayerStates.FREE);
             }
         }
-
     }
 
     private void LateUpdate()

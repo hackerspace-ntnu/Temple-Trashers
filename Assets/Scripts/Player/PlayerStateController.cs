@@ -23,7 +23,6 @@ public partial class PlayerStateController : MonoBehaviour
     private PlayerUi ui;
     private InventoryManager inventoryManager;
 
-
     private List<Interactable> interactables = new List<Interactable>(); // List of interactables in range
     private Interactable heldInteractable;
     private Interactable focusedInteractable; // The currently focused interactable
@@ -37,7 +36,7 @@ public partial class PlayerStateController : MonoBehaviour
     private Animator anim; //Reference to animation controller of the player
 
     [SerializeField]
-    private Transform HeldItemBone;
+    private Transform heldItemBone;
 
     public PlayerStates CurrentState { get; private set; } = PlayerStates.FREE;
 
@@ -119,7 +118,6 @@ public partial class PlayerStateController : MonoBehaviour
             RemoveInteractable(other.GetComponentInParent<Interactable>());
     }
 
-
     private void Die()
     {
         // Drop anything we are carrying
@@ -195,9 +193,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (focusedInteractable != null)
             focusedInteractable.Interact(this); // interact with the current target
         if (focusedInteractable != null && !focusedInteractable.canInteract)
-        {
             RemoveInteractable(focusedInteractable);
-        }
 
         if (CurrentState == PlayerStates.BUILDING)
         {
@@ -283,16 +279,14 @@ public partial class PlayerStateController : MonoBehaviour
     {
         liftedObject = obj;
         SetState(PlayerStates.LIFTING);
-        obj.transform.SetParent(HeldItemBone);
+        obj.transform.SetParent(heldItemBone);
         obj.transform.localPosition = Vector3.zero;
-        
     }
 
     public void PrepareTurret(Interactable turret)
     {
         heldInteractable = turret;
         AddInteractable(turret);
-        Debug.Log(turret);
     }
 
     public void Drop(GameObject obj)

@@ -3,31 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Component made for updating dahls props when states are changed. Latches on to playerStateContollers onStateChange delegate to enable/disabled the crate and blueprints
+/// Component made for updating Dahl's props when states are changed.
+/// Latches on to `PlayerStateContoller`s `onPlayerStateChange` delegate to enable/disabled the crate and blueprints.
 /// </summary>
 public class DahlPropController : MonoBehaviour
 {
+    [SerializeField]
+    private MeshRenderer crate;
 
     [SerializeField]
-    private MeshRenderer Crate, Blueprint;
+    private MeshRenderer blueprint;
+
     void Start()
     {
-        GetComponent<PlayerStateController>().onPlayerStateChange += onPlayerStateChange;
-    }
-    private void OnDestroy()
-    {
-        GetComponent<PlayerStateController>().onPlayerStateChange -= onPlayerStateChange;
+        GetComponent<PlayerStateController>().onPlayerStateChange += OnPlayerStateChange;
     }
 
-    private void onPlayerStateChange(PlayerStates newState, PlayerStates oldState)
+    void OnDestroy()
+    {
+        GetComponent<PlayerStateController>().onPlayerStateChange -= OnPlayerStateChange;
+    }
+
+    private void OnPlayerStateChange(PlayerStates newState, PlayerStates oldState)
     {
         switch (oldState)
         {
             case PlayerStates.BUILDING:
-                Crate.enabled = false;
+                crate.enabled = false;
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                Blueprint.enabled = false;
+                blueprint.enabled = false;
                 break;
             default:
                 break;
@@ -36,15 +41,13 @@ public class DahlPropController : MonoBehaviour
         switch (newState)
         {
             case PlayerStates.BUILDING:
-                Crate.enabled = true;
+                crate.enabled = true;
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                Blueprint.enabled = true;
+                blueprint.enabled = true;
                 break;
             default:
                 break;
         }
-
-        
     }
-}  
+}

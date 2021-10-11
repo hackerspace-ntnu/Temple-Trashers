@@ -19,14 +19,14 @@ public class DahlPropController : MonoBehaviour
         GetComponent<PlayerStateController>().onPlayerStateChange -= onPlayerStateChange;
     }
 
-    private void onPlayerStateChange(PlayerStateController.PlayerStates newState, PlayerStateController.PlayerStates oldState)
+    private void onPlayerStateChange(PlayerStates newState, PlayerStates oldState)
     {
         switch (oldState)
         {
-            case PlayerStateController.PlayerStates.BUILDING:
+            case PlayerStates.BUILDING:
                 Crate.enabled = false;
                 break;
-            case PlayerStateController.PlayerStates.IN_TURRET_MENU:
+            case PlayerStates.IN_TURRET_MENU:
                 Blueprint.enabled = false;
                 break;
             default:
@@ -35,10 +35,10 @@ public class DahlPropController : MonoBehaviour
 
         switch (newState)
         {
-            case PlayerStateController.PlayerStates.BUILDING:
+            case PlayerStates.BUILDING:
                 Crate.enabled = true;
                 break;
-            case PlayerStateController.PlayerStates.IN_TURRET_MENU:
+            case PlayerStates.IN_TURRET_MENU:
                 Blueprint.enabled = true;
                 break;
             default:

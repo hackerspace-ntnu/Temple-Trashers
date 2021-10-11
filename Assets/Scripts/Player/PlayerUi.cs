@@ -50,11 +50,11 @@ public class PlayerUi : MonoBehaviour
                 {
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
                     state.PrepareTurret(spawnedTower.GetComponent<Interactable>());
-                    state.SetState(PlayerStateController.PlayerStates.BUILDING);
+                    state.SetState(PlayerStates.BUILDING);
                 }
             } else
             {
-                state.SetState(PlayerStateController.PlayerStates.FREE);
+                state.SetState(PlayerStates.FREE);
             }
         }
 
@@ -70,7 +70,7 @@ public class PlayerUi : MonoBehaviour
     //Finds which segment of the radialUi the control stick is pointing towards
     private void UpdatePos()
     {
-        if (state.CurrentState != PlayerStateController.PlayerStates.IN_TURRET_MENU)
+        if (state.CurrentState != PlayerStates.IN_TURRET_MENU)
         {
             Debug.LogError("You seem to be in the wrong state for the UI");
             return;

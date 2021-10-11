@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ButtonType
+{
+    DEFAULT,
+    CONFIRM,
+    DECLINE,
+    WARNING,
+}
+
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(Image))]
 public class FlexibleUIButton : FlexibleUI
 {
-    public enum ButtonType
-    {
-        DEFAULT,
-        CONFIRM,
-        DECLINE,
-        WARNING,
-    }
-
     Image image;
     Button button;
     public ButtonType buttonType;

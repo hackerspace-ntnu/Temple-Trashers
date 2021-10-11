@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerStates
+{
+    IN_ANIMATION,
+    LIFTING,
+    DEAD,
+    FREE,
+    BUILDING,
+    IN_TURRET_MENU,
+}
+
 /// <summary>
 /// The input-related code is in `PlayerStateController_Input.cs`.
 /// </summary>
@@ -34,16 +44,6 @@ public partial class PlayerStateController : MonoBehaviour
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
     public PlayerStateDelegate onPlayerStateChange; //To allow other components to subscribe to stateChange events
-
-    public enum PlayerStates
-    {
-        IN_ANIMATION,
-        LIFTING,
-        DEAD,
-        FREE,
-        BUILDING,
-        IN_TURRET_MENU,
-    }
 
     void Start()
     {

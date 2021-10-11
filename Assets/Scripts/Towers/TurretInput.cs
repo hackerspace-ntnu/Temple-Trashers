@@ -30,9 +30,6 @@ public class TurretInput : MonoBehaviour
 
     public Vector2 GetAimInput()
     {
-        if (player.CurrentState == PlayerStates.DEAD)
-            return Vector2.zero;
-
         return player.AimInput;
     }
 

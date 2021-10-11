@@ -67,18 +67,19 @@ public partial class PlayerStateController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateFocusedInteractable();
         switch (CurrentState)
         {
             case PlayerStates.IN_ANIMATION:
                 break;
             case PlayerStates.LIFTING:
+                UpdateFocusedInteractable();
                 //global
                 motion.Move();
                 break;
             case PlayerStates.DEAD:
                 break;
             case PlayerStates.FREE:
+                UpdateFocusedInteractable();
                 if (Select)
                     SetState(PlayerStates.IN_TURRET_MENU);
                 //global
@@ -91,6 +92,7 @@ public partial class PlayerStateController : MonoBehaviour
                 //Lift(spawnedTower);
                 break;
             case PlayerStates.BUILDING:
+                UpdateFocusedInteractable();
                 //global
                 motion.Move();
                 targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
@@ -135,7 +137,6 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject != null)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
-        SetFocusedInteractable(null);
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
 
@@ -179,10 +180,12 @@ public partial class PlayerStateController : MonoBehaviour
                 anim.SetBool("Lifting", true);
                 break;
             case PlayerStates.DEAD:
+                SetFocusedInteractable(null);
                 break;
             case PlayerStates.FREE:
                 break;
             case PlayerStates.IN_TURRET_MENU:
+                SetFocusedInteractable(null);
                 anim.SetBool("Planning", true);
                 break;
             case PlayerStates.BUILDING:
@@ -190,6 +193,7 @@ public partial class PlayerStateController : MonoBehaviour
                 //AddInteractable(liftedObject.GetComponent<Interactable>());
                 break;
             case PlayerStates.IN_ANIMATION:
+                SetFocusedInteractable(null);
                 break;
             default:
                 break;

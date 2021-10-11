@@ -55,6 +55,9 @@ public class TowerLogic : Interactable
             arrowPointerRenderer.enabled = false;
     }
 
+    public override void Interact(PlayerStateController player)
+    {}
+
     //Rotational-Movement using UserInput
     private void ChangeDirection()
     {

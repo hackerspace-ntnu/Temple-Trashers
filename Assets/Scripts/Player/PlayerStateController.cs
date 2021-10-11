@@ -19,6 +19,7 @@ public enum PlayerStates
 public partial class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health; // Reference to the health script
+    private PlayerStates _currentState;
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
@@ -39,7 +40,14 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
-    public PlayerStates CurrentState { get; private set; } = PlayerStates.FREE;
+    #region State variables for debugging
+
+    [ReadOnly]
+    public PlayerStates currentStateReadOnly;
+
+    #endregion State variables for debugging
+
+    public PlayerStates CurrentState { get => _currentState; private set => currentStateReadOnly = _currentState = value; }
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -53,6 +61,8 @@ public partial class PlayerStateController : MonoBehaviour
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         inventoryManager = InventoryManager.Singleton;
+
+        CurrentState = PlayerStates.FREE;
     }
 
     void FixedUpdate()

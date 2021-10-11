@@ -24,6 +24,13 @@ public class PlayerUi : MonoBehaviour
         inventory = InventoryManager.Singleton;
     }
 
+    void LateUpdate()
+    {
+        //Points the UI to the main camera
+        Vector3 lookAtPos = transform.position + mainCameraTransform.rotation * Vector3.forward;
+        ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
+    }
+
     public GameObject GetSelectedSegment()
     {
         return selectedSegment.tower;
@@ -57,13 +64,6 @@ public class PlayerUi : MonoBehaviour
                 state.SetState(PlayerStates.FREE);
             }
         }
-    }
-
-    private void LateUpdate()
-    {
-        //Points the UI to the main camera
-        Vector3 lookAtPos = transform.position + mainCameraTransform.rotation * Vector3.forward;
-        ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
     }
 
     //Finds which segment of the radialUi the control stick is pointing towards

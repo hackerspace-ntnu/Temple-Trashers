@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.VFX;
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
+
+    [SerializeField]
+    private VisualEffect sparksEffect;
+
     //The radius for the turret and all it's targets.
     public float lightningRadius = 4;
 
@@ -42,13 +46,16 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     }
 
     //Marks soon-to-be zapped objects and adds a VFX.
-    private void AddZap(Transform target)
+    private void AddZap(Transform target, Transform previous)
     {
         if (zappTargets.Contains(target))
             return;
 
-        Transform previousTarget = zappTargets.LastOrDefault() ?? zapOrigin;
-        LightningVFX(previousTarget, target);
+        //Transform previousTarget = zappTargets.LastOrDefault() ?? zapOrigin;
+        if(previous == transform)
+            previous = zapOrigin;
+
+        LightningVFX(previous, target);
         zappTargets.Add(target);
         CheckZap(target);
     }
@@ -60,7 +67,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponent<HealthLogic>())
-                AddZap(hitCollider.transform);
+                AddZap(hitCollider.transform, target);
         }
     }
 
@@ -75,5 +82,16 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
         //Destroying effect after duration:
         Destroy(ray, effectDuration);
+        Destroy(target.gameObject, effectDuration);
+    }
+    
+
+    public void StartSparks()
+    {
+        sparksEffect.SendEvent("OnPlay");
+    }
+    public void StopSparks()
+    {
+        sparksEffect.SendEvent("OnStop");
     }
 }

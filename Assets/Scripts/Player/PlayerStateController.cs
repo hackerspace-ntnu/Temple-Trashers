@@ -171,6 +171,15 @@ public partial class PlayerStateController : MonoBehaviour
                 anim.SetBool("Lifting", true);
                 break;
             case PlayerStates.DEAD:
+                if (heldInteractable)
+                {
+                    //Refund turret
+                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
+
+                    RemoveInteractable(heldInteractable);
+                    Destroy(heldInteractable.gameObject);
+                    heldInteractable = null;
+                }
                 break;
             case PlayerStates.FREE:
                 break;

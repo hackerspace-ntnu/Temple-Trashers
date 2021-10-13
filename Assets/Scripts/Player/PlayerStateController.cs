@@ -293,7 +293,7 @@ public partial class PlayerStateController : MonoBehaviour
     {
         heldInteractable = turret;
         AddInteractable(turret);
-        Debug.Log(turret);
+        //Debug.Log(turret);
     }
 
     public void Drop(GameObject obj)

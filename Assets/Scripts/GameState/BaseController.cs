@@ -160,13 +160,13 @@ public class BaseController : MonoBehaviour
     {
         // Get a list of all transforms (lighning targets)
         Transform[] transforms = GameObject.FindObjectsOfType<Transform>();
-
+        Debug.Log(transforms.Length);
         // Create lightning as the crystal charges
         for (float t = 4f; t >= 0; t -= 0.2f)
         {
             int i = Random.Range(0, transforms.Length);
 
-            Transform ray = Instantiate(drainRay, transform.position + new Vector3(0, 5f), transform.rotation).transform;
+            Transform ray = Instantiate(drainRay, transform.position + new Vector3(Random.Range(-1, 1), 5f, Random.Range(-1, 1)), transform.rotation).transform;
             ray.SetParent(transform);
 
             // 1 is the index of the first child (after the parent itself)

@@ -7,14 +7,25 @@ public class BaseController : MonoBehaviour
 {
     public static BaseController Singleton { get; private set; }
 
+    [Header("Death components")]
     // GameOverScreen
     [SerializeField]
     private GameObject gameOverScreen;
 
-    //Death Effects
+    // Rigidbody base
     [SerializeField]
     private GameObject destroyedBase;
+
+    // Base Animator
     private Animator anim;
+
+    // Distortion field plane
+    [SerializeField]
+    private MeshRenderer distortionField;
+
+    // Particle Effect
+    [SerializeField]
+    private GameObject deathParticles;
 
     [SerializeField]
     private Transform spawnPoint;
@@ -30,6 +41,10 @@ public class BaseController : MonoBehaviour
     private List<Ray> rays = new List<Ray>();
 
     public Transform SpawnPoint => spawnPoint;
+
+    // Crystal Transform
+    [SerializeField]
+    private Transform mainCrystal;
 
     void Awake()
     {
@@ -52,6 +67,11 @@ public class BaseController : MonoBehaviour
 
         GetComponent<HealthLogic>().onDeath += Die;
         anim = GetComponent<Animator>();
+
+        if(mainCrystal == null)
+        {
+            Debug.LogError("Main Crystal not set.");
+        }
     }
 
     void OnDestroy()
@@ -70,8 +90,8 @@ public class BaseController : MonoBehaviour
             // Add VFX
             if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
             {
-                Transform ray = Instantiate(drainRay, transform.position, transform.rotation).transform;
-                ray.SetParent(transform);
+                Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
+                ray.SetParent(mainCrystal);
 
                 // 1 is the index of the first child (after the parent itself)
                 Transform target = ray.GetComponentsInChildren<Transform>()[1];
@@ -107,7 +127,9 @@ public class BaseController : MonoBehaviour
             // Prepare the explosion
             StartCoroutine("Explode");
 
-            // Focus the camera
+            // Start Distortions
+            //distortionField.enabled = true;     
+
             
         }
 
@@ -160,7 +182,7 @@ public class BaseController : MonoBehaviour
     {
         // Get a list of all transforms (lighning targets)
         Transform[] transforms = GameObject.FindObjectsOfType<Transform>();
-        Debug.Log(transforms.Length);
+
         // Create lightning as the crystal charges
         for (float t = 4f; t >= 0; t -= 0.2f)
         {
@@ -194,6 +216,9 @@ public class BaseController : MonoBehaviour
 
         // Creates the GUI "GameOverScreen"
         Instantiate(gameOverScreen);
+
+        // Add particle system
+        Instantiate(deathParticles, transform.position + new Vector3(0,3,0), transform.rotation);
 
         // Clean up
         Destroy(gameObject);

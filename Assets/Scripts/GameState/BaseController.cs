@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 
@@ -6,13 +7,25 @@ public class BaseController : MonoBehaviour
 {
     public static BaseController Singleton { get; private set; }
 
+    [Header("Death components")]
     // GameOverScreen
     [SerializeField]
     private GameObject gameOverScreen;
 
-    //Explosion
+    // Rigidbody base
     [SerializeField]
-    private GameObject explosion;
+    private GameObject destroyedBase;
+
+    // Base Animator
+    private Animator anim;
+
+    // Distortion field plane
+    [SerializeField]
+    private MeshRenderer distortionField;
+
+    // Particle Effect
+    [SerializeField]
+    private GameObject deathParticles;
 
     [SerializeField]
     private Transform spawnPoint;
@@ -28,6 +41,10 @@ public class BaseController : MonoBehaviour
     private List<Ray> rays = new List<Ray>();
 
     public Transform SpawnPoint => spawnPoint;
+
+    // Crystal Transform
+    [SerializeField]
+    private Transform mainCrystal;
 
     void Awake()
     {
@@ -49,6 +66,12 @@ public class BaseController : MonoBehaviour
         #endregion Singleton boilerplate
 
         GetComponent<HealthLogic>().onDeath += Die;
+        anim = GetComponent<Animator>();
+
+        if(mainCrystal == null)
+        {
+            Debug.LogError("Main Crystal not set.");
+        }
     }
 
     void OnDestroy()
@@ -67,8 +90,8 @@ public class BaseController : MonoBehaviour
             // Add VFX
             if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
             {
-                Transform ray = Instantiate(drainRay, transform.position, transform.rotation).transform;
-                ray.SetParent(transform);
+                Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
+                ray.SetParent(mainCrystal);
 
                 // 1 is the index of the first child (after the parent itself)
                 Transform target = ray.GetComponentsInChildren<Transform>()[1];
@@ -98,10 +121,16 @@ public class BaseController : MonoBehaviour
     {
         if (!dead)
         {
-            //BIG EXPLOSION
-            Instantiate(explosion, transform.position, Quaternion.identity, transform);
-            // Creates the GUI "GameOverScreen"
-            Instantiate(gameOverScreen);
+            // Start overloading the crystal
+            anim.SetBool("death", true);
+
+            // Prepare the explosion
+            StartCoroutine("Explode");
+
+            // Start Distortions
+            //distortionField.enabled = true;     
+
+            
         }
 
         dead = true;
@@ -147,5 +176,51 @@ public class BaseController : MonoBehaviour
         }
 
         return -2;
+    }
+
+    IEnumerator Explode()
+    {
+        // Get a list of all transforms (lighning targets)
+        Transform[] transforms = GameObject.FindObjectsOfType<Transform>();
+
+        // Create lightning as the crystal charges
+        for (float t = 4f; t >= 0; t -= 0.2f)
+        {
+            int i = Random.Range(0, transforms.Length);
+
+            Transform ray = Instantiate(drainRay, transform.position + new Vector3(Random.Range(-1, 1), 5f, Random.Range(-1, 1)), transform.rotation).transform;
+            ray.SetParent(transform);
+
+            // 1 is the index of the first child (after the parent itself)
+            Transform target = ray.GetComponentsInChildren<Transform>()[1];
+            target.SetParent(transforms[i]);
+            target.localPosition = Vector3.zero;
+
+            // Ensure correct camera focus
+            Camera.main.GetComponent<CameraFocusController>().Focus(transform);
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        // Replace the base with a rigidbody based one
+        GameObject deadBase = Instantiate(destroyedBase, transform.position, Quaternion.identity);
+
+        // Add an explosion force on the base
+        foreach(Rigidbody rb in deadBase.GetComponentsInChildren<Rigidbody>())
+        {
+            rb.AddForce(new Vector3(Random.Range(-250f, 250f), Random.Range(500f, 800f), Random.Range(-250f, 250f)));
+        }
+
+        // Switch camera focus to the new base
+        Camera.main.GetComponent<CameraFocusController>().Focus(destroyedBase.transform);
+
+        // Creates the GUI "GameOverScreen"
+        Instantiate(gameOverScreen);
+
+        // Add particle system
+        Instantiate(deathParticles, transform.position + new Vector3(0,3,0), transform.rotation);
+
+        // Clean up
+        Destroy(gameObject);
     }
 }

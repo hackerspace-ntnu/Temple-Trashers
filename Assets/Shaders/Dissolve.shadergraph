@@ -4,7 +4,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"cc89c7e4-1cff-401f-993e-622b3f2ca135\"\n    },\n    \"m_Name\": \"EdgeColor\",\n    \"m_DefaultReferenceName\": \"Color_3D9B4E3C\",\n    \"m_OverrideReferenceName\": \"\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.957226037979126,\n        \"g\": 0.021673014387488366,\n        \"b\": 0.03046800196170807,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"cc89c7e4-1cff-401f-993e-622b3f2ca135\"\n    },\n    \"m_Name\": \"EdgeColor\",\n    \"m_DefaultReferenceName\": \"Color_3D9B4E3C\",\n    \"m_OverrideReferenceName\": \"Color_Edge\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.5490196347236633,\n        \"g\": 1.003921627998352,\n        \"b\": 2.5411765575408937,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
         },
         {
             "typeInfo": {
@@ -16,7 +16,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"41894646-9265-466b-a25f-6f9532a2a929\"\n    },\n    \"m_Name\": \"NoiseScale\",\n    \"m_DefaultReferenceName\": \"Vector1_1DC7BFE3\",\n    \"m_OverrideReferenceName\": \"\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 30.0,\n    \"m_FloatType\": 0,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"41894646-9265-466b-a25f-6f9532a2a929\"\n    },\n    \"m_Name\": \"NoiseScale\",\n    \"m_DefaultReferenceName\": \"Vector1_1DC7BFE3\",\n    \"m_OverrideReferenceName\": \"DissolveNoiseScale\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 30.0,\n    \"m_FloatType\": 0,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
         },
         {
             "typeInfo": {

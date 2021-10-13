@@ -45,17 +45,18 @@ public class PlayerUi : MonoBehaviour
             ui.gameObject.SetActive(false);
             if (selectedSegment)
             {
-                inventory.ResourceAmount -= GetSelectedCost();
-                if (inventory.ResourceAmount >= 0)
+                if (inventory.ResourceAmount - GetSelectedCost() < 0)
                 {
+                    state.SetState(PlayerStateController.PlayerStates.FREE);
+                }
+                else
+                {
+                    inventory.ResourceAmount -= GetSelectedCost();
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
                     state.PrepareTurret(spawnedTower.GetComponent<Interactable>());
                     state.SetState(PlayerStateController.PlayerStates.BUILDING);
                 }
-            } else
-            {
-                state.SetState(PlayerStateController.PlayerStates.FREE);
-            }
+            } 
         }
 
     }

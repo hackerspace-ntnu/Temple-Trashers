@@ -55,8 +55,7 @@ public class PlayerUi : MonoBehaviour
                 if (inventory.ResourceAmount - GetSelectedCost() < 0)
                 {
                     state.SetState(PlayerStates.FREE);
-                }
-                else
+                } else
                 {
                     inventory.ResourceAmount -= GetSelectedCost();
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());

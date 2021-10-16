@@ -77,13 +77,10 @@ public class CameraFocusController : MonoBehaviour
 
         //Taking the mean sqare avg of the mindistance and box distance
         if (!overview)
-        {
             distance = Mathf.Sqrt(radialDist * radialDist + minDistance * minDistance);
-        }
         else
-        {
             distance = Mathf.Sqrt(radialDist * radialDist + overviewDistance * overviewDistance);
-        }
+
         return center + distance * viewDir;
     }
 
@@ -109,7 +106,6 @@ public class CameraFocusController : MonoBehaviour
 
         // Switch to overview mode
         EnableOverview();
-        
     }
 
     public void EnableOverview()
@@ -117,7 +113,7 @@ public class CameraFocusController : MonoBehaviour
         if (!overview)
         {
             overview = true;
-            smoothing = smoothing / 10;
+            smoothing /= 10;
         }
     }
 }

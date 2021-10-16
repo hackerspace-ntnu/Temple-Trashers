@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: -992618141597099504
     second: Cylinder.006|Cylinder.004Action.003
+  - first:
+      74: 1052822190846345577
+    second: LargeCrystal|Cylinder.004Action.003
   externalObjects: {}
   materials:
     materialImportMode: 1

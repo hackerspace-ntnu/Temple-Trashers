@@ -6,9 +6,11 @@ public abstract class Interactable : MonoBehaviour
 {
     public bool canInteract = true;
 
-    public abstract void Focus(PlayerStateController player);
+    public virtual void Focus(PlayerStateController player)
+    {}
 
-    public abstract void Unfocus(PlayerStateController player);
+    public virtual void Unfocus(PlayerStateController player)
+    {}
 
     public abstract void Interact(PlayerStateController player);
 }

@@ -13,12 +13,6 @@ public class TurretPrefabConstruction : Interactable
         Destroy(gameObject);
     }
 
-    public override void Focus(PlayerStateController player)
-    {}
-
-    public override void Unfocus(PlayerStateController player)
-    {}
-
     public override void Interact(PlayerStateController player)
     {}
 

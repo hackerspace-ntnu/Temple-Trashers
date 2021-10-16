@@ -40,6 +40,9 @@ public class BaseController : MonoBehaviour
     public GameObject drainRay;
     private List<Ray> rays = new List<Ray>();
 
+    public int explosionLightningCount = 20;
+    public float explosionLightningSpawnDelay = 0.2f;
+
     public Transform SpawnPoint => spawnPoint;
 
     // Crystal Transform
@@ -184,7 +187,7 @@ public class BaseController : MonoBehaviour
         Transform[] transforms = GameObject.FindObjectsOfType<Transform>();
 
         // Create lightning as the crystal charges
-        for (float t = 4f; t >= 0; t -= 0.2f)
+        for (int _ = 0; _ >= explosionLightningCount; _++)
         {
             int i = Random.Range(0, transforms.Length);
 
@@ -199,7 +202,7 @@ public class BaseController : MonoBehaviour
             // Ensure correct camera focus
             Camera.main.GetComponent<CameraFocusController>().Focus(transform);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(explosionLightningSpawnDelay);
         }
 
         // Replace the base with a rigidbody based one

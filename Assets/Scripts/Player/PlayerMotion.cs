@@ -36,7 +36,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void UpdateSpeed()
     {
-        if (state.CurrentState == PlayerStateController.PlayerStates.DEAD)
+        if (state.CurrentState == PlayerStates.DEAD)
             return;
 
         Vector2 scaledMoveInput = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;

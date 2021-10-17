@@ -271,9 +271,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 6406541465688870762, guid: cf6616ecfd76d4b379c4e4fd196293af, type: 3}
   destroyedBase: {fileID: 7907768064546073796, guid: ced5130962de4c54185e3ca432063c03, type: 3}
+  distortionField: {fileID: 0}
+  deathParticles: {fileID: 0}
   spawnPoint: {fileID: 5829545455071137389}
   crystals: 0
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
+  explosionLightningCount: 20
+  explosionLightningSpawnDelay: 0.2
+  mainCrystal: {fileID: 0}
 --- !u!114 &990519977
 MonoBehaviour:
   m_ObjectHideFlags: 0

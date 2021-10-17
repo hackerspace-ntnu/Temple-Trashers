@@ -3,31 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Component made for updating dahls props when states are changed. Latches on to playerStateContollers onStateChange delegate to enable/disabled the crate and blueprints
+/// Component made for updating Dahl's props when states are changed.
+/// Latches on to `PlayerStateContoller`s `onPlayerStateChange` delegate to enable/disabled the crate and blueprints.
 /// </summary>
 public class DahlPropController : MonoBehaviour
 {
+    [SerializeField]
+    private MeshRenderer crate;
 
     [SerializeField]
-    private MeshRenderer Crate, Blueprint;
+    private MeshRenderer blueprint;
+
     void Start()
     {
-        GetComponent<PlayerStateController>().onPlayerStateChange += onPlayerStateChange;
-    }
-    private void OnDestroy()
-    {
-        GetComponent<PlayerStateController>().onPlayerStateChange -= onPlayerStateChange;
+        GetComponent<PlayerStateController>().onPlayerStateChange += OnPlayerStateChange;
     }
 
-    private void onPlayerStateChange(PlayerStateController.PlayerStates newState, PlayerStateController.PlayerStates oldState)
+    void OnDestroy()
+    {
+        GetComponent<PlayerStateController>().onPlayerStateChange -= OnPlayerStateChange;
+    }
+
+    private void OnPlayerStateChange(PlayerStates newState, PlayerStates oldState)
     {
         switch (oldState)
         {
-            case PlayerStateController.PlayerStates.BUILDING:
-                Crate.enabled = false;
+            case PlayerStates.BUILDING:
+                crate.enabled = false;
                 break;
-            case PlayerStateController.PlayerStates.IN_TURRET_MENU:
-                Blueprint.enabled = false;
+            case PlayerStates.IN_TURRET_MENU:
+                blueprint.enabled = false;
                 break;
             default:
                 break;
@@ -35,16 +40,14 @@ public class DahlPropController : MonoBehaviour
 
         switch (newState)
         {
-            case PlayerStateController.PlayerStates.BUILDING:
-                Crate.enabled = true;
+            case PlayerStates.BUILDING:
+                crate.enabled = true;
                 break;
-            case PlayerStateController.PlayerStates.IN_TURRET_MENU:
-                Blueprint.enabled = true;
+            case PlayerStates.IN_TURRET_MENU:
+                blueprint.enabled = true;
                 break;
             default:
                 break;
         }
-
-        
     }
-}  
+}

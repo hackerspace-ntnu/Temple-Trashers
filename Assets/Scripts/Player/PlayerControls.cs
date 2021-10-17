@@ -43,7 +43,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Back"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""edbb2489-0819-43dd-bbbf-39f2ad7c7800"",
                     ""expectedControlType"": ""Button"",
@@ -251,18 +251,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""eeed5e82-f945-41b1-924f-37ce63a89e81"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -361,7 +361,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Move = m_MovePlayer.FindAction("Move", throwIfNotFound: true);
         m_MovePlayer_Interact = m_MovePlayer.FindAction("Interact", throwIfNotFound: true);
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
-        m_MovePlayer_Back = m_MovePlayer.FindAction("Back", throwIfNotFound: true);
+        m_MovePlayer_Cancel = m_MovePlayer.FindAction("Cancel", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
         // Menu
@@ -420,7 +420,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Move;
     private readonly InputAction m_MovePlayer_Interact;
     private readonly InputAction m_MovePlayer_Select;
-    private readonly InputAction m_MovePlayer_Back;
+    private readonly InputAction m_MovePlayer_Cancel;
     private readonly InputAction m_MovePlayer_Aim;
     private readonly InputAction m_MovePlayer_Readyfornextwave;
     public struct MovePlayerActions
@@ -430,7 +430,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_MovePlayer_Move;
         public InputAction @Interact => m_Wrapper.m_MovePlayer_Interact;
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
-        public InputAction @Back => m_Wrapper.m_MovePlayer_Back;
+        public InputAction @Cancel => m_Wrapper.m_MovePlayer_Cancel;
         public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
         public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
@@ -451,9 +451,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
-                @Back.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
-                @Back.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
-                @Back.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
+                @Cancel.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
                 @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
@@ -473,9 +473,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
-                @Back.started += instance.OnBack;
-                @Back.performed += instance.OnBack;
-                @Back.canceled += instance.OnBack;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
@@ -550,7 +550,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
-        void OnBack(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
     }

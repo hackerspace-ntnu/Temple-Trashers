@@ -24,6 +24,13 @@ public class PlayerUi : MonoBehaviour
         inventory = InventoryManager.Singleton;
     }
 
+    void LateUpdate()
+    {
+        //Points the UI to the main camera
+        Vector3 lookAtPos = transform.position + mainCameraTransform.rotation * Vector3.forward;
+        ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
+    }
+
     public GameObject GetSelectedSegment()
     {
         return selectedSegment.tower;
@@ -45,32 +52,24 @@ public class PlayerUi : MonoBehaviour
             ui.gameObject.SetActive(false);
             if (selectedSegment)
             {
-                inventory.ResourceAmount -= GetSelectedCost();
-                if (inventory.ResourceAmount >= 0)
+                if (inventory.ResourceAmount - GetSelectedCost() < 0)
                 {
+                    state.SetState(PlayerStates.FREE);
+                } else
+                {
+                    inventory.ResourceAmount -= GetSelectedCost();
                     GameObject spawnedTower = Instantiate(GetSelectedSegment());
                     state.PrepareTurret(spawnedTower.GetComponent<Interactable>());
-                    state.SetState(PlayerStateController.PlayerStates.BUILDING);
+                    state.SetState(PlayerStates.BUILDING);
                 }
-            } else
-            {
-                state.SetState(PlayerStateController.PlayerStates.FREE);
             }
         }
-
-    }
-
-    private void LateUpdate()
-    {
-        //Points the UI to the main camera
-        Vector3 lookAtPos = transform.position + mainCameraTransform.rotation * Vector3.forward;
-        ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
     }
 
     //Finds which segment of the radialUi the control stick is pointing towards
     private void UpdatePos()
     {
-        if (state.CurrentState != PlayerStateController.PlayerStates.IN_TURRET_MENU)
+        if (state.CurrentState != PlayerStates.IN_TURRET_MENU)
         {
             Debug.LogError("You seem to be in the wrong state for the UI");
             return;

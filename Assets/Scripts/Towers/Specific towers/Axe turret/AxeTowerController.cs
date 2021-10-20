@@ -30,6 +30,12 @@ public class AxeTowerController : Interactable, TurretInterface
         }
     }
 
+    public override void Focus(PlayerStateController player)
+    {
+        focused = true;
+        playerAiming = player;
+    }
+
     public override void Unfocus(PlayerStateController player)
     {
         if (player == playerAiming)
@@ -39,11 +45,8 @@ public class AxeTowerController : Interactable, TurretInterface
         }
     }
 
-    public override void Focus(PlayerStateController player)
-    {
-        focused = true;
-        playerAiming = player;
-    }
+    public override void Interact(PlayerStateController player)
+    {}
 
     public void Grab()
     {

@@ -85,6 +85,16 @@ public class Loot : Interactable
         }
     }
 
+    public override void Focus(PlayerStateController player)
+    {
+        Highlight();
+    }
+
+    public override void Unfocus(PlayerStateController player)
+    {
+        Unhighlight();
+    }
+
     public override void Interact(PlayerStateController player)
     {
         if (!carried)
@@ -103,16 +113,6 @@ public class Loot : Interactable
             player.Drop(gameObject);
             absorbTarget = transform.position + new Vector3(0, 3, 0);
         }
-    }
-
-    public override void Focus(PlayerStateController player)
-    {
-        Highlight();
-    }
-
-    public override void Unfocus(PlayerStateController player)
-    {
-        Unhighlight();
     }
 
     public void Absorb(BaseController baseController)

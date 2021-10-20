@@ -1145,7 +1145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 2599837699652063204}
   anim: {fileID: 6367115686714045310}
-  HeldItemBone: {fileID: 7197418879628508991}
+  heldItemBone: {fileID: 7197418879628508991}
 --- !u!114 &2954308745039272254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1201,8 +1201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72ff79698f208146b466f2fe5707f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Crate: {fileID: 4550191380729392189}
-  Blueprint: {fileID: 3550879455986713352}
+  crate: {fileID: 4550191380729392189}
+  blueprint: {fileID: 3550879455986713352}
 --- !u!1 &4138943945869748027
 GameObject:
   m_ObjectHideFlags: 0

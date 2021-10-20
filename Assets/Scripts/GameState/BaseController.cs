@@ -31,7 +31,7 @@ public class BaseController : MonoBehaviour
     private Transform spawnPoint;
 
     [SerializeField]
-    private HealthLogic healtController;
+    private HealthLogic healthController;
 
     // Death flag
     private bool dead = false;
@@ -71,7 +71,7 @@ public class BaseController : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-        healtController.onDeath += Die;
+        healthController.onDeath += Die;
         anim = GetComponent<Animator>();
 
         if (mainCrystal == null)
@@ -80,7 +80,7 @@ public class BaseController : MonoBehaviour
 
     void OnDestroy()
     {
-        healtController.onDeath -= Die;
+        healthController.onDeath -= Die;
     }
 
     void OnTriggerEnter(Collider other)

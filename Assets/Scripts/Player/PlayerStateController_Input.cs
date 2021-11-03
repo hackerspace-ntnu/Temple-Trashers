@@ -24,6 +24,8 @@ partial class PlayerStateController
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
 
+    private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => Debug.Log("Move tower");
+
     private void ReadyForNextWaveInput_Canceled(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager)
@@ -40,6 +42,7 @@ partial class PlayerStateController
         newInput.actions["Cancel"].canceled += CancelInput_Canceled;
         newInput.actions["Select"].performed += SelectInput_Performed;
         newInput.actions["Select"].canceled += SelectInput_Canceled;
+        newInput.actions["Move tower"].performed += MoveTowerInput_Performed;
 
         #region Developer hotkeys
 
@@ -61,6 +64,7 @@ partial class PlayerStateController
             input.actions["Cancel"].canceled -= CancelInput_Canceled;
             input.actions["Select"].performed -= SelectInput_Performed;
             input.actions["Select"].canceled -= SelectInput_Canceled;
+            input.actions["Move tower"].performed -= MoveTowerInput_Performed;
 
             input.actions["Ready for next wave"].performed -= ReadyForNextWaveInput_Canceled;
         }

@@ -11,12 +11,11 @@ public class HexCell : MonoBehaviour {
     public bool isOccupied;
     public GameObject occupier;
 
-    [SerializeField]
-    private MeshRenderer mesh;
-	//public RectTransform uiRect;
+    private MeshRenderer mr;
 	private Vector3 position;
 	private Vector3 newPos;
 	private int elevation;
+
     public int Elevation
     {
         get
@@ -27,9 +26,20 @@ public class HexCell : MonoBehaviour {
         {
 			elevation = value;
 			position = transform.localPosition;
-			//position.y = value * HexMetrics.elevationStep;
-			//position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
 			transform.localPosition = position;
+            ResetCell();
+
+            // Increase the height of the highest cells
+            if (Elevation == materials.Length - 1)
+            {
+                transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            }
+
+            // Drop the cells with the lowest elevation down
+            else if (Elevation == 0)
+            {
+                transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
+            }
         }
     }
 	public float pertubValue;
@@ -50,17 +60,14 @@ public class HexCell : MonoBehaviour {
 	[SerializeField]
 	HexCell[] neighbors;
 
-	private Transform hq;
-
-    private void Start()
+    private void ResetCell()
 	{
-        if(mesh == null)
+        if(mr == null)
         {
-            mesh = GetComponent<MeshRenderer>();
+            mr = GetComponent<MeshRenderer>();
         }
 		pertubValue = HexMetrics.SampleNoise(Position).y;
-        mesh.material = materials[elevation];
-		hq = GameObject.Find("Base").transform;
+        mr.material = materials[elevation];
     }
 	
     public HexCell GetNeighbor (HexDirection direction) {

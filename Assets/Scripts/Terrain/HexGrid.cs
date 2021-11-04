@@ -9,21 +9,25 @@ public class HexGrid : MonoBehaviour {
 
 	private int cellCountX, cellCountZ;
 
+    public bool recalculate;
+
+    [Header("Structural Variables")]
 	public int chunkCountX = 4;
 	public int chunkCountZ = 3;
 
 	public HexGridChunk chunkPrefab;
-
 	public HexCell cellPrefab;
-	//public Text cellLabelPrefab;
     
+    [Header("Terrain Data")]
 	HexGridChunk[] chunks;
 	public HexCell[] cells;
 	public HexCell[] edgeCells;
 
-	public bool recalculate;
+    [Header("Decoration Variables")]
+    public GameObject[] decor;
+    public bool mountainBorder;
 
-	[Header("Noise")]
+    [Header("Noise")]
 	public Texture2D noise;
 
     [Header("Noise Scale")]
@@ -36,35 +40,27 @@ public class HexGrid : MonoBehaviour {
     public float scale = 0.1f;
     public float speed = 0.5f;
 
-	private void OnEnable()
+
+
+    private void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
         HexMetrics.noiseScale = noiseScale;
 	}
+    
+    
 	private void Awake() {
-		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-		CreateChunks();
-		CreateCells();
-
-		edgeCells = GetEdgeCells();
+        RebuildTerrain();
         hq = GameObject.FindGameObjectWithTag("Base").transform;
     }
+
     private void Update()
     {
         if (recalculate)
         {
 			recalculate = false;
-
-			cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-			cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-			CreateChunks();
-			CreateCells();
-
-			edgeCells = GetEdgeCells();
-		}
+            RebuildTerrain();
+        }
 
         // Terain floating job
         if (isEnabled)
@@ -105,6 +101,20 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Rebuild the terrain from scratch
+    /// </summary>
+    void RebuildTerrain()
+    {
+        cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+        CreateChunks();
+        CreateCells();
+
+        CreateDecorations();
+    }
+
 	void CreateChunks()
 	{
 		// Remove previous chunks
@@ -142,7 +152,10 @@ public class HexGrid : MonoBehaviour {
 				CreateCell(x, z, i++);
 			}
 		}
-	}
+
+        edgeCells = GetEdgeCells();
+    }
+
     // Returns the HexCell at a given position
 	public HexCell GetCell (Vector3 position) {
 		position = transform.InverseTransformPoint(position);
@@ -180,15 +193,6 @@ public class HexGrid : MonoBehaviour {
 				}
 			}
 		}
-		/*
-		Text label = Instantiate<Text>(cellLabelPrefab);
-		label.rectTransform.anchoredPosition =
-			new Vector2(position.x, position.z);
-		label.rectTransform.sizeDelta =
-			new Vector2(HexMetrics.outerRadius * 2, HexMetrics.innerRadius * 2);
-		label.text = cell.coordinates.ToStringOnSeparateLines();
-		cell.uiRect = label.rectTransform;
-		*/
 
 		cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.localPosition).y * cell.materials.Length * 1.1f);
 
@@ -206,6 +210,10 @@ public class HexGrid : MonoBehaviour {
 		chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
 	}
 
+    /// <summary>
+    /// Returns an array containing the cells on the edge of the map.
+    /// </summary>
+    /// <returns></returns>
 	public HexCell[] GetEdgeCells()
     {
 		HexCell[] edgeCells = new HexCell[2 * cellCountX + 2 * cellCountZ - 4];
@@ -244,7 +252,50 @@ public class HexGrid : MonoBehaviour {
 		return edgeCells;
     }
 
-    
+    /// <summary>
+    /// Creates the map decorations
+    /// </summary>
+    void CreateDecorations()
+    {
+        if (decor.Length == 0) {
+            Debug.LogError("No decorations have been assgined");
+            return;
+        }
+        
+        // Adding a tree wall around the map
+        foreach (HexCell c in edgeCells)
+        {
+            if (!c.isOccupied)
+            {
+                if (mountainBorder)
+                {
+                    c.Elevation = c.materials.Length - 1;
+                }
+                else
+                {
+                    GameObject decoration = Instantiate(decor[0], c.transform.position, c.transform.rotation);
+                    decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
+                    decoration.transform.SetParent(c.transform);
+                    c.SetTower(decoration);
+                }
+            }
+        }
+
+        foreach(HexCell cell in cells)
+        {
+            // The cells inbetween the min and max elevations are areas where we can place decorations.
+            if (UnityEngine.Random.Range(0, 100) <= 10f && cell.Elevation < cell.materials.Length - 1 && cell.Elevation > 0)
+            {
+                if (!cell.isOccupied)
+                {
+                    GameObject decoration = Instantiate(decor[UnityEngine.Random.Range(0, decor.Length)], cell.transform.position, cell.transform.rotation);
+                    decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
+                    decoration.transform.SetParent(cell.transform);
+                    cell.SetTower(decoration);
+                }
+            }
+        }
+    }
 }
 
 public struct CellAnimJob : IJobParallelFor{

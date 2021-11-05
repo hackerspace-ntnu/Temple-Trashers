@@ -30,7 +30,7 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    [SerializeField]
+    
     private HealthLogic healthController;
 
     // Death flag
@@ -70,7 +70,7 @@ public class BaseController : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
-
+        healthController = GetComponent<HealthLogic>();
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
 
@@ -123,8 +123,10 @@ public class BaseController : MonoBehaviour
 
     private void Die()
     {
+        print("YO");
         if (!dead)
         {
+
             // Start overloading the crystal
             anim.SetBool("death", true);
 

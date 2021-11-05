@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 1378390819816396464}
   - component: {fileID: 4940800382082599726}
   - component: {fileID: 5444241571611455560}
+  - component: {fileID: -9140866788019457868}
   m_Layer: 0
   m_Name: LightningTurret
   m_TagString: Untagged
@@ -623,6 +624,22 @@ CapsuleCollider:
   m_Height: 4.7384577
   m_Direction: 1
   m_Center: {x: 0, y: 1.4092288, z: 0}
+--- !u!208 &-9140866788019457868
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425059109847644991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7645708827096480674
 GameObject:
   m_ObjectHideFlags: 0

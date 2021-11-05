@@ -13,6 +13,7 @@ public class HealthLogic : MonoBehaviour
 
     public virtual void DealDamage(float input)
     {
+       
         if (health <= input)
             onDeath?.Invoke();
         else

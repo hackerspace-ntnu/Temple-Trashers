@@ -26,6 +26,7 @@ public class HexGrid : MonoBehaviour {
     [Header("Decoration Variables")]
     public GameObject[] decor;
     public bool mountainBorder;
+    public AnimationCurve decorDensityX;
 
     [Header("Noise")]
 	public Texture2D noise;
@@ -50,7 +51,7 @@ public class HexGrid : MonoBehaviour {
     
     
 	private void Awake() {
-        RebuildTerrain();
+        //RebuildTerrain();
         hq = GameObject.FindGameObjectWithTag("Base").transform;
     }
 

@@ -11,12 +11,9 @@ public class HexMesh : MonoBehaviour {
 	List<int> triangles;
 
 	MeshCollider meshCollider;
-	//Material mat;
 
 	void Awake () {
 		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-		//mat = GetComponent<MeshRenderer>().sharedMaterial;
-		//mat.SetVector("vector2Tiling", new Vector2(0.866025404f/ (HexMetrics.outerRadius * 3), 1 / (HexMetrics.outerRadius * 3)));
 		meshCollider = gameObject.GetComponent<MeshCollider>();
 		hexMesh.name = "Hex Mesh";
 		vertices = new List<Vector3>();
@@ -24,6 +21,7 @@ public class HexMesh : MonoBehaviour {
 		triangles = new List<int>();
 
 		GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<MeshCollider>().enabled = false;
 		gameObject.isStatic = true;
 	}
 

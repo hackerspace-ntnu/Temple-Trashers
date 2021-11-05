@@ -9,7 +9,7 @@ public abstract class Enemy : MonoBehaviour
     public Transform playerBase;
 
     [ReadOnly]
-    public Transform currentTarget;
+    public Vector3 currentTarget;
 
     public float damageDealt = 1.0f;
 
@@ -27,14 +27,14 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Start()
     {
-        currentTarget = playerBase;
+        currentTarget = playerBase.position;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
     }
 
     void FixedUpdate()
     {
-        agent.destination = currentTarget.position;
+        agent.destination = currentTarget;
     }
 
     void OnDestroy()
@@ -51,7 +51,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void OnPlayerDetected(Transform playerTransform)
     {
-        currentTarget = playerTransform;
+        currentTarget = playerTransform.position;
     }
 
     public void Die()

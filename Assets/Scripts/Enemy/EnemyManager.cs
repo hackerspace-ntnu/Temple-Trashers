@@ -37,6 +37,7 @@ public class EnemyManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
+        ENEMY_TYPE_TO_PREFAB.Clear();
         foreach (GameObject prefab in enemyPrefabs)
         {
             Type enemyType = prefab.GetComponent<Enemy>().GetType();

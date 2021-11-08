@@ -887,4 +887,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e018f9ad4f3af79479b4f70191e4a3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 8637078598552028505}
+  animationController: {fileID: 8637078598552028505}

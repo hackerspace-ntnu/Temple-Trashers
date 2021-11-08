@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeTowerController : Interactable, TurretInterface
+public class AxeTowerAnimationController : Interactable, TurretInterface
 {
     public MeshRenderer handAxe;
     public MeshRenderer totemAxe;

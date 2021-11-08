@@ -79,16 +79,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a624fc6506f6f45a6bfd0335d144e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookingTowards: {x: 0, y: 0, z: 0}
-  bulletSpawnPoint: {fileID: 0}
-  towerRotationPoint: {fileID: 6337973020223220929}
-  arrowPointer: {fileID: 4911675975082342184}
+  canInteract: 1
+  input: {fileID: 0}
   bullet: {fileID: 0}
+  bulletSpawnPoint: {fileID: 0}
   bulletSpeed: 0
   bulletDamage: 0
-  input: {fileID: 0}
+  towerRotationPoint: {fileID: 6337973020223220929}
   rotAxis: {fileID: 0}
   rotationMaxSpeed: 0
+  arrowPointer: {fileID: 4911675975082342184}
 --- !u!136 &8466527481623126138
 CapsuleCollider:
   m_ObjectHideFlags: 0

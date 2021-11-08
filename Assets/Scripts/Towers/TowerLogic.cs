@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class TowerLogic : Interactable
 {
-    public Vector3 lookingTowards;
-    public GameObject bulletSpawnPoint;
-    public GameObject towerRotationPoint;
+    public TurretInput input;
 
-    public GameObject arrowPointer;
-
-    //public bool autoShoot;
     public GameObject bullet;
+    public GameObject bulletSpawnPoint;
     public float bulletSpeed;
     public float bulletDamage;
-    public TurretInput input;
+
+    public GameObject towerRotationPoint;
     public Transform rotAxis;
     public float rotationMaxSpeed;
-
+    public GameObject arrowPointer;
     private Renderer arrowPointerRenderer;
 
     void Start()

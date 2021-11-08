@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 3531771237580499680}
   - component: {fileID: 4697867369539754102}
   m_Layer: 0
-  m_Name: tower_wheel
+  m_Name: WheelTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,16 +160,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a624fc6506f6f45a6bfd0335d144e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookingTowards: {x: 0, y: 0, z: 0}
-  bulletSpawnPoint: {fileID: 7245097492267856000}
-  towerRotationPoint: {fileID: 3011992938053616436}
-  arrowPointer: {fileID: 8557351424284430801}
+  canInteract: 1
+  input: {fileID: 0}
   bullet: {fileID: 4237738930188430962, guid: 1cacc95863cb82a4da5dcf8bb67f5ef2, type: 3}
+  bulletSpawnPoint: {fileID: 7245097492267856000}
   bulletSpeed: 5
   bulletDamage: 5
-  input: {fileID: 0}
+  towerRotationPoint: {fileID: 3011992938053616436}
   rotAxis: {fileID: 769070955576516685}
   rotationMaxSpeed: 0
+  arrowPointer: {fileID: 8557351424284430801}
 --- !u!95 &3515612305777872196
 Animator:
   serializedVersion: 3

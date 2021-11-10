@@ -574,10 +574,6 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 0}
   bulletSpeed: 0
   bulletDamage: 0
-  towerRotationPoint: {fileID: 0}
-  arrowPointer: {fileID: 0}
-  rotAxis: {fileID: 0}
-  rotationMaxSpeed: 0
 --- !u!54 &1378390819816396464
 Rigidbody:
   m_ObjectHideFlags: 0

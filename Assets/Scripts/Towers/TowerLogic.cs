@@ -11,64 +11,27 @@ public class TowerLogic : Interactable
     public float bulletSpeed;
     public float bulletDamage;
 
-    public GameObject towerRotationPoint;
-    public Transform rotAxis;
-    public float rotationMaxSpeed;
-    public GameObject arrowPointer;
-    private Renderer arrowPointerRenderer;
-
-    void Start()
+    protected void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         Vector3 cellPos = hexGrid.GetCell(transform.position).transform.position;
         transform.position = cellPos;
-
-        // Some towers might not use an arrow pointer
-        arrowPointerRenderer = arrowPointer ? arrowPointer.GetComponent<Renderer>() : null;
-    }
-
-    void FixedUpdate()
-    {
-        ChangeDirection();
     }
 
     // Allow turret to be operated when focused
     public override void Focus(PlayerStateController player)
     {
         input = player.GetComponent<TurretInput>();
-
-        //render arrowPointer
-        if (arrowPointerRenderer)
-            arrowPointerRenderer.enabled = true;
     }
 
     // When player leaves, prevent it from changing the turret position
     public override void Unfocus(PlayerStateController player)
     {
         input = null;
-
-        //unrender pointer
-        if (arrowPointerRenderer)
-            arrowPointerRenderer.enabled = false;
     }
 
     public override void Interact(PlayerStateController player)
     {}
-
-    //Rotational-Movement using UserInput
-    private void ChangeDirection()
-    {
-        if (!input)
-            return;
-
-        Vector2 aim = input.GetAimInput();
-        if (aim.sqrMagnitude > 0.01f)
-        {
-            float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI; // - 90;
-            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
-            Quaternion.RotateTowards(towerRotationPoint.transform.rotation, rotAxis.rotation, rotationMaxSpeed * Time.deltaTime);
-        }
-    }
 
     private void LaunchProjectile()
     {

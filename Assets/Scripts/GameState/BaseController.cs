@@ -129,9 +129,6 @@ public class BaseController : MonoBehaviour
 
             // Prepare the explosion
             StartCoroutine("Explode");
-
-            // Start Distortions
-            //distortionField.enabled = true;
         }
 
         dead = true;
@@ -218,7 +215,7 @@ public class BaseController : MonoBehaviour
         Instantiate(gameOverScreen);
 
         // Add particle system
-        Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), transform.rotation);
+        Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);
 
         // Clean up
         Destroy(gameObject);

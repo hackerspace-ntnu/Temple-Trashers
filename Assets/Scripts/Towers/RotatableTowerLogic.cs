@@ -5,6 +5,7 @@ using UnityEngine;
 public class RotatableTowerLogic : TowerLogic
 {
     public Transform rotAxis;
+    private Quaternion initialRotation;
 
     public GameObject arrowPointer;
     private Renderer arrowPointerRenderer;
@@ -13,6 +14,7 @@ public class RotatableTowerLogic : TowerLogic
     {
         base.Start();
 
+        initialRotation = rotAxis.rotation;
         // Some towers might not use an arrow pointer
         arrowPointerRenderer = arrowPointer ? arrowPointer.GetComponent<Renderer>() : null;
     }
@@ -31,8 +33,8 @@ public class RotatableTowerLogic : TowerLogic
         Vector2 aim = input.GetAimInput();
         if (aim.sqrMagnitude > 0.01f)
         {
-            float angle = -Mathf.Atan2(aim.y, aim.x) * 180 / Mathf.PI; // - 90;
-            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f);
+            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI; // - 90;
+            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f) * initialRotation;
         }
     }
 

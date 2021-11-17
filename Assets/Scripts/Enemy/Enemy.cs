@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
         if (playerBase == null)
             playerBase = BaseController.Singleton.transform;
 
-        GetComponent<HealthLogic>().onDeath += Die;
+        //GetComponent<HealthLogic>().onDeath += Die;
     }
 
     protected void Start()
@@ -39,7 +39,7 @@ public abstract class Enemy : MonoBehaviour
 
     void OnDestroy()
     {
-        GetComponent<HealthLogic>().onDeath -= Die;
+        //GetComponent<HealthLogic>().onDeath -= Die;
     }
 
     void OnCollisionEnter(Collision collision)

@@ -1875,9 +1875,10 @@ GameObject:
   - component: {fileID: 6262807936475223193}
   - component: {fileID: 6262807936475223195}
   - component: {fileID: 6262807936475223196}
+  - component: {fileID: 7413113778202246700}
   m_Layer: 11
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1912,7 +1913,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 6942039963572180435}
   speed: 1.8
-  attackDistance: 1
+  chaseSpeed: 5
+  baseAttackDistance: 2
+  playerAttackDistance: 2.5
+  playerChaseStopDistance: 8
   attackDamage: 1
 --- !u!195 &6262807936475223190
 NavMeshAgent:
@@ -1997,6 +2001,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   maxHealth: 3
+--- !u!135 &7413113778202246700
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262807936475223189}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.5
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &6358332083069824478
 GameObject:
   m_ObjectHideFlags: 0

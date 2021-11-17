@@ -27,7 +27,7 @@ public class SkeletonRagdollController : MonoBehaviour
         GetComponent<HealthLogic>().onDeath += Launch;
     }
 
-    private void Launch()
+    private void Launch(HealthLogic.DamageInstance dmg)
     {
         anim.SetBool("Dead", true);
         anim.SetFloat("DeathMode", Mathf.Floor(Random.Range(0, 8)));
@@ -41,13 +41,8 @@ public class SkeletonRagdollController : MonoBehaviour
         body.isKinematic = false;
         body.useGravity = true;
         body.maxAngularVelocity = Mathf.Infinity;
-        Vector3 awayDir = (transform.position - BaseController.Singleton.transform.position).normalized * launchSpeed.x;
 
-        body.AddForce(new Vector3(
-                awayDir.x,
-                launchSpeed.y,
-                awayDir.z
-            ), ForceMode.VelocityChange);
+        body.AddForce( dmg.KnockBackDir*dmg.KnockBackForce, ForceMode.VelocityChange);
         body.AddTorque(Random.onUnitSphere * Mathf.Pow(Random.Range(0f,1f),2) * launchRotationSpeed, ForceMode.VelocityChange);
     }
 }

@@ -13,6 +13,7 @@ public class SkeletonController : MonoBehaviour
         chasing,
         dead
     }
+
     private NavMeshAgent agent;
     private Transform aggroTarget;
     private Transform baseTransform;
@@ -26,6 +27,9 @@ public class SkeletonController : MonoBehaviour
 
     [SerializeField]
     private float speed = 5f;
+
+    [SerializeField]
+    private float chaseSpeed = 5f;
 
     [SerializeField]
     private float baseAttackDistance = 2f;
@@ -46,11 +50,15 @@ public class SkeletonController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         baseTarget = BaseController.Singleton;
+        baseTransform = baseTarget.transform;
+        agent.destination = baseTransform.position;
         aggroTarget = baseTarget.transform;
         health = GetComponent<HealthLogic>();
-        health.onDeath += () => SetState(state.dead);
+        health.onDeath += (dmg) => SetState(state.dead);
         agent.speed = speed;
 
+
+        anim.SetFloat("WalkMode", Mathf.Floor(Random.Range(0f, 2f)));
         anim.Play(0, -1, Random.value);
     }
 
@@ -62,17 +70,26 @@ public class SkeletonController : MonoBehaviour
             case state.walking:
                 if((baseTransform.position - transform.position).sqrMagnitude < baseAttackDistance * baseAttackDistance)
                 {
-                    anim.SetBool("Attack", true);
-                    currentState = state.attackBase;
-                    agent.speed = 0f;
+                    SetState(state.attackBase);
                 }
                 break;
             case state.attackPlayer:
-
                 break;
             case state.attackBase:
                 break;
             case state.chasing:
+                if ((aggroTarget.position - transform.position).sqrMagnitude < playerAttackDistance * playerAttackDistance)
+                {
+                    SetState(state.attackPlayer);
+                }
+                else if ((aggroTarget.position - transform.position).sqrMagnitude > playerChaseStopDistance * playerChaseStopDistance)
+                {
+                    SetState(state.walking);
+                }
+                else
+                {
+                    agent.destination = aggroTarget.position;
+                }
                 break;
             case state.dead:
                 break;
@@ -83,25 +100,45 @@ public class SkeletonController : MonoBehaviour
     }
 
     private void SetState(state newState) {
-        if (currentState == state.dead) return;
+
+        switch (currentState)
+        {
+            case state.attackPlayer:
+                anim.SetBool("Attack", false);
+                break;
+            case state.attackBase:
+                anim.SetBool("Attack", false);
+                break;
+            case state.chasing:
+                anim.SetBool("Chasing", false);
+                break;
+            case state.dead:
+                return;
+            default:
+                break;
+        }
 
         switch (newState)
         {
             case state.walking:
                 agent.destination = baseTransform.position;
+                agent.stoppingDistance = baseAttackDistance; ;
                 agent.speed = speed;
+                aggroTarget = null;
                 break;
             case state.attackPlayer:
                 anim.SetBool("Attack", true);
-                agent.speed = 0;
+                agent.stoppingDistance = playerAttackDistance;
                 break;
             case state.attackBase:
                 anim.SetBool("Attack", true);
                 agent.destination = baseTransform.position;
-                agent.speed = 0f;
+                agent.stoppingDistance = baseAttackDistance; ;
                 break;
             case state.chasing:
-                agent.speed = speed;
+                agent.speed = chaseSpeed;
+                agent.stoppingDistance = playerAttackDistance;
+                anim.SetBool("Chasing", true);
                 break;
             case state.dead:
                 agent.speed = 0f;
@@ -110,16 +147,60 @@ public class SkeletonController : MonoBehaviour
             default:
                 break;
         }
+        currentState = newState;
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player" && currentState == state.walking)
+        {
+            print("YO");
+            aggroTarget = other.transform;
+            SetState(state.chasing);
+        }
+    }
 
     public void DealDamage()
     {
-        aggroTarget.GetComponent<HealthLogic>()?.DealDamage(attackDamage);
+        switch (currentState)
+        {
+            case state.attackPlayer:
+                HealthLogic playerHealth = aggroTarget.GetComponent<HealthLogic>();
+                playerHealth.DealDamage(attackDamage);
+                if(playerHealth.health <= 0)
+                {
+                    SetState(state.walking);
+                    return;
+                }
+                if((aggroTarget.position-transform.position).sqrMagnitude > playerAttackDistance * playerAttackDistance)
+                {
+                    SetState(state.chasing);
+                }
+                break;
+            case state.attackBase:
+                baseTransform.GetComponent<HealthLogic>()?.DealDamage(attackDamage);
+                break;           
+            default:
+                break;
+        }
     }
     public void Walk()
     {
-        SetState(state.walking);
+        switch (currentState)
+        {
+            case state.attackPlayer:
+                //PLayer he was attacking be dead
+                if (aggroTarget)
+                {
+                    SetState(state.chasing);
+                }
+                else
+                {
+                    SetState(state.walking);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

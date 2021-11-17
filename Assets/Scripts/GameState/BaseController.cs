@@ -86,7 +86,7 @@ public class BaseController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
-        Loot loot = player.GetComponentInChildren<Loot>();
+        Loot loot = player?.GetComponentInChildren<Loot>();
         if (loot != null)
         {
             loot.Absorb(this);
@@ -121,7 +121,7 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die(HealthLogic.DamageInstance dmg)
     {
         print("YO");
         if (!dead)

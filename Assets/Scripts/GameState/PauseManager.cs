@@ -58,14 +58,7 @@ public class PauseManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-        ui = GameObject.Find("PauseMenu");
-        if (ui == null)
-        {
-            Debug.Log("missing Pause UI in scene.");
-        }
-        else
-        {
+
             ui.SetActive(pauseStatus);
-        }
     }
 }

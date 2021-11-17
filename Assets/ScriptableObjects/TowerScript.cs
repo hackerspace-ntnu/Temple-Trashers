@@ -11,4 +11,12 @@ public class TowerScript : ScriptableObject
     public TurretPrefabConstruction towerConstructionPrefab;
     public Sprite icon;
     public Sprite iconHighlight;
+
+    public TurretPrefabConstruction InstantiateConstructionTower(PlayerStateController controller)
+    {
+        GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);
+        controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
+        controller.SetState(PlayerStates.BUILDING);
+        return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
+    }
 }

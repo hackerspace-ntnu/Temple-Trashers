@@ -129,7 +129,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619245570108405734}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.028093997, y: 4.2606807, z: -0.002851367}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
@@ -137,7 +137,7 @@ Transform:
   - {fileID: 7816160981140977133}
   m_Father: {fileID: 8095123865731280178}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -89.98021, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1720151116900620221
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637078598552028506}
+  - component: {fileID: 1062171249921805924}
   - component: {fileID: 8637078598552028505}
   - component: {fileID: 8942675849461820197}
   m_Layer: 0
@@ -757,6 +758,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1062171249921805924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8637078598552028507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  input: {fileID: 0}
+  bullet: {fileID: 0}
+  bulletSpawnPoint: {fileID: 0}
+  bulletSpeed: 0
+  bulletDamage: 0
+  rotAxis: {fileID: 929849385462332844}
+  arrowPointer: {fileID: 0}
 --- !u!114 &8637078598552028505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,14 +790,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2bc224978c68d4da8990702c6562b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canInteract: 1
   handAxe: {fileID: 8637078597895983120}
   totemAxe: {fileID: 1454252028979051526}
   spawnPoint: {fileID: 8637078598880068123}
   axeProjectilePrefab: {fileID: 4457567029400409728, guid: 9d91c902236040645aee6f6bcd82b99f, type: 3}
   projectileSpeed: 20
   forwardTransform: {fileID: 929849385462332844}
-  rotationAxis: {fileID: 929849385462332844}
 --- !u!136 &8942675849461820197
 CapsuleCollider:
   m_ObjectHideFlags: 0

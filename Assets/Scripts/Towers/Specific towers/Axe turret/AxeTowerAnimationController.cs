@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeTowerAnimationController : Interactable, TurretInterface
+public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
 {
     public MeshRenderer handAxe;
     public MeshRenderer totemAxe;
@@ -10,43 +10,6 @@ public class AxeTowerAnimationController : Interactable, TurretInterface
     public GameObject axeProjectilePrefab;
     public float projectileSpeed = 5f;
     public Transform forwardTransform;
-
-    [SerializeField]
-    private Transform rotationAxis;
-
-    private bool focused = false;
-    private PlayerStateController playerAiming;
-
-    void FixedUpdate()
-    {
-        if (focused)
-        {
-            Vector2 dir = playerAiming.AimInput;
-            if (dir != Vector2.zero)
-            {
-                float angle = -Mathf.Atan2(dir.y, dir.x) * 180 / Mathf.PI;
-                rotationAxis.rotation = Quaternion.Euler(new Vector3(-90f, angle, 0f));
-            }
-        }
-    }
-
-    public override void Focus(PlayerStateController player)
-    {
-        focused = true;
-        playerAiming = player;
-    }
-
-    public override void Unfocus(PlayerStateController player)
-    {
-        if (player == playerAiming)
-        {
-            focused = false;
-            playerAiming = null;
-        }
-    }
-
-    public override void Interact(PlayerStateController player)
-    {}
 
     public void Grab()
     {

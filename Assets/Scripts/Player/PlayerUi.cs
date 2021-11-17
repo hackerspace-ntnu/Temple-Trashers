@@ -31,9 +31,9 @@ public class PlayerUi : MonoBehaviour
         ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
     }
 
-    public GameObject GetSelectedSegment()
+    public TurretPrefabConstruction GetSelectedSegment()
     {
-        return selectedSegment.tower;
+        return selectedSegment.towerConstructionPrefab;
     }
 
     public int GetSelectedCost()
@@ -58,7 +58,7 @@ public class PlayerUi : MonoBehaviour
                 } else
                 {
                     inventory.ResourceAmount -= GetSelectedCost();
-                    GameObject spawnedTower = Instantiate(GetSelectedSegment());
+                    GameObject spawnedTower = Instantiate(GetSelectedSegment().gameObject);
                     state.PrepareTurret(spawnedTower.GetComponent<Interactable>());
                     state.SetState(PlayerStates.BUILDING);
                 }

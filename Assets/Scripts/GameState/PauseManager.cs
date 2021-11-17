@@ -11,6 +11,8 @@ public class PauseManager : MonoBehaviour
 
     public bool IsPaused { get; private set; } = false;
 
+    private float initialTimeScale;
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -33,10 +35,15 @@ public class PauseManager : MonoBehaviour
         ui.SetActive(IsPaused);
     }
 
+    void Start()
+    {
+        initialTimeScale = Time.timeScale;
+    }
+
     public void PauseGame()
     {
         IsPaused = !IsPaused;
-        Time.timeScale = IsPaused ? 0 : 1;
+        Time.timeScale = IsPaused ? 0 : initialTimeScale;
         ui.SetActive(IsPaused);
     }
 

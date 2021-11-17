@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3686963311025437781}
   - component: {fileID: 1350360576178508834}
+  - component: {fileID: 2175461025215403135}
   - component: {fileID: 8466527481623126138}
   - component: {fileID: 8528154779301624128}
   - component: {fileID: 154197252}
@@ -81,12 +82,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   input: {fileID: 0}
+  rotAxis: {fileID: 0}
+  arrowPointer: {fileID: 4911675975082342184}
+--- !u!114 &2175461025215403135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423603099658726498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9aab47f9c6e15941975dfb0bc7c8db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bullet: {fileID: 0}
   bulletSpawnPoint: {fileID: 0}
   bulletSpeed: 0
   bulletDamage: 0
-  rotAxis: {fileID: 0}
-  arrowPointer: {fileID: 4911675975082342184}
 --- !u!136 &8466527481623126138
 CapsuleCollider:
   m_ObjectHideFlags: 0

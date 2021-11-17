@@ -772,10 +772,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   input: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
-  bulletSpeed: 0
-  bulletDamage: 0
   rotAxis: {fileID: 929849385462332844}
   arrowPointer: {fileID: 0}
 --- !u!114 &8637078598552028505

@@ -570,10 +570,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   input: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
-  bulletSpeed: 0
-  bulletDamage: 0
 --- !u!54 &1378390819816396464
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -6,11 +6,6 @@ public class TowerLogic : Interactable
 {
     public TurretInput input;
 
-    public GameObject bullet;
-    public GameObject bulletSpawnPoint;
-    public float bulletSpeed;
-    public float bulletDamage;
-
     protected void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
@@ -32,13 +27,4 @@ public class TowerLogic : Interactable
 
     public override void Interact(PlayerStateController player)
     {}
-
-    private void LaunchProjectile()
-    {
-        GameObject newBullet = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
-        newBullet.transform.SetParent(transform);
-        BulletLogic newBulletLogic = newBullet.GetComponent<BulletLogic>();
-        newBulletLogic.Damage = bulletDamage;
-        newBulletLogic.BulletSpeed = bulletSpeed;
-    }
 }

@@ -19,16 +19,16 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if (pauseStatus == false)
+        if (pauseStatus)
         {
-            pauseStatus = true;
-            Time.timeScale = 0;
+            pauseStatus = false;
+            Time.timeScale = 1;
             ui.SetActive(pauseStatus);
         }
         else
         {
-            pauseStatus = false;
-            Time.timeScale = 1;
+            pauseStatus = true;
+            Time.timeScale = 0;
             ui.SetActive(pauseStatus);
         }
     }
@@ -57,7 +57,6 @@ public class PauseManager : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
-
 
             ui.SetActive(pauseStatus);
     }

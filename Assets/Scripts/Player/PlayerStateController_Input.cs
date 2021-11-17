@@ -26,7 +26,7 @@ partial class PlayerStateController
 
     private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => OnMoveTower();
 
-    private void ReadyForNextWaveInput_Canceled(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
+    private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager)
     {
@@ -46,7 +46,7 @@ partial class PlayerStateController
 
         #region Developer hotkeys
 
-        newInput.actions["Ready for next wave"].performed += ReadyForNextWaveInput_Canceled;
+        newInput.actions["Ready for next wave"].performed += ReadyForNextWaveInput_Performed;
 
         #endregion Developer hotkeys
     }
@@ -66,7 +66,11 @@ partial class PlayerStateController
             input.actions["Select"].canceled -= SelectInput_Canceled;
             input.actions["Move tower"].performed -= MoveTowerInput_Performed;
 
-            input.actions["Ready for next wave"].performed -= ReadyForNextWaveInput_Canceled;
+            #region Developer hotkeys
+
+            input.actions["Ready for next wave"].performed -= ReadyForNextWaveInput_Performed;
+
+            #endregion Developer hotkeys
         }
     }
 }

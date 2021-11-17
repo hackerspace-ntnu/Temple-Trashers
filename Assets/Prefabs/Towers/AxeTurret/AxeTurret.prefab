@@ -772,7 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
-  input: {fileID: 0}
+  turretInputReadOnly: {fileID: 0}
   rotAxis: {fileID: 929849385462332844}
   arrowPointer: {fileID: 8198781589771022394}
 --- !u!114 &8637078598552028505

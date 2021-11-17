@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class TowerLogic : Interactable
 {
-    public TurretInput input;
+    private TurretInput _turretInput;
+
+    #region State variables for debugging
+
+    [ReadOnly]
+    public TurretInput turretInputReadOnly;
+
+    #endregion State variables for debugging
+
+    protected TurretInput TurretInput { get => _turretInput; private set => turretInputReadOnly = _turretInput = value; }
 
     protected void Start()
     {
@@ -16,13 +25,13 @@ public class TowerLogic : Interactable
     // Allow turret to be operated when focused
     public override void Focus(PlayerStateController player)
     {
-        input = player.GetComponent<TurretInput>();
+        TurretInput = player.GetComponent<TurretInput>();
     }
 
     // When player leaves, prevent it from changing the turret position
     public override void Unfocus(PlayerStateController player)
     {
-        input = null;
+        TurretInput = null;
     }
 
     public override void Interact(PlayerStateController player)

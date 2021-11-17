@@ -28,10 +28,10 @@ public class RotatableTowerLogic : TowerLogic
     // Rotational movement using aim input
     private void ChangeDirection()
     {
-        if (!input)
+        if (!TurretInput)
             return;
 
-        Vector2 aim = input.GetAimInput();
+        Vector2 aim = TurretInput.GetAimInput();
         if (aim.sqrMagnitude > 0.01f)
         {
             float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI; // - 90;

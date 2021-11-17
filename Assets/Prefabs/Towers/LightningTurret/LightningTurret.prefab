@@ -569,7 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
-  input: {fileID: 0}
+  turretInputReadOnly: {fileID: 0}
 --- !u!54 &1378390819816396464
 Rigidbody:
   m_ObjectHideFlags: 0

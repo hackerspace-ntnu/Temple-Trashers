@@ -11,18 +11,6 @@ public class PauseManager : MonoBehaviour
 
     public bool IsPaused { get; private set; } = false;
 
-    public void PauseGame()
-    {
-        IsPaused = !IsPaused;
-        Time.timeScale = IsPaused ? 0 : 1;
-        ui.SetActive(IsPaused);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
     void Awake()
     {
         #region Singleton boilerplate
@@ -43,5 +31,17 @@ public class PauseManager : MonoBehaviour
         #endregion Singleton boilerplate
 
         ui.SetActive(IsPaused);
+    }
+
+    public void PauseGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0 : 1;
+        ui.SetActive(IsPaused);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

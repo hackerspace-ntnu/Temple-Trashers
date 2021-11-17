@@ -24,7 +24,7 @@ partial class PlayerStateController
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
 
-    private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => Debug.Log("Move tower");
+    private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => OnMoveTower();
 
     private void ReadyForNextWaveInput_Canceled(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 

@@ -250,6 +250,18 @@ public partial class PlayerStateController : MonoBehaviour
         }
     }
 
+    // Called when the "Move tower" button is pressed
+    private void OnMoveTower()
+    {
+        if (!(FocusedInteractable is TowerLogic tower))
+            return;
+
+        tower.TowerScript.InstantiateConstructionTower(this);
+
+        RemoveInteractable(tower);
+        Destroy(tower.gameObject);
+    }
+
     public void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);
@@ -327,8 +339,9 @@ public partial class PlayerStateController : MonoBehaviour
 
     public void PrepareTurret(Interactable turret)
     {
-        HeldInteractable = turret;
         AddInteractable(turret);
+        HeldInteractable = turret;
+        SetFocusedInteractable(turret);
     }
 
     public void Drop(GameObject obj)

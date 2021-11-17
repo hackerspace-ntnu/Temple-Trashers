@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TowerLogic : Interactable
 {
+    [SerializeField]
+    private TowerScript towerScript;
+
     private TurretInput _turretInput;
 
     #region State variables for debugging
@@ -14,6 +17,8 @@ public class TowerLogic : Interactable
     #endregion State variables for debugging
 
     protected TurretInput TurretInput { get => _turretInput; private set => turretInputReadOnly = _turretInput = value; }
+
+    public TowerScript TowerScript => towerScript;
 
     protected void Start()
     {

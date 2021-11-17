@@ -164,7 +164,7 @@ MonoBehaviour:
   canInteract: 1
   input: {fileID: 0}
   rotAxis: {fileID: 769070955576516685}
-  arrowPointer: {fileID: 8557351424284430801}
+  arrowPointer: {fileID: 8246341762033966926}
 --- !u!114 &2609491176346275453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,13 +643,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+--- !u!1 &8246341762033966926 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3454596370188697067, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+  m_PrefabInstance: {fileID: 6737900972572648101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5660210728513226266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1372699136307061951, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
-  m_PrefabInstance: {fileID: 6737900972572648101}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8557351424284430801 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3116496389356106612, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
   m_PrefabInstance: {fileID: 6737900972572648101}
   m_PrefabAsset: {fileID: 0}

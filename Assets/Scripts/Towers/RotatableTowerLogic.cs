@@ -8,15 +8,16 @@ public class RotatableTowerLogic : TowerLogic
     private Quaternion initialRotation;
 
     public GameObject arrowPointer;
-    private Renderer arrowPointerRenderer;
 
     protected new void Start()
     {
         base.Start();
 
         initialRotation = rotAxis.rotation;
-        // Some towers might not use an arrow pointer
-        arrowPointerRenderer = arrowPointer ? arrowPointer.GetComponent<Renderer>() : null;
+
+        // Hide arrow pointer initially
+        if (arrowPointer)
+            arrowPointer.SetActive(false);
     }
 
     void FixedUpdate()
@@ -42,17 +43,15 @@ public class RotatableTowerLogic : TowerLogic
     {
         base.Focus(player);
 
-        // render arrowPointer
-        if (arrowPointerRenderer)
-            arrowPointerRenderer.enabled = true;
+        if (arrowPointer)
+            arrowPointer.SetActive(true);
     }
 
     public override void Unfocus(PlayerStateController player)
     {
         base.Unfocus(player);
 
-        // unrender pointer
-        if (arrowPointerRenderer)
-            arrowPointerRenderer.enabled = false;
+        if (arrowPointer)
+            arrowPointer.SetActive(false);
     }
 }

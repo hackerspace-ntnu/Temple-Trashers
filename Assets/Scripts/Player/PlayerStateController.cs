@@ -26,13 +26,13 @@ public partial class PlayerStateController : MonoBehaviour
     private InventoryManager inventoryManager;
 
     private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
-    private Interactable heldInteractable;
-    private Interactable focusedInteractable; // The currently focused interactable
-    private GameObject liftedObject; // Object being lifted
+    private Interactable _heldInteractable;
+    private Interactable _focusedInteractable; // The currently focused interactable
+    private GameObject _liftedObject; // Object being lifted
     public Transform inventory; // Where items are carried
 
     private HexGrid terrain; // Reference to the terrain
-    private HexCell targetCell;
+    private HexCell _targetCell;
 
     [SerializeField]
     private Animator anim; //Reference to animation controller of the player
@@ -45,9 +45,29 @@ public partial class PlayerStateController : MonoBehaviour
     [ReadOnly]
     public PlayerStates currentStateReadOnly;
 
+    [ReadOnly]
+    public Interactable heldInteractableReadOnly;
+
+    [ReadOnly]
+    public Interactable focusedInteractableReadOnly;
+
+    [ReadOnly]
+    public GameObject liftedObjectReadOnly;
+
+    [ReadOnly]
+    public HexCell targetCellReadOnly;
+
     #endregion State variables for debugging
 
     public PlayerStates CurrentState { get => _currentState; private set => currentStateReadOnly = _currentState = value; }
+
+    public Interactable HeldInteractable { get => _heldInteractable; private set => heldInteractableReadOnly = _heldInteractable = value; }
+
+    public Interactable FocusedInteractable { get => _focusedInteractable; private set => focusedInteractableReadOnly = _focusedInteractable = value; }
+
+    public GameObject LiftedObject { get => _liftedObject; private set => liftedObjectReadOnly = _liftedObject = value; }
+
+    public HexCell TargetCell { get => _targetCell; private set => targetCellReadOnly = _targetCell = value; }
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -95,17 +115,17 @@ public partial class PlayerStateController : MonoBehaviour
                 UpdateFocusedInteractable();
                 //global
                 motion.Move();
-                targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
-                focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+                TargetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
+                FocusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(TargetCell);
                 //case specific
                 if (Cancel)
                 {
                     //Refund turret
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();
 
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    RemoveInteractable(HeldInteractable);
+                    Destroy(HeldInteractable.gameObject);
+                    HeldInteractable = null;
                     SetState(PlayerStates.FREE);
                 }
 
@@ -134,8 +154,8 @@ public partial class PlayerStateController : MonoBehaviour
     private void Die()
     {
         // Drop anything we are carrying
-        if (liftedObject != null)
-            liftedObject.GetComponent<Interactable>().Interact(this);
+        if (LiftedObject != null)
+            LiftedObject.GetComponent<Interactable>().Interact(this);
 
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
@@ -180,14 +200,14 @@ public partial class PlayerStateController : MonoBehaviour
                 anim.SetBool("Lifting", true);
                 break;
             case PlayerStates.DEAD:
-                if (heldInteractable)
+                if (HeldInteractable)
                 {
                     //Refund turret
                     inventoryManager.ResourceAmount += ui.GetSelectedCost();
 
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    RemoveInteractable(HeldInteractable);
+                    Destroy(HeldInteractable.gameObject);
+                    HeldInteractable = null;
                 }
 
                 SetFocusedInteractable(null);
@@ -200,7 +220,7 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.BUILDING:
                 anim.SetBool("Lifting", true);
-                //AddInteractable(liftedObject.GetComponent<Interactable>());
+                //AddInteractable(LiftedObject.GetComponent<Interactable>());
                 break;
             case PlayerStates.IN_ANIMATION:
                 SetFocusedInteractable(null);
@@ -215,17 +235,17 @@ public partial class PlayerStateController : MonoBehaviour
     // Gets called when interact button is pressed
     private void OnInteract()
     {
-        if (focusedInteractable != null)
-            focusedInteractable.Interact(this); // interact with the current target
-        if (focusedInteractable != null && !focusedInteractable.canInteract)
-            RemoveInteractable(focusedInteractable);
+        if (FocusedInteractable != null)
+            FocusedInteractable.Interact(this); // interact with the current target
+        if (FocusedInteractable != null && !FocusedInteractable.canInteract)
+            RemoveInteractable(FocusedInteractable);
 
         if (CurrentState == PlayerStates.BUILDING)
         {
             // Build the turret we are holding
-            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
-            Drop(focusedInteractable.gameObject);
-            RemoveInteractable(focusedInteractable);
+            FocusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(TargetCell);
+            Drop(FocusedInteractable.gameObject);
+            RemoveInteractable(FocusedInteractable);
             SetState(PlayerStates.FREE);
         }
     }
@@ -245,10 +265,10 @@ public partial class PlayerStateController : MonoBehaviour
     {
         if (interactables.Count == 0)
         {
-            if (focusedInteractable != null) // The object we were focusing is no longer focusable
+            if (FocusedInteractable != null) // The object we were focusing is no longer focusable
             {
-                focusedInteractable.Unfocus(this);
-                focusedInteractable = null;
+                FocusedInteractable.Unfocus(this);
+                FocusedInteractable = null;
             }
 
             // Otherwise do nothing
@@ -257,19 +277,19 @@ public partial class PlayerStateController : MonoBehaviour
         {
             SetFocusedInteractable(interactables.Single());
             return;
-        } else if (focusedInteractable == null && heldInteractable == null) // Wait until we have at least one object to interact with
+        } else if (FocusedInteractable == null && HeldInteractable == null) // Wait until we have at least one object to interact with
             return;
 
         // Lifted objects are top priority
-        if (heldInteractable != null && heldInteractable != focusedInteractable)
+        if (HeldInteractable != null && HeldInteractable != FocusedInteractable)
         {
-            SetFocusedInteractable(heldInteractable);
+            SetFocusedInteractable(HeldInteractable);
             return;
         }
 
         // Otherwise get closest interactable
-        Interactable closest = focusedInteractable;
-        float dist = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
+        Interactable closest = FocusedInteractable;
+        float dist = (FocusedInteractable.transform.position - transform.position).sqrMagnitude;
         foreach (Interactable i in interactables)
         {
             if ((i.transform.position - transform.position).sqrMagnitude < dist)
@@ -284,22 +304,22 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void SetFocusedInteractable(Interactable interactable)
     {
-        if (focusedInteractable == interactable)
+        if (FocusedInteractable == interactable)
         {
             // This is already the focused interactable
             return;
         }
 
-        if (focusedInteractable)
-            focusedInteractable.Unfocus(this);
+        if (FocusedInteractable)
+            FocusedInteractable.Unfocus(this);
         if (interactable)
             interactable.Focus(this);
-        focusedInteractable = interactable;
+        FocusedInteractable = interactable;
     }
 
     public void Lift(GameObject obj)
     {
-        liftedObject = obj;
+        LiftedObject = obj;
         SetState(PlayerStates.LIFTING);
         obj.transform.SetParent(heldItemBone);
         obj.transform.localPosition = Vector3.zero;
@@ -307,13 +327,13 @@ public partial class PlayerStateController : MonoBehaviour
 
     public void PrepareTurret(Interactable turret)
     {
-        heldInteractable = turret;
+        HeldInteractable = turret;
         AddInteractable(turret);
     }
 
     public void Drop(GameObject obj)
     {
-        liftedObject = null;
+        LiftedObject = null;
         obj.transform.parent = null;
         SetState(PlayerStates.FREE);
         // Check if we can still interact with the object

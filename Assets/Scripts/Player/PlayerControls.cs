@@ -59,6 +59,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""6702a6d5-4f86-4f26-90c0-615b6eeedd8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Ready for next wave"",
                     ""type"": ""Button"",
                     ""id"": ""0292f4fa-f566-411f-a1a7-367de1e92915"",
@@ -225,7 +233,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1aab1220-e456-4e6f-afdf-dd88a698329e"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -274,6 +282,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Ready for next wave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c1bc488-9030-434a-a8a3-eaf1bad2bea1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f01a655d-a686-401a-83fc-abf3fddc7d5f"",
+                    ""path"": ""<Keyboard>/#(P)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -363,6 +393,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
         m_MovePlayer_Cancel = m_MovePlayer.FindAction("Cancel", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
+        m_MovePlayer_Pause = m_MovePlayer.FindAction("Pause", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
@@ -422,6 +453,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Select;
     private readonly InputAction m_MovePlayer_Cancel;
     private readonly InputAction m_MovePlayer_Aim;
+    private readonly InputAction m_MovePlayer_Pause;
     private readonly InputAction m_MovePlayer_Readyfornextwave;
     public struct MovePlayerActions
     {
@@ -432,6 +464,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
         public InputAction @Cancel => m_Wrapper.m_MovePlayer_Cancel;
         public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
+        public InputAction @Pause => m_Wrapper.m_MovePlayer_Pause;
         public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
@@ -457,6 +490,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Pause.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
                 @Readyfornextwave.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
@@ -479,6 +515,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @Readyfornextwave.started += instance.OnReadyfornextwave;
                 @Readyfornextwave.performed += instance.OnReadyfornextwave;
                 @Readyfornextwave.canceled += instance.OnReadyfornextwave;
@@ -552,6 +591,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
     }
     public interface IMenuActions

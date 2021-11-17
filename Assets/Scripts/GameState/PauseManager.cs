@@ -4,33 +4,18 @@ using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
+    public static PauseManager Singleton { get; private set; }
+
     [SerializeField]
     public GameObject ui;
 
-    public static PauseManager Singleton { get; private set; }
-    
-
-    private bool pauseStatus = false;
-   
-    public bool IsPaused()
-    {
-        return pauseStatus;
-    }
+    public bool IsPaused { get; private set; } = false;
 
     public void PauseGame()
     {
-        if (pauseStatus)
-        {
-            pauseStatus = false;
-            Time.timeScale = 1;
-            ui.SetActive(pauseStatus);
-        }
-        else
-        {
-            pauseStatus = true;
-            Time.timeScale = 0;
-            ui.SetActive(pauseStatus);
-        }
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0 : 1;
+        ui.SetActive(IsPaused);
     }
 
     public void QuitGame()
@@ -40,7 +25,6 @@ public class PauseManager : MonoBehaviour
 
     void Awake()
     {
-        
         #region Singleton boilerplate
 
         if (Singleton != null)
@@ -58,6 +42,6 @@ public class PauseManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-            ui.SetActive(pauseStatus);
+        ui.SetActive(IsPaused);
     }
 }

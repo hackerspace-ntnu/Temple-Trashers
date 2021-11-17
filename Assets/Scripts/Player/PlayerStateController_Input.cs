@@ -23,7 +23,6 @@ partial class PlayerStateController
     private void CancelInput_Canceled(InputAction.CallbackContext ctx) => Cancel = false;
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
-
     private void PauseInput_Performed(InputAction.CallbackContext ctx) => PauseManager.Singleton.PauseGame();
 
     private void ReadyForNextWaveInput_Canceled(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();

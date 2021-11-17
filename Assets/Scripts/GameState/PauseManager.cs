@@ -5,19 +5,19 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     [SerializeField]
-    private static GameObject ui;
+    public GameObject ui;
 
     public static PauseManager Singleton { get; private set; }
     
 
-    private static bool pauseStatus = false;
+    private bool pauseStatus = false;
    
-    public static bool isPaused()
+    public bool IsPaused()
     {
         return pauseStatus;
     }
 
-    public static void pauseGame()
+    public void PauseGame()
     {
         if (pauseStatus == false)
         {
@@ -33,7 +33,7 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    public static void quitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }

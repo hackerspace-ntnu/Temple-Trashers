@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 1234598521595535095}
   - component: {fileID: 5307998303341428611}
   m_Layer: 11
-  m_Name: Enemy
+  m_Name: PlaceholderEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,10 +222,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575f3d6c9f8cf014584948f3ca1a6c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBase: {fileID: 0}
   currentTarget: {fileID: 0}
-  damageDealt: 1
+  baseTransform: {fileID: 0}
+  currentState: 0
+  anim: {fileID: 0}
   speed: 1
+  chaseSpeed: 5
+  baseAttackDistance: 2
+  playerAttackDistance: 1
+  playerChaseStopDistance: 4
+  attackDamage: 1
 --- !u!136 &490591066213595821
 CapsuleCollider:
   m_ObjectHideFlags: 0

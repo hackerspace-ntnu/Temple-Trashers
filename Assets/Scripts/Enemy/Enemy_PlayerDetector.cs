@@ -9,7 +9,7 @@ public class Enemy_PlayerDetector : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         // If the colliding object is a player:
-        if (collider.GetComponent<PlayerStateController>())
+        if (collider.CompareTag("Player"))
             enemy.OnPlayerDetected(collider.transform);
     }
 }

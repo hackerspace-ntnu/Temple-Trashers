@@ -15,9 +15,6 @@ public class EnemyManager : MonoBehaviour
 
     public HexGrid hexGrid;
 
-    [Header("Enemy Variables")]
-    public float speed = 5f;
-
     void Awake()
     {
         #region Singleton boilerplate
@@ -51,9 +48,7 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject prefab = GetEnemyPrefab(enemyType);
         Vector3 spawnPos = ChoosePosForSpawningEnemy();
-        Enemy spawnedEnemy = Instantiate(prefab, spawnPos, Quaternion.identity, transform).GetComponent<Enemy>();
-        // Pass along the enemy settings
-        spawnedEnemy.speed = speed;
+        Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     }
 
     private Vector3 ChoosePosForSpawningEnemy()

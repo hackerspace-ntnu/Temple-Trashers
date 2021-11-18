@@ -121,7 +121,7 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    private void Die(HealthLogic.DamageInstance dmg)
+    private void Die(DamageInfo dmg)
     {
         print("YO");
         if (!dead)

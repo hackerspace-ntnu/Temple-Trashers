@@ -148,7 +148,7 @@ public partial class PlayerStateController : MonoBehaviour
             RemoveInteractable(other.GetComponentInParent<Interactable>());
     }
 
-    private void Die(HealthLogic.DamageInstance dmg)
+    private void Die(DamageInfo dmg)
     {
         // Drop anything we are carrying
         if (LiftedObject != null)

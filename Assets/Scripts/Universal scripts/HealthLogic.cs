@@ -4,26 +4,7 @@ using UnityEngine;
 
 public class HealthLogic : MonoBehaviour
 {
-
-    public struct DamageInstance
-    {
-        public DamageInstance(float damage, float remainingHealth, bool dead, Vector3 knockBackDir, float knockBackForce)
-        {
-            Damage = damage;
-            KnockBackForce = knockBackForce;
-            RemainingHealth = remainingHealth;
-            Dead = dead;
-            KnockBackDir = knockBackDir;
-        }
-        public float Damage { get; }
-        public float KnockBackForce { get; }
-
-        public float RemainingHealth { get; }
-        public bool Dead { get; }
-        public Vector3 KnockBackDir { get; }
-    }
-
-    public delegate void OnStatusUpdate(DamageInstance damage);
+    public delegate void OnStatusUpdate(DamageInfo damage);
 
     public OnStatusUpdate onDeath;
 
@@ -36,7 +17,7 @@ public class HealthLogic : MonoBehaviour
     {
         health -= input;
 
-        DamageInstance damage = new DamageInstance(
+        DamageInfo damage = new DamageInfo(
                 input,
                 health,
                 health <= 0,

@@ -46,6 +46,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "6702a6d5-4f86-4f26-90c0-615b6eeedd8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Ready for next wave",
                     "type": "Button",
                     "id": "0292f4fa-f566-411f-a1a7-367de1e92915",
@@ -220,7 +228,7 @@
                 {
                     "name": "",
                     "id": "1aab1220-e456-4e6f-afdf-dd88a698329e",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -269,6 +277,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Ready for next wave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c1bc488-9030-434a-a8a3-eaf1bad2bea1",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f01a655d-a686-401a-83fc-abf3fddc7d5f",
+                    "path": "<Keyboard>/#(P)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

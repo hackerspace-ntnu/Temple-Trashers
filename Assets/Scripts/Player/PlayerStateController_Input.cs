@@ -23,6 +23,7 @@ partial class PlayerStateController
     private void CancelInput_Canceled(InputAction.CallbackContext ctx) => Cancel = false;
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
+    private void PauseInput_Performed(InputAction.CallbackContext ctx) => PauseManager.Singleton.PauseGame();
 
     private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => OnMoveTower();
 
@@ -42,6 +43,7 @@ partial class PlayerStateController
         newInput.actions["Cancel"].canceled += CancelInput_Canceled;
         newInput.actions["Select"].performed += SelectInput_Performed;
         newInput.actions["Select"].canceled += SelectInput_Canceled;
+        newInput.actions["Pause"].performed += PauseInput_Performed;
         newInput.actions["Move tower"].performed += MoveTowerInput_Performed;
 
         #region Developer hotkeys
@@ -64,6 +66,7 @@ partial class PlayerStateController
             input.actions["Cancel"].canceled -= CancelInput_Canceled;
             input.actions["Select"].performed -= SelectInput_Performed;
             input.actions["Select"].canceled -= SelectInput_Canceled;
+            input.actions["Pause"].performed -= PauseInput_Performed;
             input.actions["Move tower"].performed -= MoveTowerInput_Performed;
 
             #region Developer hotkeys

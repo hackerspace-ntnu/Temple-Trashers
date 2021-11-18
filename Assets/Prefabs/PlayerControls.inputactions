@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Move tower",
+                    "type": "Button",
+                    "id": "34be8f5b-dd5f-48f5-91c6-67c76e24d444",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -209,7 +217,7 @@
                 {
                     "name": "",
                     "id": "1fa37b50-7164-456f-9b73-1a444e0b65b8",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/#(E)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -231,7 +239,7 @@
                 {
                     "name": "",
                     "id": "d3a671d1-a478-4c46-87e1-3ba1c1720988",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/#(R)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -264,7 +272,7 @@
                 {
                     "name": "",
                     "id": "3d61bf77-1cda-452c-927e-df6ea1888261",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/#(N)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -278,7 +286,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Controller",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -289,8 +297,30 @@
                     "path": "<Keyboard>/#(P)",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43c9fc11-5452-4f1b-b055-121563ed34c0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Move tower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac308be8-d7ad-4bf2-a443-5a947eaf84b5",
+                    "path": "<Keyboard>/#(M)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move tower",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

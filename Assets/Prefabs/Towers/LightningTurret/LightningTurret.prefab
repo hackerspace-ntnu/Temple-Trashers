@@ -569,16 +569,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
-  lookingTowards: {x: 0, y: 0, z: 0}
-  bulletSpawnPoint: {fileID: 0}
-  towerRotationPoint: {fileID: 0}
-  arrowPointer: {fileID: 0}
-  bullet: {fileID: 0}
-  bulletSpeed: 0
-  bulletDamage: 0
-  input: {fileID: 0}
-  rotAxis: {fileID: 0}
-  rotationMaxSpeed: 0
+  towerScript: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
+  turretInputReadOnly: {fileID: 0}
 --- !u!54 &1378390819816396464
 Rigidbody:
   m_ObjectHideFlags: 0

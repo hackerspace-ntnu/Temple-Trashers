@@ -121,13 +121,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2462899330894574527}
-  - component: {fileID: 4634772014400295570}
+  - component: {fileID: 5783301673282278111}
+  - component: {fileID: 2609491176346275453}
   - component: {fileID: 3515612305777872196}
   - component: {fileID: 1759242131}
   - component: {fileID: 3531771237580499680}
   - component: {fileID: 4697867369539754102}
   m_Layer: 0
-  m_Name: tower_wheel
+  m_Name: WheelTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +149,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4634772014400295570
+--- !u!114 &5783301673282278111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,19 +158,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2983117196373584133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a624fc6506f6f45a6bfd0335d144e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookingTowards: {x: 0, y: 0, z: 0}
-  bulletSpawnPoint: {fileID: 7245097492267856000}
-  towerRotationPoint: {fileID: 3011992938053616436}
-  arrowPointer: {fileID: 8557351424284430801}
+  canInteract: 1
+  towerScript: {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
+  turretInputReadOnly: {fileID: 0}
+  rotAxis: {fileID: 769070955576516685}
+  arrowPointer: {fileID: 8246341762033966926}
+--- !u!114 &2609491176346275453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983117196373584133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9aab47f9c6e15941975dfb0bc7c8db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bullet: {fileID: 4237738930188430962, guid: 1cacc95863cb82a4da5dcf8bb67f5ef2, type: 3}
+  bulletSpawnPoint: {fileID: 7245097492267856000}
   bulletSpeed: 5
   bulletDamage: 5
-  input: {fileID: 0}
-  rotAxis: {fileID: 769070955576516685}
-  rotationMaxSpeed: 0
 --- !u!95 &3515612305777872196
 Animator:
   serializedVersion: 3
@@ -632,13 +644,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+--- !u!1 &8246341762033966926 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3454596370188697067, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+  m_PrefabInstance: {fileID: 6737900972572648101}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5660210728513226266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1372699136307061951, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
-  m_PrefabInstance: {fileID: 6737900972572648101}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8557351424284430801 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3116496389356106612, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
   m_PrefabInstance: {fileID: 6737900972572648101}
   m_PrefabAsset: {fileID: 0}

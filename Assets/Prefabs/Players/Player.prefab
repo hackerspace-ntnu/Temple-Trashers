@@ -98,7 +98,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 2090017730266697988}
-  mesh: {fileID: 4245655479757749272}
+  anim: {fileID: 0}
+  heldItemBone: {fileID: 0}
+  currentStateReadOnly: 0
+  heldInteractableReadOnly: {fileID: 0}
+  focusedInteractableReadOnly: {fileID: 0}
+  liftedObjectReadOnly: {fileID: 0}
+  targetCellReadOnly: {fileID: 0}
 --- !u!114 &1291009955035072478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592e6ca9ae732e844803d8abc9e0e931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 2983117196373584133, guid: d9c9ddbe5ecd2cf4cae3474198d951df, type: 3}
 --- !u!114 &-8171924728604009722
 MonoBehaviour:
   m_ObjectHideFlags: 0

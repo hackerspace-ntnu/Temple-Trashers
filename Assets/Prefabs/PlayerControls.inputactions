@@ -46,9 +46,25 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "6702a6d5-4f86-4f26-90c0-615b6eeedd8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Ready for next wave",
                     "type": "Button",
                     "id": "0292f4fa-f566-411f-a1a7-367de1e92915",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Move tower",
+                    "type": "Button",
+                    "id": "34be8f5b-dd5f-48f5-91c6-67c76e24d444",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -201,7 +217,7 @@
                 {
                     "name": "",
                     "id": "1fa37b50-7164-456f-9b73-1a444e0b65b8",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/#(E)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -212,7 +228,7 @@
                 {
                     "name": "",
                     "id": "1aab1220-e456-4e6f-afdf-dd88a698329e",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -223,7 +239,7 @@
                 {
                     "name": "",
                     "id": "d3a671d1-a478-4c46-87e1-3ba1c1720988",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/#(R)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -256,11 +272,55 @@
                 {
                     "name": "",
                     "id": "3d61bf77-1cda-452c-927e-df6ea1888261",
-                    "path": "<Keyboard>/n",
+                    "path": "<Keyboard>/#(N)",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Ready for next wave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c1bc488-9030-434a-a8a3-eaf1bad2bea1",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f01a655d-a686-401a-83fc-abf3fddc7d5f",
+                    "path": "<Keyboard>/#(P)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43c9fc11-5452-4f1b-b055-121563ed34c0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Move tower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac308be8-d7ad-4bf2-a443-5a947eaf84b5",
+                    "path": "<Keyboard>/#(M)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move tower",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

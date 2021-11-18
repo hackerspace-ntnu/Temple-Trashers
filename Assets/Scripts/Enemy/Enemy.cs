@@ -43,7 +43,18 @@ public abstract class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        agent.destination = currentTarget.position;
+        if (currentTarget)
+            agent.destination = currentTarget.position;
+        else
+        {
+            if (playerBase)
+                agent.destination = playerBase.position;
+            else
+            {
+                agent.destination = agent.nextPosition;
+                agent.isStopped = true;
+            }
+        }
     }
 
     void OnDestroy()

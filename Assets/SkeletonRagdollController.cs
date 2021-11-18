@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 [RequireComponent(typeof(HealthLogic))]
 public class SkeletonRagdollController : MonoBehaviour
 {
@@ -22,15 +23,18 @@ public class SkeletonRagdollController : MonoBehaviour
     [SerializeField]
     private float launchRotationSpeed;
 
-    private void Awake()
+    private static readonly int deadAnimatorParam = Animator.StringToHash("Dead");
+    private static readonly int deathModeAnimatorParam = Animator.StringToHash("DeathMode");
+
+    void Awake()
     {
         GetComponent<HealthLogic>().onDeath += Launch;
     }
 
     private void Launch(DamageInfo dmg)
     {
-        anim.SetBool("Dead", true);
-        anim.SetFloat("DeathMode", Mathf.Floor(Random.Range(0, 8)));
+        anim.SetBool(deadAnimatorParam, true);
+        anim.SetFloat(deathModeAnimatorParam, Mathf.Floor(Random.Range(0, 8)));
         GetComponent<NavMeshAgent>().enabled = false;
 
         colliderToDisable.enabled = false;
@@ -42,7 +46,7 @@ public class SkeletonRagdollController : MonoBehaviour
         body.useGravity = true;
         body.maxAngularVelocity = Mathf.Infinity;
 
-        body.AddForce( dmg.KnockBackDir*dmg.KnockBackForce, ForceMode.VelocityChange);
-        body.AddTorque(Random.onUnitSphere * Mathf.Pow(Random.Range(0f,1f),2) * launchRotationSpeed, ForceMode.VelocityChange);
+        body.AddForce(dmg.KnockBackDir * dmg.KnockBackForce, ForceMode.VelocityChange);
+        body.AddTorque(Random.onUnitSphere * Mathf.Pow(Random.Range(0f, 1f), 2) * launchRotationSpeed, ForceMode.VelocityChange);
     }
 }

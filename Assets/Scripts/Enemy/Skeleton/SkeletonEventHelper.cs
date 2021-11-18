@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 public class SkeletonEventHelper : MonoBehaviour
 {
     [SerializeField]
@@ -8,6 +9,7 @@ public class SkeletonEventHelper : MonoBehaviour
     {
         controller.Walk();
     }
+
     public void OnAttackEvent()
     {
         controller.DealDamage();

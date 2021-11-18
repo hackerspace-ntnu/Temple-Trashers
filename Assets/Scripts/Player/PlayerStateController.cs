@@ -73,8 +73,8 @@ public partial class PlayerStateController : MonoBehaviour
 
     public PlayerStateDelegate onPlayerStateChange; //To allow other components to subscribe to stateChange events
 
-    private static readonly int LiftingAnimatorParam = Animator.StringToHash("Lifting");
-    private static readonly int PlanningAnimatorParam = Animator.StringToHash("Planning");
+    private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
+    private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
 
     void Start()
     {
@@ -174,17 +174,17 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.LIFTING:
                 //TODO: Remove the current item the player is lifting
-                anim.SetBool(LiftingAnimatorParam, false);
+                anim.SetBool(liftingAnimatorParam, false);
                 break;
             case PlayerStates.DEAD:
                 break;
             case PlayerStates.FREE:
                 break;
             case PlayerStates.BUILDING:
-                anim.SetBool(LiftingAnimatorParam, false);
+                anim.SetBool(liftingAnimatorParam, false);
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                anim.SetBool(PlanningAnimatorParam, false);
+                anim.SetBool(planningAnimatorParam, false);
                 break;
             default:
                 break;
@@ -194,7 +194,7 @@ public partial class PlayerStateController : MonoBehaviour
         switch (state)
         {
             case PlayerStates.LIFTING:
-                anim.SetBool(LiftingAnimatorParam, true);
+                anim.SetBool(liftingAnimatorParam, true);
                 break;
             case PlayerStates.DEAD:
                 if (HeldInteractable)
@@ -213,10 +213,10 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 SetFocusedInteractable(null);
-                anim.SetBool(PlanningAnimatorParam, true);
+                anim.SetBool(planningAnimatorParam, true);
                 break;
             case PlayerStates.BUILDING:
-                anim.SetBool(LiftingAnimatorParam, true);
+                anim.SetBool(liftingAnimatorParam, true);
                 break;
             case PlayerStates.IN_ANIMATION:
                 SetFocusedInteractable(null);

@@ -18,18 +18,16 @@ public class HealthLogic : MonoBehaviour
         health -= input;
 
         DamageInfo damage = new DamageInfo(
-                input,
-                health,
-                health <= 0,
-                knockBackDir ?? Vector3.up,
-                knockBackForce ?? 1f
-            );
+            input,
+            health,
+            health <= 0,
+            knockBackDir ?? Vector3.up,
+            knockBackForce ?? 1f
+        );
         if (health <= 0)
             onDeath?.Invoke(damage);
         else
             onDamage?.Invoke(damage);
-        
-        
     }
 
     public virtual void Heal(float input)

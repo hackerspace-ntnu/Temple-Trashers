@@ -140,6 +140,11 @@ public class SkeletonController : MonoBehaviour
         currentState = newState;
     }
 
+    void OnDestroy()
+    {
+        health.onDeath -= Die;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && currentState == EnemyState.WALKING)

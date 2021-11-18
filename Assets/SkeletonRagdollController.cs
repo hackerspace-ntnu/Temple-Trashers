@@ -31,6 +31,11 @@ public class SkeletonRagdollController : MonoBehaviour
         GetComponent<HealthLogic>().onDeath += Launch;
     }
 
+    void OnDestroy()
+    {
+        GetComponent<HealthLogic>().onDeath -= Launch;
+    }
+
     private void Launch(DamageInfo dmg)
     {
         anim.SetBool(deadAnimatorParam, true);

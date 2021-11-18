@@ -5,12 +5,19 @@ using UnityEngine.AI;
 
 public class SkeletonController : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    [ReadOnly, SerializeField]
     private Transform aggroTarget;
+
+    [ReadOnly, SerializeField]
     private Transform baseTransform;
+
+    [ReadOnly, SerializeField]
     private BaseController baseTarget;
+
+    private NavMeshAgent agent;
     private HealthLogic health;
 
+    [ReadOnly, SerializeField]
     private EnemyState currentState = EnemyState.WALKING;
 
     [SerializeField]

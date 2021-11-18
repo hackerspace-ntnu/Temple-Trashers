@@ -1911,6 +1911,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c06abda960a9a7241bfbfac97eb789c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aggroTarget: {fileID: 0}
+  baseTransform: {fileID: 0}
+  baseTarget: {fileID: 0}
+  currentState: 0
   anim: {fileID: 6942039963572180435}
   speed: 1.8
   chaseSpeed: 5

@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   towerScript: {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
-  turretInputReadOnly: {fileID: 0}
+  turretInput: {fileID: 0}
   rotAxis: {fileID: 769070955576516685}
   arrowPointer: {fileID: 8246341762033966926}
 --- !u!114 &2609491176346275453

@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum EnemyState
+{
+    WALKING,
+    ATTACK_PLAYER,
+    ATTACK_BASE,
+    CHASING,
+    DEAD,
+}
+
 public abstract class Enemy : MonoBehaviour
 {
     public Transform playerBase;

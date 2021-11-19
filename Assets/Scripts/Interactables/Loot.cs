@@ -52,7 +52,7 @@ public class Loot : Interactable
     private void DestroyAnimation()
     {
         transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
-        if (Vector3.Distance(transform.position, absorbTarget) >= 0.7f)
+        if (transform.position.DistanceGreaterThan(0.7f, absorbTarget))
             return;
 
         foreach (MeshRenderer meshRenderer in meshRenderers)

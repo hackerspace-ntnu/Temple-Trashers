@@ -82,7 +82,7 @@ public abstract class Enemy : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.WALKING:
-                if ((baseTransform.position - transform.position).sqrMagnitude < baseAttackDistance * baseAttackDistance)
+                if (transform.position.DistanceLessThan(baseAttackDistance, baseTransform.position))
                     SetState(EnemyState.ATTACK_BASE);
 
                 break;
@@ -91,9 +91,9 @@ public abstract class Enemy : MonoBehaviour
             case EnemyState.ATTACK_BASE:
                 break;
             case EnemyState.CHASING:
-                if ((currentTarget.position - transform.position).sqrMagnitude < playerAttackDistance * playerAttackDistance)
+                if (transform.position.DistanceLessThan(playerAttackDistance, currentTarget.position))
                     SetState(EnemyState.ATTACK_PLAYER);
-                else if ((currentTarget.position - transform.position).sqrMagnitude > playerChaseStopDistance * playerChaseStopDistance)
+                else if (transform.position.DistanceGreaterThan(playerChaseStopDistance, currentTarget.position))
                     SetState(EnemyState.WALKING);
                 else
                     agent.destination = currentTarget.position;
@@ -183,7 +183,7 @@ public abstract class Enemy : MonoBehaviour
                     return;
                 }
 
-                if ((currentTarget.position - transform.position).sqrMagnitude > playerAttackDistance * playerAttackDistance)
+                if (transform.position.DistanceGreaterThan(playerAttackDistance, currentTarget.position))
                     SetState(EnemyState.CHASING);
 
                 break;

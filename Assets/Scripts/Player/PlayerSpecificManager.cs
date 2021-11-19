@@ -10,7 +10,7 @@ public class PlayerSpecificManager : MonoBehaviour
     private PlayerInput input;
 
     [SerializeField]
-    private GameObject playerPrefab;
+    private GameObject[] playerPrefabs;
 
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
@@ -30,7 +30,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
     public void InitializePlayer()
     {
-        instantiatedPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
+        instantiatedPlayer = Instantiate(playerPrefabs[playerIndex%playerPrefabs.Length], spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }

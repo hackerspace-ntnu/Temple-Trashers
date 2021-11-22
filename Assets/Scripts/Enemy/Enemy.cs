@@ -12,6 +12,7 @@ public enum EnemyState
     DEAD,
 }
 
+[RequireComponent(typeof(NavMeshAgent), typeof(HealthLogic))]
 public abstract class Enemy : MonoBehaviour
 {
     [ReadOnly, SerializeField]
@@ -92,6 +93,7 @@ public abstract class Enemy : MonoBehaviour
         baseTransform = BaseController.Singleton.transform;
         CurrentTarget = baseTransform;
         baseHealth = baseTransform.GetComponent<HealthLogic>();
+
         agent.speed = walkSpeed;
 
         AnimationSetup();
@@ -183,13 +185,13 @@ public abstract class Enemy : MonoBehaviour
                 agent.stoppingDistance = baseAttackDistance;
                 break;
             case EnemyState.ATTACK_PLAYER:
-                anim.SetBool(attackAnimatorParam, true);
                 agent.stoppingDistance = playerAttackDistance;
+                anim.SetBool(attackAnimatorParam, true);
                 break;
             case EnemyState.ATTACK_BASE:
-                anim.SetBool(attackAnimatorParam, true);
                 CurrentTarget = baseTransform;
                 agent.stoppingDistance = baseAttackDistance;
+                anim.SetBool(attackAnimatorParam, true);
                 break;
             case EnemyState.CHASING:
                 agent.speed = chaseSpeed;

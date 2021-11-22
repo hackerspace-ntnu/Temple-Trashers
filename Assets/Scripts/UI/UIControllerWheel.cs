@@ -1,39 +1,53 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIControllerWheel : MonoBehaviour
 {
-    public TowerScript[] towers;
-    public GameObject[] menuSegments;
-    private List<TowerScript> towersInMenu = new List<TowerScript>();
-    public List<SpriteRenderer> iconHolders;
-    public Sprite highlightSprite;
+    [SerializeField]
+    private TowerScript[] towers;
+
+    [SerializeField]
+    private GameObject[] menuSegments;
+
+    [SerializeField]
+    private List<SpriteRenderer> iconHolders;
+
     public Sprite normalSprite;
+    public Sprite highlightSprite;
+    public float highlightedSpriteScale = 1.2f;
+    public float highlightScaleAnimationDuration = 0.2f;
+
     private GameObject selected;
 
     void Awake()
     {
-        if (towers.Length == menuSegments.Length)
+        if (menuSegments.Length != towers.Length || iconHolders.Count != towers.Length)
         {
-            for (int i = 0; i < towers.Length; i++)
-            {
-                menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
-                iconHolders[i].sprite = towers[i].icon;
-            }
+            throw new ArgumentException(
+                $"The sizes of `{nameof(towers)}`, `{nameof(menuSegments)}` and {nameof(iconHolders)} were not equal!"
+            );
         }
+
+        for (int i = 0; i < towers.Length; i++)
+            iconHolders[i].sprite = towers[i].icon;
+
+        foreach (GameObject segment in menuSegments)
+            segment.GetComponent<SpriteRenderer>().sprite = normalSprite;
+    }
+
+    public int GetNumSegments()
+    {
+        return menuSegments.Length;
     }
 
     /// <summary>
-    /// Returns the tower `GameObject` stored in the corresponding `ScriptableObject` that the UI segments use.
+    /// Returns the `TowerScript` (`ScriptableObject`) at the provided index of the wheel segments.
     /// </summary>
     public TowerScript GetTower(int index)
     {
-        towersInMenu.Clear();
-        for (int i = 0; i < menuSegments.Length; i++)
-            towersInMenu.Add(towers[i]);
-
-        return towersInMenu[index];
+        return towers[index];
     }
 
     /// <summary>
@@ -41,25 +55,25 @@ public class UIControllerWheel : MonoBehaviour
     /// </summary>
     public void HighlightSegment(int index)
     {
-        LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseLinear();
+        LeanTween.scale(menuSegments[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
         iconHolders[index].sprite = towers[index].iconHighlight;
         menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
         selected = menuSegments[index];
     }
 
     /// <summary>
-    /// Sets all UI elements back to their non-highlighted textures.
+    /// Sets all non-selected segments back to their non-highlighted textures.
     /// </summary>
     public void NormalizeSegments()
     {
         for (int i = 0; i < menuSegments.Length; i++)
         {
-            if (menuSegments[i] != selected)
-            {
-                LeanTween.scale(menuSegments[i], new Vector3(1, 1, 1), 0.2f).setEaseLinear();
-                iconHolders[i].sprite = towers[i].icon;
-                menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
-            }
+            if (menuSegments[i] == selected)
+                continue;
+
+            LeanTween.scale(menuSegments[i], Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+            iconHolders[i].sprite = towers[i].icon;
+            menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
         }
     }
 }

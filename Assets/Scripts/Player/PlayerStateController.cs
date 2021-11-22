@@ -21,7 +21,7 @@ public partial class PlayerStateController : MonoBehaviour
     private HealthLogic health; // Reference to the health script
 
     [ReadOnly, SerializeField]
-    private PlayerStates currentState = PlayerStates.FREE;
+    private PlayerStates _currentState = PlayerStates.FREE;
 
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
@@ -52,7 +52,7 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
-    public PlayerStates CurrentState { get => currentState; private set => currentState = value; }
+    public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -112,9 +112,10 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.FREE:
                 UpdateFocusedInteractable();
+                motion.Move();
+
                 if (Select)
                     SetState(PlayerStates.IN_TURRET_MENU);
-                motion.Move();
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 ui.Select();
@@ -128,7 +129,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (Cancel)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
+                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
 
                     RemoveInteractable(heldInteractable);
                     Destroy(heldInteractable.gameObject);
@@ -197,7 +198,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (heldInteractable)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
+                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
 
                     RemoveInteractable(heldInteractable);
                     Destroy(heldInteractable.gameObject);
@@ -228,10 +229,16 @@ public partial class PlayerStateController : MonoBehaviour
     // Gets called when interact button is pressed
     private void OnInteract()
     {
-        if (focusedInteractable != null)
-            focusedInteractable.Interact(this); // interact with the current target
-        if (focusedInteractable != null && !focusedInteractable.canInteract)
+        if (!focusedInteractable)
+            return;
+
+        if (!focusedInteractable.canInteract)
+        {
             RemoveInteractable(focusedInteractable);
+            return;
+        }
+
+        focusedInteractable.Interact(this); // interact with the current target
 
         if (CurrentState == PlayerStates.BUILDING)
         {
@@ -270,7 +277,7 @@ public partial class PlayerStateController : MonoBehaviour
     {
         if (interactables.Count == 0)
         {
-            if (focusedInteractable != null) // The object we were focusing is no longer focusable
+            if (focusedInteractable) // The object we were focusing is no longer focusable
             {
                 focusedInteractable.Unfocus(this);
                 focusedInteractable = null;
@@ -282,7 +289,7 @@ public partial class PlayerStateController : MonoBehaviour
         {
             SetFocusedInteractable(interactables.Single());
             return;
-        } else if (focusedInteractable == null && heldInteractable == null) // Wait until we have at least one object to interact with
+        } else if (!focusedInteractable && !heldInteractable) // Wait until we have at least one object to interact with
             return;
 
         // Lifted objects are top priority

@@ -67,7 +67,7 @@ public class HexCell : MonoBehaviour {
 		pertubValue = HexMetrics.SampleNoise(Position).y;
         mesh.material = materials[elevation];
     }
-	
+
     public HexCell GetNeighbor (HexDirection direction) {
 		return neighbors[(int)direction];
 	}

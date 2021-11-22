@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 3
+  _currentState: 3
   heldInteractable: {fileID: 0}
   focusedInteractable: {fileID: 0}
   liftedObject: {fileID: 0}
@@ -1046,7 +1046,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: {fileID: 0}
   ui: {fileID: 3801039887214803664}
-  uiSegmentAmount: 2
   segmentTiltDegrees: -225
 --- !u!114 &5713326942964835937
 MonoBehaviour:

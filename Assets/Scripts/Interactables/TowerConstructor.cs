@@ -25,13 +25,14 @@ public class TowerConstructor : MonoBehaviour
         // Deactivate turret scripts
         foreach (MonoBehaviour component in GetComponentsInChildren<MonoBehaviour>())
         {
-            if (component != this)
-            {
-                components.Add(component);
-                component.enabled = false;
-            }
+            if (component == this)
+                continue;
+
+            components.Add(component);
+            component.enabled = false;
         }
 
+        // Deactivate turret animators
         foreach (Animator anim in GetComponentsInChildren<Animator>())
         {
             animators.Add(anim);

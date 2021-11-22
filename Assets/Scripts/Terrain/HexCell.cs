@@ -52,15 +52,20 @@ public class HexCell : MonoBehaviour {
 
 	private Transform hq;
 
-    private void Start()
+    void Awake()
 	{
         if(mesh == null)
         {
             mesh = GetComponent<MeshRenderer>();
         }
+
+        hq = GameObject.Find("Base").transform;
+    }
+
+    void Start()
+    {
 		pertubValue = HexMetrics.SampleNoise(Position).y;
         mesh.material = materials[elevation];
-		hq = GameObject.Find("Base").transform;
     }
 	
     public HexCell GetNeighbor (HexDirection direction) {

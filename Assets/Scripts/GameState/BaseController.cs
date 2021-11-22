@@ -86,6 +86,23 @@ public class BaseController : MonoBehaviour
         healthController.onDeath -= Die;
     }
 
+    private void Die(DamageInfo dmg)
+    {
+        if (!dead)
+        {
+            // Start overloading the crystal
+            anim.SetBool(deathAnimatorParam, true);
+
+            // Prepare the explosion
+            StartCoroutine(nameof(Explode));
+
+            // Start Distortions
+            //distortionField.enabled = true;
+        }
+
+        dead = true;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
@@ -122,23 +139,6 @@ public class BaseController : MonoBehaviour
             // Remove VFX
             RemoveRayVFX(player.transform, 0f);
         }
-    }
-
-    private void Die(DamageInfo dmg)
-    {
-        if (!dead)
-        {
-            // Start overloading the crystal
-            anim.SetBool(deathAnimatorParam, true);
-
-            // Prepare the explosion
-            StartCoroutine(nameof(Explode));
-
-            // Start Distortions
-            //distortionField.enabled = true;
-        }
-
-        dead = true;
     }
 
     public void RemoveRayVFX(Transform target, float delay)

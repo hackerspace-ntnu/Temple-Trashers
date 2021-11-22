@@ -61,13 +61,38 @@ public partial class PlayerStateController : MonoBehaviour
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
 
-    void Start()
+    void Awake()
     {
         motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
         health.onDeath += Die;
+
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
+    }
+
+    void OnDestroy()
+    {
+        health.onDeath -= Die;
+
+        OnDestroy_Input();
+    }
+
+    private void Die(DamageInfo dmg)
+    {
+        // Drop anything we are carrying
+        if (liftedObject != null)
+            liftedObject.GetComponent<Interactable>().Interact(this);
+
+        SetState(PlayerStates.DEAD);
+        manager.RespawnPlayer(1f);
+
+        CameraFocusController.Singleton.RemoveFocusObject(transform);
+        Destroy(gameObject);
+    }
+
+    void Start()
+    {
         inventoryManager = InventoryManager.Singleton;
 
         CurrentState = PlayerStates.FREE;
@@ -131,19 +156,6 @@ public partial class PlayerStateController : MonoBehaviour
     {
         if (other.GetComponentInParent<Interactable>())
             RemoveInteractable(other.GetComponentInParent<Interactable>());
-    }
-
-    private void Die(DamageInfo dmg)
-    {
-        // Drop anything we are carrying
-        if (liftedObject != null)
-            liftedObject.GetComponent<Interactable>().Interact(this);
-
-        SetState(PlayerStates.DEAD);
-        manager.RespawnPlayer(1f);
-
-        CameraFocusController.Singleton.RemoveFocusObject(transform);
-        Destroy(gameObject);
     }
 
     public void SetState(PlayerStates state)

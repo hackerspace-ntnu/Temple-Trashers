@@ -16,10 +16,13 @@ public class PlayerUi : MonoBehaviour
     private InventoryManager inventory;
     private TowerScript selectedSegment;
 
-    //Sets up required components to handle input
-    void Start()
+    void Awake()
     {
         state = GetComponent<PlayerStateController>();
+    }
+
+    void Start()
+    {
         mainCameraTransform = Camera.main.transform;
         inventory = InventoryManager.Singleton;
     }

@@ -14,14 +14,17 @@ public class DahlPropController : MonoBehaviour
     [SerializeField]
     private MeshRenderer blueprint;
 
-    void Start()
+    private PlayerStateController playerStateController;
+
+    void Awake()
     {
-        GetComponent<PlayerStateController>().onPlayerStateChange += OnPlayerStateChange;
+        playerStateController = GetComponent<PlayerStateController>();
+        playerStateController.onPlayerStateChange += OnPlayerStateChange;
     }
 
     void OnDestroy()
     {
-        GetComponent<PlayerStateController>().onPlayerStateChange -= OnPlayerStateChange;
+        playerStateController.onPlayerStateChange -= OnPlayerStateChange;
     }
 
     private void OnPlayerStateChange(PlayerStates newState, PlayerStates oldState)

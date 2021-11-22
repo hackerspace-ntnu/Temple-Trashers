@@ -12,7 +12,7 @@ public class UIControllerWheel : MonoBehaviour
     public Sprite normalSprite;
     private GameObject selected;
 
-    void Start()
+    void Awake()
     {
         if (towers.Length == menuSegments.Length)
         {

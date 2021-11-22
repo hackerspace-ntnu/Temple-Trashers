@@ -70,17 +70,29 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<HealthLogic>();
+        health.onDeath += Die;
+    }
+
+    void OnDestroy()
+    {
+        health.onDeath -= Die;
+    }
+
+    private void Die(DamageInfo dmg)
+    {
+        SetState(EnemyState.DEAD);
+    }
+
     void Start()
     {
         baseTransform = BaseController.Singleton.transform;
         CurrentTarget = baseTransform;
-
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = walkSpeed;
-
-        health = GetComponent<HealthLogic>();
-        health.onDeath += Die;
         baseHealth = baseTransform.GetComponent<HealthLogic>();
+        agent.speed = walkSpeed;
 
         AnimationSetup();
         // Set random animation start time for current animation state
@@ -89,11 +101,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void AnimationSetup()
     {}
-
-    private void Die(DamageInfo dmg)
-    {
-        SetState(EnemyState.DEAD);
-    }
 
     void FixedUpdate()
     {
@@ -199,11 +206,6 @@ public abstract class Enemy : MonoBehaviour
 
         currentState = newState;
         HasLostTargetCheck();
-    }
-
-    void OnDestroy()
-    {
-        health.onDeath -= Die;
     }
 
     private void UpdateTargetDestination()

@@ -18,10 +18,9 @@ public class TowerConstructor : MonoBehaviour
     private HexGrid terrain;
     private HexCell targetCell;
 
-    void Start()
+    void Awake()
     {
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
-        ToggleHologram();
 
         // Deactivate turret scripts
         foreach (MonoBehaviour component in GetComponentsInChildren<MonoBehaviour>())
@@ -50,6 +49,11 @@ public class TowerConstructor : MonoBehaviour
             else
                 oldMaterials.Add(skinnedMeshRenderers[i - meshRenderers.Length].materials);
         }
+    }
+
+    void Start()
+    {
+        ToggleHologram();
     }
 
     void FixedUpdate()

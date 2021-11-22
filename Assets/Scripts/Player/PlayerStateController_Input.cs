@@ -29,6 +29,7 @@ partial class PlayerStateController
 
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
+    // Called by `PlayerSpecificManager` after instantiating the player
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager)
     {
         input = newInput;
@@ -53,7 +54,7 @@ partial class PlayerStateController
         #endregion Developer hotkeys
     }
 
-    void OnDestroy()
+    private void OnDestroy_Input()
     {
         if (input)
         {

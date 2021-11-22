@@ -23,8 +23,7 @@ public class PlayerMotion : MonoBehaviour
 
     private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
 
-    //Sets up required instances for input to work. 
-    void Start()
+    void Awake()
     {
         state = GetComponent<PlayerStateController>();
         body = GetComponent<Rigidbody>();

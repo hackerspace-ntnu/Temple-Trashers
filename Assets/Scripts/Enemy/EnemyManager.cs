@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager SINGLETON;
 
-    public static readonly Type[] ENEMY_TYPES = {typeof(PlaceholderEnemy)};
+    public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
     private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
 
     public GameObject[] enemyPrefabs;

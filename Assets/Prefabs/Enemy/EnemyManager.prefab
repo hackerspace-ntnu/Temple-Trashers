@@ -97,6 +97,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 6626098340742600497, guid: 51905afef7cce474dbd178f8b5cef08f, type: 3}
+  - {fileID: 6262807936475223189, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
   hexGrid: {fileID: 0}
   speed: 5

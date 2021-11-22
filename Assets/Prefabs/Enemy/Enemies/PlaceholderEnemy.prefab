@@ -222,11 +222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575f3d6c9f8cf014584948f3ca1a6c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTarget: {fileID: 0}
+  _currentTarget: {fileID: 0}
   baseTransform: {fileID: 0}
   currentState: 0
   anim: {fileID: 0}
-  speed: 1
+  walkSpeed: 1.8
   chaseSpeed: 5
   baseAttackDistance: 2
   playerAttackDistance: 1

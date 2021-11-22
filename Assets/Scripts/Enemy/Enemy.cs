@@ -15,7 +15,7 @@ public enum EnemyState
 public abstract class Enemy : MonoBehaviour
 {
     [ReadOnly, SerializeField]
-    protected Transform currentTarget;
+    protected Transform _currentTarget;
 
     [ReadOnly, SerializeField]
     protected Transform baseTransform;
@@ -27,7 +27,7 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
 
     [SerializeField]
-    protected float speed = 5f;
+    protected float walkSpeed = 1.8f;
 
     [SerializeField]
     protected float chaseSpeed = 5f;
@@ -51,14 +51,32 @@ public abstract class Enemy : MonoBehaviour
     protected static readonly int attackAnimatorParam = Animator.StringToHash("Attack");
     protected static readonly int chasingAnimatorParam = Animator.StringToHash("Chasing");
 
+    protected Transform CurrentTarget
+    {
+        get => _currentTarget;
+        set
+        {
+            _currentTarget = value;
+            if (_currentTarget)
+            {
+                agent.destination = _currentTarget.position;
+                if (agent.isStopped)
+                    agent.isStopped = false;
+            } else
+            {
+                agent.destination = agent.nextPosition;
+                agent.isStopped = true;
+            }
+        }
+    }
+
     void Start()
     {
         baseTransform = BaseController.Singleton.transform;
-        currentTarget = baseTransform;
+        CurrentTarget = baseTransform;
 
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
-        agent.destination = currentTarget.position;
+        agent.speed = walkSpeed;
 
         health = GetComponent<HealthLogic>();
         health.onDeath += Die;
@@ -79,6 +97,14 @@ public abstract class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        HasLostTargetCheck();
+
+        if (CurrentTarget)
+            MakeDecisionOnTarget();
+    }
+
+    private void MakeDecisionOnTarget()
+    {
         switch (currentState)
         {
             case EnemyState.WALKING:
@@ -91,12 +117,12 @@ public abstract class Enemy : MonoBehaviour
             case EnemyState.ATTACK_BASE:
                 break;
             case EnemyState.CHASING:
-                if (transform.position.DistanceLessThan(playerAttackDistance, currentTarget.position))
+                if (transform.position.DistanceLessThan(playerAttackDistance, CurrentTarget.position))
                     SetState(EnemyState.ATTACK_PLAYER);
-                else if (transform.position.DistanceGreaterThan(playerChaseStopDistance, currentTarget.position))
+                else if (transform.position.DistanceGreaterThan(playerChaseStopDistance, CurrentTarget.position))
                     SetState(EnemyState.WALKING);
                 else
-                    agent.destination = currentTarget.position;
+                    UpdateTargetDestination();
 
                 break;
             case EnemyState.DEAD:
@@ -106,8 +132,27 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    private void HasLostTargetCheck()
+    {
+        if (currentState == EnemyState.DEAD)
+            return;
+
+        if (!CurrentTarget) // Previous target was destroyed
+        {
+            if (baseTransform)
+            {
+                CurrentTarget = baseTransform;
+                SetState(EnemyState.WALKING);
+            } else
+                CurrentTarget = null;
+        }
+    }
+
     private void SetState(EnemyState newState)
     {
+        if (newState == currentState)
+            return;
+
         switch (currentState)
         {
             case EnemyState.ATTACK_PLAYER:
@@ -115,6 +160,7 @@ public abstract class Enemy : MonoBehaviour
                 anim.SetBool(attackAnimatorParam, false);
                 break;
             case EnemyState.CHASING:
+                agent.speed = walkSpeed;
                 anim.SetBool(chasingAnimatorParam, false);
                 break;
             case EnemyState.DEAD:
@@ -126,10 +172,8 @@ public abstract class Enemy : MonoBehaviour
         switch (newState)
         {
             case EnemyState.WALKING:
-                agent.destination = baseTransform.position;
+                CurrentTarget = baseTransform;
                 agent.stoppingDistance = baseAttackDistance;
-                agent.speed = speed;
-                currentTarget = null;
                 break;
             case EnemyState.ATTACK_PLAYER:
                 anim.SetBool(attackAnimatorParam, true);
@@ -137,7 +181,7 @@ public abstract class Enemy : MonoBehaviour
                 break;
             case EnemyState.ATTACK_BASE:
                 anim.SetBool(attackAnimatorParam, true);
-                agent.destination = baseTransform.position;
+                CurrentTarget = baseTransform;
                 agent.stoppingDistance = baseAttackDistance;
                 break;
             case EnemyState.CHASING:
@@ -146,7 +190,7 @@ public abstract class Enemy : MonoBehaviour
                 anim.SetBool(chasingAnimatorParam, true);
                 break;
             case EnemyState.DEAD:
-                agent.speed = 0f;
+                CurrentTarget = null;
                 Destroy(gameObject, 2.5f);
                 break;
             default:
@@ -154,6 +198,7 @@ public abstract class Enemy : MonoBehaviour
         }
 
         currentState = newState;
+        HasLostTargetCheck();
     }
 
     void OnDestroy()
@@ -161,11 +206,17 @@ public abstract class Enemy : MonoBehaviour
         health.onDeath -= Die;
     }
 
+    private void UpdateTargetDestination()
+    {
+        // Invokes the logic in `CurrentTarget`'s `set` method
+        CurrentTarget = CurrentTarget;
+    }
+
     public void OnPlayerDetected(Transform playerTransform)
     {
         if (currentState == EnemyState.WALKING)
         {
-            currentTarget = playerTransform;
+            CurrentTarget = playerTransform;
             SetState(EnemyState.CHASING);
         }
     }
@@ -175,7 +226,7 @@ public abstract class Enemy : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.ATTACK_PLAYER:
-                HealthLogic playerHealth = currentTarget.GetComponent<HealthLogic>();
+                HealthLogic playerHealth = CurrentTarget.GetComponent<HealthLogic>();
                 playerHealth.DealDamage(attackDamage);
                 if (playerHealth.health <= 0)
                 {
@@ -183,28 +234,12 @@ public abstract class Enemy : MonoBehaviour
                     return;
                 }
 
-                if (transform.position.DistanceGreaterThan(playerAttackDistance, currentTarget.position))
+                if (transform.position.DistanceGreaterThan(playerAttackDistance, CurrentTarget.position))
                     SetState(EnemyState.CHASING);
 
                 break;
             case EnemyState.ATTACK_BASE:
                 baseHealth?.DealDamage(attackDamage);
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void Walk()
-    {
-        switch (currentState)
-        {
-            case EnemyState.ATTACK_PLAYER:
-                if (currentTarget)
-                    SetState(EnemyState.CHASING);
-                else // Previous target was destroyed
-                    SetState(EnemyState.WALKING);
-
                 break;
             default:
                 break;

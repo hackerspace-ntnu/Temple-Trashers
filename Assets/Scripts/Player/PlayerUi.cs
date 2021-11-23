@@ -50,16 +50,13 @@ public class PlayerUi : MonoBehaviour
         //Turns off the UI if button no longer held
         if (!state.Select)
         {
-            if (selectedSegment)
+            if (selectedSegment
+                && inventory.ResourceAmount - selectedSegment.cost >= 0)
             {
-                if (inventory.ResourceAmount - selectedSegment.cost >= 0)
-                    state.SetState(PlayerStates.FREE);
-                else
-                {
-                    inventory.ResourceAmount -= selectedSegment.cost;
-                    selectedSegment.InstantiateConstructionTower(state);
-                }
-            }
+                inventory.ResourceAmount -= selectedSegment.cost;
+                selectedSegment.InstantiateConstructionTower(state);
+            } else
+                state.SetState(PlayerStates.FREE);
 
             ui.gameObject.SetActive(false);
         }

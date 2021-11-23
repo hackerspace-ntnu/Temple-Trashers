@@ -16,7 +16,6 @@ public class PlayerUi : MonoBehaviour
     private Transform mainCameraTransform;
     private InventoryManager inventory;
     private UIControllerWheel controllerWheel;
-    private TowerScript selectedSegment;
 
     void Awake()
     {
@@ -39,7 +38,7 @@ public class PlayerUi : MonoBehaviour
 
     public TowerScript GetSelectedSegment()
     {
-        return selectedSegment;
+        return controllerWheel.GetSelectedTower();
     }
 
     public void Select()
@@ -50,6 +49,7 @@ public class PlayerUi : MonoBehaviour
         //Turns off the UI if button no longer held
         if (!state.Select)
         {
+            TowerScript selectedSegment = GetSelectedSegment();
             if (selectedSegment
                 && inventory.ResourceAmount - selectedSegment.cost >= 0)
             {
@@ -75,8 +75,7 @@ public class PlayerUi : MonoBehaviour
         // The controller points to nothing
         if (state.AimInput == Vector2.zero)
         {
-            selectedSegment = null;
-            ui.GetComponentInChildren<UIControllerWheel>().NormalizeSegments();
+            controllerWheel.SelectedSegmentIndex = null;
             return;
         }
 
@@ -85,9 +84,6 @@ public class PlayerUi : MonoBehaviour
 
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
-        controllerWheel.HighlightSegment(selectedSegmentIndex);
-        controllerWheel.NormalizeSegments();
-        // Sets the current selected tower gameobject derived from the corresponding scriptable object
-        selectedSegment = controllerWheel.GetTower(selectedSegmentIndex);
+        controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
     }
 }

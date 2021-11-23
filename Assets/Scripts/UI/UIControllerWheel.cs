@@ -19,7 +19,31 @@ public class UIControllerWheel : MonoBehaviour
     public float highlightedSpriteScale = 1.2f;
     public float highlightScaleAnimationDuration = 0.2f;
 
-    private GameObject selected;
+    private int? _selectedSegmentIndex = null;
+
+    public int? SelectedSegmentIndex
+    {
+        get => _selectedSegmentIndex;
+        set
+        {
+            if (value < 0 || value >= menuSegments.Length)
+                throw new IndexOutOfRangeException();
+
+            if (value == _selectedSegmentIndex)
+                return;
+
+            _selectedSegmentIndex = value;
+            if (_selectedSegmentIndex != null)
+            {
+                int index = (int)_selectedSegmentIndex;
+                LeanTween.scale(menuSegments[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+                iconHolders[index].sprite = towers[index].iconHighlight;
+                menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
+            }
+
+            NormalizeSegments();
+        }
+    }
 
     void Awake()
     {
@@ -50,15 +74,12 @@ public class UIControllerWheel : MonoBehaviour
         return towers[index];
     }
 
-    /// <summary>
-    /// Sets a single UI element to the highlight texture.
-    /// </summary>
-    public void HighlightSegment(int index)
+    public TowerScript GetSelectedTower()
     {
-        LeanTween.scale(menuSegments[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
-        iconHolders[index].sprite = towers[index].iconHighlight;
-        menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
-        selected = menuSegments[index];
+        if (SelectedSegmentIndex == null)
+            return null;
+
+        return GetTower((int)SelectedSegmentIndex);
     }
 
     /// <summary>
@@ -68,7 +89,7 @@ public class UIControllerWheel : MonoBehaviour
     {
         for (int i = 0; i < menuSegments.Length; i++)
         {
-            if (menuSegments[i] == selected)
+            if (i == SelectedSegmentIndex)
                 continue;
 
             LeanTween.scale(menuSegments[i], Vector3.one, highlightScaleAnimationDuration).setEaseLinear();

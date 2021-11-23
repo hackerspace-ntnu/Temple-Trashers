@@ -1928,12 +1928,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6262807936475223192}
   - component: {fileID: 6262807936475223191}
-  - component: {fileID: 6262807936475223190}
-  - component: {fileID: 6262807936475223194}
-  - component: {fileID: 6262807936475223193}
   - component: {fileID: 6262807936475223195}
   - component: {fileID: 6262807936475223196}
   - component: {fileID: 5862766765972872273}
+  - component: {fileID: 6262807936475223190}
+  - component: {fileID: 6262807936475223194}
+  - component: {fileID: 6262807936475223193}
   m_Layer: 11
   m_Name: Skeleton
   m_TagString: Enemy
@@ -1980,6 +1980,51 @@ MonoBehaviour:
   playerAttackDistance: 2.5
   playerChaseStopDistance: 8
   attackDamage: 1
+--- !u!114 &6262807936475223195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262807936475223189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6942039963572180435}
+  colliderToDisable: {fileID: 6262807936475223194}
+  colliderToEnable: {fileID: 1737569877594554043}
+  launchSpeed: {x: 7, y: 15}
+  launchRotationSpeed: 25
+--- !u!114 &6262807936475223196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262807936475223189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  maxHealth: 3
+--- !u!114 &5862766765972872273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262807936475223189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36286781665dc37498a44f6eb6d18e9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootPrefab: {fileID: 8630265067307965030, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
+  spawnHeight: 1
 --- !u!195 &6262807936475223190
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2032,51 +2077,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6262807936475223195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6262807936475223189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6942039963572180435}
-  colliderToDisable: {fileID: 6262807936475223194}
-  colliderToEnable: {fileID: 1737569877594554043}
-  launchSpeed: {x: 7, y: 15}
-  launchRotationSpeed: 25
---- !u!114 &6262807936475223196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6262807936475223189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
-  maxHealth: 3
---- !u!114 &5862766765972872273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6262807936475223189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36286781665dc37498a44f6eb6d18e9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lootPrefab: {fileID: 8630265067307965030, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
-  spawnHeight: 1
 --- !u!1 &6358332083069824478
 GameObject:
   m_ObjectHideFlags: 0

@@ -102,8 +102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2395456624410596984}
-  - component: {fileID: 4504418369238038201}
   - component: {fileID: 7936671003255118966}
+  - component: {fileID: 4504418369238038201}
   m_Layer: 0
   m_Name: LowPolyLightning
   m_TagString: Untagged
@@ -128,25 +128,6 @@ Transform:
   m_Father: {fileID: 7211280855749776597}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &4504418369238038201
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3059509538788592834}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 17a1762f61ae49e4195bdbc8bd7177be, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &7936671003255118966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +149,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2560
   zapOrigin: {fileID: 1173883060634712001}
+--- !u!95 &4504418369238038201
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059509538788592834}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 17a1762f61ae49e4195bdbc8bd7177be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3161003078099133816
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,10 +531,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7211280855749776597}
   - component: {fileID: -5522915165537185995}
+  - component: {fileID: -9140866788019457868}
   - component: {fileID: 1378390819816396464}
   - component: {fileID: 4940800382082599726}
   - component: {fileID: 5444241571611455560}
-  - component: {fileID: -9140866788019457868}
   m_Layer: 0
   m_Name: LightningTurret
   m_TagString: Untagged
@@ -572,6 +572,22 @@ MonoBehaviour:
   canInteract: 1
   towerScript: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
   turretInput: {fileID: 0}
+--- !u!208 &-9140866788019457868
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425059109847644991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!54 &1378390819816396464
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -616,22 +632,6 @@ CapsuleCollider:
   m_Height: 4.7384577
   m_Direction: 1
   m_Center: {x: 0, y: 1.4092288, z: 0}
---- !u!208 &-9140866788019457868
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7425059109847644991}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 1, y: 1, z: 1}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &7645708827096480674
 GameObject:
   m_ObjectHideFlags: 0

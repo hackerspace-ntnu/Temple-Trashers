@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7428453885955088036}
+  - component: {fileID: 4328873476563698172}
   - component: {fileID: 6917427601220324467}
   - component: {fileID: 876699946574727915}
   - component: {fileID: 6927640536107260202}
-  - component: {fileID: 4328873476563698172}
   m_Layer: 0
-  m_Name: Bullet_towerWheel
+  m_Name: WheelTurretBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +34,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4328873476563698172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4237738930188430962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6106d2ac44eeea94394112e60405d3c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &6917427601220324467
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -96,17 +108,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 15, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4328873476563698172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4237738930188430962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6106d2ac44eeea94394112e60405d3c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSpeed: 40
-  damage: 4

@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIControllerWheel : MonoBehaviour
 {
     [SerializeField]
-    private TowerScript[] towers;
+    private TowerScriptableObject[] towers;
 
     [SerializeField]
     private GameObject[] menuSegments;
@@ -76,14 +76,14 @@ public class UIControllerWheel : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the `TowerScript` (`ScriptableObject`) at the provided index of the wheel segments.
+    /// Returns the `TowerScriptableObject` at the provided index of the wheel segments.
     /// </summary>
-    public TowerScript GetTower(int index)
+    public TowerScriptableObject GetTower(int index)
     {
         return towers[index];
     }
 
-    public TowerScript GetSelectedTower()
+    public TowerScriptableObject GetSelectedTower()
     {
         if (SelectedSegmentIndex == null)
             return null;

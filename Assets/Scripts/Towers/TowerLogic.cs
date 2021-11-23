@@ -5,12 +5,12 @@ using UnityEngine;
 public class TowerLogic : Interactable
 {
     [SerializeField]
-    private TowerScript towerScript;
+    private TowerScriptableObject _towerScriptableObject;
 
     [ReadOnly, SerializeField]
     protected TurretInput turretInput;
 
-    public TowerScript TowerScript => towerScript;
+    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 
     protected void Start()
     {

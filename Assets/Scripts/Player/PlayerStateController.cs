@@ -261,7 +261,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(focusedInteractable is TowerLogic tower))
             return;
 
-        tower.TowerScript.InstantiateConstructionTower(this);
+        tower.TowerScriptableObject.InstantiateConstructionTower(this);
         SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);

@@ -36,7 +36,7 @@ public class PlayerUi : MonoBehaviour
         ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
     }
 
-    public TowerScript GetSelectedSegment()
+    public TowerScriptableObject GetSelectedSegment()
     {
         return controllerWheel.GetSelectedTower();
     }
@@ -49,7 +49,7 @@ public class PlayerUi : MonoBehaviour
         //Turns off the UI if button no longer held
         if (!state.Select)
         {
-            TowerScript selectedSegment = GetSelectedSegment();
+            TowerScriptableObject selectedSegment = GetSelectedSegment();
             if (selectedSegment
                 && inventory.ResourceAmount - selectedSegment.cost >= 0)
             {

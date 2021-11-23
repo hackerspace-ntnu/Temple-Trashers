@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
-public class TowerScript : ScriptableObject
+public class TowerScriptableObject : ScriptableObject
 {
     public string towerName;
     public int cost;

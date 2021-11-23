@@ -33,8 +33,8 @@ public class Loot : Interactable
     public int lootValue = 10;
     private InventoryManager inventory;
 
-    private static readonly int StateMaterialProperty = Shader.PropertyToID("State");
-    private static readonly int RateMaterialProperty = Shader.PropertyToID("Rate");
+    private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
+    private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
     void Start()
     {
@@ -52,21 +52,21 @@ public class Loot : Interactable
     private void DestroyAnimation()
     {
         transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
-        if (Vector3.Distance(transform.position, absorbTarget) >= 0.7f)
+        if (transform.position.DistanceGreaterThan(0.7f, absorbTarget))
             return;
 
         foreach (MeshRenderer meshRenderer in meshRenderers)
         {
             // Check if the material has the correct property
-            if (!meshRenderer.material.HasProperty(StateMaterialProperty))
+            if (!meshRenderer.material.HasProperty(stateMaterialProperty))
                 continue;
 
-            meshRenderer.material.SetFloat(StateMaterialProperty, dissolveState); // Continue animation
+            meshRenderer.material.SetFloat(stateMaterialProperty, dissolveState); // Continue animation
             baseController.ArcLengthVFX(transform, 1 - dissolveState);
 
             // If the animation is finished
-            if (meshRenderers[0].material.GetFloat(StateMaterialProperty)
-                / meshRenderers[0].material.GetFloat(RateMaterialProperty)
+            if (meshRenderers[0].material.GetFloat(stateMaterialProperty)
+                / meshRenderers[0].material.GetFloat(rateMaterialProperty)
                 > 1)
             {
                 baseController.crystals++;

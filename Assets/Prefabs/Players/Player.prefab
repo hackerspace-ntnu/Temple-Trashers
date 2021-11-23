@@ -97,14 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 3
+  heldInteractable: {fileID: 0}
+  focusedInteractable: {fileID: 0}
+  liftedObject: {fileID: 0}
   inventory: {fileID: 2090017730266697988}
+  targetCell: {fileID: 0}
   anim: {fileID: 0}
   heldItemBone: {fileID: 0}
-  currentStateReadOnly: 0
-  heldInteractableReadOnly: {fileID: 0}
-  focusedInteractableReadOnly: {fileID: 0}
-  liftedObjectReadOnly: {fileID: 0}
-  targetCellReadOnly: {fileID: 0}
 --- !u!114 &1291009955035072478
 MonoBehaviour:
   m_ObjectHideFlags: 0

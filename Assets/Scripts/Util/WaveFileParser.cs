@@ -81,11 +81,8 @@ public class WaveFileParser
     {
         switch (token)
         {
-            case "placeholder1":
-                return typeof(PlaceholderEnemy);
-
-            case "placeholder2":
-                return typeof(PlaceholderEnemy);
+            case "skeleton":
+                return typeof(SkeletonController);
 
             default:
                 throw new FormatException("Invalid enemy type: " + token);

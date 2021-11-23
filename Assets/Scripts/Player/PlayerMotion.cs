@@ -19,7 +19,9 @@ public class PlayerMotion : MonoBehaviour
 
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
-    private Animator anim = null;
+    private Animator anim;
+
+    private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
 
     //Sets up required instances for input to work. 
     void Start()
@@ -51,7 +53,7 @@ public class PlayerMotion : MonoBehaviour
         Vector3 force = speedDifference * playerAcceleration * scaledMoveInput.magnitude * Time.fixedDeltaTime;
         body.AddForce(force, ForceMode.VelocityChange);
 
-        anim.SetFloat("Speed", body.velocity.sqrMagnitude/Mathf.Pow(playerSpeed,2));
+        anim.SetFloat(speedAnimatorParam, body.velocity.sqrMagnitude / Mathf.Pow(playerSpeed, 2));
     }
 
     private void UpdateRotation()

@@ -1,10 +1,10 @@
 --- Wave 0 ---
-5 placeholder1
+5 skeleton
 
 --- Wave 1 ---
-5 placeholder1
+5 skeleton
 // Pauses for 30 seconds after all the previously listed enemies have been killed
 pause 30
 
-5 placeholder2
-5 placeholder1
+5 skeleton
+5 skeleton

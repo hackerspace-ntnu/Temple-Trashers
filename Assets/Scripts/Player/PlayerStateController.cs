@@ -257,6 +257,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         tower.TowerScript.InstantiateConstructionTower(this);
+        SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);

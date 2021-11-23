@@ -55,6 +55,7 @@ public class PlayerUi : MonoBehaviour
             {
                 inventory.ResourceAmount -= selectedSegment.cost;
                 selectedSegment.InstantiateConstructionTower(state);
+                state.SetState(PlayerStates.BUILDING);
             } else
                 state.SetState(PlayerStates.FREE);
 

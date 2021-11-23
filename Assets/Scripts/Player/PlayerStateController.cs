@@ -124,8 +124,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.BUILDING:
                 UpdateFocusedInteractable();
                 motion.Move();
-                targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
-                focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+                UpdateConstructionTowerTargetCell();
                 if (Cancel)
                 {
                     //Refund turret
@@ -144,6 +143,12 @@ public partial class PlayerStateController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void UpdateConstructionTowerTargetCell()
+    {
+        targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
+        focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
     }
 
     void OnTriggerEnter(Collider other)
@@ -343,6 +348,7 @@ public partial class PlayerStateController : MonoBehaviour
         AddInteractable(turret);
         heldInteractable = turret;
         SetFocusedInteractable(turret);
+        UpdateConstructionTowerTargetCell();
     }
 
     public void Drop(GameObject obj)

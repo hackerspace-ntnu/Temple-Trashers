@@ -61,6 +61,15 @@ public class UIControllerWheel : MonoBehaviour
             segment.GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
+    void OnEnable()
+    {
+        SelectedSegmentIndex = null;
+
+        // Reset the scale of all menu segments
+        foreach (GameObject segment in menuSegments)
+            LeanTween.scale(segment, Vector3.one, 0f);
+    }
+
     public int GetNumSegments()
     {
         return menuSegments.Length;

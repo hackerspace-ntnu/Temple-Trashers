@@ -281,6 +281,13 @@ public partial class PlayerStateController : MonoBehaviour
     // Update the focused interactable based on distance from player
     private void UpdateFocusedInteractable()
     {
+        // Lifted objects are top priority
+        if (heldInteractable)
+        {
+            SetFocusedInteractable(heldInteractable);
+            return;
+        }
+
         if (interactables.Count == 0)
         {
             if (focusedInteractable) // The object we were focusing is no longer focusable
@@ -297,13 +304,6 @@ public partial class PlayerStateController : MonoBehaviour
             return;
         } else if (!focusedInteractable && !heldInteractable) // Wait until we have at least one object to interact with
             return;
-
-        // Lifted objects are top priority
-        if (heldInteractable != null && heldInteractable != focusedInteractable)
-        {
-            SetFocusedInteractable(heldInteractable);
-            return;
-        }
 
         // Otherwise get closest interactable
         Interactable closest = focusedInteractable;

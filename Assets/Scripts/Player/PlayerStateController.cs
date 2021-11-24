@@ -308,6 +308,8 @@ public partial class PlayerStateController : MonoBehaviour
         // Otherwise get closest interactable
         Interactable closest = focusedInteractable;
         float closestDistSqr = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
+        // Remove non-existent interactables (e.g. if they were destroyed)
+        interactables.RemoveWhere(interactable => !interactable);
         foreach (Interactable interactable in interactables)
         {
             float distSqr = (interactable.transform.position - transform.position).sqrMagnitude;

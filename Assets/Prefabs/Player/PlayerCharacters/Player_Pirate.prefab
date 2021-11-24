@@ -1129,16 +1129,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4071846026879171963}
-  - component: {fileID: 4071846026879171964}
-  - component: {fileID: 4071846026879171967}
-  - component: {fileID: 4071846026879171961}
   - component: {fileID: 4481362265489185769}
+  - component: {fileID: 4071846026879171961}
+  - component: {fileID: 3999824642162116070}
   - component: {fileID: 2954308745039272254}
   - component: {fileID: 2900107831047588962}
-  - component: {fileID: 3999824642162116070}
   - component: {fileID: 5713326942964835937}
+  - component: {fileID: 4071846026879171964}
+  - component: {fileID: 4071846026879171967}
   m_Layer: 9
-  m_Name: Pirat_Dame
+  m_Name: Player_Pirate
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1161,6 +1161,96 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4481362265489185769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentState: 3
+  heldInteractable: {fileID: 0}
+  focusedInteractable: {fileID: 0}
+  liftedObject: {fileID: 0}
+  inventory: {fileID: 2599837699652063204}
+  targetCell: {fileID: 0}
+  anim: {fileID: 7543017754896833372}
+  heldItemBone: {fileID: 4464338804854992777}
+--- !u!114 &4071846026879171961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b68d7acba746d4093761a6addf63a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpeed: 5
+  playerAcceleration: 50
+  anim: {fileID: 7543017754896833372}
+--- !u!114 &3999824642162116070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e74379812e95c4d8e18cc3e19e9b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: {fileID: 4481362265489185769}
+  ui: {fileID: 102611275688602759}
+  segmentTiltDegrees: -225
+--- !u!114 &2954308745039272254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  maxHealth: 5
+--- !u!114 &2900107831047588962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 592e6ca9ae732e844803d8abc9e0e931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5713326942964835937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071846026879171966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72ff79698f208146b466f2fe5707f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crate: {fileID: 4587703110394945168}
+  blueprint: {fileID: 1129650009193399217}
 --- !u!136 &4071846026879171964
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1191,93 +1281,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &4071846026879171961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2b68d7acba746d4093761a6addf63a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 5
-  playerAcceleration: 50
-  anim: {fileID: 7543017754896833372}
---- !u!114 &4481362265489185769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 2599837699652063204}
-  anim: {fileID: 7543017754896833372}
-  heldItemBone: {fileID: 4464338804854992777}
-  currentStateReadOnly: 0
---- !u!114 &2954308745039272254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
-  maxHealth: 5
---- !u!114 &2900107831047588962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 592e6ca9ae732e844803d8abc9e0e931, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3999824642162116070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e74379812e95c4d8e18cc3e19e9b7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: {fileID: 4481362265489185769}
-  ui: {fileID: 102611275688602759}
-  uiSegmentAmount: 2
-  segmentTiltDegrees: -225
---- !u!114 &5713326942964835937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4071846026879171966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e72ff79698f208146b466f2fe5707f24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crate: {fileID: 4587703110394945168}
-  blueprint: {fileID: 1129650009193399217}
 --- !u!1 &4086062940647090856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,8 +2449,10 @@ MonoBehaviour:
   iconHolders:
   - {fileID: 1610068961920660253}
   - {fileID: 3814477221849036708}
-  highlightSprite: {fileID: 21300000, guid: ccacda34479a5fe4c947c7a3c18775f7, type: 3}
   normalSprite: {fileID: 21300000, guid: 949b5797a427ab2479a08a5c2d8a9a07, type: 3}
+  highlightSprite: {fileID: 21300000, guid: ccacda34479a5fe4c947c7a3c18775f7, type: 3}
+  highlightedSpriteScale: 1.2
+  highlightScaleAnimationDuration: 0.2
 --- !u!1 &8548917593891975740
 GameObject:
   m_ObjectHideFlags: 0

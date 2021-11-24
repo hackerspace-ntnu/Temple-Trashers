@@ -245,7 +245,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         focusedInteractable.Interact(this); // interact with the current target
 
-        if (CurrentState == PlayerStates.BUILDING)
+        if (CurrentState == PlayerStates.BUILDING && !targetCell.IsOccupied)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);

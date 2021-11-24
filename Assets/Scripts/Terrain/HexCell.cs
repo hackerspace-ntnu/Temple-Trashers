@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Unity.Mathematics;
@@ -6,10 +7,6 @@ using Unity.Mathematics;
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
-
-    // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
-    public bool isOccupied;
-    public GameObject occupier;
 
     [SerializeField]
     private MeshRenderer mesh;
@@ -50,6 +47,34 @@ public class HexCell : MonoBehaviour {
 	[SerializeField]
 	HexCell[] neighbors;
 
+    // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
+    [SerializeField]
+    private GameObject _occupyingObject;
+
+    public GameObject OccupyingObject
+    {
+	    get => _occupyingObject;
+	    set
+	    {
+		    if (value && IsOccupied)
+		    {
+			    Destroy(value);
+			    throw new ArgumentException(
+				    $"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!"
+			    );
+		    }
+			_occupyingObject = value;
+	    }
+    }
+
+    /// <returns>
+    /// Whether this cell has a game object placed on it or not.
+    /// <br/><br/>
+    /// (Destroying a game object that was occupying this cell, will make this property return `true`
+    /// - without having to change the value of `OccupyingObject`.)
+    /// </returns>
+    public bool IsOccupied => OccupyingObject;
+
 	private Transform hq;
 
     void Awake()
@@ -85,11 +110,5 @@ public class HexCell : MonoBehaviour {
 	public HexEdgeType GetEdgeType(HexCell otherCell)
     {
 		return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
-    }
-
-    public void SetTower(GameObject tower)
-    {
-        isOccupied = true;
-        occupier = tower;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerSpecificManager : MonoBehaviour
 {
-    private static int playerNum = 0;
+    private static int playerCount = 0;
     private int playerIndex;
     private PlayerInput input;
 
@@ -17,8 +17,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
     void Awake()
     {
-        playerIndex = playerNum;
-        playerNum++;
+        playerIndex = playerCount++;
         input = GetComponent<PlayerInput>();
     }
 
@@ -30,7 +29,8 @@ public class PlayerSpecificManager : MonoBehaviour
 
     public void InitializePlayer()
     {
-        instantiatedPlayer = Instantiate(playerPrefabs[playerIndex%playerPrefabs.Length], spawnPoint, Quaternion.identity).GetComponent<PlayerStateController>();
+        GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
+        instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }

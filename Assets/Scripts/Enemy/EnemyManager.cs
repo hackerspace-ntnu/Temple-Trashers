@@ -8,15 +8,12 @@ public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager SINGLETON;
 
-    public static readonly Type[] ENEMY_TYPES = {typeof(PlaceholderEnemy)};
+    public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
     private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
 
     public GameObject[] enemyPrefabs;
 
     public HexGrid hexGrid;
-
-    [Header("Enemy Variables")]
-    public float speed = 5f;
 
     void Awake()
     {
@@ -51,9 +48,7 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject prefab = GetEnemyPrefab(enemyType);
         Vector3 spawnPos = ChoosePosForSpawningEnemy();
-        Enemy spawnedEnemy = Instantiate(prefab, spawnPos, Quaternion.identity, transform).GetComponent<Enemy>();
-        // Pass along the enemy settings
-        spawnedEnemy.speed = speed;
+        Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     }
 
     private Vector3 ChoosePosForSpawningEnemy()

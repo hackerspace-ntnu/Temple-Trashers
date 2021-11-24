@@ -6,9 +6,17 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
 public class TowerScript : ScriptableObject
 {
-   public string towerName;
-   public int cost;
-   public GameObject tower;
-   public Sprite icon;
-   public Sprite iconHighlight;
+    public string towerName;
+    public int cost;
+    public TurretPrefabConstruction towerConstructionPrefab;
+    public Sprite icon;
+    public Sprite iconHighlight;
+
+    public TurretPrefabConstruction InstantiateConstructionTower(PlayerStateController controller)
+    {
+        GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);
+        controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
+        controller.SetState(PlayerStates.BUILDING);
+        return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
+    }
 }

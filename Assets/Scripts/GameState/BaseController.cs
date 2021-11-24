@@ -30,7 +30,6 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    [SerializeField]
     private HealthLogic healthController;
 
     // Death flag
@@ -52,6 +51,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform mainCrystal;
 
+    private static readonly int deathAnimatorParam = Animator.StringToHash("death");
+    private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -71,6 +73,7 @@ public class BaseController : MonoBehaviour
 
         #endregion Singleton boilerplate
 
+        healthController = GetComponent<HealthLogic>();
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
 
@@ -86,8 +89,8 @@ public class BaseController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
-        Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot != null)
+        Loot loot = player?.GetComponentInChildren<Loot>();
+        if (loot)
         {
             loot.Absorb(this);
 
@@ -112,7 +115,7 @@ public class BaseController : MonoBehaviour
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot != null)
+        if (loot)
         {
             // Stop the absorbtion
             loot.CancelAbsorb();
@@ -121,15 +124,15 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die(DamageInfo dmg)
     {
         if (!dead)
         {
             // Start overloading the crystal
-            anim.SetBool("death", true);
+            anim.SetBool(deathAnimatorParam, true);
 
             // Prepare the explosion
-            StartCoroutine("Explode");
+            StartCoroutine(nameof(Explode));
 
             // Start Distortions
             //distortionField.enabled = true;
@@ -156,7 +159,7 @@ public class BaseController : MonoBehaviour
         if (i >= 0)
         {
             Transform r = rays[i].ray;
-            r.GetComponent<VisualEffect>().SetFloat("Length", change);
+            r.GetComponent<VisualEffect>().SetFloat(lengthShaderProperty, change);
             if (change <= 0.1f)
                 r.GetComponent<VisualEffect>().SendEvent("OnDie");
         }

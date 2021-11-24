@@ -1143,7 +1143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66590355a9b25554aae33d1b1e836d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 3
+  heldInteractable: {fileID: 0}
+  focusedInteractable: {fileID: 0}
+  liftedObject: {fileID: 0}
   inventory: {fileID: 2599837699652063204}
+  targetCell: {fileID: 0}
   anim: {fileID: 6367115686714045310}
   heldItemBone: {fileID: 7197418879628508991}
   currentStateReadOnly: 0

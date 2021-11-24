@@ -16,10 +16,10 @@ public class DropLogic : MonoBehaviour
         GetComponent<HealthLogic>().onDeath += DropLoot;
     }
 
-    private void DropLoot()
+    private void DropLoot(DamageInfo dmg)
     {
         //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.
         Vector3 spawnPos = transform.position + new Vector3(0, spawnHeight, 0);
-        Instantiate(lootPrefab, spawnPos, Quaternion.identity);
+        Instantiate(lootPrefab, spawnPos, lootPrefab.transform.rotation);
     }
 }

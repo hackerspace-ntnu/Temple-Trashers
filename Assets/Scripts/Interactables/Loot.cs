@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class Loot : Interactable
     public Material selectionMaterial;
 
     // All mesh renderers attached to the object
-    private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+    private MeshRenderer[] meshRenderers;
 
     [ReadOnly]
     // Is the object being carried
@@ -32,13 +33,12 @@ public class Loot : Interactable
     public int lootValue = 10;
     private InventoryManager inventory;
 
-    private Material[] newMat;
+    private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
+    private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
     void Start()
     {
-        foreach (MeshRenderer childRenderer in GetComponentsInChildren<MeshRenderer>())
-            meshRenderers.Add(childRenderer);
-
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
         inventory = InventoryManager.Singleton;
     }
 
@@ -46,43 +46,40 @@ public class Loot : Interactable
     {
         // Destroy the loot properly (to be replaced with animation)
         if (destroy && !canInteract)
+            DestroyAnimation();
+    }
+
+    private void DestroyAnimation()
+    {
+        transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
+        if (transform.position.DistanceGreaterThan(0.7f, absorbTarget))
+            return;
+
+        foreach (MeshRenderer meshRenderer in meshRenderers)
         {
-            transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
-            if (Vector3.Distance(transform.position, absorbTarget) < 0.7f)
+            // Check if the material has the correct property
+            if (!meshRenderer.material.HasProperty(stateMaterialProperty))
+                continue;
+
+            meshRenderer.material.SetFloat(stateMaterialProperty, dissolveState); // Continue animation
+            baseController.ArcLengthVFX(transform, 1 - dissolveState);
+
+            // If the animation is finished
+            if (meshRenderers[0].material.GetFloat(stateMaterialProperty)
+                / meshRenderers[0].material.GetFloat(rateMaterialProperty)
+                > 1)
             {
-                for (int y = 0; y < meshRenderers.Count; y++)
-                {
-                    // Check if list item is empty
-                    if (meshRenderers[y] != null)
-                    {
-                        // Check if the material has the correct property
-                        if (meshRenderers[y].material.HasProperty("State"))
-                        {
-                            meshRenderers[y].material.SetFloat("State", dissolveState); // Continue animation
-                            baseController.ArcLengthVFX(transform, 1 - dissolveState);
+                baseController.crystals++;
+                baseController.RemoveRayVFX(transform, 10f);
 
-                            // If the animation is finished
-                            if (meshRenderers[0].material.GetFloat("State") / meshRenderers[0].material.GetFloat("Rate") > 1)
-                            {
-                                baseController.crystals++;
-                                baseController.RemoveRayVFX(transform, 10f);
+                //Add resources to inventory
+                inventory.ResourceAmount += lootValue;
 
-                                //Add resources to inventory
-                                inventory.ResourceAmount += lootValue;
-
-                                Destroy(gameObject);
-                            }
-                        }
-                    } else
-                    {
-                        meshRenderers.RemoveAt(y);
-                        return;
-                    }
-                }
-
-                dissolveState += Time.deltaTime;
+                Destroy(gameObject);
             }
         }
+
+        dissolveState += Time.deltaTime;
     }
 
     public override void Focus(PlayerStateController player)
@@ -128,40 +125,25 @@ public class Loot : Interactable
         destroy = false;
     }
 
-    public void Highlight()
+    private void Highlight()
     {
-        // Add the hologram material on all existing meshes
-        for (int y = 0; y < meshRenderers.Count; y++)
+        // Add the selection material to all existing meshes
+        foreach (MeshRenderer meshRenderer in meshRenderers)
         {
-            if (meshRenderers[y] != null)
-            {
-                newMat = new Material[meshRenderers[y].materials.Length + 1];
-                for (int i = 0; i < newMat.Length; i++)
-                {
-                    if (i < newMat.Length - 1)
-                        newMat[i] = meshRenderers[y].materials[i];
-                    else
-                        newMat[i] = selectionMaterial;
-
-                    meshRenderers[y].materials = newMat;
-                }
-            }
+            List<Material> rendererMaterials = new List<Material>(meshRenderer.materials);
+            rendererMaterials.Add(selectionMaterial);
+            meshRenderer.materials = rendererMaterials.ToArray();
         }
     }
 
-    public void Unhighlight()
+    private void Unhighlight()
     {
         // Remove selection material from all meshes
-        for (int y = 0; y < meshRenderers.Count; y++)
+        foreach (MeshRenderer meshRenderer in meshRenderers)
         {
-            if (meshRenderers[y] != null)
-            {
-                newMat = new Material[meshRenderers[y].materials.Length - 1];
-                for (int i = 0; i < newMat.Length; i++)
-                    newMat[i] = meshRenderers[y].materials[i];
-
-                meshRenderers[y].materials = newMat;
-            }
+            Material[] rendererMaterials = meshRenderer.materials;
+            Array.Resize(ref rendererMaterials, rendererMaterials.Length - 1);
+            meshRenderer.materials = rendererMaterials;
         }
     }
 }

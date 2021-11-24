@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     private static EnemyManager SINGLETON;
 
     public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
-    private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
+    private Dictionary<Type, GameObject> enemyTypeToPrefab;
 
     public GameObject[] enemyPrefabs;
 
@@ -34,13 +34,14 @@ public class EnemyManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
+        enemyTypeToPrefab = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
         foreach (GameObject prefab in enemyPrefabs)
         {
             Type enemyType = prefab.GetComponent<Enemy>().GetType();
-            if (ENEMY_TYPE_TO_PREFAB.ContainsKey(enemyType))
+            if (enemyTypeToPrefab.ContainsKey(enemyType))
                 throw new ArgumentException($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
 
-            ENEMY_TYPE_TO_PREFAB.Add(enemyType, prefab);
+            enemyTypeToPrefab.Add(enemyType, prefab);
         }
     }
 
@@ -58,6 +59,6 @@ public class EnemyManager : MonoBehaviour
 
     public static GameObject GetEnemyPrefab(Type enemyType)
     {
-        return ENEMY_TYPE_TO_PREFAB[enemyType];
+        return SINGLETON.enemyTypeToPrefab[enemyType];
     }
 }

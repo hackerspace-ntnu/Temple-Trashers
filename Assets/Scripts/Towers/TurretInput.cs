@@ -6,7 +6,7 @@ public class TurretInput : MonoBehaviour
 {
     private PlayerStateController player;
 
-    void Start()
+    void Awake()
     {
         player = GetComponent<PlayerStateController>();
     }

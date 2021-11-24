@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
-public class TowerScript : ScriptableObject
+public class TowerScriptableObject : ScriptableObject
 {
     public string towerName;
     public int cost;
@@ -16,7 +16,6 @@ public class TowerScript : ScriptableObject
     {
         GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);
         controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
-        controller.SetState(PlayerStates.BUILDING);
         return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
     }
 }

@@ -36,12 +36,12 @@ public class HexGrid : MonoBehaviour {
     public float scale = 0.1f;
     public float speed = 0.5f;
 
-	private void OnEnable()
+	void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
         HexMetrics.noiseScale = noiseScale;
 	}
-	private void Awake() {
+	void Awake() {
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
@@ -51,7 +51,7 @@ public class HexGrid : MonoBehaviour {
 		edgeCells = GetEdgeCells();
         hq = GameObject.FindGameObjectWithTag("Base").transform;
     }
-    private void Update()
+    void Update()
     {
         if (recalculate)
         {
@@ -105,7 +105,7 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
-	void CreateChunks()
+	private void CreateChunks()
 	{
 		// Remove previous chunks
 		chunks = GetComponentsInChildren<HexGridChunk>();
@@ -131,7 +131,7 @@ public class HexGrid : MonoBehaviour {
 		}
 	}
 
-	void CreateCells()
+	private void CreateCells()
     {
 		cells = new HexCell[cellCountZ * cellCountX];
 
@@ -153,7 +153,7 @@ public class HexGrid : MonoBehaviour {
 	}
 
 
-	void CreateCell (int x, int z, int i) {
+	private void CreateCell (int x, int z, int i) {
 		Vector3 position;
 		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
 		position.y = 0f;
@@ -195,7 +195,7 @@ public class HexGrid : MonoBehaviour {
 		AddCellToChunk(x, z, cell);
 	}
 
-	void AddCellToChunk(int x, int z, HexCell cell)
+	private void AddCellToChunk(int x, int z, HexCell cell)
     {
 		int chunkX = x / HexMetrics.chunkSizeX;
 		int chunkZ = z / HexMetrics.chunkSizeZ;

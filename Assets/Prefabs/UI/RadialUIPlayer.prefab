@@ -558,8 +558,10 @@ MonoBehaviour:
   - {fileID: 5717948543165637213}
   - {fileID: 3442901109344144039}
   - {fileID: 1090719741646943878}
-  highlightSprite: {fileID: 21300000, guid: e79bed420eaefbd429cb879c9580ca67, type: 3}
   normalSprite: {fileID: 21300000, guid: 34547b29a7d85864dbcfeacd5df68fbf, type: 3}
+  highlightSprite: {fileID: 21300000, guid: e79bed420eaefbd429cb879c9580ca67, type: 3}
+  highlightedSpriteScale: 1.2
+  highlightScaleAnimationDuration: 0.2
 --- !u!1 &5091847297515756018
 GameObject:
   m_ObjectHideFlags: 0

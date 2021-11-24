@@ -21,7 +21,7 @@ public partial class PlayerStateController : MonoBehaviour
     private HealthLogic health; // Reference to the health script
 
     [ReadOnly, SerializeField]
-    private PlayerStates currentState = PlayerStates.FREE;
+    private PlayerStates _currentState = PlayerStates.FREE;
 
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
@@ -52,7 +52,7 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
-    public PlayerStates CurrentState { get => currentState; private set => currentState = value; }
+    public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -61,13 +61,38 @@ public partial class PlayerStateController : MonoBehaviour
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
 
-    void Start()
+    void Awake()
     {
         motion = GetComponent<PlayerMotion>();
         health = GetComponent<HealthLogic>();
         health.onDeath += Die;
+
         ui = GetComponent<PlayerUi>();
         terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
+    }
+
+    void OnDestroy()
+    {
+        health.onDeath -= Die;
+
+        OnDestroy_Input();
+    }
+
+    private void Die(DamageInfo dmg)
+    {
+        // Drop anything we are carrying
+        if (liftedObject != null)
+            liftedObject.GetComponent<Interactable>().Interact(this);
+
+        SetState(PlayerStates.DEAD);
+        manager.RespawnPlayer(1f);
+
+        CameraFocusController.Singleton.RemoveFocusObject(transform);
+        Destroy(gameObject);
+    }
+
+    void Start()
+    {
         inventoryManager = InventoryManager.Singleton;
 
         CurrentState = PlayerStates.FREE;
@@ -87,9 +112,10 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.FREE:
                 UpdateFocusedInteractable();
+                motion.Move();
+
                 if (Select)
                     SetState(PlayerStates.IN_TURRET_MENU);
-                motion.Move();
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 ui.Select();
@@ -98,12 +124,11 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.BUILDING:
                 UpdateFocusedInteractable();
                 motion.Move();
-                targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
-                focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+                UpdateConstructionTowerTargetCell();
                 if (Cancel)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
+                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
 
                     RemoveInteractable(heldInteractable);
                     Destroy(heldInteractable.gameObject);
@@ -120,6 +145,12 @@ public partial class PlayerStateController : MonoBehaviour
         }
     }
 
+    private void UpdateConstructionTowerTargetCell()
+    {
+        targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
+        focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         Interactable interactable = other.GetComponentInParent<Interactable>();
@@ -131,19 +162,6 @@ public partial class PlayerStateController : MonoBehaviour
     {
         if (other.GetComponentInParent<Interactable>())
             RemoveInteractable(other.GetComponentInParent<Interactable>());
-    }
-
-    private void Die(DamageInfo dmg)
-    {
-        // Drop anything we are carrying
-        if (liftedObject != null)
-            liftedObject.GetComponent<Interactable>().Interact(this);
-
-        SetState(PlayerStates.DEAD);
-        manager.RespawnPlayer(1f);
-
-        CameraFocusController.Singleton.RemoveFocusObject(transform);
-        Destroy(gameObject);
     }
 
     public void SetState(PlayerStates state)
@@ -185,7 +203,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (heldInteractable)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedCost();
+                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
 
                     RemoveInteractable(heldInteractable);
                     Destroy(heldInteractable.gameObject);
@@ -216,12 +234,18 @@ public partial class PlayerStateController : MonoBehaviour
     // Gets called when interact button is pressed
     private void OnInteract()
     {
-        if (focusedInteractable != null)
-            focusedInteractable.Interact(this); // interact with the current target
-        if (focusedInteractable != null && !focusedInteractable.canInteract)
-            RemoveInteractable(focusedInteractable);
+        if (!focusedInteractable)
+            return;
 
-        if (CurrentState == PlayerStates.BUILDING)
+        if (!focusedInteractable.canInteract)
+        {
+            RemoveInteractable(focusedInteractable);
+            return;
+        }
+
+        focusedInteractable.Interact(this); // interact with the current target
+
+        if (CurrentState == PlayerStates.BUILDING && !targetCell.IsOccupied)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
@@ -237,7 +261,8 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(focusedInteractable is TowerLogic tower))
             return;
 
-        tower.TowerScript.InstantiateConstructionTower(this);
+        tower.TowerScriptableObject.InstantiateConstructionTower(this);
+        SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -256,9 +281,16 @@ public partial class PlayerStateController : MonoBehaviour
     // Update the focused interactable based on distance from player
     private void UpdateFocusedInteractable()
     {
+        // Lifted objects are top priority
+        if (heldInteractable)
+        {
+            SetFocusedInteractable(heldInteractable);
+            return;
+        }
+
         if (interactables.Count == 0)
         {
-            if (focusedInteractable != null) // The object we were focusing is no longer focusable
+            if (focusedInteractable) // The object we were focusing is no longer focusable
             {
                 focusedInteractable.Unfocus(this);
                 focusedInteractable = null;
@@ -270,15 +302,8 @@ public partial class PlayerStateController : MonoBehaviour
         {
             SetFocusedInteractable(interactables.Single());
             return;
-        } else if (focusedInteractable == null && heldInteractable == null) // Wait until we have at least one object to interact with
+        } else if (!focusedInteractable && !heldInteractable) // Wait until we have at least one object to interact with
             return;
-
-        // Lifted objects are top priority
-        if (heldInteractable != null && heldInteractable != focusedInteractable)
-        {
-            SetFocusedInteractable(heldInteractable);
-            return;
-        }
 
         // Otherwise get closest interactable
         Interactable closest = focusedInteractable;
@@ -323,6 +348,7 @@ public partial class PlayerStateController : MonoBehaviour
         AddInteractable(turret);
         heldInteractable = turret;
         SetFocusedInteractable(turret);
+        UpdateConstructionTowerTargetCell();
     }
 
     public void Drop(GameObject obj)

@@ -6,8 +6,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(HealthLogic))]
 public class SkeletonRagdollController : MonoBehaviour
 {
-    private Rigidbody body;
-
     [SerializeField]
     private Animator anim;
 
@@ -23,29 +21,36 @@ public class SkeletonRagdollController : MonoBehaviour
     [SerializeField]
     private float launchRotationSpeed;
 
+    private Rigidbody body;
+    private NavMeshAgent agent;
+    private HealthLogic health;
+
     private static readonly int deadAnimatorParam = Animator.StringToHash("Dead");
     private static readonly int deathModeAnimatorParam = Animator.StringToHash("DeathMode");
 
     void Awake()
     {
-        GetComponent<HealthLogic>().onDeath += Launch;
+        body = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<HealthLogic>();
+        health.onDeath += Launch;
     }
 
     void OnDestroy()
     {
-        GetComponent<HealthLogic>().onDeath -= Launch;
+        health.onDeath -= Launch;
     }
 
     private void Launch(DamageInfo dmg)
     {
         anim.SetBool(deadAnimatorParam, true);
+        // Set random death animation
         anim.SetFloat(deathModeAnimatorParam, Mathf.Floor(Random.Range(0, 8)));
-        GetComponent<NavMeshAgent>().enabled = false;
 
+        agent.enabled = false;
         colliderToDisable.enabled = false;
         colliderToEnable.enabled = true;
 
-        body = GetComponent<Rigidbody>();
         body.centerOfMass = new Vector3(0, 1.5f, 0);
         body.isKinematic = false;
         body.useGravity = true;

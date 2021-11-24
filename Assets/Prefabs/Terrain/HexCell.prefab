@@ -128,8 +128,6 @@ MonoBehaviour:
   coordinates:
     x: 0
     z: 0
-  isOccupied: 0
-  occupier: {fileID: 0}
   mesh: {fileID: 816763163768567949}
   pertubValue: 0.63529414
   materials:
@@ -145,3 +143,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _occupyingObject: {fileID: 0}

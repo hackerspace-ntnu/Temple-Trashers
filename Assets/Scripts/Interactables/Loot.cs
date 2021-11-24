@@ -36,9 +36,13 @@ public class Loot : Interactable
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
-    void Start()
+    void Awake()
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
+    }
+
+    void Start()
+    {
         inventory = InventoryManager.Singleton;
     }
 

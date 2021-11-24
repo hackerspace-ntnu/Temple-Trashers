@@ -12,6 +12,7 @@ public enum EnemyState
     DEAD,
 }
 
+[RequireComponent(typeof(NavMeshAgent), typeof(HealthLogic))]
 public abstract class Enemy : MonoBehaviour
 {
     [ReadOnly, SerializeField]
@@ -70,17 +71,30 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<HealthLogic>();
+        health.onDeath += Die;
+    }
+
+    void OnDestroy()
+    {
+        health.onDeath -= Die;
+    }
+
+    private void Die(DamageInfo dmg)
+    {
+        SetState(EnemyState.DEAD);
+    }
+
     void Start()
     {
         baseTransform = BaseController.Singleton.transform;
         CurrentTarget = baseTransform;
-
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = walkSpeed;
-
-        health = GetComponent<HealthLogic>();
-        health.onDeath += Die;
         baseHealth = baseTransform.GetComponent<HealthLogic>();
+
+        agent.speed = walkSpeed;
 
         AnimationSetup();
         // Set random animation start time for current animation state
@@ -89,11 +103,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void AnimationSetup()
     {}
-
-    private void Die(DamageInfo dmg)
-    {
-        SetState(EnemyState.DEAD);
-    }
 
     void FixedUpdate()
     {
@@ -176,13 +185,13 @@ public abstract class Enemy : MonoBehaviour
                 agent.stoppingDistance = baseAttackDistance;
                 break;
             case EnemyState.ATTACK_PLAYER:
-                anim.SetBool(attackAnimatorParam, true);
                 agent.stoppingDistance = playerAttackDistance;
+                anim.SetBool(attackAnimatorParam, true);
                 break;
             case EnemyState.ATTACK_BASE:
-                anim.SetBool(attackAnimatorParam, true);
                 CurrentTarget = baseTransform;
                 agent.stoppingDistance = baseAttackDistance;
+                anim.SetBool(attackAnimatorParam, true);
                 break;
             case EnemyState.CHASING:
                 agent.speed = chaseSpeed;
@@ -199,11 +208,6 @@ public abstract class Enemy : MonoBehaviour
 
         currentState = newState;
         HasLostTargetCheck();
-    }
-
-    void OnDestroy()
-    {
-        health.onDeath -= Die;
     }
 
     private void UpdateTargetDestination()

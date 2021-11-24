@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
-  towerScript: {fileID: 0}
+  _towerScriptableObject: {fileID: 0}
   turretInput: {fileID: 0}
   rotAxis: {fileID: 5529524980676544149}
   arrowPointer: {fileID: 4654737029441173943}

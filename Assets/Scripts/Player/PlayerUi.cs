@@ -9,17 +9,22 @@ public class PlayerUi : MonoBehaviour
     private PlayerStateController state;
 
     public GameObject ui;
-    public int uiSegmentAmount = 4;
+
+    [Tooltip("The number of degrees the menu segments are tilted.")]
     public float segmentTiltDegrees;
+
     private Transform mainCameraTransform;
-
     private InventoryManager inventory;
-    private TowerScript selectedSegment;
+    private UIControllerWheel controllerWheel;
 
-    //Sets up required components to handle input
-    void Start()
+    void Awake()
     {
         state = GetComponent<PlayerStateController>();
+        controllerWheel = ui.GetComponentInChildren<UIControllerWheel>();
+    }
+
+    void Start()
+    {
         mainCameraTransform = Camera.main.transform;
         inventory = InventoryManager.Singleton;
     }
@@ -31,14 +36,9 @@ public class PlayerUi : MonoBehaviour
         ui.transform.LookAt(lookAtPos, mainCameraTransform.rotation * Vector3.up);
     }
 
-    public TowerScript GetSelectedSegment()
+    public TowerScriptableObject GetSelectedSegment()
     {
-        return selectedSegment;
-    }
-
-    public int GetSelectedCost()
-    {
-        return selectedSegment.cost;
+        return controllerWheel.GetSelectedTower();
     }
 
     public void Select()
@@ -49,18 +49,17 @@ public class PlayerUi : MonoBehaviour
         //Turns off the UI if button no longer held
         if (!state.Select)
         {
-            ui.gameObject.SetActive(false);
-            if (selectedSegment)
+            TowerScriptableObject selectedSegment = GetSelectedSegment();
+            if (selectedSegment
+                && inventory.ResourceAmount - selectedSegment.cost >= 0)
             {
-                if (inventory.ResourceAmount - GetSelectedCost() < 0)
-                {
-                    state.SetState(PlayerStates.FREE);
-                } else
-                {
-                    inventory.ResourceAmount -= GetSelectedCost();
-                    GetSelectedSegment().InstantiateConstructionTower(state);
-                }
-            }
+                inventory.ResourceAmount -= selectedSegment.cost;
+                selectedSegment.InstantiateConstructionTower(state);
+                state.SetState(PlayerStates.BUILDING);
+            } else
+                state.SetState(PlayerStates.FREE);
+
+            ui.gameObject.SetActive(false);
         }
     }
 
@@ -73,37 +72,18 @@ public class PlayerUi : MonoBehaviour
             return;
         }
 
-        if (state.AimInput != Vector2.zero)
+        // The controller points to nothing
+        if (state.AimInput == Vector2.zero)
         {
-            float angle = 180 * Mathf.Atan2(state.AimInput.x, state.AimInput.y) / Mathf.PI;
-
-            //Degree-tilt on segments to accomadate for tilted menus.
-            angle += segmentTiltDegrees;
-
-            //absoluteValue of angle
-            if (angle < 0)
-                angle += 360;
-
-            float segmentAreaDegrees = 360f / uiSegmentAmount;
-            for (int i = 0; i < uiSegmentAmount; i++)
-            {
-                if (angle >= i * segmentAreaDegrees
-                    && angle < (i + 1) * segmentAreaDegrees)
-                {
-                    //Sets all ui segments to their normal non-highlighted texture
-                    ui.GetComponentInChildren<UIControllerWheel>().NormalizeSegments();
-                    //Highlights the selected segment
-                    ui.GetComponentInChildren<UIControllerWheel>().HighlightSegment(i);
-                    //Sets the current selected tower gameobject derived from the corresponding scriptable object
-                    selectedSegment = ui.GetComponentInChildren<UIControllerWheel>().GetTower(i);
-                }
-            }
+            controllerWheel.SelectedSegmentIndex = null;
+            return;
         }
-        //The controller points to nothing
-        else
-        {
-            selectedSegment = null;
-            ui.GetComponentInChildren<UIControllerWheel>().NormalizeSegments();
-        }
+
+        float inputAngle = 180f * Mathf.Atan2(state.AimInput.x, state.AimInput.y) / Mathf.PI;
+        inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentTiltDegrees);
+
+        float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
+        int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
+        controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
     }
 }

@@ -10,10 +10,17 @@ public class DropLogic : MonoBehaviour
     //Extra height to be added when instantiating loot.
     public float spawnHeight = 2f;
 
-    private void Start()
+    private HealthLogic health;
+
+    void Awake()
     {
-        //Using delegates to add loot drop function to death
-        GetComponent<HealthLogic>().onDeath += DropLoot;
+        health = GetComponent<HealthLogic>();
+        health.onDeath += DropLoot;
+    }
+
+    void OnDestroy()
+    {
+        health.onDeath -= DropLoot;
     }
 
     private void DropLoot(DamageInfo dmg)

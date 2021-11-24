@@ -102,4 +102,3 @@ public static class HexMetrics {
 			);
     }
 }
-

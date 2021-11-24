@@ -1,65 +1,109 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIControllerWheel : MonoBehaviour
 {
-    public TowerScript[] towers;
-    public GameObject[] menuSegments;
-    private List<TowerScript> towersInMenu = new List<TowerScript>();
-    public List<SpriteRenderer> iconHolders;
-    public Sprite highlightSprite;
-    public Sprite normalSprite;
-    private GameObject selected;
+    [SerializeField]
+    private TowerScriptableObject[] towers;
 
-    void Start()
+    [SerializeField]
+    private GameObject[] menuSegments;
+
+    [SerializeField]
+    private List<SpriteRenderer> iconHolders;
+
+    public Sprite normalSprite;
+    public Sprite highlightSprite;
+    public float highlightedSpriteScale = 1.2f;
+    public float highlightScaleAnimationDuration = 0.2f;
+
+    private int? _selectedSegmentIndex = null;
+
+    public int? SelectedSegmentIndex
     {
-        if (towers.Length == menuSegments.Length)
+        get => _selectedSegmentIndex;
+        set
         {
-            for (int i = 0; i < towers.Length; i++)
+            if (value < 0 || value >= menuSegments.Length)
+                throw new IndexOutOfRangeException();
+
+            if (value == _selectedSegmentIndex)
+                return;
+
+            _selectedSegmentIndex = value;
+            if (_selectedSegmentIndex != null)
             {
-                menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
-                iconHolders[i].sprite = towers[i].icon;
+                int index = (int)_selectedSegmentIndex;
+                LeanTween.scale(menuSegments[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+                iconHolders[index].sprite = towers[index].iconHighlight;
+                menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
             }
+
+            NormalizeSegments();
         }
     }
 
-    /// <summary>
-    /// Returns the tower `GameObject` stored in the corresponding `ScriptableObject` that the UI segments use.
-    /// </summary>
-    public TowerScript GetTower(int index)
+    void Awake()
     {
-        towersInMenu.Clear();
-        for (int i = 0; i < menuSegments.Length; i++)
-            towersInMenu.Add(towers[i]);
+        if (menuSegments.Length != towers.Length || iconHolders.Count != towers.Length)
+        {
+            throw new ArgumentException(
+                $"The sizes of `{nameof(towers)}`, `{nameof(menuSegments)}` and {nameof(iconHolders)} were not equal!"
+            );
+        }
 
-        return towersInMenu[index];
+        for (int i = 0; i < towers.Length; i++)
+            iconHolders[i].sprite = towers[i].icon;
+
+        foreach (GameObject segment in menuSegments)
+            segment.GetComponent<SpriteRenderer>().sprite = normalSprite;
+    }
+
+    void OnEnable()
+    {
+        SelectedSegmentIndex = null;
+
+        // Reset the scale of all menu segments
+        foreach (GameObject segment in menuSegments)
+            LeanTween.scale(segment, Vector3.one, 0f);
+    }
+
+    public int GetNumSegments()
+    {
+        return menuSegments.Length;
     }
 
     /// <summary>
-    /// Sets a single UI element to the highlight texture.
+    /// Returns the `TowerScriptableObject` at the provided index of the wheel segments.
     /// </summary>
-    public void HighlightSegment(int index)
+    public TowerScriptableObject GetTower(int index)
     {
-        LeanTween.scale(menuSegments[index], new Vector3(1.2f, 1.2f, 1.2f), 0.2f).setEaseLinear();
-        iconHolders[index].sprite = towers[index].iconHighlight;
-        menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
-        selected = menuSegments[index];
+        return towers[index];
+    }
+
+    public TowerScriptableObject GetSelectedTower()
+    {
+        if (SelectedSegmentIndex == null)
+            return null;
+
+        return GetTower((int)SelectedSegmentIndex);
     }
 
     /// <summary>
-    /// Sets all UI elements back to their non-highlighted textures.
+    /// Sets all non-selected segments back to their non-highlighted textures.
     /// </summary>
     public void NormalizeSegments()
     {
         for (int i = 0; i < menuSegments.Length; i++)
         {
-            if (menuSegments[i] != selected)
-            {
-                LeanTween.scale(menuSegments[i], new Vector3(1, 1, 1), 0.2f).setEaseLinear();
-                iconHolders[i].sprite = towers[i].icon;
-                menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
-            }
+            if (i == SelectedSegmentIndex)
+                continue;
+
+            LeanTween.scale(menuSegments[i], Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+            iconHolders[i].sprite = towers[i].icon;
+            menuSegments[i].GetComponent<SpriteRenderer>().sprite = normalSprite;
         }
     }
 }

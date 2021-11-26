@@ -81,7 +81,7 @@ public partial class PlayerStateController : MonoBehaviour
     private void Die(DamageInfo dmg)
     {
         // Drop anything we are carrying
-        if (liftedObject != null)
+        if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
         SetState(PlayerStates.DEAD);
@@ -154,7 +154,7 @@ public partial class PlayerStateController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Interactable interactable = other.GetComponentInParent<Interactable>();
-        if (interactable != null && interactable.canInteract)
+        if (interactable && interactable.canInteract)
             AddInteractable(interactable);
     }
 
@@ -307,13 +307,16 @@ public partial class PlayerStateController : MonoBehaviour
 
         // Otherwise get closest interactable
         Interactable closest = focusedInteractable;
-        float dist = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
-        foreach (Interactable i in interactables)
+        float closestDistSqr = (focusedInteractable.transform.position - transform.position).sqrMagnitude;
+        // Remove non-existent interactables (e.g. if they were destroyed)
+        interactables.RemoveWhere(interactable => !interactable);
+        foreach (Interactable interactable in interactables)
         {
-            if ((i.transform.position - transform.position).sqrMagnitude < dist)
+            float distSqr = (interactable.transform.position - transform.position).sqrMagnitude;
+            if (distSqr < closestDistSqr)
             {
-                dist = (i.transform.position - transform.position).sqrMagnitude;
-                closest = i;
+                closestDistSqr = distSqr;
+                closest = interactable;
             }
         }
 

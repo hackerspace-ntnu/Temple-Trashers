@@ -51,7 +51,7 @@ public class HexGrid : MonoBehaviour {
     
     
 	private void Awake() {
-        //RebuildTerrain();
+        RebuildTerrain();
         hq = GameObject.FindGameObjectWithTag("Base").transform;
     }
 
@@ -275,8 +275,8 @@ public class HexGrid : MonoBehaviour {
                 else
                 {
                     GameObject decoration = Instantiate(decor[0], c.transform.position, c.transform.rotation);
-                    decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
                     decoration.transform.SetParent(c.transform);
+                    decoration.transform.Rotate(new Vector3(90, 0, UnityEngine.Random.Range(0f, 360f)));
                     c.SetTower(decoration);
                 }
             }

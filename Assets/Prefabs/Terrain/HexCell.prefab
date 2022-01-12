@@ -128,3 +128,4 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8829373326209325920, guid: 3945905c355ae204b845c51ce94bd243, type: 3}
+  _occupyingObject: {fileID: 0}

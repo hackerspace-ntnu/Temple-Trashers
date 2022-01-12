@@ -8,15 +8,12 @@ public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager SINGLETON;
 
-    public static readonly Type[] ENEMY_TYPES = {typeof(PlaceholderEnemy)};
-    private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
+    public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
+    private Dictionary<Type, GameObject> enemyTypeToPrefab;
 
     public GameObject[] enemyPrefabs;
 
     public HexGrid hexGrid;
-
-    [Header("Enemy Variables")]
-    public float speed = 5f;
 
     void Awake()
     {
@@ -37,14 +34,14 @@ public class EnemyManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-        ENEMY_TYPE_TO_PREFAB.Clear();
+        enemyTypeToPrefab = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
         foreach (GameObject prefab in enemyPrefabs)
         {
             Type enemyType = prefab.GetComponent<Enemy>().GetType();
-            if (ENEMY_TYPE_TO_PREFAB.ContainsKey(enemyType))
+            if (enemyTypeToPrefab.ContainsKey(enemyType))
                 throw new ArgumentException($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
 
-            ENEMY_TYPE_TO_PREFAB.Add(enemyType, prefab);
+            enemyTypeToPrefab.Add(enemyType, prefab);
         }
     }
 
@@ -52,9 +49,7 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject prefab = GetEnemyPrefab(enemyType);
         Vector3 spawnPos = ChoosePosForSpawningEnemy();
-        Enemy spawnedEnemy = Instantiate(prefab, spawnPos, Quaternion.identity, transform).GetComponent<Enemy>();
-        // Pass along the enemy settings
-        spawnedEnemy.speed = speed;
+        Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     }
 
     private Vector3 ChoosePosForSpawningEnemy()
@@ -64,6 +59,6 @@ public class EnemyManager : MonoBehaviour
 
     public static GameObject GetEnemyPrefab(Type enemyType)
     {
-        return ENEMY_TYPE_TO_PREFAB[enemyType];
+        return SINGLETON.enemyTypeToPrefab[enemyType];
     }
 }

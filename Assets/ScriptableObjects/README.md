@@ -1,4 +1,4 @@
-This directory contains scripts that define scriptable objects, and folders that holds specific instances of the defined scriptable objects.
+This directory contains instances of the scriptable objects in [`Scripts/ScriptableObjects`](../Scripts/ScriptableObjects).
 
 Scriptable objects are made to streamline the process of making prefabs, both for UI elements like icons and descriptions, and functional variables like cost.
 

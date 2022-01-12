@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
+
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
-
     [SerializeField]
     private VisualEffect sparksEffect;
 
@@ -19,13 +19,13 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     public GameObject drainRay;
 
     //LighntingEffect duration
-    public float effectDuration = 0.3f;
+    public float effectDuration = 0.7f;
 
     //What layers the collider will check in, should be player and enemy layers.
     public LayerMask shockLayers;
 
     //Marked objects
-    private List<Transform> zappTargets = new List<Transform>();
+    private List<Transform> zapTargets = new List<Transform>();
 
     //Making lightning spawn from top of turret
     [SerializeField]
@@ -38,25 +38,28 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     {
         CheckZap(transform);
 
-        foreach (var zap in zappTargets)
-            zap.GetComponent<HealthLogic>().DealDamage(damage);
+        foreach (var zap in zapTargets)
+        {
+            Vector3 diff = (zap.position - transform.position).normalized;
+            zap.GetComponent<HealthLogic>().DealDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
+        }
 
         //Clear all marked objects.
-        zappTargets.Clear();
+        zapTargets.Clear();
     }
 
     //Marks soon-to-be zapped objects and adds a VFX.
     private void AddZap(Transform target, Transform previous)
     {
-        if (zappTargets.Contains(target))
+        if (zapTargets.Contains(target))
             return;
 
-        //Transform previousTarget = zappTargets.LastOrDefault() ?? zapOrigin;
-        if(previous == transform)
+        //Transform previousTarget = zapTargets.LastOrDefault() ?? zapOrigin;
+        if (previous == transform)
             previous = zapOrigin;
 
         LightningVFX(previous, target);
-        zappTargets.Add(target);
+        zapTargets.Add(target);
         CheckZap(target);
     }
 
@@ -84,12 +87,12 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         Destroy(ray, effectDuration);
         Destroy(target.gameObject, effectDuration);
     }
-    
 
     public void StartSparks()
     {
         sparksEffect.SendEvent("OnPlay");
     }
+
     public void StopSparks()
     {
         sparksEffect.SendEvent("OnStop");

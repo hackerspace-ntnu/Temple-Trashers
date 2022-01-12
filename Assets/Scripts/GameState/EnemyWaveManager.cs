@@ -15,23 +15,23 @@ public class EnemyWaveManager : MonoBehaviour
 
     #region State variables for debugging
 
-    [ReadOnly]
-    public bool hasWaveEnded;
+    [ReadOnly, SerializeField]
+    private bool hasWaveEnded;
 
-    [ReadOnly]
-    public bool readyForNextWave;
+    [ReadOnly, SerializeField]
+    private bool readyForNextWave;
 
-    [ReadOnly]
-    public float timeUntilNextSpawn;
+    [ReadOnly, SerializeField]
+    private float timeUntilNextSpawn;
 
-    [ReadOnly]
-    public int currentWaveIndex;
+    [ReadOnly, SerializeField]
+    private int currentWaveIndex;
 
-    [ReadOnly]
-    public int currentSubWaveIndex;
+    [ReadOnly, SerializeField]
+    private int currentSubWaveIndex;
 
-    [ReadOnly]
-    public int currentSubWaveEnemyCounter;
+    [ReadOnly, SerializeField]
+    private int currentSubWaveEnemyCounter;
 
     #endregion State variables for debugging
 

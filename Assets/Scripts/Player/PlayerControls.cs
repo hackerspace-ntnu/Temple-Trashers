@@ -59,9 +59,25 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""6702a6d5-4f86-4f26-90c0-615b6eeedd8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Ready for next wave"",
                     ""type"": ""Button"",
                     ""id"": ""0292f4fa-f566-411f-a1a7-367de1e92915"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Move tower"",
+                    ""type"": ""Button"",
+                    ""id"": ""34be8f5b-dd5f-48f5-91c6-67c76e24d444"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -214,7 +230,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1fa37b50-7164-456f-9b73-1a444e0b65b8"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/#(E)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -225,7 +241,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1aab1220-e456-4e6f-afdf-dd88a698329e"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -236,7 +252,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d3a671d1-a478-4c46-87e1-3ba1c1720988"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/#(R)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -269,11 +285,55 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3d61bf77-1cda-452c-927e-df6ea1888261"",
-                    ""path"": ""<Keyboard>/n"",
+                    ""path"": ""<Keyboard>/#(N)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Ready for next wave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c1bc488-9030-434a-a8a3-eaf1bad2bea1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f01a655d-a686-401a-83fc-abf3fddc7d5f"",
+                    ""path"": ""<Keyboard>/#(P)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43c9fc11-5452-4f1b-b055-121563ed34c0"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move tower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac308be8-d7ad-4bf2-a443-5a947eaf84b5"",
+                    ""path"": ""<Keyboard>/#(M)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move tower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -363,7 +423,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
         m_MovePlayer_Cancel = m_MovePlayer.FindAction("Cancel", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
+        m_MovePlayer_Pause = m_MovePlayer.FindAction("Pause", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
+        m_MovePlayer_Movetower = m_MovePlayer.FindAction("Move tower", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
@@ -422,7 +484,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Select;
     private readonly InputAction m_MovePlayer_Cancel;
     private readonly InputAction m_MovePlayer_Aim;
+    private readonly InputAction m_MovePlayer_Pause;
     private readonly InputAction m_MovePlayer_Readyfornextwave;
+    private readonly InputAction m_MovePlayer_Movetower;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -432,7 +496,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
         public InputAction @Cancel => m_Wrapper.m_MovePlayer_Cancel;
         public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
+        public InputAction @Pause => m_Wrapper.m_MovePlayer_Pause;
         public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
+        public InputAction @Movetower => m_Wrapper.m_MovePlayer_Movetower;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,9 +523,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Pause.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
                 @Readyfornextwave.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
+                @Movetower.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @Movetower.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @Movetower.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -479,9 +551,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @Readyfornextwave.started += instance.OnReadyfornextwave;
                 @Readyfornextwave.performed += instance.OnReadyfornextwave;
                 @Readyfornextwave.canceled += instance.OnReadyfornextwave;
+                @Movetower.started += instance.OnMovetower;
+                @Movetower.performed += instance.OnMovetower;
+                @Movetower.canceled += instance.OnMovetower;
             }
         }
     }
@@ -552,7 +630,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
+        void OnMovetower(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

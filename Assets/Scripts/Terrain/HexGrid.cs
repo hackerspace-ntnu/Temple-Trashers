@@ -266,7 +266,7 @@ public class HexGrid : MonoBehaviour {
         // Adding a tree wall around the map
         foreach (HexCell c in edgeCells)
         {
-            if (!c.isOccupied)
+            if (!c.IsOccupied)
             {
                 if (mountainBorder)
                 {
@@ -277,7 +277,7 @@ public class HexGrid : MonoBehaviour {
                     GameObject decoration = Instantiate(decor[0], c.transform.position, c.transform.rotation);
                     decoration.transform.SetParent(c.transform);
                     decoration.transform.Rotate(new Vector3(90, 0, UnityEngine.Random.Range(0f, 360f)));
-                    c.SetTower(decoration);
+                    c.OccupyingObject = decoration;
                 }
             }
         }
@@ -287,12 +287,12 @@ public class HexGrid : MonoBehaviour {
             // The cells inbetween the min and max elevations are areas where we can place decorations.
             if (UnityEngine.Random.Range(0, 100) <= 10f && cell.Elevation < cell.materials.Length - 1 && cell.Elevation > 0)
             {
-                if (!cell.isOccupied)
+                if (!cell.IsOccupied)
                 {
                     GameObject decoration = Instantiate(decor[UnityEngine.Random.Range(0, decor.Length)], cell.transform.position, cell.transform.rotation);
                     decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
                     decoration.transform.SetParent(cell.transform);
-                    cell.SetTower(decoration);
+                    cell.OccupyingObject = decoration;
                 }
             }
         }

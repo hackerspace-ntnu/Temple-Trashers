@@ -289,8 +289,9 @@ public class HexGrid : MonoBehaviour {
             {
                 if (!cell.IsOccupied)
                 {
-                    GameObject decoration = Instantiate(decor[UnityEngine.Random.Range(0, decor.Length)], cell.transform.position, cell.transform.rotation);
-                    decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
+                    int randomDecoration = UnityEngine.Random.Range(0, decor.Length);
+                    GameObject decoration = Instantiate(decor[randomDecoration], cell.transform.position, decor[randomDecoration].transform.rotation);
+                    //decoration.transform.Rotate(new Vector3(0, 0, UnityEngine.Random.Range(0f, 360f)));
                     decoration.transform.SetParent(cell.transform);
                     cell.OccupyingObject = decoration;
                 }

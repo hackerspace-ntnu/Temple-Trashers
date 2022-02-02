@@ -80,7 +80,7 @@ public class HexGrid : MonoBehaviour {
     /// <summary>
     /// Rebuild the terrain from scratch
     /// </summary>
-    void RebuildTerrain()
+    public void RebuildTerrain()
     {
         // Calculate borders
         cellCountX = chunkCountX * HexMetrics.chunkSizeX;

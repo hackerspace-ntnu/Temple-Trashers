@@ -7,9 +7,9 @@ using Unity.Mathematics;
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
+    public MeshRenderer mr;
 
-    private MeshRenderer mr;
-	private Vector3 position;
+    private Vector3 position;
 	private Vector3 newPos;
 	private int elevation;
 
@@ -37,6 +37,8 @@ public class HexCell : MonoBehaviour {
             {
                 transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
             }
+
+            mr.material = materials[elevation];
         }
     }
 	public float pertubValue;
@@ -50,9 +52,6 @@ public class HexCell : MonoBehaviour {
     }
 
 	public Material[] materials;
-
-
-	public float animationScale = 10f;
 
 	[SerializeField]
 	HexCell[] neighbors;
@@ -87,16 +86,12 @@ public class HexCell : MonoBehaviour {
 
     void Awake()
 	{
-        if(mr == null)
+        if (mr == null)
         {
-            mr = GetComponent<MeshRenderer>();
+            mr = GetComponentInChildren<MeshRenderer>();
         }
-    }
 
-    void Start()
-    {
-		pertubValue = HexMetrics.SampleNoise(Position).y;
-        mr.material = materials[elevation];
+        Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(transform.localPosition).y * materials.Length * 1.1f);
     }
 
     public HexCell GetNeighbor (HexDirection direction) {
@@ -107,14 +102,4 @@ public class HexCell : MonoBehaviour {
 		neighbors[(int)direction] = cell;
 		cell.neighbors[(int)direction.Opposite()] = this;
 	}
-
-	public HexEdgeType GetEdgeType(HexDirection direction)
-	{
-		return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);
-	}
-
-	public HexEdgeType GetEdgeType(HexCell otherCell)
-    {
-		return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
-    }
 }

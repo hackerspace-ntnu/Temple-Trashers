@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour {
-
+    /*
 	Mesh hexMesh;
 	List<Vector3> vertices;
 	List<Color> colors;
@@ -352,5 +352,5 @@ public class HexMesh : MonoBehaviour {
 		colors.Add(c2);
 		colors.Add(c3);
 		colors.Add(c4);
-	}
+	}*/
 }

@@ -7,7 +7,7 @@ public class HexGrid : MonoBehaviour {
 
 	private int cellCountX, cellCountZ;
 
-    public bool recalculate;
+    public bool recalculate = true;
 
     [Header("Structural Variables")]
     [Range(1,10)]
@@ -54,8 +54,6 @@ public class HexGrid : MonoBehaviour {
         nameToGO = new Dictionary<string, GameObject>();
         GOToName = new Dictionary<GameObject, string>();
 
-        //idToGameObject.Add(0, );
-        //gameObjectToId.Add(null, 0);
         foreach (GameObject g in decor)
         {
             nameToGO.Add(g.name + "(Clone)", g);
@@ -66,6 +64,8 @@ public class HexGrid : MonoBehaviour {
             nameToGO.Add(g.name + "(Clone)", g);
             GOToName.Add(g, g.name + "(Clone)");
         }
+
+        LoadTerrain();
     }
 
     private void Update()
@@ -311,7 +311,8 @@ public class HexGrid : MonoBehaviour {
                 GameObject decoration = Instantiate(nameToGO[data.occupier[i]], cells[i].transform.position, Quaternion.identity);
                 if (decoration.GetComponent<RotatableTowerLogic>() != null)
                 {
-                    decoration.GetComponent<RotatableTowerLogic>().rotAxis.rotation = Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                    Quaternion rotation = decoration.GetComponent<RotatableTowerLogic>().rotAxis.rotation;
+                    decoration.GetComponent<RotatableTowerLogic>().rotAxis.rotation = rotation * Quaternion.Euler(0f, data.occupierRotation[i], 0f);
                 }
                 else
                 {

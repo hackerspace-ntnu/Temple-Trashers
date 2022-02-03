@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6585160141289291870}
   - component: {fileID: 1512051472573703248}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: BigStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 1663295684988940734}
   - component: {fileID: 5579600410367935660}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: MedStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 2474718585667548622}
   - component: {fileID: 2203534912071829477}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: SmolStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

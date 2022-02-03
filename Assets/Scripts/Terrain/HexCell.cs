@@ -11,7 +11,7 @@ public class HexCell : MonoBehaviour {
 
     private Vector3 position;
 	private Vector3 newPos;
-	private int elevation;
+	private int elevation = 0;
 
     public int Elevation
     {
@@ -24,7 +24,6 @@ public class HexCell : MonoBehaviour {
 			elevation = value;
 			position = transform.localPosition;
 			transform.localPosition = position;
-            //ResetCell();
 
             // Increase the height of the highest cells
             if (Elevation == materials.Length - 1)
@@ -90,6 +89,7 @@ public class HexCell : MonoBehaviour {
         {
             mr = GetComponentInChildren<MeshRenderer>();
         }
+        Elevation = elevation;
     }
 
     public HexCell GetNeighbor (HexDirection direction) {

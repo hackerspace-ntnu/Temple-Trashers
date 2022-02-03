@@ -26,6 +26,7 @@ public static class SaveSystem {
 
             TerrainData data = formatter.Deserialize(stream) as TerrainData;
 
+            stream.Close();
             return data;
         } else
         {

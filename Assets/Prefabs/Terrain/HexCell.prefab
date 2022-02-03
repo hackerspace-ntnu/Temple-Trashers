@@ -54,7 +54,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 51855904a3cbc63439eee966c5c98a3c, type: 2}
   - {fileID: 2100000, guid: 5ec7c15465c2cc74886c0424eff4ab92, type: 2}
   - {fileID: 2100000, guid: 9061c0a39302aae4495532f46b083b87, type: 2}
-  animationScale: 0.1
   neighbors:
   - {fileID: 0}
   - {fileID: 0}

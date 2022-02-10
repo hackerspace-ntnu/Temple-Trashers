@@ -34,7 +34,7 @@ public class HexCell : MonoBehaviour {
             // Drop the cells with the lowest elevation down
             else if (Elevation == 0)
             {
-                transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, -0.3f, transform.position.z);
             }
 
             mr.material = materials[elevation];

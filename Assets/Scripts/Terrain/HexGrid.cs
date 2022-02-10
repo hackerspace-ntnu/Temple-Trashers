@@ -10,9 +10,9 @@ public class HexGrid : MonoBehaviour {
     public bool recalculate = true;
 
     [Header("Structural Variables")]
-    [Range(1,10)]
+    [Range(1,20)]
 	public int chunkCountX = 4;
-    [Range(1,10)]
+    [Range(1,20)]
 	public int chunkCountZ = 3;
 
 	public Transform chunkPrefab;

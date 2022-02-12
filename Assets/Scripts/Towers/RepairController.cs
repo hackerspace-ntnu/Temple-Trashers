@@ -2,37 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WearState
+{
+    NONE,
+    LOW,
+    MEDIUM,
+    HIGH,
+}
+
 public class RepairController : MonoBehaviour
 {
     [SerializeField]
     private float damageInterval;
 
-    [SerializeField]
-    private HealthLogic healthLogic;
-
-    [SerializeField]
-    private int durability;
-
-    private int wearDamage;
+    [ReadOnly, SerializeField]
+    private WearState _currentState;
 
     private float timeStamp;
     private bool needRepair = false;
 
+    public WearState currentState { get => _currentState; private set => _currentState = value; }
+
     public void Repair(){
         needRepair = false;
+        timeStamp = Time.deltaTime;
+        currentState = WearState.NONE;
     }
+
+    private void NextState()
+    {
+        WearState prevState = currentState;
+
+        switch (currentState)
+        {
+            case WearState.NONE:
+                currentState = WearState.LOW;
+                break;
+            case WearState.LOW:
+                currentState = WearState.MEDIUM;
+                break;
+            case WearState.MEDIUM:
+                currentState = WearState.HIGH;
+                break;
+            case WearState.HIGH:
+                Destroy(gameObject);
+                break;
+            default:
+                break;
+        }
+        onWearStateChange?.Invoke(currentState, prevState);
+    }
+
+    //To allow other components to subscribe to stateChange events
+    public delegate void WearStateDelegate(WearState newState, WearState oldState);
+    public WearStateDelegate onWearStateChange; 
 
     void Start()
     {
+        currentState = WearState.NONE;
         timeStamp = Time.deltaTime;    
     }
 
     void Update()
     {
-        if (needRepair) { healthLogic.DealDamage(wearDamage); }
-        if (timeStamp < Time.deltaTime + damageInterval){
+        if (timeStamp > Time.deltaTime + damageInterval){
             timeStamp = Time.deltaTime;
             needRepair = true;
+            NextState();
         }
     }
 }

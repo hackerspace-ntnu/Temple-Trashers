@@ -1,127 +1,122 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Unity.Jobs;
-using Unity.Mathematics;
+﻿using UnityEngine;
 using Unity.Collections;
+using System.Collections.Generic;
 
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour {
 
 	private int cellCountX, cellCountZ;
 
+    public bool recalculate = true;
+
+    [Header("Structural Variables")]
+    [Range(1,20)]
 	public int chunkCountX = 4;
+    [Range(1,20)]
 	public int chunkCountZ = 3;
 
-	public HexGridChunk chunkPrefab;
-
+	public Transform chunkPrefab;
 	public HexCell cellPrefab;
-	//public Text cellLabelPrefab;
     
-	HexGridChunk[] chunks;
+    [Header("Terrain Data")]
+	Transform[] chunks;
 	public HexCell[] cells;
 	public HexCell[] edgeCells;
 
-	public bool recalculate;
+    [Header("Decoration Variables")]
+    public GameObject[] decor;
+    public bool mountainBorder;
+    public bool treeBorder;
 
-	[Header("Noise")]
+    [Header("Noise")]
 	public Texture2D noise;
 
     [Header("Noise Scale")]
     public float noiseScale;
 
-    [Header("Terrain Animation")]
-    public bool isEnabled = false;
-    [SerializeField]
-    private Transform hq;
-    public float scale = 0.1f;
-    public float speed = 0.5f;
+    [Header("Savekey")]
+    public GameObject[] towers;
+    public IDictionary<string, GameObject> nameToGO;
+    public IDictionary<GameObject, string> GOToName;
 
-	void OnEnable()
+    private void OnEnable()
     {
 		HexMetrics.noiseSource = noise;
         HexMetrics.noiseScale = noiseScale;
 	}
-	void Awake() {
-		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+    
+    
+	private void Awake() {
+        // Calculate borders for the terrain
+        cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
-		CreateChunks();
-		CreateCells();
+        nameToGO = new Dictionary<string, GameObject>();
+        GOToName = new Dictionary<GameObject, string>();
 
-		edgeCells = GetEdgeCells();
-        hq = GameObject.FindGameObjectWithTag("Base").transform;
+        foreach (GameObject g in decor)
+        {
+            nameToGO.Add(g.name + "(Clone)", g);
+            GOToName.Add(g, g.name + "(Clone)");
+        }
+        foreach (GameObject g in towers)
+        {
+            nameToGO.Add(g.name + "(Clone)", g);
+            GOToName.Add(g, g.name + "(Clone)");
+        }
+
+        LoadTerrain();
     }
-    void Update()
+
+    private void Update()
     {
         if (recalculate)
         {
 			recalculate = false;
-
-			cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-			cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-			CreateChunks();
-			CreateCells();
-
-			edgeCells = GetEdgeCells();
-		}
-
-        // Terain floating job
-        if (isEnabled)
-        {
-            NativeArray<float3> cellPosArray = new NativeArray<float3>(cells.Length, Allocator.TempJob);
-            NativeArray<float> cellElevation = new NativeArray<float>(cells.Length, Allocator.TempJob);
-            NativeArray<float> result = new NativeArray<float>(cells.Length, Allocator.TempJob);
-            for (int i = 0; i < cells.Length; i++)
-            {
-                cellPosArray[i] = cells[i].transform.position;
-            }
-            CellAnimJob cellAnim = new CellAnimJob
-            {
-                time = Time.realtimeSinceStartup,
-                targetPos = hq.position,
-                currPosArray = cellPosArray,
-                scale = scale,
-                speed = speed,
-                elevationStep = HexMetrics.elevationStep,
-                elevation = cellElevation,
-                adjustment = result,
-            };
-
-            JobHandle jobHandle = cellAnim.Schedule(cells.Length, 100);
-            jobHandle.Complete();
-
-            // Apply the values
-            for (int i = 0; i < cells.Length; i++)
-            {
-                cells[i].transform.position = new Vector3(
-                    cells[i].transform.position.x,
-                    result[i],
-                    cells[i].transform.position.z);
-            }
-            cellPosArray.Dispose();
-            cellElevation.Dispose();
-            result.Dispose();
+            RebuildTerrain();
         }
     }
 
-	private void CreateChunks()
+    /// <summary>
+    /// Rebuild the terrain from scratch
+    /// </summary>
+    public void RebuildTerrain()
+    {
+        // Calculate borders
+        cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+        // Create the terrain
+        CreateChunks();
+        CreateCells();
+
+        // Put the base in the middle of the terrain
+        Vector3 basePos = (cells[cells.Length - 1].transform.position - cells[0].transform.position) / 2;
+        HexCell centreCell = GetCell(basePos);
+
+        GameObject.FindGameObjectWithTag("Base").transform.position = centreCell.transform.position;
+        centreCell.OccupyingObject = GameObject.FindGameObjectWithTag("Base");
+
+        CreateDecorations();
+    }
+
+	void CreateChunks()
 	{
 		// Remove previous chunks
-		chunks = GetComponentsInChildren<HexGridChunk>();
-		foreach (HexGridChunk chunk in chunks)
+		while(transform.childCount > 0)
 		{
-			DestroyImmediate(chunk.gameObject);
+			DestroyImmediate(transform.GetChild(0).gameObject);
 		}
 
-		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
+		chunks = new Transform[chunkCountX * chunkCountZ];
 
 		for (int z = 0, i = 0; z < chunkCountZ; z++)
 		{
 			for (int x = 0; x < chunkCountX; x++)
 			{
-				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
+				Transform chunk = chunks[i++] = Instantiate(chunkPrefab);
 				chunk.transform.SetParent(transform);
+                chunk.name = "Chunk (" + x.ToString() + ", " + z.ToString() + ")"; 
                 chunk.transform.position -= new Vector3(
                     HexMetrics.innerRadius * cellCountX,
                     0,
@@ -131,7 +126,7 @@ public class HexGrid : MonoBehaviour {
 		}
 	}
 
-	private void CreateCells()
+	void CreateCells()
     {
 		cells = new HexCell[cellCountZ * cellCountX];
 
@@ -142,18 +137,23 @@ public class HexGrid : MonoBehaviour {
 				CreateCell(x, z, i++);
 			}
 		}
-	}
+
+        edgeCells = GetEdgeCells();
+    }
+
     // Returns the HexCell at a given position
 	public HexCell GetCell (Vector3 position) {
+        
 		position = transform.InverseTransformPoint(position);
         position -= cells[0].transform.position;
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+
         return cells[index];
 	}
 
 
-	private void CreateCell (int x, int z, int i) {
+	void CreateCell (int x, int z, int i) {
 		Vector3 position;
 		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
 		position.y = 0f;
@@ -180,32 +180,20 @@ public class HexGrid : MonoBehaviour {
 				}
 			}
 		}
-		/*
-		Text label = Instantiate<Text>(cellLabelPrefab);
-		label.rectTransform.anchoredPosition =
-			new Vector2(position.x, position.z);
-		label.rectTransform.sizeDelta =
-			new Vector2(HexMetrics.outerRadius * 2, HexMetrics.innerRadius * 2);
-		label.text = cell.coordinates.ToStringOnSeparateLines();
-		cell.uiRect = label.rectTransform;
-		*/
 
-		cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.localPosition).y * cell.materials.Length * 1.1f);
+        cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.localPosition).y * cell.materials.Length * 1.1f);
 
-		AddCellToChunk(x, z, cell);
+        // Add cell to correlating chunk
+        int chunkX = x / HexMetrics.chunkSizeX;
+        int chunkZ = z / HexMetrics.chunkSizeZ;
+
+        cell.transform.SetParent(chunks[chunkX + chunkZ * chunkCountX]);
 	}
 
-	private void AddCellToChunk(int x, int z, HexCell cell)
-    {
-		int chunkX = x / HexMetrics.chunkSizeX;
-		int chunkZ = z / HexMetrics.chunkSizeZ;
-		HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
-
-		int localX = x - chunkX * HexMetrics.chunkSizeX;
-		int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
-		chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
-	}
-
+    /// <summary>
+    /// Returns an array containing the cells on the edge of the map.
+    /// </summary>
+    /// <returns></returns>
 	public HexCell[] GetEdgeCells()
     {
 		HexCell[] edgeCells = new HexCell[2 * cellCountX + 2 * cellCountZ - 4];
@@ -237,34 +225,103 @@ public class HexGrid : MonoBehaviour {
 			i++;
 			currentPos = currentPos + new Vector2Int(0, -1);
 		}
-		foreach (HexGridChunk chunk in chunks)
-        {
-			chunk.Refresh();
-        }
+
 		return edgeCells;
     }
 
-    
-}
+    /// <summary>
+    /// Creates the map decorations
+    /// </summary>
+    void CreateDecorations()
+    {
+        // The cells inbetween the min and max elevations are areas where we can place decorations.
+        int minElevation = 1;
+        int maxElevation = cellPrefab.materials.Length - 1;
 
-public struct CellAnimJob : IJobParallelFor{
-	public NativeArray<float3> currPosArray;
-    public NativeArray<float> elevation;
-	[ReadOnly] public float3 targetPos;
-	[ReadOnly] public float time;
-    [ReadOnly] public float scale;
-    [ReadOnly] public float speed;
-    [ReadOnly] public float elevationStep;
-    
-    public NativeArray<float> adjustment;
-	
-    public void Execute(int index){
-	    // Animated terrain waves
-		// Distance between cell and the base
-       	float dst = math.sqrt(
-            (targetPos.x - currPosArray[index].x) * (targetPos.x - currPosArray[index].x) +
-            (targetPos.z - currPosArray[index].z) * (targetPos.z - currPosArray[index].z));
+        if (decor.Length == 0) {
+            Debug.LogError("No decorations have been assgined");
+            return;
+        }
+        
+        // Adding a wall around the map
+        foreach (HexCell c in edgeCells)
+        {
+            if (mountainBorder)
+            {
+                c.Elevation = maxElevation;
+            }
+            if (treeBorder)
+            {
+                GameObject decoration = Instantiate(decor[0], c.transform.position, Quaternion.identity);
+                decoration.transform.SetParent(c.transform);
+                decoration.transform.Rotate(new Vector3(0, Random.Range(0f, 360f), 0));
+                c.OccupyingObject = decoration;
+            }
+        }
 
-        adjustment[index] = math.sin(-2 * math.PI * time * speed + dst) * scale;
-	}
+        foreach(HexCell cell in cells)
+        {
+            int h = cell.Elevation;
+
+            if (Random.Range(0, 100) <= 10f && h >= minElevation && h < maxElevation)
+            {
+                if (!cell.IsOccupied)
+                {
+                    int decorIndex = Random.Range(0, decor.Length);
+                    GameObject decoration = Instantiate(decor[decorIndex], cell.transform.position, Quaternion.identity);
+                    decoration.transform.Rotate(new Vector3(0, Random.Range(0f, 360f), 0));
+                    decoration.transform.SetParent(cell.transform);
+                    cell.OccupyingObject = decoration;
+                }
+            }
+        }
+    }
+
+    public void SaveTerrain()
+    {
+        SaveSystem.SaveTerrain(this);
+    }
+
+    public void LoadTerrain()
+    {
+        
+        TerrainData data = SaveSystem.LoadTerrain(this);
+
+        chunkCountX = data.xChunks;
+        chunkCountZ = data.zChunks;
+
+        // Create a basic terrain
+        CreateChunks();
+        CreateCells();
+
+        // Put the base in the middle of the terrain
+        Vector3 basePos = (cells[cells.Length - 1].transform.position - cells[0].transform.position) / 2;
+        HexCell centreCell = GetCell(basePos);
+
+        GameObject.FindGameObjectWithTag("Base").transform.position = centreCell.transform.position;
+        centreCell.OccupyingObject = GameObject.FindGameObjectWithTag("Base");
+
+        // Update all cells according to stored data
+        for(int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Elevation = data.elevation[i];
+
+            if (data.occupier[i] != "null" && nameToGO.ContainsKey(data.occupier[i]))
+            {
+                GameObject decoration = Instantiate(nameToGO[data.occupier[i]], cells[i].transform.position, Quaternion.identity);
+                if (decoration.GetComponent<RotatableTowerLogic>() != null)
+                {
+                    Quaternion rotation = decoration.GetComponent<RotatableTowerLogic>().rotAxis.rotation;
+                    decoration.GetComponent<RotatableTowerLogic>().rotAxis.rotation = rotation * Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                }
+                else
+                {
+                    decoration.transform.rotation = Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                }
+
+                decoration.transform.SetParent(cells[i].transform);
+                cells[i].OccupyingObject = decoration;
+            }
+        }
+    }
 }

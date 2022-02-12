@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3883554168325084484}
   - component: {fileID: 313994975}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PauseManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}

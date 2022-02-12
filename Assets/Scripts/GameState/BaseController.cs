@@ -19,10 +19,6 @@ public class BaseController : MonoBehaviour
     // Base Animator
     private Animator anim;
 
-    // Distortion field plane
-    [SerializeField]
-    private MeshRenderer distortionField;
-
     // Particle Effect
     [SerializeField]
     private GameObject deathParticles;
@@ -90,6 +86,9 @@ public class BaseController : MonoBehaviour
     {
         if (!dead)
         {
+            // Disable spawning of enemies
+            GameObject.Find("EnemyWaveHandler").GetComponent<EnemyWaveManager>().enabled = false;
+
             // Start overloading the crystal
             anim.SetBool(deathAnimatorParam, true);
 
@@ -140,7 +139,7 @@ public class BaseController : MonoBehaviour
             RemoveRayVFX(player.transform, 0f);
         }
     }
-
+            
     public void RemoveRayVFX(Transform target, float delay)
     {
         int i = GetIdVFX(target);
@@ -189,7 +188,7 @@ public class BaseController : MonoBehaviour
         Transform[] transforms = FindObjectsOfType<Transform>();
 
         // Create lightning as the crystal charges
-        for (int _ = 0; _ >= explosionLightningCount; _++)
+        for (int i = 0; i <= explosionLightningCount; i++)
         {
             Vector3 rayPos = transform.position + new Vector3(Random.Range(-1, 1), 5f, Random.Range(-1, 1));
             Transform ray = Instantiate(drainRay, rayPos, transform.rotation, transform).transform;
@@ -222,7 +221,7 @@ public class BaseController : MonoBehaviour
         Instantiate(gameOverScreen);
 
         // Add particle system
-        Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), transform.rotation);
+        Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);
 
         // Clean up
         Destroy(gameObject);

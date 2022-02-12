@@ -4,19 +4,16 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour {
-
+    /*
 	Mesh hexMesh;
 	List<Vector3> vertices;
 	List<Color> colors;
 	List<int> triangles;
 
 	MeshCollider meshCollider;
-	//Material mat;
 
 	void Awake () {
 		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-		//mat = GetComponent<MeshRenderer>().sharedMaterial;
-		//mat.SetVector("vector2Tiling", new Vector2(0.866025404f/ (HexMetrics.outerRadius * 3), 1 / (HexMetrics.outerRadius * 3)));
 		meshCollider = gameObject.GetComponent<MeshCollider>();
 		hexMesh.name = "Hex Mesh";
 		vertices = new List<Vector3>();
@@ -24,6 +21,7 @@ public class HexMesh : MonoBehaviour {
 		triangles = new List<int>();
 
 		GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<MeshCollider>().enabled = false;
 		gameObject.isStatic = true;
 	}
 
@@ -354,5 +352,5 @@ public class HexMesh : MonoBehaviour {
 		colors.Add(c2);
 		colors.Add(c3);
 		colors.Add(c4);
-	}
+	}*/
 }

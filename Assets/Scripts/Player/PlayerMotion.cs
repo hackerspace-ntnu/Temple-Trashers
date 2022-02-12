@@ -31,6 +31,9 @@ public class PlayerMotion : MonoBehaviour
 
     public void Move()
     {
+        if (state == null)
+            return;
+
         UpdateSpeed();
         UpdateRotation();
     }

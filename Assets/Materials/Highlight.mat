@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Selected
+  m_Name: Highlight
   m_Shader: {fileID: -6465566751694194690, guid: e6a858c3f9e68874ebbb81a24b17b486, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -85,6 +85,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_2C56C891: {r: 0.2431373, g: 0.9098039, b: 1.772549, a: 0}
+    - HoloColor: {r: 0.2431373, g: 0.9098039, b: 1.772549, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

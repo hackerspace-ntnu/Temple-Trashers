@@ -89,7 +89,7 @@ public class HexCell : MonoBehaviour {
         {
             mr = GetComponentInChildren<MeshRenderer>();
         }
-        Elevation = elevation;
+        Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(transform.localPosition).y * materials.Length * 1.1f);
     }
 
     public HexCell GetNeighbor (HexDirection direction) {

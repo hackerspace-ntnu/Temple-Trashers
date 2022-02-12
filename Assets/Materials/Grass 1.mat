@@ -25,7 +25,7 @@ Material:
   m_ShaderKeywords: _ALPHATEST_ON _NORMALMAP _SPECULARHIGHLIGHTS_OFF _SPECULAR_SETUP
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
@@ -65,7 +65,7 @@ Material:
     - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.898
     - _DstBlend: 0
     - _EnvironmentReflections: 1

@@ -7,13 +7,12 @@ using Unity.Mathematics;
 public class HexCell : MonoBehaviour {
 
 	public HexCoordinates coordinates;
+    public MeshRenderer mr;
 
-    [SerializeField]
-    private MeshRenderer mesh;
-	//public RectTransform uiRect;
-	private Vector3 position;
+    private Vector3 position;
 	private Vector3 newPos;
-	private int elevation;
+	private int elevation = 0;
+
     public int Elevation
     {
         get
@@ -24,9 +23,21 @@ public class HexCell : MonoBehaviour {
         {
 			elevation = value;
 			position = transform.localPosition;
-			//position.y = value * HexMetrics.elevationStep;
-			//position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
 			transform.localPosition = position;
+
+            // Increase the height of the highest cells
+            if (Elevation == materials.Length - 1)
+            {
+                transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            }
+
+            // Drop the cells with the lowest elevation down
+            else if (Elevation == 0)
+            {
+                transform.position = new Vector3(transform.position.x, -0.3f, transform.position.z);
+            }
+
+            mr.material = materials[elevation];
         }
     }
 	public float pertubValue;
@@ -40,9 +51,6 @@ public class HexCell : MonoBehaviour {
     }
 
 	public Material[] materials;
-
-
-	public float animationScale = 10f;
 
 	[SerializeField]
 	HexCell[] neighbors;
@@ -75,22 +83,13 @@ public class HexCell : MonoBehaviour {
     /// </returns>
     public bool IsOccupied => OccupyingObject;
 
-	private Transform hq;
-
     void Awake()
 	{
-        if(mesh == null)
+        if (mr == null)
         {
-            mesh = GetComponent<MeshRenderer>();
+            mr = GetComponentInChildren<MeshRenderer>();
         }
-
-        hq = GameObject.Find("Base").transform;
-    }
-
-    void Start()
-    {
-		pertubValue = HexMetrics.SampleNoise(Position).y;
-        mesh.material = materials[elevation];
+        Elevation = elevation;
     }
 
     public HexCell GetNeighbor (HexDirection direction) {
@@ -101,14 +100,4 @@ public class HexCell : MonoBehaviour {
 		neighbors[(int)direction] = cell;
 		cell.neighbors[(int)direction.Opposite()] = this;
 	}
-
-	public HexEdgeType GetEdgeType(HexDirection direction)
-	{
-		return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);
-	}
-
-	public HexEdgeType GetEdgeType(HexCell otherCell)
-    {
-		return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
-    }
 }

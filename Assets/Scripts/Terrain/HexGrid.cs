@@ -65,7 +65,7 @@ public class HexGrid : MonoBehaviour {
             GOToName.Add(g, g.name + "(Clone)");
         }
 
-        LoadTerrain();
+        //LoadTerrain();
     }
 
     private void Update()

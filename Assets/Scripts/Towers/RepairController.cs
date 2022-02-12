@@ -23,9 +23,35 @@ public class RepairController : MonoBehaviour
 
     public WearState currentState { get => _currentState; private set => _currentState = value; }
 
+    //To allow other components to subscribe to stateChange events
+    public delegate void WearStateDelegate(WearState newState, WearState oldState);
+    public WearStateDelegate onWearStateChange;
+
+    void Start()
+    {
+        currentState = WearState.NONE;
+        timeStamp = Time.deltaTime;
+    }
+
+    void Update()
+    {
+        if (timeStamp > Time.deltaTime + damageInterval)
+        {
+            timeStamp = Time.deltaTime;
+            needRepair = true;
+            NextState();
+        }
+    }
+
     public void Repair(){
         needRepair = false;
         timeStamp = Time.deltaTime;
+        SetStateNONE();
+    }
+
+    private void SetStateNONE()
+    {
+        onWearStateChange?.Invoke(currentState, currentState);
         currentState = WearState.NONE;
     }
 
@@ -51,24 +77,5 @@ public class RepairController : MonoBehaviour
                 break;
         }
         onWearStateChange?.Invoke(currentState, prevState);
-    }
-
-    //To allow other components to subscribe to stateChange events
-    public delegate void WearStateDelegate(WearState newState, WearState oldState);
-    public WearStateDelegate onWearStateChange; 
-
-    void Start()
-    {
-        currentState = WearState.NONE;
-        timeStamp = Time.deltaTime;    
-    }
-
-    void Update()
-    {
-        if (timeStamp > Time.deltaTime + damageInterval){
-            timeStamp = Time.deltaTime;
-            needRepair = true;
-            NextState();
-        }
     }
 }

@@ -30,14 +30,14 @@ public class RepairController : MonoBehaviour
     void Start()
     {
         currentState = WearState.NONE;
-        timeStamp = Time.deltaTime;
+        timeStamp = Time.time;
     }
 
     void Update()
     {
-        if (timeStamp > Time.deltaTime + damageInterval)
+        if (Time.time > timeStamp + damageInterval)
         {
-            timeStamp = Time.deltaTime;
+            timeStamp = Time.time;
             needRepair = true;
             NextState();
         }
@@ -45,7 +45,7 @@ public class RepairController : MonoBehaviour
 
     public void Repair(){
         needRepair = false;
-        timeStamp = Time.deltaTime;
+        timeStamp = Time.time;
         SetStateNONE();
     }
 

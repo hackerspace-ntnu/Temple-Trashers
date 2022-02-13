@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Unity.Mathematics;
 
 [ExecuteInEditMode]
 public class HexCell : MonoBehaviour {
@@ -9,38 +8,7 @@ public class HexCell : MonoBehaviour {
 	public HexCoordinates coordinates;
     public MeshRenderer mr;
 
-    private Vector3 position;
-	private Vector3 newPos;
-	private int elevation = 0;
-
-    public int Elevation
-    {
-        get
-        {
-			return elevation;
-        }
-        set
-        {
-			elevation = value;
-			position = transform.localPosition;
-			transform.localPosition = position;
-
-            // Increase the height of the highest cells
-            if (Elevation == materials.Length - 1)
-            {
-                transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-            }
-
-            // Drop the cells with the lowest elevation down
-            else if (Elevation == 0)
-            {
-                transform.position = new Vector3(transform.position.x, -0.3f, transform.position.z);
-            }
-
-            mr.material = materials[elevation];
-        }
-    }
-	public float pertubValue;
+    public int elevation = 0;
 
 	public Vector3 Position
     {
@@ -49,8 +17,6 @@ public class HexCell : MonoBehaviour {
 			return transform.localPosition;
         }
     }
-
-	public Material[] materials;
 
 	[SerializeField]
 	HexCell[] neighbors;
@@ -89,7 +55,6 @@ public class HexCell : MonoBehaviour {
         {
             mr = GetComponentInChildren<MeshRenderer>();
         }
-        Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(transform.localPosition).y * materials.Length * 1.1f);
     }
 
     public HexCell GetNeighbor (HexDirection direction) {

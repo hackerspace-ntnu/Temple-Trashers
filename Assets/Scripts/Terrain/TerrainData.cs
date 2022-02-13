@@ -23,7 +23,7 @@ public class TerrainData
 
         for(int i = 0; i < elevation.Length; i++)
         {
-            elevation[i] = grid.cells[i].Elevation;
+            elevation[i] = grid.cells[i].elevation;
 
             if (grid.cells[i].OccupyingObject != null)
             {

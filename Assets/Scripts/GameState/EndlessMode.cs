@@ -59,7 +59,7 @@ public class EndlessMode : MonoBehaviour
     void SpawnEnemy()
     {
         GameObject prefab = enemies[Random.Range(0, enemies.Length)].gameObject;
-        Vector3 spawnPos = hexGrid.EdgeCells[Random.Range(0, hexGrid.EdgeCells.Length - 1)].transform.position;
+        Vector3 spawnPos = hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length - 1)].transform.position;
         prefab = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     } 
 }

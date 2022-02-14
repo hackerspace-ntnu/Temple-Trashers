@@ -17,20 +17,10 @@ public class HexGrid : MonoBehaviour {
     
     [Header("Terrain Data")]
 	private Transform[] chunks;
-    private HexCell[] edgeCells;
 
     [HideInInspector]
     public HexCell[] cells;
-    public HexCell[] EdgeCells
-    {
-        get {
-            if (edgeCells.Length == 0)
-            {
-                edgeCells = GetEdgeCells();
-            }
-            return edgeCells;
-        }
-    }
+    public HexCell[] edgeCells;
 
     [Header("Decoration Variables")]
     public GameObject[] decor;
@@ -83,8 +73,6 @@ public class HexGrid : MonoBehaviour {
             nameToGO.Add(g.name + "(Clone)", g);
             GOToName.Add(g, g.name + "(Clone)");
         }
-
-        //RebuildTerrain();
     }
 
     /// <summary>

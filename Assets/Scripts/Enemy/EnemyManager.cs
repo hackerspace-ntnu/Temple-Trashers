@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
 
     private Vector3 ChoosePosForSpawningEnemy()
     {
-        return hexGrid.EdgeCells[Random.Range(0, hexGrid.EdgeCells.Length)].transform.position;
+        return hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform.position;
     }
 
     public static GameObject GetEnemyPrefab(Type enemyType)

@@ -1,29 +1,24 @@
 ﻿using UnityEngine;
 
 
-public static class HexMetrics {
+public static class HexMetrics
+{
+    public const float OUTER_RADIUS = 1f;
 
-    public const float outerRadius = 1f;
+    public static readonly float INNER_RADIUS = OUTER_RADIUS * Mathf.Sqrt(3) / 2f;
 
-    public const float innerRadius = outerRadius * 0.866025404f;
-
-    public const float elevationStep = 0.1f;
-
-    public static Texture2D noiseSource;
+    public const float ELEVATION_STEP = 0.1f;
 
     public static float noiseScale = 0.003f;
 
-    public const int chunkSizeX = 5, chunkSizeZ = 5;
+    public const int CHUNK_SIZE_X = 5;
+    public const int CHUNK_SIZE_Z = 5;
 
-    public static Vector4 SampleNoise(Vector3 position)
+    public static Vector4 SampleNoise(Vector3 position, Texture2D noiseSource)
     {
-        if(noiseSource == null)
-        {
-            noiseSource = GameObject.Find("Terrain").GetComponent<HexGrid>().noise;
-        }
         return noiseSource.GetPixelBilinear(
-            position.x * noiseScale, 
+            position.x * noiseScale,
             position.z * noiseScale
-            );
+        );
     }
 }

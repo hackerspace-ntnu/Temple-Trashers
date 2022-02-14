@@ -88,7 +88,7 @@ public class BaseController : MonoBehaviour
         if (!dead)
         {
             // Disable spawning of enemies
-            GameObject.Find("EnemyWaveHandler").GetComponent<EnemyWaveManager>().enabled = false;
+            EnemyWaveManager.Pause();
 
             // Start overloading the crystal
             anim.SetBool(deathAnimatorParam, true);
@@ -140,7 +140,7 @@ public class BaseController : MonoBehaviour
             RemoveRayVFX(player.transform, 0f);
         }
     }
-            
+
     public void RemoveRayVFX(Transform target, float delay)
     {
         int i = GetIdVFX(target);
@@ -166,7 +166,7 @@ public class BaseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns -1 if `t` does not contain loot, -2 if loot was not registered
+    /// Returns -1 if <c>t</c> does not contain loot, -2 if loot was not registered
     /// </summary>
     public int GetIdVFX(Transform t)
     {
@@ -185,7 +185,7 @@ public class BaseController : MonoBehaviour
 
     IEnumerator Explode()
     {
-        // Get a list of all transforms (lighning targets)
+        // Get a list of all transforms (lightning targets)
         Transform[] transforms = FindObjectsOfType<Transform>();
 
         // Create lightning as the crystal charges

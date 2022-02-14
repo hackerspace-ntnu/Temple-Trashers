@@ -213,7 +213,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void UpdateTargetDestination()
     {
-        // Invokes the logic in `CurrentTarget`'s `set` method
+        // Invoke the logic in CurrentTarget's setter
         CurrentTarget = CurrentTarget;
     }
 

@@ -15,7 +15,7 @@ public enum PlayerStates
 }
 
 /// <summary>
-/// The input-related code is in `PlayerStateController_Input.cs`.
+/// The input-related code is in <c>PlayerStateController_Input.cs</c>.
 /// </summary>
 public partial class PlayerStateController : MonoBehaviour
 {
@@ -148,7 +148,7 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void UpdateConstructionTowerTargetCell()
     {
-        targetCell = terrain.GetCell(transform.position + HexMetrics.outerRadius * 2f * transform.forward);
+        targetCell = terrain.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
         focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
     }
 

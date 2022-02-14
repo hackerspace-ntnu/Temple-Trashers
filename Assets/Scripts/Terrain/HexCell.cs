@@ -1,60 +1,41 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Unity.Mathematics;
 
 
 [ExecuteInEditMode]
-public class HexCell : MonoBehaviour {
-
+public class HexCell : MonoBehaviour
+{
     public HexCoordinates coordinates;
-    public MeshRenderer mr;
+    public MeshRenderer meshRenderer;
 
-    private Vector3 position;
-    private Vector3 newPos;
-    private int elevation = 0;
+    private int _elevation = 0;
 
     public int Elevation
     {
-        get
-        {
-            return elevation;
-        }
+        get => _elevation;
         set
         {
-            elevation = value;
-            position = transform.localPosition;
-            transform.localPosition = position;
+            _elevation = value;
 
-            // Increase the height of the highest cells
-            if (Elevation == materials.Length - 1)
+            if (_elevation == materials.Length - 1)
             {
+                // Increase the height of the highest cells
                 transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-            }
-
-            // Drop the cells with the lowest elevation down
-            else if (Elevation == 0)
+            } else if (_elevation == 0)
             {
+                // Drop the cells with the lowest elevation down
                 transform.position = new Vector3(transform.position.x, -0.3f, transform.position.z);
             }
 
-            mr.material = materials[elevation];
-        }
-    }
-    public float pertubValue;
-
-    public Vector3 Position
-    {
-        get
-        {
-            return transform.localPosition;
+            meshRenderer.material = materials[_elevation];
         }
     }
 
     public Material[] materials;
 
     [SerializeField]
-    HexCell[] neighbors;
+    private HexCell[] neighbors;
 
     // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
     [SerializeField]
@@ -72,6 +53,7 @@ public class HexCell : MonoBehaviour {
                     $"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!"
                 );
             }
+
             _occupyingObject = value;
         }
     }
@@ -79,25 +61,27 @@ public class HexCell : MonoBehaviour {
     /// <returns>
     /// Whether this cell has a game object placed on it or not.
     /// <br/><br/>
-    /// (Destroying a game object that was occupying this cell, will make this property return `true`
-    /// - without having to change the value of `OccupyingObject`.)
+    /// (Destroying a game object that was occupying this cell, will make this property return <c>true</c>
+    /// - without having to change the value of <c>OccupyingObject</c>.)
     /// </returns>
     public bool IsOccupied => OccupyingObject;
 
     void Awake()
     {
-        if (mr == null)
-        {
-            mr = GetComponentInChildren<MeshRenderer>();
-        }
-        Elevation = elevation;
+        if (meshRenderer == null)
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+        // Invoke the logic in Elevation's setter initially
+        Elevation = Elevation;
     }
 
-    public HexCell GetNeighbor (HexDirection direction) {
+    public HexCell GetNeighbor(HexDirection direction)
+    {
         return neighbors[(int)direction];
     }
 
-    public void SetNeighbor (HexDirection direction, HexCell cell) {
+    public void SetNeighbor(HexDirection direction, HexCell cell)
+    {
         neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
     }

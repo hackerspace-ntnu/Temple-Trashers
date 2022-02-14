@@ -14,7 +14,7 @@ public class WaveFileParser
         waves = new List<EnemyWave>();
         currentWave = new EnemyWave();
 
-        foreach (string l in waveFile.text.Split(new[] {"\n"}, StringSplitOptions.None))
+        foreach (string l in waveFile.text.Split(new[] { "\n" }, StringSplitOptions.None))
         {
             string line = l.Trim().ToLower();
             if (line.Length == 0 || line.StartsWith("//"))

@@ -77,7 +77,7 @@ public class UIControllerWheel : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the `TowerScriptableObject` at the provided index of the wheel segments.
+    /// Returns the <c>TowerScriptableObject</c> at the provided index of the wheel segments.
     /// </summary>
     public TowerScriptableObject GetTower(int index)
     {

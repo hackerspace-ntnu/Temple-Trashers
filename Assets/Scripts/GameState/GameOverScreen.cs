@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    public Text timerText;
+    private Text timerText;
 
     public float time = 5f;
 

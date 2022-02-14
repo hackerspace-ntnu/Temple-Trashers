@@ -8,7 +8,7 @@ public class FlexibleUI : MonoBehaviour
     public FlexibleUIData skinData;
 
     /// <summary>
-    /// Lets you edit UI and update the corresponding `ScriptoableObject` automatically.
+    /// Lets you edit UI and update the corresponding <c>ScriptableObject</c> automatically.
     /// </summary>
     protected virtual void OnSkinUI()
     {}

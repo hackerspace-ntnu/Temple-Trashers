@@ -91,6 +91,16 @@ public class EnemyWaveManager : MonoBehaviour
             SpawnNextEnemy();
     }
 
+    public static void Pause()
+    {
+        SINGLETON.enabled = false;
+    }
+
+    public static void Resume()
+    {
+        SINGLETON.enabled = true;
+    }
+
     public static void ReadyForNextWave()
     {
         SINGLETON.readyForNextWave = true;

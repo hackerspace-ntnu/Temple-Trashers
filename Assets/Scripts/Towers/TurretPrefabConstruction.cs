@@ -9,9 +9,8 @@ public class TurretPrefabConstruction : Interactable
 
     public void Construct(HexCell targetCell)
     {
-        GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation);
+        GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation, targetCell.transform);
         targetCell.OccupyingObject = t;
-        t.transform.SetParent(targetCell.transform);
         Destroy(gameObject);
     }
 

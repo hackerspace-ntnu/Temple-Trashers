@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
 public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager SINGLETON;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class MenuInputController : MonoBehaviour
 {
     public delegate void MouseClickEvent(Vector2 pos);

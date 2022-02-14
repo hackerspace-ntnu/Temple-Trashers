@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// Controls the player movement and aligns the player towards the movement direction.
 /// Also currently updates the animation of the player to match the movement speed.

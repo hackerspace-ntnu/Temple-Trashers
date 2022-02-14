@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager Singleton { get; private set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
+
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
     [SerializeField]

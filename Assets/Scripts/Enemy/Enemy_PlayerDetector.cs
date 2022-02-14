@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Enemy_PlayerDetector : MonoBehaviour
 {
     public Enemy enemy;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 
+
 public class BaseController : MonoBehaviour
 {
     public static BaseController Singleton { get; private set; }

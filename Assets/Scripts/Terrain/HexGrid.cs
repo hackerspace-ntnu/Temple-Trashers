@@ -2,6 +2,7 @@
 using Unity.Collections;
 using System.Collections.Generic;
 
+
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour {
 

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Unity.Mathematics;
 
+
 [ExecuteInEditMode]
 public class HexCell : MonoBehaviour {
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 public static class HexMetrics {
 
 	public const float outerRadius = 1f;

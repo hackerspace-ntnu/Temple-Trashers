@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+
 // Create inspector values for hex terrain
 [CustomPropertyDrawer(typeof(HexCoordinates))]
 public class HexCoordinatesDrawer : PropertyDrawer

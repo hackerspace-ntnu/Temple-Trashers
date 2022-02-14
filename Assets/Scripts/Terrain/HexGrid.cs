@@ -6,23 +6,23 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour {
 
-	private int cellCountX, cellCountZ;
+    private int cellCountX, cellCountZ;
 
     public bool recalculate = true;
 
     [Header("Structural Variables")]
     [Range(1,20)]
-	public int chunkCountX = 4;
+    public int chunkCountX = 4;
     [Range(1,20)]
-	public int chunkCountZ = 3;
+    public int chunkCountZ = 3;
 
-	public Transform chunkPrefab;
-	public HexCell cellPrefab;
+    public Transform chunkPrefab;
+    public HexCell cellPrefab;
     
     [Header("Terrain Data")]
-	Transform[] chunks;
-	public HexCell[] cells;
-	public HexCell[] edgeCells;
+    Transform[] chunks;
+    public HexCell[] cells;
+    public HexCell[] edgeCells;
 
     [Header("Decoration Variables")]
     public GameObject[] decor;
@@ -30,7 +30,7 @@ public class HexGrid : MonoBehaviour {
     public bool treeBorder;
 
     [Header("Noise")]
-	public Texture2D noise;
+    public Texture2D noise;
 
     [Header("Noise Scale")]
     public float noiseScale;
@@ -42,12 +42,12 @@ public class HexGrid : MonoBehaviour {
 
     private void OnEnable()
     {
-		HexMetrics.noiseSource = noise;
+        HexMetrics.noiseSource = noise;
         HexMetrics.noiseScale = noiseScale;
-	}
+    }
     
     
-	private void Awake() {
+    private void Awake() {
         // Calculate borders for the terrain
         cellCountX = chunkCountX * HexMetrics.chunkSizeX;
         cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
@@ -73,7 +73,7 @@ public class HexGrid : MonoBehaviour {
     {
         if (recalculate)
         {
-			recalculate = false;
+            recalculate = false;
             RebuildTerrain();
         }
     }
@@ -101,86 +101,86 @@ public class HexGrid : MonoBehaviour {
         CreateDecorations();
     }
 
-	void CreateChunks()
-	{
-		// Remove previous chunks
-		while(transform.childCount > 0)
-		{
-			DestroyImmediate(transform.GetChild(0).gameObject);
-		}
+    void CreateChunks()
+    {
+        // Remove previous chunks
+        while(transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
 
-		chunks = new Transform[chunkCountX * chunkCountZ];
+        chunks = new Transform[chunkCountX * chunkCountZ];
 
-		for (int z = 0, i = 0; z < chunkCountZ; z++)
-		{
-			for (int x = 0; x < chunkCountX; x++)
-			{
-				Transform chunk = chunks[i++] = Instantiate(chunkPrefab);
-				chunk.transform.SetParent(transform);
+        for (int z = 0, i = 0; z < chunkCountZ; z++)
+        {
+            for (int x = 0; x < chunkCountX; x++)
+            {
+                Transform chunk = chunks[i++] = Instantiate(chunkPrefab);
+                chunk.transform.SetParent(transform);
                 chunk.name = "Chunk (" + x.ToString() + ", " + z.ToString() + ")"; 
                 chunk.transform.position -= new Vector3(
                     HexMetrics.innerRadius * cellCountX,
                     0,
                     HexMetrics.outerRadius * cellCountZ * 1.5f / 2f
                     );
-			}
-		}
-	}
+            }
+        }
+    }
 
-	void CreateCells()
+    void CreateCells()
     {
-		cells = new HexCell[cellCountZ * cellCountX];
+        cells = new HexCell[cellCountZ * cellCountX];
 
-		for (int z = 0, i = 0; z < cellCountZ; z++)
-		{
-			for (int x = 0; x < cellCountX; x++)
-			{
-				CreateCell(x, z, i++);
-			}
-		}
+        for (int z = 0, i = 0; z < cellCountZ; z++)
+        {
+            for (int x = 0; x < cellCountX; x++)
+            {
+                CreateCell(x, z, i++);
+            }
+        }
 
         edgeCells = GetEdgeCells();
     }
 
     // Returns the HexCell at a given position
-	public HexCell GetCell (Vector3 position) {
+    public HexCell GetCell (Vector3 position) {
         
-		position = transform.InverseTransformPoint(position);
+        position = transform.InverseTransformPoint(position);
         position -= cells[0].transform.position;
-		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
 
         return cells[index];
-	}
+    }
 
 
-	void CreateCell (int x, int z, int i) {
-		Vector3 position;
-		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
-		position.y = 0f;
-		position.z = z * (HexMetrics.outerRadius * 1.5f);
+    void CreateCell (int x, int z, int i) {
+        Vector3 position;
+        position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
+        position.y = 0f;
+        position.z = z * (HexMetrics.outerRadius * 1.5f);
 
-		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
-		cell.transform.localPosition = position;
-		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+        HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
+        cell.transform.localPosition = position;
+        cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-		if (x > 0) {
-			cell.SetNeighbor(HexDirection.W, cells[i - 1]);
-		}
-		if (z > 0) {
-			if ((z & 1) == 0) {
-				cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX]);
-				if (x > 0) {
-					cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX - 1]);
-				}
-			}
-			else {
-				cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX]);
-				if (x < cellCountX - 1) {
-					cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX + 1]);
-				}
-			}
-		}
+        if (x > 0) {
+            cell.SetNeighbor(HexDirection.W, cells[i - 1]);
+        }
+        if (z > 0) {
+            if ((z & 1) == 0) {
+                cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX]);
+                if (x > 0) {
+                    cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX - 1]);
+                }
+            }
+            else {
+                cell.SetNeighbor(HexDirection.SW, cells[i - cellCountX]);
+                if (x < cellCountX - 1) {
+                    cell.SetNeighbor(HexDirection.SE, cells[i - cellCountX + 1]);
+                }
+            }
+        }
 
         cell.Elevation = Mathf.FloorToInt(HexMetrics.SampleNoise(cell.transform.localPosition).y * cell.materials.Length * 1.1f);
 
@@ -189,45 +189,45 @@ public class HexGrid : MonoBehaviour {
         int chunkZ = z / HexMetrics.chunkSizeZ;
 
         cell.transform.SetParent(chunks[chunkX + chunkZ * chunkCountX]);
-	}
+    }
 
     /// <summary>
     /// Returns an array containing the cells on the edge of the map.
     /// </summary>
     /// <returns></returns>
-	public HexCell[] GetEdgeCells()
+    public HexCell[] GetEdgeCells()
     {
-		HexCell[] edgeCells = new HexCell[2 * cellCountX + 2 * cellCountZ - 4];
-		// Get the lower edge
-		int i = 0;
-		Vector2Int currentPos = new Vector2Int(0, 0);
+        HexCell[] edgeCells = new HexCell[2 * cellCountX + 2 * cellCountZ - 4];
+        // Get the lower edge
+        int i = 0;
+        Vector2Int currentPos = new Vector2Int(0, 0);
 
-		for(int x = 0; x < cellCountX - 1; x++)
+        for(int x = 0; x < cellCountX - 1; x++)
         {
-			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-			i++;
-			currentPos = currentPos + new Vector2Int(1, 0);
+            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
+            i++;
+            currentPos = currentPos + new Vector2Int(1, 0);
         }
-		for (int x = 0; x < cellCountZ - 1; x++)
-		{
-			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-			i++;
-			currentPos = currentPos + new Vector2Int(0, 1);
-		}
-		for (int x = 0; x < cellCountX - 1; x++)
-		{
-			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-			i++;
-			currentPos = currentPos + new Vector2Int(-1, 0);
-		}
-		for (int x = 0; x < cellCountZ - 1; x++)
-		{
-			edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-			i++;
-			currentPos = currentPos + new Vector2Int(0, -1);
-		}
+        for (int x = 0; x < cellCountZ - 1; x++)
+        {
+            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
+            i++;
+            currentPos = currentPos + new Vector2Int(0, 1);
+        }
+        for (int x = 0; x < cellCountX - 1; x++)
+        {
+            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
+            i++;
+            currentPos = currentPos + new Vector2Int(-1, 0);
+        }
+        for (int x = 0; x < cellCountZ - 1; x++)
+        {
+            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
+            i++;
+            currentPos = currentPos + new Vector2Int(0, -1);
+        }
 
-		return edgeCells;
+        return edgeCells;
     }
 
     /// <summary>

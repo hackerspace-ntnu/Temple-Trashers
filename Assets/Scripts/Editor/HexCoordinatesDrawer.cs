@@ -1,19 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 
-// Create inspector values for hex terrain
+// Provides a way for the inspector to show the value of `HexCoordinates` fields
 [CustomPropertyDrawer(typeof(HexCoordinates))]
-public class HexCoordinatesDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        HexCoordinates coordinates = new HexCoordinates(
-            property.FindPropertyRelative("x").intValue,
-            property.FindPropertyRelative("z").intValue
-            );
-
-        GUI.Label(position, coordinates.ToString());
-    }
-    
-}
+public class HexCoordinatesDrawer : TextLabelDrawer
+{}

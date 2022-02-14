@@ -302,6 +302,8 @@ public class HexGrid : MonoBehaviour
     public void LoadTerrain()
     {
         TerrainData data = SaveSystem.LoadTerrain();
+        if (data == null)
+            return;
 
         chunkCountX = data.xChunks;
         chunkCountZ = data.zChunks;

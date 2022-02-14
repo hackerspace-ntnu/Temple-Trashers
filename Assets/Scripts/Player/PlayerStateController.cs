@@ -21,7 +21,7 @@ public partial class PlayerStateController : MonoBehaviour
 {
     private HealthLogic health; // Reference to the health script
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private PlayerStates _currentState = PlayerStates.FREE;
 
     private PlayerSpecificManager manager;

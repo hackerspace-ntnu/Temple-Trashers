@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     [ReadOnly, SerializeField]
     protected Transform baseTransform;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     protected EnemyState currentState = EnemyState.WALKING;
 
     [SerializeField]

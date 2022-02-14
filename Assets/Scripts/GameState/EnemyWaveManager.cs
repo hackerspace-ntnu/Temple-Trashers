@@ -22,16 +22,16 @@ public class EnemyWaveManager : MonoBehaviour
     [ReadOnly, SerializeField]
     private bool readyForNextWave;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private float timeUntilNextSpawn;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentWaveIndex;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentSubWaveIndex;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentSubWaveEnemyCounter;
 
     #endregion State variables for debugging

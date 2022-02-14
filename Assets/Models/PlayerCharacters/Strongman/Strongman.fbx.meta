@@ -99,7 +99,7 @@ ModelImporter:
       name: Armature|Armature|Armature|Armature|Armature|Squat|Armature|Squat|Armatu
       takeName: Armature|Armature|Armature|Armature|Armature|Squat|Armature|Squat|Armatu
       internalID: 0
-      firstFrame: 0
+      firstFrame: 9
       lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
@@ -128,8 +128,8 @@ ModelImporter:
       name: Armature|Armature|Armature|Armature|Armature|WalkAndHold|Armature|WalkAn
       takeName: Armature|Armature|Armature|Armature|Armature|WalkAndHold|Armature|WalkAn
       internalID: 0
-      firstFrame: 0
-      lastFrame: 39
+      firstFrame: 9
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -157,8 +157,8 @@ ModelImporter:
       name: Armature|Armature|Armature|Armature|Armature|Walk|Armature|Walk|Armature
       takeName: Armature|Armature|Armature|Armature|Armature|Walk|Armature|Walk|Armature
       internalID: 0
-      firstFrame: 0
-      lastFrame: 39
+      firstFrame: 9
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

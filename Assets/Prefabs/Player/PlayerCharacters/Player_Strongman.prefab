@@ -1219,7 +1219,7 @@ MonoBehaviour:
   inventory: {fileID: 2842451254466348061}
   targetCell: {fileID: 0}
   anim: {fileID: 4212238644612485010}
-  heldItemBone: {fileID: 5412549372581556319}
+  heldItemBone: {fileID: 3677586431534401025}
 --- !u!114 &4315586048534869632
 MonoBehaviour:
   m_ObjectHideFlags: 0

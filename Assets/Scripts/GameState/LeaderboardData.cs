@@ -65,12 +65,20 @@ public static class LeaderboardData
 
             Highscores data = formatter.Deserialize(stream) as Highscores;
             stream.Close();
+
+            if(data.name.Length < 10 || data.score.Length < 10)
+            {
+                // Scores are missing, delete the data and reset
+                File.Delete(path);
+                data = LoadScores();
+            }
+
             return data;
         }
         else
         {
             // No leaderboard exists create a default one
-            int[] defaultScores = {
+            int[] defaultScores = new int[10]{
             5000,
             4500,
             4000,
@@ -82,7 +90,7 @@ public static class LeaderboardData
             1000,
             0};
 
-            string[] defaultNames =
+            string[] defaultNames = new string[10]
             {
             "The Archetype",
             "Fuereoduriko",
@@ -92,7 +100,8 @@ public static class LeaderboardData
             "Rodrigues",
             "Zedd",
             "Grønnmerke",
-            "KHTangent"
+            "KHTangent",
+            "Endie"
             };
 
             Highscores data = new Highscores(defaultScores, defaultNames);

@@ -18,11 +18,15 @@ public class GameOverScreen : MonoBehaviour
     {
         if(nameInput.text == "")
         {
-            errorMsg.gameObject.SetActive(true);
+            errorMsg.enabled = true;
         }
         else
         {
-            StartCoroutine(LoadScene(2));
+            // Update Leaderboard 
+            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+            // Loads Main menu
+            SceneManager.LoadScene(2);
         }
     }
 
@@ -34,19 +38,11 @@ public class GameOverScreen : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LoadScene(1));
+            // Update Leaderboard 
+            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+            // Loads Main menu
+            SceneManager.LoadScene(1);
         }
-    }
-
-    IEnumerator LoadScene(int sceneID)
-    {
-        // Update Leaderboard 
-        LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
-
-        // enter delay here to prevent us from crashing the game saving highscore data.
-        yield return new WaitForSeconds(1f);
-
-        // Loads Main menu
-        SceneManager.LoadScene(sceneID);
     }
 }

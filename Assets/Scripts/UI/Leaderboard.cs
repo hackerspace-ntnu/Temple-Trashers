@@ -5,28 +5,25 @@ using UnityEngine.UI;
 
 public class Leaderboard : MonoBehaviour
 {
-    [SerializeField]
-    private Text[] names;
+    public GameObject highscoreEntry;
 
     [SerializeField]
-    private Text[] scores;
+    private GameObject[] entries;
+
 
     public Transform leaderboardBody;
 
     private void Start()
     {
-        names = new Text[10];
-        scores = new Text[10];
-
+        
         Highscores highscores = LeaderboardData.LoadScores();
 
+        entries = new GameObject[10];
         for(int i = 0; i < 10; i++)
         {
-            names[i] = leaderboardBody.GetChild(i).GetChild(0).GetComponent<Text>();
-            scores[i] = leaderboardBody.GetChild(i).GetChild(1).GetComponent<Text>();
-
-            names[i].text = highscores.name[i];
-            scores[i].text = highscores.score[i].ToString();
+            GameObject entry = Instantiate(highscoreEntry, leaderboardBody);
+            entry.transform.GetChild(0).GetComponent<Text>().text = highscores.name[i];
+            entry.transform.GetChild(1).GetComponent<Text>().text = highscores.score[i].ToString();
         }
     }
 }

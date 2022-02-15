@@ -92,7 +92,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     public static void ReadyForNextWave()
     {
-        SINGLETON.readyForNextWave = true;
+        //SINGLETON.readyForNextWave = true;
     }
 
     private void PrepareNextWave()

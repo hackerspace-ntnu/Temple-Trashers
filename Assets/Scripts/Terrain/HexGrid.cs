@@ -95,6 +95,9 @@ public class HexGrid : MonoBehaviour {
         GameObject.FindGameObjectWithTag("Base").transform.position = centreCell.transform.position;
         centreCell.OccupyingObject = GameObject.FindGameObjectWithTag("Base");
 
+        // Similarily move the camera
+        Camera.main.transform.position = centreCell.transform.position + new Vector3(0, 5, -2);
+
         CreateDecorations();
     }
 

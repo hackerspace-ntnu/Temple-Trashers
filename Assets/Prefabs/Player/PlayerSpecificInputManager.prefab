@@ -47,6 +47,7 @@ MonoBehaviour:
   playerPrefabs:
   - {fileID: 4071846026879171966, guid: 4a93d4ce1bd162147948d6455121006d, type: 3}
   - {fileID: 4071846026879171966, guid: fdf22d8a0e289224b8aac8a8c462974b, type: 3}
+  - {fileID: 4315586048534869639, guid: 827fbd93af5ae20429acba0f8655ba3e, type: 3}
   spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &1734480206911826329
 MonoBehaviour:

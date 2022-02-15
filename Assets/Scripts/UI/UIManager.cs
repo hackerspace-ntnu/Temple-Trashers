@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 
 
     private InventoryManager inventory;
-    private int score = 0;
+    public int score;
 
     void Awake()
     {

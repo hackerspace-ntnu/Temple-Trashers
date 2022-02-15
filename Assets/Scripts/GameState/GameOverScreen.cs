@@ -5,24 +5,48 @@ using UnityEngine.UI;
 
 public class GameOverScreen : MonoBehaviour
 {
-    [SerializeField]
-    public Text timerText;
+    public Text nameInput;
+    public Text errorMsg;
+    public Text scoreText;
 
-    public float time = 5f;
-
-    void Update()
+    private void Start()
     {
-        timerText.text = Mathf.Round(time).ToString();
-        // Fix UI
-        time -= Time.deltaTime;
-
-        if (time <= 0)
-            Restart();
+        scoreText.text = UIManager.Singleton.score.ToString();
     }
 
     public void Restart()
     {
-        // Reloads the scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if(nameInput.text == "")
+        {
+            errorMsg.gameObject.SetActive(true);
+        }
+        else
+        {
+            StartCoroutine(LoadScene(2));
+        }
+    }
+
+    public void MainMenu()
+    {
+        if (nameInput.text == "")
+        {
+            errorMsg.enabled = true;
+        }
+        else
+        {
+            StartCoroutine(LoadScene(1));
+        }
+    }
+
+    IEnumerator LoadScene(int sceneID)
+    {
+        // Update Leaderboard 
+        LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+        // enter delay here to prevent us from crashing the game saving highscore data.
+        yield return new WaitForSeconds(1f);
+
+        // Loads Main menu
+        SceneManager.LoadScene(sceneID);
     }
 }

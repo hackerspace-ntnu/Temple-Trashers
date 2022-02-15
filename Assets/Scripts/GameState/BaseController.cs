@@ -97,9 +97,6 @@ public class BaseController : MonoBehaviour
 
             // Prepare the explosion
             StartCoroutine(nameof(Explode));
-
-            // Start Distortions
-            //distortionField.enabled = true;
         }
 
         dead = true;

@@ -87,7 +87,7 @@ public class BaseController : MonoBehaviour
         if (!dead)
         {
             // Disable spawning of enemies
-            //GameObject.Find("EnemyWaveHandler").GetComponent<EnemyWaveManager>().enabled = false;
+            GameObject.Find("EndlessmodeManager").GetComponent<EndlessMode>().enabled = false;
 
             // Start overloading the crystal
             anim.SetBool(deathAnimatorParam, true);

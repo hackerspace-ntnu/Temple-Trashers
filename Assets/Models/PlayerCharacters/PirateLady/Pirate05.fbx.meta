@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: 3de57b08f7605e545b6c57c609e0384f
+ModelImporter:
+  serializedVersion: 20101
+  internalIDToNameTable:
+  - first:
+      74: 1804803226191511470
+    second: Armature|Armature|Armature|carrying.002|Armature|carrying.002
+  - first:
+      74: -1475947541430791062
+    second: Armature|Armature|Armature|carryingIdle|Armature|carryingIdle
+  - first:
+      74: -4931479897542099684
+    second: Armature|Armature|Armature|carryingMap2|Armature|carryingMap2
+  - first:
+      74: -8021307470951352917
+    second: Armature|Armature|Armature|carrying|Armature|carrying
+  - first:
+      74: 4084113550970173757
+    second: Armature|Armature|Armature|idle|Armature|idle
+  - first:
+      74: -8747837273050870977
+    second: Armature|Armature|Armature|walking2.002|Armature|walking2.002
+  - first:
+      74: -2738519891050117164
+    second: Armature|Armature|Armature|walking2|Armature|walking2
+  - first:
+      74: 5254905830967715963
+    second: Armature|Armature|Armature|walking|Armature|walking
+  - first:
+      74: -8449068782370602415
+    second: Armature|barrel|barrel|carryingIdle|barrel|carryingIdle
+  - first:
+      74: -8422622777038286656
+    second: Armature|barrel|barrel|walking|barrel|walking
+  - first:
+      74: -7245769344115924458
+    second: Armature|map|map|carrying|map|carrying
+  - first:
+      74: 3998130884989430621
+    second: Armature|map|map|walking|map|walking
+  - first:
+      74: -6621672510654576153
+    second: barrel|barrel|barrel|carryingIdle|barrel|carryingIdle
+  - first:
+      74: 1134209012684717394
+    second: barrel|barrel|barrel|walking|barrel|walking
+  - first:
+      74: -4806321413964311113
+    second: barrel|map|map|carrying|map|carrying
+  - first:
+      74: 7221255348491087641
+    second: barrel|map|map|walking|map|walking
+  - first:
+      74: 5592427810657230835
+    second: map|barrel|barrel|carryingIdle|barrel|carryingIdle
+  - first:
+      74: -2165991906631550423
+    second: map|barrel|barrel|walking|barrel|walking
+  - first:
+      74: -4250715798279372340
+    second: map|map|map|carrying|map|carrying
+  - first:
+      74: -3643819688756561032
+    second: map|map|map|walking|map|walking
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default
+    second: {fileID: 2100000, guid: 209899c7fa65ccb4994d3c14e25f4b95, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.35
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 0.35
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -7,7 +7,7 @@ public class EndlessMode : MonoBehaviour
     public HexGrid hexGrid;
     public Enemy[] enemies;
 
-    [Header("Rate: f(x) = ax^k")]
+    [Header("Enemies: f(x) = ax^k")]
     [Range(1,10)]
     [Tooltip("The linear factor")]
     public float a = 3;
@@ -27,17 +27,22 @@ public class EndlessMode : MonoBehaviour
             Debug.LogError("Enemies are not assigned");
         if (hexGrid == null)
             hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
-
-        // Start the coroutine
-        StartCoroutine(Wave());
     }
 
+    private float t = 0;
     private void Update()
     {
-        
+        t += Time.deltaTime;
+
+        if (t >= waveInterval)
+        {
+            // Start the coroutine
+            Wave();
+            t = 0;
+        }
     }
 
-    IEnumerator Wave()
+    void Wave()
     {
         // Calculate the amount of enemies to spawn
         int spawnNum = Mathf.RoundToInt(a * Mathf.Pow(wave, k));
@@ -47,7 +52,6 @@ public class EndlessMode : MonoBehaviour
             SpawnEnemy();
         }
         wave++;
-        yield return new WaitForSeconds(waveInterval);
     }
     /// <summary>
     /// Spawn a random enemy at a random edgecell

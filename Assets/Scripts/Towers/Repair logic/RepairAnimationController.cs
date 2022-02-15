@@ -16,14 +16,18 @@ public class RepairAnimationController : RepairController
 
     private void Awake()
     {
+        _fxLow = Instantiate(fxLow, gameObject.transform);
+        _fxMedium = Instantiate(fxMedium, gameObject.transform);
+        _fxHigh = Instantiate(fxHigh, gameObject.transform);
+        DisableInstances();
         onWearStateChange += UpdateParticles;
     }
 
-    public void DeleteInstances()
+    public void DisableInstances()
     {
-        if (_fxLow) { Destroy(_fxLow); }
-        if (_fxMedium) { Destroy(_fxMedium); }
-        if (_fxHigh) { Destroy(_fxHigh); }
+        if (_fxLow) { _fxLow.SetActive(false); }
+        if (_fxMedium) { _fxMedium.SetActive(false); }
+        if (_fxHigh) { _fxHigh.SetActive(false); }
     }
 
     public void UpdateParticles(WearState newState, WearState previousState)
@@ -31,19 +35,19 @@ public class RepairAnimationController : RepairController
        switch (newState)
         {
             case WearState.NONE:
-                DeleteInstances();
+                DisableInstances();
                 break;
             case WearState.LOW:
-                _fxLow = Instantiate(fxLow, gameObject.transform);
+                _fxLow.SetActive(true);
                 break;
             case WearState.MEDIUM:
-                _fxMedium = Instantiate(fxMedium, gameObject.transform);
+                _fxMedium.SetActive(true);
                 break;
             case WearState.HIGH:
-                _fxHigh = Instantiate(fxHigh, gameObject.transform);
+                _fxHigh.SetActive(true);
                 break;
             default:
-                DeleteInstances();
+                DisableInstances();
                 break;
         }
     }

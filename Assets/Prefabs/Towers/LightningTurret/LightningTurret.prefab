@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0003d502f6b9a1d4aa27724871657169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageInterval: 45
+  damageInterval: 30
   _currentState: 0
   fxLow: {fileID: 1636322751830264242, guid: 0e5adf50f196e2a4497a432c56ddd9ea, type: 3}
   fxMedium: {fileID: 5236176879605773532, guid: 9a39e88e44139244cbfb044c13588d1a, type: 3}

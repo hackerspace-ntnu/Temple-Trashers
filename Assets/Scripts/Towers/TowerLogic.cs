@@ -12,11 +12,14 @@ public class TowerLogic : Interactable
 
     public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 
+    private RepairAnimationController repairAnimationController;
+
     protected void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         Vector3 cellPos = hexGrid.GetCell(transform.position).transform.position;
         transform.position = cellPos;
+        repairAnimationController = gameObject.GetComponent<RepairAnimationController>();
     }
 
     // Allow turret to be operated when focused
@@ -32,5 +35,15 @@ public class TowerLogic : Interactable
     }
 
     public override void Interact(PlayerStateController player)
-    {}
+    {
+        Repair();
+    }
+
+    public void Repair()
+    {
+        if (repairAnimationController)
+        {
+            repairAnimationController.Repair();
+        }
+    }
 }

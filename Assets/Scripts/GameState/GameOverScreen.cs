@@ -26,7 +26,7 @@ public class GameOverScreen : MonoBehaviour
             LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
 
             // Loads Main menu
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene("Endless Mode");
         }
     }
 
@@ -42,7 +42,7 @@ public class GameOverScreen : MonoBehaviour
             LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
 
             // Loads Main menu
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main Menu");
         }
     }
 }

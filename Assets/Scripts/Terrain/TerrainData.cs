@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
-[System.Serializable]
+[Serializable]
 public class TerrainData
 {
     public int xChunks;
@@ -16,22 +17,24 @@ public class TerrainData
         xChunks = grid.chunkCountX;
         zChunks = grid.chunkCountZ;
 
-        elevation = new int[grid.cells.Length];
-        occupier = new string[grid.cells.Length];
-        occupierRotation = new float[grid.cells.Length];
+        int numCells = grid.cells.Length;
+        elevation = new int[numCells];
+        occupier = new string[numCells];
+        occupierRotation = new float[numCells];
 
-        for (int i = 0; i < elevation.Length; i++)
+        for (int i = 0; i < numCells; i++)
         {
-            elevation[i] = grid.cells[i].elevation;
+            HexCell hexCell = grid.cells[i];
+            elevation[i] = hexCell.elevation;
 
-            if (grid.cells[i].OccupyingObject != null)
+            if (hexCell.OccupyingObject)
             {
-                occupier[i] = GetOccupierName(grid.cells[i]);
-                occupierRotation[i] = GetOccupierRotation(grid.cells[i]);
+                occupier[i] = GetOccupierName(hexCell);
+                occupierRotation[i] = GetOccupierRotation(hexCell);
             } else
             {
                 occupier[i] = "null";
-                occupierRotation[i] = 0;
+                occupierRotation[i] = 0f;
             }
         }
     }

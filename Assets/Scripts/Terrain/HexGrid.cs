@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 [ExecuteInEditMode]
@@ -15,43 +16,57 @@ public class HexGrid : MonoBehaviour
     [Range(1, 20)]
     public int chunkCountZ = 3;
 
-    public Transform chunkPrefab;
-    public HexCell cellPrefab;
+    [SerializeField]
+    private Transform chunkPrefab;
 
     [SerializeField]
+    private HexCell cellPrefab;
+
     private GameObject playerBase;
 
     [Header("Terrain Data")]
-    Transform[] chunks;
+    private Transform[] chunks;
 
     [HideInInspector]
     public HexCell[] cells;
+
     public HexCell[] edgeCells;
 
     [Header("Scenery Variables")]
-    public GameObject[] sceneryObjects;
+    [SerializeField]
+    private GameObject[] sceneryObjects;
 
-    public bool mountainBorder;
-    public bool treeBorder;
+    [SerializeField]
+    private bool mountainBorder;
+
+    [SerializeField]
+    private bool treeBorder;
 
     [Header("Noise")]
-    public Texture2D noise;
+    [SerializeField]
+    private Texture2D noise;
 
     [Header("Noise Scale")]
-    public float noiseScale;
+    [SerializeField]
+    private float noiseScale;
 
     // Custom inspector variables
     [Header("Cell Variables")]
-    public float minCellHeight = 0.3f;
-    public float maxCellHeight = 1f;
-    
-    public List<Material> cellMaterials = new List<Material>();
+    [SerializeField]
+    private float minCellHeight = 0.3f;
+
+    [SerializeField]
+    private float maxCellHeight = 1f;
+
+    [SerializeField]
+    private List<Material> cellMaterials = new List<Material>();
 
     [Header("Savekey")]
-    public GameObject[] towers;
+    [SerializeField]
+    private GameObject[] towerPrefabs;
 
-    public IDictionary<string, GameObject> nameToGameObject;
-    public IDictionary<GameObject, string> gameObjectToName;
+    private IDictionary<string, GameObject> nameToGameObject;
+    private IDictionary<GameObject, string> gameObjectToName;
 
     void OnEnable()
     {
@@ -71,11 +86,12 @@ public class HexGrid : MonoBehaviour
 
         foreach (GameObject obj in sceneryObjects)
         {
-            nameToGameObject.Add($"{obj.name}(Clone)", obj);
-            gameObjectToName.Add(obj, $"{obj.name}(Clone)");
+            string gameObjectName = $"{obj.name}(Clone)";
+            nameToGameObject.Add(gameObjectName, obj);
+            gameObjectToName.Add(obj, gameObjectName);
         }
 
-        foreach (GameObject obj in towers)
+        foreach (GameObject obj in towerPrefabs)
         {
             nameToGameObject.Add($"{obj.name}(Clone)", obj);
             gameObjectToName.Add(obj, $"{obj.name}(Clone)");
@@ -136,6 +152,7 @@ public class HexGrid : MonoBehaviour
             }
         }
     }
+
     // Creates an array of all cells and fills it out with individual cells
     private void CreateCells()
     {
@@ -202,9 +219,7 @@ public class HexGrid : MonoBehaviour
 
         // For performance reasons cells do not cast shadows, but we wish elevated cells to do so
         if (elevation == cellMaterials.Count - 1)
-        {
-            cell.mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        }
+            cell.meshRenderer.shadowCastingMode = ShadowCastingMode.On;
 
         // Add cell to correlating chunk
         int chunkX = x / HexMetrics.CHUNK_SIZE_X;
@@ -273,21 +288,19 @@ public class HexGrid : MonoBehaviour
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
+            if (mountainBorder)
             {
-                if (mountainBorder)
-                {
-                    cell.elevation = maxElevation;
-                    ElevateCell(cell, maxElevation);
-                }
-                
-                if (treeBorder)
-                {
-                    GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
-                    sceneryObj.transform.SetParent(cell.transform);
-                    float yRotation = Random.Range(0f, 360f);
-                    sceneryObj.transform.Rotate(0, yRotation, 0);
-                    cell.OccupyingObject = sceneryObj;
-                }
+                cell.elevation = maxElevation;
+                ElevateCell(cell, maxElevation);
+            }
+
+            if (treeBorder)
+            {
+                GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
+                sceneryObj.transform.SetParent(cell.transform);
+                float yRotation = Random.Range(0f, 360f);
+                sceneryObj.transform.Rotate(0, yRotation, 0);
+                cell.OccupyingObject = sceneryObj;
             }
         }
 
@@ -299,7 +312,7 @@ public class HexGrid : MonoBehaviour
                 || elevation >= maxElevation
                 || cell.IsOccupied)
                 continue;
-            
+
             int sceneryIndex = Random.Range(0, sceneryObjects.Length);
             GameObject sceneryObject = Instantiate(sceneryObjects[sceneryIndex], cell.transform.position, Quaternion.identity);
             float yRotation = Random.Range(0f, 360f);
@@ -320,15 +333,11 @@ public class HexGrid : MonoBehaviour
         cell.elevation = elevation;
 
         if (elevation == cellMaterials.Count - 1)
-        {
             cell.transform.localPosition += Vector3.up * maxCellHeight;
-        }
-        else if(elevation == 0)
-        {
+        else if (elevation == 0)
             cell.transform.localPosition += Vector3.down * minCellHeight;
-        }
 
-        cell.mr.material = cellMaterials[elevation];
+        cell.meshRenderer.material = cellMaterials[elevation];
     }
 
     public void SaveTerrain()
@@ -375,5 +384,3 @@ public class HexGrid : MonoBehaviour
         }
     }
 }
-
-

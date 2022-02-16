@@ -1,38 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
-[System.Serializable]
-public class Highscores {
+
+[Serializable]
+public class Highscores
+{
     public int[] score;
     public string[] name;
 
-    public Highscores(int[] Score, string[] Name)
+    public Highscores(int[] score, string[] name)
     {
-        score = Score;
-        name = Name;
+        this.score = score;
+        this.name = name;
     }
 }
 
 public static class LeaderboardData
 {
     // Path to where highscore data is saved
-    private static string path = Application.persistentDataPath + "/highscores.data";
+    private static readonly string path = $"{Application.persistentDataPath}/highscores.data";
 
     public static void AddScore(int score, string name)
     {
         Highscores highscores = LoadScores();
         Highscores newScores = highscores;
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
-            if(highscores.score[i] < score)
+            if (highscores.score[i] < score)
             {
                 newScores.score[i] = score;
                 newScores.name[i] = name;
 
-                for(int n = i + 1; n < 10; n++)
+                for (int n = i + 1; n < 10; n++)
                 {
                     newScores.score[n] = highscores.score[n - 1];
                     newScores.name[n] = highscores.name[n - 1];
@@ -45,40 +48,39 @@ public static class LeaderboardData
         SaveScores(newScores);
     }
 
-    public static void SaveScores(Highscores scores)
+    private static void SaveScores(Highscores scores)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        
         FileStream stream = new FileStream(path, FileMode.Create);
-
         formatter.Serialize(stream, scores);
-
         stream.Close();
     }
 
     public static Highscores LoadScores()
     {
-        if (File.Exists(path))
+        if (!File.Exists(path))
+            return CreateMockLeaderboard();
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream stream = new FileStream(path, FileMode.Open);
+
+        Highscores data = formatter.Deserialize(stream) as Highscores;
+        stream.Close();
+
+        if (data.name.Length < 10 || data.score.Length < 10)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            Highscores data = formatter.Deserialize(stream) as Highscores;
-            stream.Close();
-
-            if(data.name.Length < 10 || data.score.Length < 10)
-            {
-                // Scores are missing, delete the data and reset
-                File.Delete(path);
-                data = LoadScores();
-            }
-
-            return data;
+            // Scores are missing, delete the data and reset
+            File.Delete(path);
+            data = LoadScores();
         }
-        else
+
+        return data;
+    }
+
+    private static Highscores CreateMockLeaderboard()
+    {
+        int[] mockScores =
         {
-            // No leaderboard exists create a default one
-            int[] defaultScores = new int[10]{
             5000,
             4500,
             4000,
@@ -88,10 +90,10 @@ public static class LeaderboardData
             2000,
             1500,
             1000,
-            0};
-
-            string[] defaultNames = new string[10]
-            {
+            0,
+        };
+        string[] mockNames =
+        {
             "The Archetype",
             "Fuereoduriko",
             "Dabble",
@@ -101,13 +103,11 @@ public static class LeaderboardData
             "Zedd",
             "Grønnmerke",
             "KHTangent",
-            "Endie"
-            };
+            "Endie",
+        };
 
-            Highscores data = new Highscores(defaultScores, defaultNames);
-
-            SaveScores(data);
-            return data;
-        }
+        Highscores data = new Highscores(mockScores, mockNames);
+        SaveScores(data);
+        return data;
     }
 }

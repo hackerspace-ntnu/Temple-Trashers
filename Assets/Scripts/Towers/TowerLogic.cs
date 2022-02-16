@@ -15,12 +15,16 @@ public class TowerLogic : Interactable
 
     private RepairAnimationController repairAnimationController;
 
+    void Awake()
+    {
+        repairAnimationController = GetComponent<RepairAnimationController>();
+    }
+
     protected void Start()
     {
         HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
         Vector3 cellPos = hexGrid.GetCell(transform.position).transform.position;
         transform.position = cellPos;
-        repairAnimationController = gameObject.GetComponent<RepairAnimationController>();
     }
 
     // Allow turret to be operated when focused
@@ -40,11 +44,9 @@ public class TowerLogic : Interactable
         Repair();
     }
 
-    public void Repair()
+    private void Repair()
     {
         if (repairAnimationController)
-        {
             repairAnimationController.Repair();
-        }
     }
 }

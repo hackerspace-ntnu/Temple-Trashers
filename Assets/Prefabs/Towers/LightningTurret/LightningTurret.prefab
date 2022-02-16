@@ -531,11 +531,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7211280855749776597}
   - component: {fileID: -5522915165537185995}
+  - component: {fileID: -7945455886750344156}
   - component: {fileID: -9140866788019457868}
   - component: {fileID: 1378390819816396464}
   - component: {fileID: 4940800382082599726}
   - component: {fileID: 5444241571611455560}
-  - component: {fileID: -7945455886750344156}
   m_Layer: 0
   m_Name: LightningTurret
   m_TagString: Untagged
@@ -573,6 +573,23 @@ MonoBehaviour:
   canInteract: 1
   _towerScriptableObject: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
   turretInput: {fileID: 0}
+--- !u!114 &-7945455886750344156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425059109847644991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0003d502f6b9a1d4aa27724871657169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wearInterval: 30
+  _currentWearState: 0
+  lowWearVFXPrefab: {fileID: 1636322751830264242, guid: 0e5adf50f196e2a4497a432c56ddd9ea, type: 3}
+  mediumWearVFXPrefab: {fileID: 5236176879605773532, guid: 9a39e88e44139244cbfb044c13588d1a, type: 3}
+  highWearVFXPrefab: {fileID: 1192161847215171503, guid: fbe8f94bfed6761418a4f121957c4392, type: 3}
 --- !u!208 &-9140866788019457868
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -633,23 +650,6 @@ CapsuleCollider:
   m_Height: 4.7384577
   m_Direction: 1
   m_Center: {x: 0, y: 1.4092288, z: 0}
---- !u!114 &-7945455886750344156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7425059109847644991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0003d502f6b9a1d4aa27724871657169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageInterval: 30
-  _currentState: 0
-  fxLow: {fileID: 1636322751830264242, guid: 0e5adf50f196e2a4497a432c56ddd9ea, type: 3}
-  fxMedium: {fileID: 5236176879605773532, guid: 9a39e88e44139244cbfb044c13588d1a, type: 3}
-  fxHigh: {fileID: 1192161847215171503, guid: fbe8f94bfed6761418a4f121957c4392, type: 3}
 --- !u!1 &7645708827096480674
 GameObject:
   m_ObjectHideFlags: 0

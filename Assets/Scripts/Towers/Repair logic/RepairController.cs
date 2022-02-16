@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum WearState
 {
     NONE,
@@ -13,62 +14,64 @@ public enum WearState
 public class RepairController : MonoBehaviour
 {
     [SerializeField]
-    private float damageInterval;
+    private float wearInterval = 30f;
 
-    [ReadOnly, SerializeField]
-    private WearState _currentState;
+    [TextLabel(greyedOut = true), SerializeField]
+    private WearState _currentWearState;
 
-    private float timeStamp;
-    private bool needRepair = false;
+    private float lastWearStateChangeTime;
 
-    public WearState currentState { get => _currentState; private set => _currentState = value; }
+    public WearState CurrentWearState
+    {
+        get => _currentWearState;
+        private set
+        {
+            _currentWearState = value;
+            lastWearStateChangeTime = Time.time;
+        }
+    }
 
     //To allow other components to subscribe to stateChange events
     public delegate void WearStateDelegate(WearState newState, WearState oldState);
+
     public WearStateDelegate onWearStateChange;
 
     void Start()
     {
-        currentState = WearState.NONE;
-        timeStamp = Time.time;
+        CurrentWearState = WearState.NONE;
     }
 
     void Update()
     {
-        if (Time.time > timeStamp + damageInterval)
-        {
-            timeStamp = Time.time;
-            needRepair = true;
+        if (Time.time > lastWearStateChangeTime + wearInterval)
             NextState();
-        }
     }
 
-    public void Repair(){
-        needRepair = false;
-        timeStamp = Time.time;
-        SetStateNONE();
-    }
-
-    private void SetStateNONE()
+    public void Repair()
     {
-        onWearStateChange?.Invoke(currentState, currentState);
-        currentState = WearState.NONE;
+        ResetWearState();
+    }
+
+    private void ResetWearState()
+    {
+        onWearStateChange?.Invoke(CurrentWearState, CurrentWearState);
+        CurrentWearState = WearState.NONE;
     }
 
     private void NextState()
     {
-        WearState prevState = currentState;
+        WearState prevState = CurrentWearState;
 
-        switch (currentState)
+        switch (CurrentWearState)
         {
             case WearState.NONE:
-                currentState = WearState.LOW;
+                CurrentWearState = WearState.LOW;
                 break;
             case WearState.LOW:
-                currentState = WearState.MEDIUM;
+                CurrentWearState = WearState.MEDIUM;
                 break;
             case WearState.MEDIUM:
-                currentState = WearState.HIGH;
+                CurrentWearState = WearState.HIGH;
                 break;
             case WearState.HIGH:
                 Destroy(gameObject);
@@ -76,6 +79,7 @@ public class RepairController : MonoBehaviour
             default:
                 break;
         }
-        onWearStateChange?.Invoke(currentState, prevState);
+
+        onWearStateChange?.Invoke(CurrentWearState, prevState);
     }
 }

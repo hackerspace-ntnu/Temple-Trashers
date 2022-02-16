@@ -6,9 +6,14 @@ using UnityEngine.UI;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public Text nameInput;
-    public Text errorMsg;
-    public Text scoreText;
+    [SerializeField]
+    private Text nameInput;
+
+    [SerializeField]
+    private Text errorMsg;
+
+    [SerializeField]
+    private Text scoreText;
 
     private void Start()
     {
@@ -17,33 +22,25 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {
-        if(nameInput.text == "")
-        {
-            errorMsg.enabled = true;
-        }
-        else
-        {
-            // Update Leaderboard 
-            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
-
-            // Loads Main menu
-            SceneManager.LoadScene("Endless Mode");
-        }
+        UpdateLeaderboardAndLoadScene("Endless Mode");
     }
 
     public void MainMenu()
     {
+        UpdateLeaderboardAndLoadScene("Main Menu");
+    }
+
+    private void UpdateLeaderboardAndLoadScene(string sceneName)
+    {
         if (nameInput.text == "")
         {
             errorMsg.enabled = true;
+            return;
         }
-        else
-        {
-            // Update Leaderboard 
-            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
 
-            // Loads Main menu
-            SceneManager.LoadScene("Main Menu");
-        }
+        // Update leaderboard
+        LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+        SceneManager.LoadScene(sceneName);
     }
 }

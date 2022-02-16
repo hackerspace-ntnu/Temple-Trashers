@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Singleton { get; private set; }
 
-    public ResourceUI ui;
+    public UIManager ui;
 
     //Total amount of resources.
     private int resourceAmount = 100;
@@ -18,7 +18,7 @@ public class InventoryManager : MonoBehaviour
         set
         {
             resourceAmount = value;
-            ui.UpdateUI();
+            ui.UpdateResourceUI();
         }
     }
 

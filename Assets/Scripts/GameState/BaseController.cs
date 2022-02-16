@@ -29,6 +29,9 @@ public class BaseController : MonoBehaviour
 
     private HealthLogic healthController;
 
+    // The gamemanager object that organizes enemies and player spawning
+    public GameObject gameManager;
+
     // Death flag
     private bool dead = false;
 
@@ -88,16 +91,13 @@ public class BaseController : MonoBehaviour
         if (!dead)
         {
             // Disable spawning of enemies
-            EnemyWaveManager.Pause();
+            gameManager.GetComponent<EndlessMode>().enabled = false;
 
             // Start overloading the crystal
             anim.SetBool(deathAnimatorParam, true);
 
             // Prepare the explosion
             StartCoroutine(nameof(Explode));
-
-            // Start Distortions
-            //distortionField.enabled = true;
         }
 
         dead = true;
@@ -216,7 +216,7 @@ public class BaseController : MonoBehaviour
         }
 
         // Switch camera focus to the new base
-        Camera.main.GetComponent<CameraFocusController>().Focus(destroyedBase.transform);
+        Camera.main.GetComponent<CameraFocusController>().Focus(deadBase.transform);
 
         // Creates the GUI "GameOverScreen"
         Instantiate(gameOverScreen);

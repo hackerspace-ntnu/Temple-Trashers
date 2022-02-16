@@ -8,8 +8,6 @@ public class HexGrid : MonoBehaviour
     private int cellCountX;
     private int cellCountZ;
 
-    public bool recalculate = true;
-
     [Header("Structural Variables")]
     [Range(1, 20)]
     public int chunkCountX = 4;
@@ -23,6 +21,7 @@ public class HexGrid : MonoBehaviour
     [Header("Terrain Data")]
     Transform[] chunks;
 
+    [HideInInspector]
     public HexCell[] cells;
     public HexCell[] edgeCells;
 
@@ -37,6 +36,16 @@ public class HexGrid : MonoBehaviour
 
     [Header("Noise Scale")]
     public float noiseScale;
+
+    // Custom inspector variables
+    [Header("Cell Variables")]
+    public HexCell cellPrefab;
+    public float minCellHeight = 0.3f;
+    public float maxCellHeight = 1f;
+    
+    public List<Material> cellMaterials = new List<Material>();
+
+    
 
     [Header("Savekey")]
     public GameObject[] towers;
@@ -73,17 +82,6 @@ public class HexGrid : MonoBehaviour
             nameToGameObject.Add($"{obj.name}(Clone)", obj);
             gameObjectToName.Add(obj, $"{obj.name}(Clone)");
         }
-
-        LoadTerrain();
-    }
-
-    void Update()
-    {
-        if (recalculate)
-        {
-            recalculate = false;
-            RebuildTerrain();
-        }
     }
 
     /// <summary>
@@ -116,6 +114,7 @@ public class HexGrid : MonoBehaviour
         centerCell.OccupyingObject = playerBase;
     }
 
+    // Create the chunks to better organize the cell data
     private void CreateChunks()
     {
         // Remove previous chunks
@@ -139,7 +138,7 @@ public class HexGrid : MonoBehaviour
             }
         }
     }
-
+    // Creates an array of all cells and fills it out with individual cells
     private void CreateCells()
     {
         cells = new HexCell[cellCountZ * cellCountX];
@@ -166,15 +165,19 @@ public class HexGrid : MonoBehaviour
 
     private void CreateCell(int x, int z, int i)
     {
+        // Determine the position of the cell
         Vector3 position;
         position.x = (x + z * 0.5f - z / 2) * (HexMetrics.INNER_RADIUS * 2f);
         position.y = 0f;
         position.z = z * (HexMetrics.OUTER_RADIUS * 1.5f);
 
+        // Instantiate and set up the cell
         HexCell cell = cells[i] = Instantiate(cellPrefab);
         cell.transform.localPosition = position;
+
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
+        // Assign the neighbors of the cell
         if (x > 0)
             cell.SetNeighbor(HexDirection.W, cells[i - 1]);
 
@@ -195,6 +198,14 @@ public class HexGrid : MonoBehaviour
 
         Vector4 noiseVec = HexMetrics.SampleNoise(cell.transform.localPosition, noise);
         cell.Elevation = Mathf.FloorToInt(noiseVec.y * cell.materials.Length * 1.1f);
+
+        ElevateCell(cell, elevation);
+
+        // For performance reasons cells do not cast shadows, but we wish elevated cells to do so
+        if (elevation == cellMaterials.Count - 1)
+        {
+            cell.mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        }
 
         // Add cell to correlating chunk
         int chunkX = x / HexMetrics.CHUNK_SIZE_X;
@@ -252,7 +263,7 @@ public class HexGrid : MonoBehaviour
     {
         // The cells between the min and max elevations are areas where we can place scenery objects
         int minElevation = 1;
-        int maxElevation = cellPrefab.materials.Length - 1;
+        int maxElevation = cellMaterials.Count - 1;
 
         if (sceneryObjects.Length == 0)
         {
@@ -263,16 +274,18 @@ public class HexGrid : MonoBehaviour
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
-            if (mountainBorder)
+            {
+                if (mountainBorder)
                 cell.Elevation = maxElevation;
 
-            if (treeBorder)
-            {
+                if (treeBorder)
+                {
                 GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
                 sceneryObj.transform.SetParent(cell.transform);
                 float yRotation = Random.Range(0f, 360f);
                 sceneryObj.transform.Rotate(0, yRotation, 0);
                 cell.OccupyingObject = sceneryObj;
+                }
             }
         }
 
@@ -292,6 +305,28 @@ public class HexGrid : MonoBehaviour
             sceneryObject.transform.SetParent(cell.transform);
             cell.OccupyingObject = sceneryObject;
         }
+    }
+
+    /// <summary>
+    /// Adjust a cells transform and material information based off the elevation integer.
+    /// </summary>
+    /// <param name="cell">The target cell</param>
+    /// <param name="elevation">The desired elevation value, clamped to ensure only allowed values are used</param>
+    private void ElevateCell(HexCell cell, int elevation)
+    {
+        elevation = Mathf.Clamp(elevation, 0, cellMaterials.Count - 1);
+        cell.elevation = elevation;
+
+        if (elevation == cellMaterials.Count - 1)
+        {
+            cell.transform.localPosition += Vector3.up * maxCellHeight;
+        }
+        else if(elevation == 0)
+        {
+            cell.transform.localPosition += Vector3.down * minCellHeight;
+        }
+
+        cell.mr.material = cellMaterials[elevation];
     }
 
     public void SaveTerrain()
@@ -317,7 +352,7 @@ public class HexGrid : MonoBehaviour
         // Update all cells according to stored data
         for (int i = 0; i < cells.Length; i++)
         {
-            cells[i].Elevation = data.elevation[i];
+            cells[i].elevation = data.elevation[i];
 
             if (data.occupier[i] == "null" || !nameToGameObject.ContainsKey(data.occupier[i]))
                 continue;
@@ -338,3 +373,5 @@ public class HexGrid : MonoBehaviour
         }
     }
 }
+
+

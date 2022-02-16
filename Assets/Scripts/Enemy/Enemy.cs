@@ -46,6 +46,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected float attackDamage = 1f;
 
+    [SerializeField]
+    protected int scoreValue = 10;
+
     protected NavMeshAgent agent;
     protected HealthLogic health;
     protected HealthLogic baseHealth;
@@ -87,6 +90,7 @@ public abstract class Enemy : MonoBehaviour
     private void Die(DamageInfo dmg)
     {
         SetState(EnemyState.DEAD);
+        UIManager.Singleton.IncreaseScore(scoreValue);
     }
 
     void Start()

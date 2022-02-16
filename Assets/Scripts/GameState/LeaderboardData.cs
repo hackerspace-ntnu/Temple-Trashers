@@ -4,15 +4,29 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 [System.Serializable]
-public class Highscores {
-    public int[] score;
-    public string[] name;
+public struct Highscore {
+    public int score;
+    public string name;
 
-    public Highscores(int[] Score, string[] Name)
+    public Highscore(int Score, string Name)
     {
         score = Score;
         name = Name;
     }
+}
+
+class HighscoreComparator : IComparer<Highscore>
+{
+    public int Compare(Highscore x, Highscore y)
+    {
+        if (x.score == 0 || y.score == 0)
+        {
+            return 0;
+        }
+
+        return x.score.CompareTo(y.score);
+    }
+
 }
 
 public static class LeaderboardData
@@ -20,32 +34,29 @@ public static class LeaderboardData
     // Path to where highscore data is saved
     private static string path = Application.persistentDataPath + "/highscores.data";
 
+    /// <summary>
+    /// Add a new score to the leaderboard
+    /// </summary>
+    /// <param name="score"></param>
+    /// <param name="name"></param>
     public static void AddScore(int score, string name)
     {
-        Highscores highscores = LoadScores();
-        Highscores newScores = highscores;
+        List<Highscore> highscores = LoadScores();
+        highscores.Add(new Highscore(score, name));
 
-        for(int i = 0; i < 10; i++)
-        {
-            if(highscores.score[i] < score)
-            {
-                newScores.score[i] = score;
-                newScores.name[i] = name;
+        // Sort the struct using a custom comparator
+        HighscoreComparator HC = new HighscoreComparator();
 
-                for(int n = i + 1; n < 10; n++)
-                {
-                    newScores.score[n] = highscores.score[n - 1];
-                    newScores.name[n] = highscores.name[n - 1];
-                }
+        highscores.Sort(HC);
 
-                break;
-            }
-        }
-
-        SaveScores(newScores);
+        SaveScores(highscores);
     }
 
-    public static void SaveScores(Highscores scores)
+    /// <summary>
+    /// Save all the given scores
+    /// </summary>
+    /// <param name="scores"></param>
+    public static void SaveScores(List<Highscore> scores)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         
@@ -56,17 +67,21 @@ public static class LeaderboardData
         stream.Close();
     }
 
-    public static Highscores LoadScores()
+    /// <summary>
+    /// Load all saved scores
+    /// </summary>
+    /// <returns>Returns a ordered list of Highscore structs</returns>
+    public static List<Highscore> LoadScores()
     {
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
-            Highscores data = formatter.Deserialize(stream) as Highscores;
+            List<Highscore> data = formatter.Deserialize(stream) as List<Highscore>;
             stream.Close();
 
-            if(data.name.Length < 10 || data.score.Length < 10)
+            if(data.Count < 10 || data == null)
             {
                 // Scores are missing, delete the data and reset
                 File.Delete(path);
@@ -77,37 +92,22 @@ public static class LeaderboardData
         }
         else
         {
+            List<Highscore> highscores = new List<Highscore>();
+            
             // No leaderboard exists create a default one
-            int[] defaultScores = new int[10]{
-            5000,
-            4500,
-            4000,
-            3500,
-            3000,
-            2500,
-            2000,
-            1500,
-            1000,
-            0};
+            highscores.Add(new Highscore(5000, "The Archetype"));
+            highscores.Add(new Highscore(4500, "Fuereoduriko"));
+            highscores.Add(new Highscore(4000, "Dabble"));
+            highscores.Add(new Highscore(3500, "Frisk"));
+            highscores.Add(new Highscore(3000, "Jesper"));
+            highscores.Add(new Highscore(2500, "Rodrigues"));
+            highscores.Add(new Highscore(2000, "Zedd"));
+            highscores.Add(new Highscore(1500, "Grønnmerke"));
+            highscores.Add(new Highscore(1000, "KHTangent"));
+            highscores.Add(new Highscore(0, "Endie"));
 
-            string[] defaultNames = new string[10]
-            {
-            "The Archetype",
-            "Fuereoduriko",
-            "Dabble",
-            "Frisk",
-            "Jesper",
-            "Rodrigues",
-            "Zedd",
-            "Grønnmerke",
-            "KHTangent",
-            "Endie"
-            };
-
-            Highscores data = new Highscores(defaultScores, defaultNames);
-
-            SaveScores(data);
-            return data;
+            SaveScores(highscores);
+            return highscores;
         }
     }
 }

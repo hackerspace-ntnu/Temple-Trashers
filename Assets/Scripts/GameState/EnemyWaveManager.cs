@@ -92,7 +92,8 @@ public class EnemyWaveManager : MonoBehaviour
 
     public static void ReadyForNextWave()
     {
-        SINGLETON.readyForNextWave = true;
+        //TODO: This function should be called when not in endless mode. To be implemented again later.
+        //SINGLETON.readyForNextWave = true;
     }
 
     private void PrepareNextWave()

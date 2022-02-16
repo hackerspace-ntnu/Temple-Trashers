@@ -8,6 +8,10 @@ public class MainMenu : MonoBehaviour
     // Simple function called to load the next scene from the built in unity button
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Endless Mode");
+    }
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

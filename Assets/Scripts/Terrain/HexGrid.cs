@@ -18,6 +18,9 @@ public class HexGrid : MonoBehaviour
     public Transform chunkPrefab;
     public HexCell cellPrefab;
 
+    [SerializeField]
+    private GameObject playerBase;
+
     [Header("Terrain Data")]
     Transform[] chunks;
 
@@ -39,18 +42,13 @@ public class HexGrid : MonoBehaviour
 
     // Custom inspector variables
     [Header("Cell Variables")]
-    public HexCell cellPrefab;
     public float minCellHeight = 0.3f;
     public float maxCellHeight = 1f;
     
     public List<Material> cellMaterials = new List<Material>();
 
-    
-
     [Header("Savekey")]
     public GameObject[] towers;
-
-    private GameObject playerBase;
 
     public IDictionary<string, GameObject> nameToGameObject;
     public IDictionary<GameObject, string> gameObjectToName;
@@ -87,7 +85,7 @@ public class HexGrid : MonoBehaviour
     /// <summary>
     /// Rebuild the terrain from scratch
     /// </summary>
-    private void RebuildTerrain()
+    public void RebuildTerrain()
     {
         // Calculate borders
         cellCountX = chunkCountX * HexMetrics.CHUNK_SIZE_X;
@@ -197,7 +195,8 @@ public class HexGrid : MonoBehaviour
         }
 
         Vector4 noiseVec = HexMetrics.SampleNoise(cell.transform.localPosition, noise);
-        cell.Elevation = Mathf.FloorToInt(noiseVec.y * cell.materials.Length * 1.1f);
+        int elevation = Mathf.FloorToInt(noiseVec.y * cellMaterials.Count * 1.1f);
+        cell.elevation = elevation;
 
         ElevateCell(cell, elevation);
 
@@ -276,7 +275,7 @@ public class HexGrid : MonoBehaviour
         {
             {
                 if (mountainBorder)
-                cell.Elevation = maxElevation;
+                cell.elevation = maxElevation;
 
                 if (treeBorder)
                 {
@@ -291,7 +290,7 @@ public class HexGrid : MonoBehaviour
 
         foreach (HexCell cell in cells)
         {
-            int elevation = cell.Elevation;
+            int elevation = cell.elevation;
             if (Random.Range(0, 100) > 10f
                 || elevation < minElevation
                 || elevation >= maxElevation

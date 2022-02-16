@@ -475,6 +475,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   tower: {fileID: 7425059109847644991, guid: 465be707821a3d14cbc434b02dc72bdb, type: 3}
+  buildMat: {fileID: 2100000, guid: 957ed28ab29eba24090b9c0baedac1d3, type: 2}
+  cannotBuildMat: {fileID: 2100000, guid: 65bd0b0a35b1c84469e418ad666032b4, type: 2}
 --- !u!1 &8081150325412496220
 GameObject:
   m_ObjectHideFlags: 0

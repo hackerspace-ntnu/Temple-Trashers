@@ -3,7 +3,11 @@ guid: 0c4fd1a3795e38f42b486c9bd6a8fc00
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tower: {instanceID: 0}
+  - mr: {instanceID: 0}
+  - buildHighlight: {fileID: 2100000, guid: 957ed28ab29eba24090b9c0baedac1d3, type: 2}
+  - cannotBuildMat: {fileID: 2100000, guid: 65bd0b0a35b1c84469e418ad666032b4, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

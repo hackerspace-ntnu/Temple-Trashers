@@ -12,9 +12,13 @@ public class GameOverScreen : MonoBehaviour
     public Text errorMsg;
     public Text scoreText;
 
+    private PauseManager pm;
+
     private void Start()
     {
         scoreText.text = UIManager.Singleton.score.ToString();
+        pm = GameObject.Find("PauseManager").GetComponent<PauseManager>();
+        pm.gameObject.SetActive(false);
     }
 
     public void Restart()

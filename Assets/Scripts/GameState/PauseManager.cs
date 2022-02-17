@@ -45,20 +45,23 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        IsPaused = !IsPaused;
-        Time.timeScale = IsPaused ? 0 : initialTimeScale;     
-        ui.SetActive(IsPaused);
-
-        // Pause every audiosource in array.
-        foreach(AudioSource a in audioSources)
+        if (gameObject.activeSelf)
         {
-            if (IsPaused)
-                a.Pause();
-            else
-                a.UnPause();
+            IsPaused = !IsPaused;
+            Time.timeScale = IsPaused ? 0 : initialTimeScale;
+            ui.SetActive(IsPaused);
+
+            // Pause every audiosource in array.
+            foreach (AudioSource a in audioSources)
+            {
+                if (IsPaused)
+                    a.Pause();
+                else
+                    a.UnPause();
+            }
+            // Reduce the listener volume level
+            AudioListener.volume = IsPaused ? 0.3f : 1f;
         }
-        // Reduce the listener volume level
-        AudioListener.volume = IsPaused ? 0.3f : 1f;
     }
 
     public void QuitGame()

@@ -5,7 +5,6 @@ using System.Collections;
 public class EndlessMode : MonoBehaviour
 {
     // Public variables
-    public HexGrid hexGrid;
     public Enemy[] enemyPrefabs;
 
     [Header("Enemies: f(x) = linearSpawnRate * x^(exponentialSpawnRate)")]
@@ -27,8 +26,6 @@ public class EndlessMode : MonoBehaviour
     { // Ensure values are assigned
         if (enemyPrefabs.Length == 0)
             Debug.LogError("Enemies are not assigned");
-        if (hexGrid == null)
-            hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
     }
 
     void Update()
@@ -60,7 +57,8 @@ public class EndlessMode : MonoBehaviour
     private void SpawnEnemy()
     {
         GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)].gameObject;
-        Vector3 spawnPos = hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length - 1)].transform.position;
+        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        Vector3 spawnPos = edgeCells[Random.Range(0, edgeCells.Length - 1)].transform.position;
         Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     }
 }

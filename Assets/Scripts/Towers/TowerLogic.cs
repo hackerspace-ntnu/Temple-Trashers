@@ -22,8 +22,7 @@ public class TowerLogic : Interactable
 
     protected void Start()
     {
-        HexGrid hexGrid = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
-        Vector3 cellPos = hexGrid.GetCell(transform.position).transform.position;
+        Vector3 cellPos = HexGrid.Singleton.GetCell(transform.position).transform.position;
         transform.position = cellPos;
     }
 

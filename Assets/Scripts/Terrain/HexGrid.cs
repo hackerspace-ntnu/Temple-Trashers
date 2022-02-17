@@ -6,6 +6,8 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour
 {
+    public static HexGrid Singleton { get; private set; }
+
     private int cellCountX;
     private int cellCountZ;
 
@@ -75,6 +77,23 @@ public class HexGrid : MonoBehaviour
 
     void Awake()
     {
+        #region Singleton boilerplate
+
+        if (Singleton != null)
+        {
+            if (Singleton != this)
+            {
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
+        Singleton = this;
+
+        #endregion Singleton boilerplate
+
         playerBase = GameObject.FindGameObjectWithTag("Base");
 
         // Calculate borders for the terrain

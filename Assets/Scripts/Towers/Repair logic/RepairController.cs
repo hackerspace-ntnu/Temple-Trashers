@@ -54,8 +54,9 @@ public class RepairController : MonoBehaviour
 
     private void ResetWearState()
     {
-        onWearStateChange?.Invoke(CurrentWearState, CurrentWearState);
-        CurrentWearState = WearState.NONE;
+        WearState newState = WearState.NONE;
+        onWearStateChange?.Invoke(newState, CurrentWearState);
+        CurrentWearState = newState;
     }
 
     private void NextState()

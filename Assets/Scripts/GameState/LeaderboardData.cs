@@ -19,12 +19,16 @@ class HighscoreComparator : IComparer<Highscore>
 {
     public int Compare(Highscore x, Highscore y)
     {
-        if (x.score == 0 || y.score == 0)
+        if (x.score == 0)
         {
-            return 0;
+            return y.score;
+        }
+        if(y.score == 0)
+        {
+            return x.score;
         }
 
-        return x.score.CompareTo(y.score);
+        return y.score.CompareTo(x.score);
     }
 
 }
@@ -49,6 +53,10 @@ public static class LeaderboardData
 
         highscores.Sort(HC);
 
+        foreach(Highscore h in highscores)
+        {
+            Debug.Log(h.name + " : " + h.score.ToString());
+        }
         SaveScores(highscores);
     }
 
@@ -95,13 +103,6 @@ public static class LeaderboardData
 
             stream.Close();
 
-            if(data.Count < 10 || data == null)
-            {
-                // Scores are missing, delete the data and reset
-                File.Delete(path);
-                data = LoadScores();
-            }
-
             return data;
         }
         else
@@ -118,7 +119,7 @@ public static class LeaderboardData
             highscores.Add(new Highscore(2000, "Zedd"));
             highscores.Add(new Highscore(1500, "Grønnmerke"));
             highscores.Add(new Highscore(1000, "KHTangent"));
-            highscores.Add(new Highscore(0, "Endie"));
+            highscores.Add(new Highscore(10, "Endie"));
 
             SaveScores(highscores);
             return highscores;

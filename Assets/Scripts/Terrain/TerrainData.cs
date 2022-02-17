@@ -3,14 +3,20 @@ using UnityEngine;
 
 
 [Serializable]
+public struct HexCellData
+{
+    public int elevation;
+    public string occupier;
+    public float occupierRotation;
+}
+
+[Serializable]
 public class TerrainData
 {
     public int xChunks;
     public int zChunks;
 
-    public int[] elevation;
-    public string[] occupier;
-    public float[] occupierRotation;
+    public HexCellData[] hexCells;
 
     public TerrainData(HexGrid grid)
     {
@@ -18,24 +24,25 @@ public class TerrainData
         zChunks = grid.chunkCountZ;
 
         int numCells = grid.cells.Length;
-        elevation = new int[numCells];
-        occupier = new string[numCells];
-        occupierRotation = new float[numCells];
+        hexCells = new HexCellData[numCells];
 
         for (int i = 0; i < numCells; i++)
         {
             HexCell hexCell = grid.cells[i];
-            elevation[i] = hexCell.elevation;
+            HexCellData hexCellData = new HexCellData();
+            hexCellData.elevation = hexCell.elevation;
 
             if (hexCell.OccupyingObject)
             {
-                occupier[i] = GetOccupierName(hexCell);
-                occupierRotation[i] = GetOccupierRotation(hexCell);
+                hexCellData.occupier = GetOccupierName(hexCell);
+                hexCellData.occupierRotation = GetOccupierRotation(hexCell);
             } else
             {
-                occupier[i] = "null";
-                occupierRotation[i] = 0f;
+                hexCellData.occupier = "null";
+                hexCellData.occupierRotation = 0f;
             }
+
+            hexCells[i] = hexCellData;
         }
     }
 

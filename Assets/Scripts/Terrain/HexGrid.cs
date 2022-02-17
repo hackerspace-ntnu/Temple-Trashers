@@ -382,20 +382,21 @@ public class HexGrid : MonoBehaviour
         // Update all cells according to stored data
         for (int i = 0; i < cells.Length; i++)
         {
-            cells[i].elevation = data.elevation[i];
+            HexCellData hexCellData = data.hexCells[i];
+            cells[i].elevation = hexCellData.elevation;
 
-            if (data.occupier[i] == "null" || !nameToGameObject.ContainsKey(data.occupier[i]))
+            if (hexCellData.occupier == "null" || !nameToGameObject.ContainsKey(hexCellData.occupier))
                 continue;
 
-            GameObject sceneryObject = Instantiate(nameToGameObject[data.occupier[i]], cells[i].transform.position, Quaternion.identity);
+            GameObject sceneryObject = Instantiate(nameToGameObject[hexCellData.occupier], cells[i].transform.position, Quaternion.identity);
             if (sceneryObject.GetComponent<RotatableTowerLogic>() != null)
             {
                 RotatableTowerLogic rotatableTowerLogic = sceneryObject.GetComponent<RotatableTowerLogic>();
                 Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
-                rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else
             {
-                sceneryObject.transform.rotation = Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             }
 
             sceneryObject.transform.SetParent(cells[i].transform);

@@ -275,15 +275,18 @@ public class HexGrid : MonoBehaviour
         {
             {
                 if (mountainBorder)
-                cell.elevation = maxElevation;
-
+                {
+                    cell.elevation = maxElevation;
+                    ElevateCell(cell, maxElevation);
+                }
+                
                 if (treeBorder)
                 {
-                GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
-                sceneryObj.transform.SetParent(cell.transform);
-                float yRotation = Random.Range(0f, 360f);
-                sceneryObj.transform.Rotate(0, yRotation, 0);
-                cell.OccupyingObject = sceneryObj;
+                    GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
+                    sceneryObj.transform.SetParent(cell.transform);
+                    float yRotation = Random.Range(0f, 360f);
+                    sceneryObj.transform.Rotate(0, yRotation, 0);
+                    cell.OccupyingObject = sceneryObj;
                 }
             }
         }
@@ -296,7 +299,7 @@ public class HexGrid : MonoBehaviour
                 || elevation >= maxElevation
                 || cell.IsOccupied)
                 continue;
-
+            
             int sceneryIndex = Random.Range(0, sceneryObjects.Length);
             GameObject sceneryObject = Instantiate(sceneryObjects[sceneryIndex], cell.transform.position, Quaternion.identity);
             float yRotation = Random.Range(0f, 360f);

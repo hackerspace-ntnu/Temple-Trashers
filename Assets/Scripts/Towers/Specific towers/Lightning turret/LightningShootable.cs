@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
+
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
     [SerializeField]
@@ -32,7 +33,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     private Transform zapOrigin;
 
     /// <summary>
-    /// Called through an animation event on `Lightning.anim`.
+    /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
     public void Shoot()
     {

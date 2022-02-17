@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Tower_SpawnShot : MonoBehaviour
 {
     public GameObject bullet;

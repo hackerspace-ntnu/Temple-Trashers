@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyWaveManager : MonoBehaviour
 {
     private static EnemyWaveManager SINGLETON;
@@ -21,16 +22,16 @@ public class EnemyWaveManager : MonoBehaviour
     [ReadOnly, SerializeField]
     private bool readyForNextWave;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private float timeUntilNextSpawn;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentWaveIndex;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentSubWaveIndex;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     private int currentSubWaveEnemyCounter;
 
     #endregion State variables for debugging
@@ -88,6 +89,16 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (ShouldSpawnNextEnemy())
             SpawnNextEnemy();
+    }
+
+    public static void Pause()
+    {
+        SINGLETON.enabled = false;
+    }
+
+    public static void Resume()
+    {
+        SINGLETON.enabled = true;
     }
 
     public static void ReadyForNextWave()

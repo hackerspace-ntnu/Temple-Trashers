@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.VFX;
 
+
 public class BaseController : MonoBehaviour
 {
     public static BaseController Singleton { get; private set; }
@@ -139,7 +140,7 @@ public class BaseController : MonoBehaviour
             RemoveRayVFX(player.transform, 0f);
         }
     }
-            
+
     public void RemoveRayVFX(Transform target, float delay)
     {
         int i = GetIdVFX(target);
@@ -165,7 +166,7 @@ public class BaseController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns -1 if `t` does not contain loot, -2 if loot was not registered
+    /// Returns -1 if <c>t</c> does not contain loot, -2 if loot was not registered
     /// </summary>
     public int GetIdVFX(Transform t)
     {
@@ -184,7 +185,7 @@ public class BaseController : MonoBehaviour
 
     IEnumerator Explode()
     {
-        // Get a list of all transforms (lighning targets)
+        // Get a list of all transforms (lightning targets)
         Transform[] transforms = FindObjectsOfType<Transform>();
 
         // Create lightning as the crystal charges

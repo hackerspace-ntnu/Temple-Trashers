@@ -78,7 +78,21 @@ public static class LeaderboardData
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
-            List<Highscore> data = formatter.Deserialize(stream) as List<Highscore>;
+            List<Highscore> data;
+
+            // Check if the file is corrupted
+            try
+            {
+                data = formatter.Deserialize(stream) as List<Highscore>;
+            }
+            catch
+            {
+                stream.Close();
+                File.Delete(path);
+                Debug.LogWarning("Highscore data was corrupted, it has been replaced.");
+                return LoadScores();
+            }
+
             stream.Close();
 
             if(data.Count < 10 || data == null)

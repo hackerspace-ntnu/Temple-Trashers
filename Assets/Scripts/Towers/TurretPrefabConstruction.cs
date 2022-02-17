@@ -7,6 +7,11 @@ public class TurretPrefabConstruction : Interactable
 {
     public GameObject tower;
 
+    [SerializeField]
+    private TowerScriptableObject _towerScriptableObject;
+
+    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
+
     public void Construct(HexCell targetCell)
     {
         GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation, targetCell.transform);

@@ -19,4 +19,9 @@ public class TowerScriptableObject : ScriptableObject
         controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
         return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
     }
+
+    public int getCost()
+    {
+        return cost;
+    }
 }

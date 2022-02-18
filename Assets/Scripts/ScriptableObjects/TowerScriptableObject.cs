@@ -17,6 +17,8 @@ public class TowerScriptableObject : ScriptableObject
     {
         GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);
         controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
-        return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
+        TurretPrefabConstruction turretConstruction = spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
+        turretConstruction.FocusCell(controller.TargetCell);
+        return turretConstruction;
     }
 }

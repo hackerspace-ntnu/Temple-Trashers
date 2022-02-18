@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
-  tower: {fileID: 2983117196373584133, guid: a86ee555d85992147a70625145af137b, type: 3}
+  towerPrefab: {fileID: 2983117196373584133, guid: a86ee555d85992147a70625145af137b, type: 3}
 --- !u!1 &4780342758878589116
 GameObject:
   m_ObjectHideFlags: 0

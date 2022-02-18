@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class TurretPrefabConstruction : Interactable
 {
-    public GameObject tower;
+    [SerializeField]
+    private GameObject towerPrefab;
 
     public void Construct(HexCell targetCell)
     {
-        GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation, targetCell.transform);
-        targetCell.OccupyingObject = t;
+        GameObject tower = Instantiate(towerPrefab, targetCell.transform.position, towerPrefab.transform.rotation, targetCell.transform);
+        targetCell.OccupyingObject = tower;
         Destroy(gameObject);
     }
 

@@ -241,6 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   towerPrefab: {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
+  normalMaterial: {fileID: 2100000, guid: 59d031ebc8c2ac646a62fa1061db29af, type: 2}
+  errorMaterial: {fileID: 2100000, guid: 8cee3c2bf4294d14788acacbbcb6cd03, type: 2}
 --- !u!1 &3049860759657918080
 GameObject:
   m_ObjectHideFlags: 0

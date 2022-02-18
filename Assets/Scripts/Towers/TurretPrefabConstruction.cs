@@ -8,6 +8,19 @@ public class TurretPrefabConstruction : Interactable
     [SerializeField]
     private GameObject towerPrefab;
 
+    [SerializeField]
+    private Material normalMaterial;
+
+    [SerializeField]
+    private Material errorMaterial;
+
+    private Renderer[] renderers;
+
+    void Awake()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+    }
+
     public void Construct(HexCell targetCell)
     {
         GameObject tower = Instantiate(towerPrefab, targetCell.transform.position, towerPrefab.transform.rotation, targetCell.transform);
@@ -21,5 +34,21 @@ public class TurretPrefabConstruction : Interactable
     public void FocusCell(HexCell targetCell)
     {
         transform.position = targetCell.transform.position;
+        SetMaterial(targetCell.CanPlaceTowerOnCell ? normalMaterial : errorMaterial);
+    }
+
+    private void SetMaterial(Material material)
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            if (!renderer.enabled)
+                continue;
+
+            Material[] newMaterials = new Material[renderer.materials.Length];
+            for (int i = 0; i < newMaterials.Length; i++)
+                newMaterials[i] = material;
+
+            renderer.materials = newMaterials;
+        }
     }
 }

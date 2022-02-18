@@ -57,13 +57,15 @@ MonoBehaviour:
   treeBorder: 1
   noise: {fileID: 2800000, guid: 600eed7c653e4b34db0e0ba17c323e1a, type: 3}
   noiseScale: 0.01
-  minCellHeight: 0.3
-  maxCellHeight: 1
-  cellMaterials:
-  - {fileID: 2100000, guid: a5e7917785a153a43af09f4b94fe40cb, type: 2}
-  - {fileID: 2100000, guid: 51855904a3cbc63439eee966c5c98a3c, type: 2}
-  - {fileID: 2100000, guid: 5ec7c15465c2cc74886c0424eff4ab92, type: 2}
-  - {fileID: 2100000, guid: 9061c0a39302aae4495532f46b083b87, type: 2}
+  cellTypes:
+  - material: {fileID: 2100000, guid: a5e7917785a153a43af09f4b94fe40cb, type: 2}
+    elevation: -0.3
+  - material: {fileID: 2100000, guid: 51855904a3cbc63439eee966c5c98a3c, type: 2}
+    elevation: 0
+  - material: {fileID: 2100000, guid: 5ec7c15465c2cc74886c0424eff4ab92, type: 2}
+    elevation: 0
+  - material: {fileID: 2100000, guid: 9061c0a39302aae4495532f46b083b87, type: 2}
+    elevation: 1
   towerPrefabs:
   - {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
   - {fileID: 7425059109847644991, guid: 465be707821a3d14cbc434b02dc72bdb, type: 3}

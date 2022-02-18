@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 
 [ExecuteInEditMode]
@@ -55,13 +55,7 @@ public class HexGrid : MonoBehaviour
     // Custom inspector variables
     [Header("Cell Variables")]
     [SerializeField]
-    private float minCellHeight = 0.3f;
-
-    [SerializeField]
-    private float maxCellHeight = 1f;
-
-    [SerializeField]
-    private List<Material> cellMaterials = new List<Material>();
+    private HexCellType[] cellTypes;
 
     [Header("Savekey")]
     [SerializeField]
@@ -230,21 +224,24 @@ public class HexGrid : MonoBehaviour
             }
         }
 
-        Vector4 noiseVec = HexMetrics.SampleNoise(cell.transform.localPosition, noise);
-        int elevation = Mathf.FloorToInt(noiseVec.y * cellMaterials.Count * 1.1f);
-        cell.elevation = elevation;
-
-        ElevateCell(cell, elevation);
-
-        // For performance reasons cells do not cast shadows, but we wish elevated cells to do so
-        if (elevation == cellMaterials.Count - 1)
-            cell.meshRenderer.shadowCastingMode = ShadowCastingMode.On;
-
         // Add cell to correlating chunk
         int chunkX = x / HexMetrics.CHUNK_SIZE_X;
         int chunkZ = z / HexMetrics.CHUNK_SIZE_Z;
 
         cell.transform.SetParent(chunks[chunkX + chunkZ * chunkCountX]);
+
+        SetTypeForCell(cell);
+    }
+
+    /// <summary>
+    /// Adjust a cells transform and material information based off the elevation integer.
+    /// </summary>
+    /// <param name="cell">The target cell</param>
+    private void SetTypeForCell(HexCell cell)
+    {
+        float noiseValue = HexMetrics.SampleNoise(cell.transform.localPosition, noise).y; // will be between 0.0 and 1.0 (both inclusive)
+        int cellTypeIndex = Mathf.FloorToInt(noiseValue * cellTypes.Length * 0.99f); // will be between 0 and the last index of `cellTypes`
+        cell.CellType = cellTypes[cellTypeIndex];
     }
 
     /// <summary>
@@ -294,24 +291,20 @@ public class HexGrid : MonoBehaviour
     /// </summary>
     private void CreateSceneryObjects()
     {
-        // The cells between the min and max elevations are areas where we can place scenery objects
-        int minElevation = 1;
-        int maxElevation = cellMaterials.Count - 1;
-
         if (sceneryObjects.Length == 0)
         {
             Debug.LogError("No scenery objects have been assigned!");
             return;
         }
 
+        // Code from https://stackoverflow.com/a/3188804
+        HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
+
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
             if (mountainBorder)
-            {
-                cell.elevation = maxElevation;
-                ElevateCell(cell, maxElevation);
-            }
+                cell.CellType = tallestCellType;
 
             if (treeBorder)
             {
@@ -325,10 +318,10 @@ public class HexGrid : MonoBehaviour
 
         foreach (HexCell cell in cells)
         {
-            int elevation = cell.elevation;
+            float elevation = cell.CellType.elevation;
             if (Random.Range(0, 100) > 10f
-                || elevation < minElevation
-                || elevation >= maxElevation
+                || elevation < 0
+                || elevation >= tallestCellType.elevation
                 || cell.IsOccupied)
                 continue;
 
@@ -339,24 +332,6 @@ public class HexGrid : MonoBehaviour
             sceneryObject.transform.SetParent(cell.transform);
             cell.OccupyingObject = sceneryObject;
         }
-    }
-
-    /// <summary>
-    /// Adjust a cells transform and material information based off the elevation integer.
-    /// </summary>
-    /// <param name="cell">The target cell</param>
-    /// <param name="elevation">The desired elevation value, clamped to ensure only allowed values are used</param>
-    private void ElevateCell(HexCell cell, int elevation)
-    {
-        elevation = Mathf.Clamp(elevation, 0, cellMaterials.Count - 1);
-        cell.elevation = elevation;
-
-        if (elevation == cellMaterials.Count - 1)
-            cell.transform.localPosition += Vector3.up * maxCellHeight;
-        else if (elevation == 0)
-            cell.transform.localPosition += Vector3.down * minCellHeight;
-
-        cell.meshRenderer.material = cellMaterials[elevation];
     }
 
     public void SaveTerrain()
@@ -383,7 +358,7 @@ public class HexGrid : MonoBehaviour
         for (int i = 0; i < cells.Length; i++)
         {
             HexCellData hexCellData = data.hexCells[i];
-            cells[i].elevation = hexCellData.elevation;
+            cells[i].CellType = hexCellData.cellType;
 
             if (hexCellData.occupier == "null" || !nameToGameObject.ContainsKey(hexCellData.occupier))
                 continue;

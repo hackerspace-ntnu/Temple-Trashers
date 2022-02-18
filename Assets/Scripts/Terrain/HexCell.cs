@@ -1,7 +1,15 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
+
+[Serializable]
+public struct HexCellType
+{
+    public Material material;
+    public float elevation;
+}
 
 [ExecuteInEditMode]
 public class HexCell : MonoBehaviour
@@ -9,7 +17,8 @@ public class HexCell : MonoBehaviour
     public HexCoordinates coordinates;
     public MeshRenderer meshRenderer;
 
-    public int elevation = 0;
+    [ReadOnly, SerializeField]
+    private HexCellType _cellType;
 
     [SerializeField]
     private HexCell[] neighbors;
@@ -17,6 +26,25 @@ public class HexCell : MonoBehaviour
     // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
     [SerializeField]
     private GameObject _occupyingObject;
+
+    private float? lastSetElevation = null;
+
+    public HexCellType CellType
+    {
+        get => _cellType;
+        set
+        {
+            _cellType = value;
+
+            float elevationDelta = _cellType.elevation - (lastSetElevation ?? 0f);
+            transform.localPosition += elevationDelta * Vector3.up;
+            lastSetElevation = _cellType.elevation;
+
+            meshRenderer.material = _cellType.material;
+            // For performance reasons, cells do not cast shadows, but we wish elevated cells to do so
+            meshRenderer.shadowCastingMode = _cellType.elevation > 0f ? ShadowCastingMode.On : ShadowCastingMode.Off;
+        }
+    }
 
     public GameObject OccupyingObject
     {

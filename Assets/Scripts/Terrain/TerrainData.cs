@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public struct HexCellData
 {
-    public int elevation;
+    public HexCellType cellType;
     public string occupier;
     public float occupierRotation;
 }
@@ -30,7 +30,7 @@ public class TerrainData
         {
             HexCell hexCell = grid.cells[i];
             HexCellData hexCellData = new HexCellData();
-            hexCellData.elevation = hexCell.elevation;
+            hexCellData.cellType = hexCell.CellType;
 
             if (hexCell.OccupyingObject)
             {

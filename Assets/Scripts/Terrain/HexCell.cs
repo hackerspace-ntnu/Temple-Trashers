@@ -15,7 +15,6 @@ public struct HexCellType
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
-    public MeshRenderer meshRenderer;
 
     [ReadOnly, SerializeField]
     private HexCellType _cellType;
@@ -26,6 +25,8 @@ public class HexCell : MonoBehaviour
     // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
     [SerializeField]
     private GameObject _occupyingObject;
+
+    private MeshRenderer meshRenderer;
 
     private float? lastSetElevation = null;
 
@@ -73,8 +74,7 @@ public class HexCell : MonoBehaviour
 
     void Awake()
     {
-        if (meshRenderer == null)
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     public HexCell GetNeighbor(HexDirection direction)

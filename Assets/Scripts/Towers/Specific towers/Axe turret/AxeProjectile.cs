@@ -9,7 +9,7 @@ public class AxeProjectile : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 1f);
     }
 
     void OnTriggerEnter(Collider other)

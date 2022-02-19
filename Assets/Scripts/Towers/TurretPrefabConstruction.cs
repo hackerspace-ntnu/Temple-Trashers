@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 public class TurretPrefabConstruction : Interactable
 {
     public GameObject tower;
@@ -16,8 +18,10 @@ public class TurretPrefabConstruction : Interactable
         targetCell.OccupyingObject = t;
         Destroy(gameObject);
     }
+
     public override void Interact(PlayerStateController player)
-    { }
+    {}
+
     public void FocusCell(HexCell targetCell)
     {
         transform.position = targetCell.transform.position;

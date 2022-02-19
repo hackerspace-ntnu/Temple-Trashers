@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
 public class TowerScriptableObject : ScriptableObject
 {
@@ -10,6 +12,7 @@ public class TowerScriptableObject : ScriptableObject
     public TurretPrefabConstruction towerConstructionPrefab;
     public Sprite icon;
     public Sprite iconHighlight;
+
     public TurretPrefabConstruction InstantiateConstructionTower(PlayerStateController controller)
     {
         GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);

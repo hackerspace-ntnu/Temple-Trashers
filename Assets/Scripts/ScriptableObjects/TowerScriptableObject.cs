@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class TowerScriptableObject : ScriptableObject
 {
     public string towerName;
-    public int cost;
+    [SerializeField]
+    private int cost;
     public TurretPrefabConstruction towerConstructionPrefab;
     public Sprite icon;
     public Sprite iconHighlight;
@@ -20,7 +21,7 @@ public class TowerScriptableObject : ScriptableObject
         return spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
     }
 
-    public int getCost()
+    public int GetCost()
     {
         return cost;
     }

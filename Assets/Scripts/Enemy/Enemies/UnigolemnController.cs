@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 public class UnigolemnController : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
     private Transform model;

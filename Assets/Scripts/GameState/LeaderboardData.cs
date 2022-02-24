@@ -35,7 +35,7 @@ class HighscoreComparator : IComparer<Highscore>
 public static class LeaderboardData
 {
     // Path to where highscore data is saved
-    private static readonly string path = $"{Application.persistentDataPath}/highscores.data";
+    private static readonly string highscoresDataPath = $"{Application.persistentDataPath}/highscores.data";
 
     /// <summary>
     /// Add a new score to the leaderboard
@@ -57,7 +57,7 @@ public static class LeaderboardData
     private static void SaveScores(List<Highscore> scores)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream stream = new FileStream(highscoresDataPath, FileMode.Create);
         formatter.Serialize(stream, scores);
         stream.Close();
     }
@@ -68,11 +68,11 @@ public static class LeaderboardData
     /// <returns>An ordered list of <c>Highscore</c> structs.</returns>
     public static List<Highscore> LoadScores()
     {
-        if (!File.Exists(path))
+        if (!File.Exists(highscoresDataPath))
             return CreateMockLeaderboard();
 
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Open);
+        FileStream stream = new FileStream(highscoresDataPath, FileMode.Open);
 
         List<Highscore> data;
 
@@ -82,7 +82,7 @@ public static class LeaderboardData
             data = formatter.Deserialize(stream) as List<Highscore>;
         } catch (SerializationException e)
         {
-            File.Delete(path);
+            File.Delete(highscoresDataPath);
             Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
             return LoadScores();
         } finally

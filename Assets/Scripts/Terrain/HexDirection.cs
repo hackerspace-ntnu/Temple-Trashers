@@ -12,7 +12,8 @@ public static class HexDirectionExtensions
 {
     public static HexDirection Opposite(this HexDirection direction)
     {
-        return (int)direction < 3 ? direction + 3 : direction - 3;
+        int oppositeDirectionIndex = ((int)direction + 3) % 6;
+        return (HexDirection)oppositeDirectionIndex;
     }
 
     public static HexDirection Previous(this HexDirection direction)

@@ -16,14 +16,14 @@ public class Leaderboard : MonoBehaviour
     private void Start()
     {
         
-        Highscores highscores = LeaderboardData.LoadScores();
+        List<Highscore> highscores = LeaderboardData.LoadScores();
 
         entries = new GameObject[10];
         for(int i = 0; i < 10; i++)
         {
             GameObject entry = Instantiate(highscoreEntry, leaderboardBody);
-            entry.transform.GetChild(0).GetComponent<Text>().text = highscores.name[i];
-            entry.transform.GetChild(1).GetComponent<Text>().text = highscores.score[i].ToString();
+            entry.transform.GetChild(0).GetComponent<Text>().text = highscores[i].name;
+            entry.transform.GetChild(1).GetComponent<Text>().text = highscores[i].score.ToString();
         }
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
+/// <summary>
+/// Contains button functionality for the Game Over screen UI Canvas
+/// </summary>
 public class GameOverScreen : MonoBehaviour
 {
     public Text nameInput;
@@ -13,6 +16,7 @@ public class GameOverScreen : MonoBehaviour
     private void Start()
     {
         scoreText.text = UIManager.Singleton.score.ToString();
+        PauseManager.Singleton.gameObject.SetActive(false);
     }
 
     public void Restart()

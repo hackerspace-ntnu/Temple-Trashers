@@ -2,13 +2,15 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class SaveSystem { 
-    
+
+public static class SaveSystem
+{
+    private static string DataPath => $"{Application.persistentDataPath}/terrain.data";
+
     public static void SaveTerrain(HexGrid grid)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/terrain.data";
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream stream = new FileStream(DataPath, FileMode.Create);
 
         TerrainData data = new TerrainData(grid);
 
@@ -16,13 +18,12 @@ public static class SaveSystem {
         stream.Close();
     }
 
-    public static TerrainData LoadTerrain(HexGrid grid)
+    public static TerrainData LoadTerrain()
     {
-        string path = Application.persistentDataPath + "/terrain.data";
-        if (File.Exists(path))
+        if (File.Exists(DataPath))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            FileStream stream = new FileStream(DataPath, FileMode.Open);
 
             TerrainData data = formatter.Deserialize(stream) as TerrainData;
 
@@ -30,7 +31,7 @@ public static class SaveSystem {
             return data;
         } else
         {
-            Debug.LogError("Terrain data not found at " + path);
+            Debug.LogError($"Terrain data not found at {DataPath}");
             return null;
         }
     }

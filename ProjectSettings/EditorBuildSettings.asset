@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Disclaimer.unity
     guid: b5da6275ea3339a40b64fede187cbda2
   - enabled: 1
-    path: Assets/Scenes/Terrain.unity
+    path: Assets/Scenes/Main Menu.unity
+    guid: 23f192a6fa34ae54c8acbf6be4b7fbfe
+  - enabled: 1
+    path: Assets/Scenes/Endless Mode.unity
     guid: eadfcbd34428a1644a9ba9e91558904b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 512b6bc2accd0784baa634b562fa07be, type: 2}

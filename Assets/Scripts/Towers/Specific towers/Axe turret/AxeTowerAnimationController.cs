@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
 {
     public MeshRenderer handAxe;
@@ -20,7 +21,7 @@ public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
     public void Shoot()
     {
         handAxe.enabled = false;
-        Rigidbody projectileBody = Instantiate(axeProjectilePrefab, spawnPoint.position, spawnPoint.rotation)
+        Rigidbody projectileBody = Instantiate(axeProjectilePrefab, spawnPoint.position, spawnPoint.rotation, transform)
             .GetComponent<Rigidbody>();
         projectileBody.velocity = forwardTransform.right * projectileSpeed;
     }

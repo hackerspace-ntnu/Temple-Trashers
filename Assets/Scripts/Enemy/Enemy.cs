@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public enum EnemyState
 {
     WALKING,
@@ -21,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     [ReadOnly, SerializeField]
     protected Transform baseTransform;
 
-    [ReadOnly, SerializeField]
+    [TextLabel(greyedOut = true), SerializeField]
     protected EnemyState currentState = EnemyState.WALKING;
 
     [SerializeField]
@@ -44,6 +45,9 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField]
     protected float attackDamage = 1f;
+
+    [SerializeField]
+    protected int scoreValue = 10;
 
     protected NavMeshAgent agent;
     protected HealthLogic health;
@@ -86,6 +90,7 @@ public abstract class Enemy : MonoBehaviour
     private void Die(DamageInfo dmg)
     {
         SetState(EnemyState.DEAD);
+        UIManager.Singleton.IncreaseScore(scoreValue);
     }
 
     void Start()
@@ -212,7 +217,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void UpdateTargetDestination()
     {
-        // Invokes the logic in `CurrentTarget`'s `set` method
+        // Invoke the logic in CurrentTarget's setter
         CurrentTarget = CurrentTarget;
     }
 

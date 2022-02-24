@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SkeletonController : Enemy
 {
     private static readonly int walkModeAnimatorParam = Animator.StringToHash("WalkMode");

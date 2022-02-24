@@ -3,26 +3,47 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GameOverScreen : MonoBehaviour
 {
-    [SerializeField]
-    public Text timerText;
+    public Text nameInput;
+    public Text errorMsg;
+    public Text scoreText;
 
-    public float time = 5f;
-
-    void Update()
+    private void Start()
     {
-        timerText.text = Mathf.Round(time).ToString();
-        // Fix UI
-        time -= Time.deltaTime;
-
-        if (time <= 0)
-            Restart();
+        scoreText.text = UIManager.Singleton.score.ToString();
     }
 
     public void Restart()
     {
-        // Reloads the scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if(nameInput.text == "")
+        {
+            errorMsg.enabled = true;
+        }
+        else
+        {
+            // Update Leaderboard 
+            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+            // Loads Main menu
+            SceneManager.LoadScene("Endless Mode");
+        }
+    }
+
+    public void MainMenu()
+    {
+        if (nameInput.text == "")
+        {
+            errorMsg.enabled = true;
+        }
+        else
+        {
+            // Update Leaderboard 
+            LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+            // Loads Main menu
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 }

@@ -79,8 +79,8 @@ public static class LeaderboardData
         // Check if the file is corrupted
         try
         {
-            data = formatter.Deserialize(stream) as List<Highscore>;
-        } catch (SerializationException e)
+            data = (List<Highscore>)formatter.Deserialize(stream);
+        } catch (SystemException e) when (e is SerializationException || e is InvalidCastException)
         {
             File.Delete(highscoresDataPath);
             Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");

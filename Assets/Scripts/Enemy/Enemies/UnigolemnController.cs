@@ -38,6 +38,8 @@ public class UnigolemnController : MonoBehaviour
         baseTransform = BaseController.Singleton.transform;
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(baseTransform.position);
+
+        GetComponent<HealthLogic>().onDeath += (damageInfo) => Destroy(gameObject);
     }
 
     

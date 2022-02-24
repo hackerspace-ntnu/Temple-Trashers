@@ -56,10 +56,10 @@ public static class LeaderboardData
     /// </summary>
     private static void SaveScores(List<Highscore> scores)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(highscoresDataPath, FileMode.Create);
-        formatter.Serialize(stream, scores);
-        stream.Close();
+        using (FileStream stream = File.OpenWrite(highscoresDataPath))
+        {
+            new BinaryFormatter().Serialize(stream, scores);
+        }
     }
 
     /// <summary>
@@ -71,23 +71,18 @@ public static class LeaderboardData
         if (!File.Exists(highscoresDataPath))
             return CreateMockLeaderboard();
 
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(highscoresDataPath, FileMode.Open);
-
         List<Highscore> data;
-
-        // Check if the file is corrupted
         try
         {
-            data = (List<Highscore>)formatter.Deserialize(stream);
+            using (FileStream stream = File.OpenRead(highscoresDataPath))
+            {
+                data = (List<Highscore>)new BinaryFormatter().Deserialize(stream);
+            }
         } catch (SystemException e) when (e is SerializationException || e is InvalidCastException)
         {
             File.Delete(highscoresDataPath);
             Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
             return LoadScores();
-        } finally
-        {
-            stream.Close();
         }
 
         return data;

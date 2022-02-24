@@ -30,26 +30,38 @@ public partial class PlayerStateController : MonoBehaviour
     private InventoryManager inventoryManager;
 
     private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
+
     [ReadOnly, SerializeField]
     private Interactable heldInteractable;
+
     [ReadOnly, SerializeField]
     private Interactable focusedInteractable; // The currently focused interactable
+
     [ReadOnly, SerializeField]
     private GameObject liftedObject; // Object being lifted
+
     public Transform inventory; // Where items are carried
+
     private HexGrid terrain; // Reference to the terrain
+
     [ReadOnly, SerializeField]
     private HexCell targetCell;
+
     [SerializeField]
     private Animator anim; //Reference to animation controller of the player
+
     [SerializeField]
     private Transform heldItemBone;
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
+
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
+
     public PlayerStateDelegate onPlayerStateChange; //To allow other components to subscribe to stateChange events
+
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
-   
+
     void Awake()
     {
         motion = GetComponent<PlayerMotion>();
@@ -66,7 +78,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         OnDestroy_Input();
     }
-    
+
     private void Die(DamageInfo dmg)
     {
         // Drop anything we are carrying
@@ -323,7 +335,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(heldInteractable is TurretPrefabConstruction tower))
             return;
 
-        inventoryManager.ResourceAmount += tower.TowerScriptableObject.GetCost();
+        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -351,5 +363,4 @@ public partial class PlayerStateController : MonoBehaviour
         obj.transform.parent = null;
         SetState(PlayerStates.FREE);
     }
-
 }

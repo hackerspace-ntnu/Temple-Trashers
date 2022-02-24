@@ -52,9 +52,9 @@ public class PlayerUi : MonoBehaviour
         {
             TowerScriptableObject selectedSegment = GetSelectedSegment();
             if (selectedSegment
-                && inventory.ResourceAmount - selectedSegment.GetCost() >= 0)
+                && inventory.ResourceAmount - selectedSegment.Cost >= 0)
             {
-                inventory.ResourceAmount -= selectedSegment.GetCost();
+                inventory.ResourceAmount -= selectedSegment.Cost;
                 selectedSegment.InstantiateConstructionTower(state);
                 state.SetState(PlayerStates.BUILDING);
             } else

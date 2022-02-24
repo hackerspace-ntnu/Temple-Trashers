@@ -720,6 +720,10 @@ PrefabInstance:
       propertyPath: towerPrefab
       value: 
       objectReference: {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
+    - target: {fileID: 3777615045600658458, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
+      propertyPath: _towerScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
     - target: {fileID: 7211280855749776597, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
       propertyPath: m_RootOrder
       value: 0

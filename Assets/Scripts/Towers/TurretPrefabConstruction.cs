@@ -14,7 +14,12 @@ public class TurretPrefabConstruction : Interactable
     [SerializeField]
     private Material errorMaterial;
 
+    [SerializeField]
+    private TowerScriptableObject _towerScriptableObject;
+
     private Renderer[] renderers;
+
+    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 
     void Awake()
     {

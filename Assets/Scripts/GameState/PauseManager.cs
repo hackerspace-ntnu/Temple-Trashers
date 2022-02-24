@@ -10,6 +10,16 @@ public class PauseManager : MonoBehaviour
     [SerializeField]
     public GameObject ui;
 
+    // An array of all audiosources in the game.
+    [SerializeField]
+    private AudioSource[] audioSources;
+
+    [SerializeField]
+    private float normalAudioVolume = 1f;
+
+    [SerializeField]
+    private float pauseAudioVolume = 0.3f;
+
     public bool IsPaused { get; private set; } = false;
 
     private float initialTimeScale;
@@ -43,9 +53,24 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
+        if (!gameObject.activeSelf)
+            return;
+
         IsPaused = !IsPaused;
         Time.timeScale = IsPaused ? 0 : initialTimeScale;
         ui.SetActive(IsPaused);
+
+        // Pause every audiosource in array.
+        foreach (AudioSource source in audioSources)
+        {
+            if (IsPaused)
+                source.Pause();
+            else
+                source.UnPause();
+        }
+
+        // Reduce the listener volume level
+        AudioListener.volume = IsPaused ? pauseAudioVolume : normalAudioVolume;
     }
 
     public void QuitGame()

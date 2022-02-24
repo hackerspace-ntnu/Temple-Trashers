@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7211280855749776597}
   - component: {fileID: 3777615045600658458}
   m_Layer: 0
-  m_Name: TowerHolo
+  m_Name: TowerHolo_BasePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,3 +47,4 @@ MonoBehaviour:
   towerPrefab: {fileID: 0}
   normalMaterial: {fileID: 2100000, guid: 59d031ebc8c2ac646a62fa1061db29af, type: 2}
   errorMaterial: {fileID: 2100000, guid: 8cee3c2bf4294d14788acacbbcb6cd03, type: 2}
+  _towerScriptableObject: {fileID: 0}

@@ -9,7 +9,6 @@ public class UnigolemnController : MonoBehaviour
     [SerializeField]
     private Transform model;
 
-    [SerializeField]
     private Transform baseTransform;
 
     [SerializeField]

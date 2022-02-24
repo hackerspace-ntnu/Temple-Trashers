@@ -299,7 +299,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 670224309865224971, guid: 56e5bfa7db5ce7d4aab0c757a8e612cb, type: 3}
+  - {fileID: 2100000, guid: 7840b450923686044acad76bce7e7206, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -473,7 +473,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 7764703935131286064}
-  baseTransform: {fileID: 0}
   tiltAngleSide: 10
   tiltAngleFront: 30
   anim: {fileID: 2369600441914515938}

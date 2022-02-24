@@ -239,7 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4fd1a3795e38f42b486c9bd6a8fc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 1
   tower: {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
+  _towerScriptableObject: {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
 --- !u!1 &3049860759657918080
 GameObject:
   m_ObjectHideFlags: 0

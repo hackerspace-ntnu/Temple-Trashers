@@ -125,12 +125,7 @@ public partial class PlayerStateController : MonoBehaviour
                 UpdateConstructionTowerTargetCell();
                 if (Cancel)
                 {
-                    //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
-
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    SellTower();
                     SetState(PlayerStates.FREE);
                 }
 
@@ -201,11 +196,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (heldInteractable)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
-
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    SellTower();
                 }
 
                 SetFocusedInteractable(null);
@@ -334,6 +325,17 @@ public partial class PlayerStateController : MonoBehaviour
         if (interactable)
             interactable.Focus(this);
         focusedInteractable = interactable;
+    }
+
+    private void SellTower()
+    {
+        if (!(heldInteractable is TurretPrefabConstruction tower))
+            return;
+
+        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+
+        RemoveInteractable(tower);
+        Destroy(tower.gameObject);
     }
 
     public void Lift(GameObject obj)

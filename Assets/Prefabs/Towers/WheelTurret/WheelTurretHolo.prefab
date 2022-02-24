@@ -272,6 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   tower: {fileID: 2983117196373584133, guid: a86ee555d85992147a70625145af137b, type: 3}
+  _towerScriptableObject: {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
 --- !u!1 &4780342758878589116
 GameObject:
   m_ObjectHideFlags: 0

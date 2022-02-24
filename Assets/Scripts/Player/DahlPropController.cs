@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// Component made for updating Dahl's props when states are changed.
-/// Latches on to `PlayerStateContoller`s `onPlayerStateChange` delegate to enable/disabled the crate and blueprints.
+/// Latches on to <c>PlayerStateContoller</c>'s <c>onPlayerStateChange</c> delegate to enable/disabled the crate and blueprints.
 /// </summary>
 public class DahlPropController : MonoBehaviour
 {

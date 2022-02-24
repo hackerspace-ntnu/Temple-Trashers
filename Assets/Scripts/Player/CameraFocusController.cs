@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraFocusController : MonoBehaviour
 {
     public static CameraFocusController Singleton { get; private set; }

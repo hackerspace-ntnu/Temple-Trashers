@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TurretPrefabConstruction : Interactable
 {
     public GameObject tower;
 
+    [SerializeField]
+    private TowerScriptableObject _towerScriptableObject;
+
+    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
+
     public void Construct(HexCell targetCell)
     {
-        GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation);
+        GameObject t = Instantiate(tower, targetCell.transform.position, tower.transform.rotation, targetCell.transform);
         targetCell.OccupyingObject = t;
-        t.transform.SetParent(targetCell.transform);
         Destroy(gameObject);
     }
 

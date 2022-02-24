@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BulletLogic : MonoBehaviour
 {
     public float BulletSpeed { get; set; }

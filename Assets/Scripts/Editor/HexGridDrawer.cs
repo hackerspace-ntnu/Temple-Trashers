@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
+
 
 [CustomEditor(typeof(HexGrid))]
 public class HexGridDrawer : Editor
@@ -9,10 +9,7 @@ public class HexGridDrawer : Editor
     {
         base.OnInspectorGUI();
 
-        HexGrid hexGrid = (HexGrid)target;
         if (GUILayout.Button("Generate Terrain"))
-        {
-            hexGrid.RebuildTerrain();
-        }
+            ((HexGrid)target).RebuildTerrain();
     }
 }

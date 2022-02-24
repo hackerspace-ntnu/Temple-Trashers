@@ -42,8 +42,6 @@ public partial class PlayerStateController : MonoBehaviour
 
     public Transform inventory; // Where items are carried
 
-    private HexGrid terrain; // Reference to the terrain
-
     [ReadOnly, SerializeField]
     private HexCell targetCell;
 
@@ -69,7 +67,6 @@ public partial class PlayerStateController : MonoBehaviour
         health.onDeath += Die;
 
         ui = GetComponent<PlayerUi>();
-        terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
     }
 
     void OnDestroy()
@@ -143,7 +140,7 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void UpdateConstructionTowerTargetCell()
     {
-        targetCell = terrain.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        targetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
         focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
     }
 

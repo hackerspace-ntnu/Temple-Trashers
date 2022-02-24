@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5554718003627842633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5554718003627842632}
+  - component: {fileID: 7556571483623689886}
+  m_Layer: 0
+  m_Name: HexGrid
+  m_TagString: Grid
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5554718003627842632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554718003627842633}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7556571483623689886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554718003627842633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414a0fc06528949a0baff4f719b04a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkCountX: 10
+  chunkCountZ: 10
+  chunkPrefab: {fileID: 1715380707449622486, guid: 644482283630127498f5d5fd3538180e, type: 3}
+  cellPrefab: {fileID: 3232745420878418644, guid: 344428ef3825a48459c49cc3f55d5f2b, type: 3}
+  cells: []
+  edgeCells: []
+  sceneryObjects:
+  - {fileID: 582512043729321896, guid: d516299b5c2ef0c41bef1c06bf150d76, type: 3}
+  - {fileID: 6453742252294820681, guid: 3f8b52c6be1c3af44b7be0ed2b1e604a, type: 3}
+  - {fileID: 8390892766367341337, guid: 98175291f4e95704baf1a9612e215751, type: 3}
+  mountainBorder: 1
+  treeBorder: 1
+  noise: {fileID: 2800000, guid: 600eed7c653e4b34db0e0ba17c323e1a, type: 3}
+  noiseScale: 0.01
+  cellTypes:
+  - material: {fileID: 2100000, guid: a5e7917785a153a43af09f4b94fe40cb, type: 2}
+    elevation: -0.3
+  - material: {fileID: 2100000, guid: 51855904a3cbc63439eee966c5c98a3c, type: 2}
+    elevation: 0
+  - material: {fileID: 2100000, guid: 5ec7c15465c2cc74886c0424eff4ab92, type: 2}
+    elevation: 0
+  - material: {fileID: 2100000, guid: 9061c0a39302aae4495532f46b083b87, type: 2}
+    elevation: 1
+  towerPrefabs:
+  - {fileID: 8637078598552028507, guid: 2229dc52bdd1e6c4384f2d306dcd4df5, type: 3}
+  - {fileID: 7425059109847644991, guid: 465be707821a3d14cbc434b02dc72bdb, type: 3}

@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 
-[System.Serializable]
+[Serializable]
 public struct Highscore
 {
     public int score;
@@ -34,7 +35,7 @@ class HighscoreComparator : IComparer<Highscore>
 public static class LeaderboardData
 {
     // Path to where highscore data is saved
-    private static string path = Application.persistentDataPath + "/highscores.data";
+    private static readonly string highscoresDataPath = $"{Application.persistentDataPath}/highscores.data";
 
     /// <summary>
     /// Add a new score to the leaderboard
@@ -53,15 +54,12 @@ public static class LeaderboardData
     /// <summary>
     /// Save all the given scores
     /// </summary>
-    public static void SaveScores(List<Highscore> scores)
+    private static void SaveScores(List<Highscore> scores)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        formatter.Serialize(stream, scores);
-
-        stream.Close();
+        using (FileStream stream = File.OpenWrite(highscoresDataPath))
+        {
+            new BinaryFormatter().Serialize(stream, scores);
+        }
     }
 
     /// <summary>
@@ -70,47 +68,44 @@ public static class LeaderboardData
     /// <returns>An ordered list of <c>Highscore</c> structs.</returns>
     public static List<Highscore> LoadScores()
     {
-        if (File.Exists(path))
+        if (!File.Exists(highscoresDataPath))
+            return CreateMockLeaderboard();
+
+        List<Highscore> data;
+        try
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            List<Highscore> data;
-
-            // Check if the file is corrupted
-            try
+            using (FileStream stream = File.OpenRead(highscoresDataPath))
             {
-                data = formatter.Deserialize(stream) as List<Highscore>;
-            } catch (SerializationException e)
-            {
-                File.Delete(path);
-                Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
-                return LoadScores();
-            } finally
-            {
-                stream.Close();
+                data = (List<Highscore>)new BinaryFormatter().Deserialize(stream);
             }
-
-            return data;
-        } else
+        } catch (SystemException e) when (e is SerializationException || e is InvalidCastException)
         {
-            // No leaderboard exists create a default one
-            List<Highscore> highscores = new List<Highscore>
-            {
-                new Highscore(5000, "The Archetype"),
-                new Highscore(4500, "Fuereoduriko"),
-                new Highscore(4000, "Dabble"),
-                new Highscore(3500, "Frisk"),
-                new Highscore(3000, "Jesper"),
-                new Highscore(2500, "Rodrigues"),
-                new Highscore(2000, "Zedd"),
-                new Highscore(1500, "Grønnmerke"),
-                new Highscore(1000, "KHTangent"),
-                new Highscore(10, "Endie"),
-            };
-
-            SaveScores(highscores);
-            return highscores;
+            File.Delete(highscoresDataPath);
+            Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
+            return LoadScores();
         }
+
+        return data;
+    }
+
+    private static List<Highscore> CreateMockLeaderboard()
+    {
+        // No leaderboard exists, so create a mock leaderboard
+        List<Highscore> highscores = new List<Highscore>
+        {
+            new Highscore(5000, "The Archetype"),
+            new Highscore(4500, "Fuereoduriko"),
+            new Highscore(4000, "Dabble"),
+            new Highscore(3500, "Frisk"),
+            new Highscore(3000, "Jesper"),
+            new Highscore(2500, "Rodrigues"),
+            new Highscore(2000, "Zedd"),
+            new Highscore(1500, "Grønnmerke"),
+            new Highscore(1000, "KHTangent"),
+            new Highscore(10, "Endie"),
+        };
+
+        SaveScores(highscores);
+        return highscores;
     }
 }

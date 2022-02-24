@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton { get; private set; }
 
     public Text resourceText;
     public Text scoreText;
-
 
     private InventoryManager inventory;
     public int score;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class UnigolemnController : MonoBehaviour
+public class UnigolemController : MonoBehaviour
 {
 
     [SerializeField]

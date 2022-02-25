@@ -131,13 +131,17 @@ public class BaseController : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
-        Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot)
+
+        if (player)
         {
-            // Stop the absorbtion
-            loot.CancelAbsorb();
-            // Remove VFX
-            RemoveRayVFX(player.transform, 0f);
+            Loot loot = player.GetComponentInChildren<Loot>();
+            if (loot)
+            {
+                // Stop the absorbtion
+                loot.CancelAbsorb();
+                // Remove VFX
+                RemoveRayVFX(player.transform, 0f);
+            }
         }
     }
 

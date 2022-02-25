@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 416639624}
-  - component: {fileID: 416639625}
+  - component: {fileID: 8716177432359548056}
   m_Layer: 0
   m_Name: PlayerTrigger
   m_TagString: Untagged
@@ -31,8 +31,8 @@ Transform:
   m_Father: {fileID: 5829545455071137389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &416639625
-SphereCollider:
+--- !u!136 &8716177432359548056
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -41,8 +41,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.56
+  m_Radius: 2.61
+  m_Height: 10
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &432531315
 GameObject:
@@ -71,7 +72,7 @@ Transform:
   m_GameObject: {fileID: 432531315}
   m_LocalRotation: {x: -0.7071062, y: -0, z: -0, w: 0.7071075}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8.28, y: 8.28, z: 9.2}
+  m_LocalScale: {x: 8.2, y: 8.2, z: 8.2}
   m_Children: []
   m_Father: {fileID: 6926947724646838049}
   m_RootOrder: 1
@@ -231,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 2438297476366917524}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 7, z: 0}
-  m_LocalScale: {x: 1.1111112, y: 1, z: 1.1111112}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7990289546767576121}
   - {fileID: 432531316}
@@ -530,10 +531,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af755870c7ae4186a96141b01af8563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreen: {fileID: 6406541465688870762, guid: cf6616ecfd76d4b379c4e4fd196293af, type: 3}
+  gameOverScreen: {fileID: 7344749674710268611, guid: 913354e4f75f75b47a521dd6152a8fe8, type: 3}
   destroyedBase: {fileID: 7907768064546073796, guid: ced5130962de4c54185e3ca432063c03, type: 3}
   deathParticles: {fileID: 5015622875412468078, guid: f9753b14761704b478696f93e9bb9b68, type: 3}
   spawnPoint: {fileID: 5829545455071137389}
+  gameManager: {fileID: 0}
   crystals: 0
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
   explosionLightningCount: 20
@@ -841,7 +843,7 @@ Transform:
   m_GameObject: {fileID: 8284152995435755574}
   m_LocalRotation: {x: -0.7071066, y: -0, z: -0, w: 0.70710707}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8.2062, y: 8.2062, z: 9.117998}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 6926947724646838049}
   m_RootOrder: 0
@@ -919,7 +921,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8351407049151897928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.53}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 1, z: 0.9}
   m_Children:
   - {fileID: 6926947724646838049}

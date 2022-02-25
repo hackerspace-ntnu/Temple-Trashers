@@ -68,11 +68,11 @@ Material:
     - Rate: 1
     - State: 0
     - Vector1_1DC7BFE3: 140.76
-    - Vector1_20C92801: 0.37
-    - Vector1_3B95BBD: 0.4
+    - Vector1_20C92801: 0.6
+    - Vector1_3B95BBD: 0.5
     - Vector1_92557405: 0.01
     - Vector1_B9C007CA: 1
-    - Vector1_E4C8FF72: 0
+    - Vector1_E4C8FF72: -0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

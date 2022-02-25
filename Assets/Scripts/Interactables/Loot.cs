@@ -34,12 +34,20 @@ public class Loot : Interactable
     public int lootValue = 10;
     private InventoryManager inventory;
 
+    // Loot Rigidbody
+    private Rigidbody rigidbody;
+
+    // Loot collider
+    private MeshCollider meshCollider;
+
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
     void Awake()
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        rigidbody = GetComponent<Rigidbody>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
     void Start()
@@ -103,14 +111,30 @@ public class Loot : Interactable
         {
             // Carry the loot!
             carried = true;
+
+            // Reset rigidbody
+            rigidbody.isKinematic = true;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
+
+            // Disable collider
+            meshCollider.enabled = false;
+
             player.Lift(gameObject);
+
         } else
         {
             // Drop the loot!
             carried = false;
+            rigidbody.isKinematic = false;
+            meshCollider.enabled = true;
+            
             // If i'm to be destroyed, prevent me from being interacted with
             if (destroy)
+            {
                 canInteract = false;
+                rigidbody.isKinematic = true;
+            }
 
             player.Drop(gameObject);
             absorbTarget = transform.position + new Vector3(0, 3, 0);

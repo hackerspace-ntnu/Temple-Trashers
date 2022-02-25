@@ -344,6 +344,14 @@ public partial class PlayerStateController : MonoBehaviour
         SetState(PlayerStates.LIFTING);
         obj.transform.SetParent(heldItemBone);
         obj.transform.localPosition = Vector3.zero;
+        obj.transform.localEulerAngles = Vector3.zero;
+    }
+
+    public void Drop(GameObject obj)
+    {
+        liftedObject = null;
+        obj.transform.parent = null;
+        SetState(PlayerStates.FREE);
     }
 
     public void PrepareTurret(Interactable turret)
@@ -354,10 +362,5 @@ public partial class PlayerStateController : MonoBehaviour
         UpdateConstructionTowerTargetCell();
     }
 
-    public void Drop(GameObject obj)
-    {
-        liftedObject = null;
-        obj.transform.parent = null;
-        SetState(PlayerStates.FREE);
-    }
+
 }

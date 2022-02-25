@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - lootPrefab: {fileID: 6789703756748737066, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
+  - lootPrefab: {fileID: 5246800848510687331, guid: b948d203c55455f4288c07c469eda34a, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -1980,6 +1980,7 @@ MonoBehaviour:
   playerAttackDistance: 2.5
   playerChaseStopDistance: 8
   attackDamage: 1
+  scoreValue: 10
 --- !u!114 &6262807936475223195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2023,7 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36286781665dc37498a44f6eb6d18e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootPrefab: {fileID: 8630265067307965030, guid: 7a8fb2fa4df12b44b9b6261450ac0d42, type: 3}
+  lootPrefab: {fileID: 5246800848510687331, guid: b948d203c55455f4288c07c469eda34a, type: 3}
   spawnHeight: 1
 --- !u!195 &6262807936475223190
 NavMeshAgent:

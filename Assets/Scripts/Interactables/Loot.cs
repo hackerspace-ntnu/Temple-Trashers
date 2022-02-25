@@ -43,16 +43,12 @@ public class Loot : Interactable
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
-    void Awake()
-    {
-        meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        rigidbody = GetComponent<Rigidbody>();
-        meshCollider = GetComponent<MeshCollider>();
-    }
-
     void Start()
     {
         inventory = InventoryManager.Singleton;
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        rigidbody = GetComponent<Rigidbody>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
     void Update()
@@ -141,19 +137,29 @@ public class Loot : Interactable
         }
     }
 
-    public void Absorb(BaseController baseController)
+    /// <summary>
+    /// Prepares the loot object to be destroyed.
+    /// </summary>
+
+    public void Absorb()
     {
         // Set the object to be destroyed
-        this.baseController = baseController;
+        baseController = BaseController.Singleton;
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
     }
 
+    /// <summary>
+    /// Prevents the object from being destroyed afterall, called when the loot leaves the base trigger zone.
+    /// </summary>
     public void CancelAbsorb()
     {
         destroy = false;
     }
 
+    /// <summary>
+    /// Highlight the loot object
+    /// </summary>
     private void Highlight()
     {
         // Add the selection material to all existing meshes
@@ -165,6 +171,9 @@ public class Loot : Interactable
         }
     }
 
+    /// <summary>
+    /// Remove the highlight material
+    /// </summary>
     private void Unhighlight()
     {
         // Remove selection material from all meshes

@@ -109,7 +109,7 @@ public class BaseController : MonoBehaviour
         Loot loot = player?.GetComponentInChildren<Loot>();
         if (loot)
         {
-            loot.Absorb(this);
+            loot.Absorb();
 
             // Add VFX
             if (GetIdVFX(player.transform) == -1) // Check that we have not added one already

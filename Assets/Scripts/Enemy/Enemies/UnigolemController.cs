@@ -34,7 +34,6 @@ public class UnigolemController : MonoBehaviour
 
     void Awake()
     {
-        baseTransform = BaseController.Singleton.transform;
         agent = GetComponent<NavMeshAgent>();
         healthLogic = GetComponent<HealthLogic>();
         healthLogic.onDeath += Die;
@@ -42,13 +41,14 @@ public class UnigolemController : MonoBehaviour
 
     void Start()
     {
-        lastForward = transform.forward;
+        baseTransform = BaseController.Singleton.transform;
         agent.SetDestination(baseTransform.position);
+        lastForward = transform.forward;
     }
 
     void OnDestroy()
     {
-        GetComponent<HealthLogic>().onDeath -= Die;
+        healthLogic.onDeath -= Die;
     }
 
     private void Die(DamageInfo damageInfo)

@@ -18,7 +18,7 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField]
     private Text scoreText;
 
-    private void Start()
+    void Start()
     {
         scoreText.text = UIManager.Singleton.score.ToString();
         PauseManager.Singleton.gameObject.SetActive(false);

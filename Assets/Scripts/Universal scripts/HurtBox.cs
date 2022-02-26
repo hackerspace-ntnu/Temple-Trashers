@@ -11,7 +11,7 @@ public class HurtBox : MonoBehaviour
     [SerializeField]
     private int damage;
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         foreach (string tagToDamage in tagsToDamage)
         {

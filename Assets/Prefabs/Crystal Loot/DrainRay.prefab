@@ -88,17 +88,17 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 24.668755, y: 1.37, z: 16.882717}
+      - m_Value: {x: -4.19, y: 14.13, z: 1}
         m_Name: Target
         m_Overridden: 1
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 5.019608, y: 8.031373, z: 95.87451, w: 0}
+      - m_Value: {x: 2.509804, y: 4.0156865, z: 47.937256, w: 0}
         m_Name: Color
         m_Overridden: 1
-      - m_Value: {x: 80.31373, y: 180.70589, z: 766.9961, w: 1}
+      - m_Value: {x: 10.039216, y: 22.588236, z: 95.87451, w: 1}
         m_Name: Color Energyballs
-        m_Overridden: 0
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:

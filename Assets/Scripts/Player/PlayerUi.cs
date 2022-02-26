@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerUi : MonoBehaviour
 {
     [SerializeField]
-    private PlayerStateController state;
+    private PlayerStateController playerStateController;
 
     public GameObject ui;
 
@@ -16,11 +16,11 @@ public class PlayerUi : MonoBehaviour
 
     private Transform mainCameraTransform;
     private InventoryManager inventory;
-    private UIControllerWheel controllerWheel;
+    public UIControllerWheel controllerWheel;
 
     void Awake()
     {
-        state = GetComponent<PlayerStateController>();
+        playerStateController = GetComponent<PlayerStateController>();
         controllerWheel = ui.GetComponentInChildren<UIControllerWheel>();
     }
 
@@ -48,17 +48,17 @@ public class PlayerUi : MonoBehaviour
         ui.gameObject.SetActive(true);
         UpdatePos();
         //Turns off the UI if button no longer held
-        if (!state.Select)
+        if (!playerStateController.Select)
         {
             TowerScriptableObject selectedSegment = GetSelectedSegment();
             if (selectedSegment
                 && inventory.ResourceAmount - selectedSegment.Cost >= 0)
             {
                 inventory.ResourceAmount -= selectedSegment.Cost;
-                selectedSegment.InstantiateConstructionTower(state);
-                state.SetState(PlayerStates.BUILDING);
+                selectedSegment.InstantiateConstructionTower(playerStateController);
+                playerStateController.SetState(PlayerStates.BUILDING);
             } else
-                state.SetState(PlayerStates.FREE);
+                playerStateController.SetState(PlayerStates.FREE);
 
             ui.gameObject.SetActive(false);
         }
@@ -67,20 +67,20 @@ public class PlayerUi : MonoBehaviour
     //Finds which segment of the radialUi the control stick is pointing towards
     private void UpdatePos()
     {
-        if (state.CurrentState != PlayerStates.IN_TURRET_MENU)
+        if (playerStateController.CurrentState != PlayerStates.IN_TURRET_MENU)
         {
             Debug.LogError("You seem to be in the wrong state for the UI");
             return;
         }
 
         // The controller points to nothing
-        if (state.AimInput == Vector2.zero)
+        if (playerStateController.AimInput == Vector2.zero)
         {
             controllerWheel.SelectedSegmentIndex = null;
             return;
         }
 
-        float inputAngle = 180f * Mathf.Atan2(state.AimInput.x, state.AimInput.y) / Mathf.PI;
+        float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) / Mathf.PI;
         inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentTiltDegrees);
 
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();

@@ -15,6 +15,12 @@ partial class PlayerStateController
     public bool Cancel { get; private set; } = false;
     public bool Select { get; private set; } = false;
 
+    // D-pad
+    public bool DLeft { get; private set; } = false;
+    public bool DRight { get; private set; } = false;
+    public bool DUp { get; private set; } = false;
+    public bool DDown { get; private set; } = false;
+
     private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>();
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
     private void AimInput_Performed(InputAction.CallbackContext ctx) => AimInput = ctx.ReadValue<Vector2>();
@@ -25,6 +31,12 @@ partial class PlayerStateController
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
     private void PauseInput_Performed(InputAction.CallbackContext ctx) => PauseManager.Singleton.PauseGame();
+
+    // D-pad
+    private void DLeft_Performed(InputAction.CallbackContext ctx) => OnDLeft();
+    private void DRight_Performed(InputAction.CallbackContext ctx) => OnDRight();
+    private void DUp_Performed(InputAction.CallbackContext ctx) => OnDUp();
+    private void DDown_Performed(InputAction.CallbackContext ctx) => OnDDown();
 
     private void MoveTowerInput_Performed(InputAction.CallbackContext ctx) => OnMoveTower();
 
@@ -48,6 +60,12 @@ partial class PlayerStateController
         newInput.actions["Pause"].performed += PauseInput_Performed;
         newInput.actions["Move tower"].performed += MoveTowerInput_Performed;
 
+        // D-pad
+        newInput.actions["DLeft"].performed += DLeft_Performed;
+        newInput.actions["DRight"].performed += DRight_Performed;
+        newInput.actions["DUp"].performed += DUp_Performed;
+        newInput.actions["DDown"].performed += DDown_Performed;
+
         #region Developer hotkeys
 
         newInput.actions["Ready for next wave"].performed += ReadyForNextWaveInput_Performed;
@@ -70,6 +88,12 @@ partial class PlayerStateController
             input.actions["Select"].canceled -= SelectInput_Canceled;
             input.actions["Pause"].performed -= PauseInput_Performed;
             input.actions["Move tower"].performed -= MoveTowerInput_Performed;
+
+            // D-pad
+            input.actions["DLeft"].performed -= DLeft_Performed;
+            input.actions["DRight"].performed -= DRight_Performed;
+            input.actions["DUp"].performed -= DUp_Performed;
+            input.actions["DDown"].performed -= DDown_Performed;
 
             #region Developer hotkeys
 

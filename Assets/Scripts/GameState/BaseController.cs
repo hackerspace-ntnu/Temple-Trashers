@@ -24,9 +24,6 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    // The gamemanager object that organizes enemies and player spawning
-    public EndlessMode gameManager;
-
     // Crystal Transform
     [SerializeField]
     private Transform mainCrystal;
@@ -47,6 +44,9 @@ public class BaseController : MonoBehaviour
     private HealthLogic healthController;
 
     private Animator anim;
+
+    // The gamemanager object that organizes enemies and player spawning
+    private EndlessMode gameManager;
 
     public Transform SpawnPoint => spawnPoint;
 
@@ -75,6 +75,7 @@ public class BaseController : MonoBehaviour
         healthController = GetComponent<HealthLogic>();
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
+        gameManager = EndlessMode.Singleton;
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");

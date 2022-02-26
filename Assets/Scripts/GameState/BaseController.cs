@@ -75,10 +75,14 @@ public class BaseController : MonoBehaviour
         healthController = GetComponent<HealthLogic>();
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
-        gameManager = EndlessMode.Singleton;
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
+    }
+
+    void Start()
+    {
+        gameManager = EndlessMode.Singleton;
     }
 
     void OnDestroy()

@@ -47,6 +47,8 @@ public class BaseController : MonoBehaviour
 
     public Transform SpawnPoint => spawnPoint;
 
+    public HealthLogic HealthController => healthController;
+
     // Crystal Transform
     [SerializeField]
     private Transform mainCrystal;

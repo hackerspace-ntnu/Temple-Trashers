@@ -9,9 +9,13 @@ public class UIManager : MonoBehaviour
 
     public Text resourceText;
     public Text scoreText;
-
+    public Scrollbar healthSlider;
 
     private InventoryManager inventory;
+    private BaseController baseController;
+    
+    private float baseMaxHealth;
+    
     public int score;
 
     void Awake()
@@ -37,7 +41,17 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         inventory = InventoryManager.Singleton;
+        baseController = BaseController.Singleton;
+
         UpdateResourceUI();
+        baseController.HealthController.onDamage += UpdateBaseHealth;
+        baseMaxHealth = baseController.HealthController.maxHealth;
+
+    }
+
+    private void OnDestroy()
+    {
+        baseController.HealthController.onDamage -= UpdateBaseHealth;
     }
 
     public void UpdateResourceUI()
@@ -49,5 +63,10 @@ public class UIManager : MonoBehaviour
     {
         score += increase;
         scoreText.text = score.ToString();
+    }
+
+    private void UpdateBaseHealth(DamageInfo damage)
+    {
+        healthSlider.size = 1 - damage.RemainingHealth/baseMaxHealth;
     }
 }

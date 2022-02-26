@@ -111,38 +111,41 @@ public class BaseController : MonoBehaviour
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player?.GetComponentInChildren<Loot>();
-        if (loot)
+        if (!loot)
+            return;
+
+        loot.Absorb();
+
+        // Add VFX
+        if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
         {
-            loot.Absorb(this);
+            Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
+            ray.SetParent(mainCrystal);
 
-            // Add VFX
-            if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
-            {
-                Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
-                ray.SetParent(mainCrystal);
+            // 1 is the index of the first child (after the parent itself)
+            Transform target = ray.GetComponentsInChildren<Transform>()[1];
+            target.SetParent(loot.transform);
+            target.localPosition = Vector3.zero;
 
-                // 1 is the index of the first child (after the parent itself)
-                Transform target = ray.GetComponentsInChildren<Transform>()[1];
-                target.SetParent(loot.transform);
-                target.localPosition = Vector3.zero;
-
-                rays.Add(new Ray(ray, target));
-                loot.target = target;
-            }
+            rays.Add(new Ray(ray, target));
+            loot.target = target;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
+        if (!player)
+            return;
+
         Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot)
-        {
-            // Stop the absorbtion
-            loot.CancelAbsorb();
-            // Remove VFX
-            RemoveRayVFX(player.transform, 0f);
-        }
+        if (!loot)
+            return;
+
+        // Stop the absorbtion
+        loot.CancelAbsorb();
+        // Remove VFX
+        RemoveRayVFX(player.transform, 0f);
     }
 
     public void RemoveRayVFX(Transform target, float delay)

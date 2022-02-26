@@ -13,8 +13,6 @@ public class EnemyManager : MonoBehaviour
 
     public GameObject[] enemyPrefabs;
 
-    public HexGrid hexGrid;
-
     void Awake()
     {
         #region Singleton boilerplate
@@ -54,7 +52,8 @@ public class EnemyManager : MonoBehaviour
 
     private Vector3 ChoosePosForSpawningEnemy()
     {
-        return hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform.position;
+        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        return edgeCells[Random.Range(0, edgeCells.Length)].transform.position;
     }
 
     public static GameObject GetEnemyPrefab(Type enemyType)

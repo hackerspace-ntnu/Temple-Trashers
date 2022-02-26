@@ -1,38 +1,48 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
-[System.Serializable]
+[Serializable]
+public struct HexCellData
+{
+    public HexCellType cellType;
+    public string occupier;
+    public float occupierRotation;
+}
+
+[Serializable]
 public class TerrainData
 {
     public int xChunks;
     public int zChunks;
 
-    public int[] elevation;
-    public string[] occupier;
-    public float[] occupierRotation;
+    public HexCellData[] hexCells;
 
     public TerrainData(HexGrid grid)
     {
         xChunks = grid.chunkCountX;
         zChunks = grid.chunkCountZ;
 
-        elevation = new int[grid.cells.Length];
-        occupier = new string[grid.cells.Length];
-        occupierRotation = new float[grid.cells.Length];
+        int numCells = grid.cells.Length;
+        hexCells = new HexCellData[numCells];
 
-        for (int i = 0; i < elevation.Length; i++)
+        for (int i = 0; i < numCells; i++)
         {
-            elevation[i] = grid.cells[i].elevation;
+            HexCell hexCell = grid.cells[i];
+            HexCellData hexCellData = new HexCellData();
+            hexCellData.cellType = hexCell.CellType;
 
-            if (grid.cells[i].OccupyingObject != null)
+            if (hexCell.OccupyingObject)
             {
-                occupier[i] = GetOccupierName(grid.cells[i]);
-                occupierRotation[i] = GetOccupierRotation(grid.cells[i]);
+                hexCellData.occupier = GetOccupierName(hexCell);
+                hexCellData.occupierRotation = GetOccupierRotation(hexCell);
             } else
             {
-                occupier[i] = "null";
-                occupierRotation[i] = 0;
+                hexCellData.occupier = "null";
+                hexCellData.occupierRotation = 0f;
             }
+
+            hexCells[i] = hexCellData;
         }
     }
 

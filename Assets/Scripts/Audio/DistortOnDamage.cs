@@ -14,9 +14,13 @@ public class DistortOnDamage : MonoBehaviour
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void Start()
+    {
         baseHealthLogic = BaseController.Singleton.GetComponent<HealthLogic>();
         baseHealthLogic.onDamage += Distort;
-        audioSource = GetComponent<AudioSource>();
     }
 
     void OnDestroy()

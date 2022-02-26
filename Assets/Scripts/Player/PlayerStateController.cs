@@ -42,8 +42,6 @@ public partial class PlayerStateController : MonoBehaviour
 
     public Transform inventory; // Where items are carried
 
-    private HexGrid terrain; // Reference to the terrain
-
     [ReadOnly, SerializeField]
     private HexCell targetCell;
 
@@ -54,6 +52,8 @@ public partial class PlayerStateController : MonoBehaviour
     private Transform heldItemBone;
 
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
+
+    public HexCell TargetCell => targetCell;
 
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
@@ -69,7 +69,6 @@ public partial class PlayerStateController : MonoBehaviour
         health.onDeath += Die;
 
         ui = GetComponent<PlayerUi>();
-        terrain = GameObject.FindGameObjectWithTag("Grid").GetComponent<HexGrid>();
     }
 
     void OnDestroy()
@@ -128,12 +127,7 @@ public partial class PlayerStateController : MonoBehaviour
                 UpdateConstructionTowerTargetCell();
                 if (Cancel)
                 {
-                    //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
-
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    SellTower();
                     SetState(PlayerStates.FREE);
                 }
 
@@ -148,8 +142,12 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void UpdateConstructionTowerTargetCell()
     {
-        targetCell = terrain.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
-        focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        if (newTargetCell != targetCell)
+        {
+            targetCell = newTargetCell;
+            focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -204,11 +202,7 @@ public partial class PlayerStateController : MonoBehaviour
                 if (heldInteractable)
                 {
                     //Refund turret
-                    inventoryManager.ResourceAmount += ui.GetSelectedSegment().cost;
-
-                    RemoveInteractable(heldInteractable);
-                    Destroy(heldInteractable.gameObject);
-                    heldInteractable = null;
+                    SellTower();
                 }
 
                 SetFocusedInteractable(null);
@@ -246,7 +240,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         focusedInteractable.Interact(this); // interact with the current target
 
-        if (CurrentState == PlayerStates.BUILDING && !targetCell.IsOccupied)
+        if (CurrentState == PlayerStates.BUILDING && targetCell.CanPlaceTowerOnCell)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
@@ -337,6 +331,17 @@ public partial class PlayerStateController : MonoBehaviour
         if (interactable)
             interactable.Focus(this);
         focusedInteractable = interactable;
+    }
+
+    private void SellTower()
+    {
+        if (!(heldInteractable is TurretPrefabConstruction tower))
+            return;
+
+        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+
+        RemoveInteractable(tower);
+        Destroy(tower.gameObject);
     }
 
     public void Lift(GameObject obj)

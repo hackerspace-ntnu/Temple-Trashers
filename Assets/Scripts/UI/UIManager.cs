@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton { get; private set; }
@@ -67,6 +68,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
+        //The healthslider goes from right to left instead of left to right, thus it needs to be inverse (1-x)
         healthSlider.size = 1 - damage.RemainingHealth/baseMaxHealth;
     }
 }

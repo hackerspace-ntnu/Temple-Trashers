@@ -1,65 +1,86 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class EndlessMode : MonoBehaviour
 {
-    // Public variables
-    public HexGrid hexGrid;
-    public Enemy[] enemies;
+    public static EndlessMode Singleton { get; private set; }
 
-    [Header("Enemies: f(x) = ax^k")]
-    [Range(1,10)]
-    [Tooltip("The linear factor")]
-    public float a = 3;
-    [Range(1,3)]
-    [Tooltip("The exponential factor")]
-    public float k = 1.1f;
+    // Public variables
+    public Enemy[] enemyPrefabs;
+
+    [Header("Enemies: f(x) = linearSpawnRate * x^(exponentialSpawnRate)")]
+    [Range(1, 10)]
+    public float linearSpawnRate = 3;
+
+    [Range(1, 3)]
+    public float exponentialSpawnRate = 1.1f;
 
     [Header("Wave Interval")]
     public float waveInterval = 15f;
 
     // Private variables
-    private int wave = 1;
+    private int waveNumber = 1;
 
-    private void Start()
-    {   // Ensure values are assigned
-        if(enemies.Length == 0)
-            Debug.LogError("Enemies are not assigned");
-        if (hexGrid == null)
-            hexGrid = GameObject.Find("Terrain").GetComponent<HexGrid>();
+    private float timeSinceLastWaveStart = 0;
+
+    void Awake()
+    {
+        #region Singleton boilerplate
+
+        if (Singleton != null)
+        {
+            if (Singleton != this)
+            {
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
+        Singleton = this;
+
+        #endregion Singleton boilerplate
     }
 
-    private float t = 0;
-    private void Update()
-    {
-        t += Time.deltaTime;
+    void Start()
+    { // Ensure values are assigned
+        if (enemyPrefabs.Length == 0)
+            Debug.LogError("Enemies are not assigned");
+    }
 
-        if (t >= waveInterval)
+    void Update()
+    {
+        timeSinceLastWaveStart += Time.deltaTime;
+
+        if (timeSinceLastWaveStart >= waveInterval)
         {
             // Start the coroutine
-            Wave();
-            t = 0;
+            StartSpawningWave();
+            timeSinceLastWaveStart = 0;
         }
     }
 
-    void Wave()
+    private void StartSpawningWave()
     {
         // Calculate the amount of enemies to spawn
-        int spawnNum = Mathf.RoundToInt(a * Mathf.Pow(wave, k));
+        int spawnNum = Mathf.RoundToInt(linearSpawnRate * Mathf.Pow(waveNumber, exponentialSpawnRate));
 
-        for(int i = 0; i < spawnNum; i++)
-        {
+        for (int i = 0; i < spawnNum; i++)
             SpawnEnemy();
-        }
-        wave++;
+
+        waveNumber++;
     }
+
     /// <summary>
     /// Spawn a random enemy at a random edgecell
     /// </summary>
-    void SpawnEnemy()
+    private void SpawnEnemy()
     {
-        GameObject prefab = enemies[Random.Range(0, enemies.Length)].gameObject;
-        Vector3 spawnPos = hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length - 1)].transform.position;
-        prefab = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
-    } 
+        GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)].gameObject;
+        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        Vector3 spawnPos = edgeCells[Random.Range(0, edgeCells.Length - 1)].transform.position;
+        Instantiate(prefab, spawnPos, Quaternion.identity, transform);
+    }
 }

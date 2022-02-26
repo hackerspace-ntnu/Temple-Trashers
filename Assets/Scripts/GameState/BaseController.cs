@@ -43,6 +43,9 @@ public class BaseController : MonoBehaviour
 
     private HealthLogic healthController;
 
+
+    public HealthLogic HealthController => healthController;
+
     private Animator anim;
 
     // The gamemanager object that organizes enemies and player spawning

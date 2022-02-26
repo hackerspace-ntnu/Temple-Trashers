@@ -30,7 +30,7 @@ public class BaseController : MonoBehaviour
     private HealthLogic healthController;
 
     // The gamemanager object that organizes enemies and player spawning
-    public GameObject gameManager;
+    public EndlessMode gameManager;
 
     // Death flag
     private bool dead = false;
@@ -91,7 +91,7 @@ public class BaseController : MonoBehaviour
         if (!dead)
         {
             // Disable spawning of enemies
-            gameManager.GetComponent<EndlessMode>().enabled = false;
+            gameManager.enabled = false;
 
             // Start overloading the crystal
             anim.SetBool(deathAnimatorParam, true);

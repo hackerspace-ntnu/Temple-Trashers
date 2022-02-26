@@ -2,52 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RepairAnimationController : RepairController
 {
-    //Class references
-    public GameObject fxLow;
-    public GameObject fxMedium;
-    public GameObject fxHigh;
+    [SerializeField]
+    private GameObject lowWearVFXPrefab;
 
-    //Instances
-    private GameObject _fxLow;
-    private GameObject _fxMedium;
-    private GameObject _fxHigh;
+    [SerializeField]
+    private GameObject mediumWearVFXPrefab;
 
-    private void Awake()
+    [SerializeField]
+    private GameObject highWearVFXPrefab;
+
+    // Prefab instances
+    private GameObject lowWearVFX;
+    private GameObject mediumWearVFX;
+    private GameObject highWearVFX;
+
+    void Awake()
     {
-        _fxLow = Instantiate(fxLow, gameObject.transform);
-        _fxMedium = Instantiate(fxMedium, gameObject.transform);
-        _fxHigh = Instantiate(fxHigh, gameObject.transform);
-        DisableInstances();
+        lowWearVFX = Instantiate(lowWearVFXPrefab, transform);
+        mediumWearVFX = Instantiate(mediumWearVFXPrefab, transform);
+        highWearVFX = Instantiate(highWearVFXPrefab, transform);
+        DisableVFXInstances();
         onWearStateChange += UpdateParticles;
     }
 
-    public void DisableInstances()
+    void OnDestroy()
     {
-        if (_fxLow) { _fxLow.SetActive(false); }
-        if (_fxMedium) { _fxMedium.SetActive(false); }
-        if (_fxHigh) { _fxHigh.SetActive(false); }
+        onWearStateChange -= UpdateParticles;
     }
 
-    public void UpdateParticles(WearState newState, WearState previousState)
+    private void DisableVFXInstances()
     {
-       switch (newState)
+        foreach (GameObject obj in new[] { lowWearVFX, mediumWearVFX, highWearVFX })
+            obj.SetActive(false);
+    }
+
+    private void UpdateParticles(WearState newState, WearState previousState)
+    {
+        switch (newState)
         {
             case WearState.NONE:
-                DisableInstances();
+                DisableVFXInstances();
                 break;
             case WearState.LOW:
-                _fxLow.SetActive(true);
+                lowWearVFX.SetActive(true);
                 break;
             case WearState.MEDIUM:
-                _fxMedium.SetActive(true);
+                mediumWearVFX.SetActive(true);
                 break;
             case WearState.HIGH:
-                _fxHigh.SetActive(true);
+                highWearVFX.SetActive(true);
                 break;
             default:
-                DisableInstances();
+                DisableVFXInstances();
                 break;
         }
     }

@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 [ExecuteInEditMode]
 public class HexGrid : MonoBehaviour
 {
+    public static HexGrid Singleton { get; private set; }
+
     private int cellCountX;
     private int cellCountZ;
 
@@ -15,43 +18,51 @@ public class HexGrid : MonoBehaviour
     [Range(1, 20)]
     public int chunkCountZ = 3;
 
-    public Transform chunkPrefab;
-    public HexCell cellPrefab;
+    [SerializeField]
+    private Transform chunkPrefab;
 
     [SerializeField]
+    private HexCell cellPrefab;
+
     private GameObject playerBase;
 
     [Header("Terrain Data")]
-    Transform[] chunks;
+    private Transform[] chunks;
 
     [HideInInspector]
     public HexCell[] cells;
+
     public HexCell[] edgeCells;
 
     [Header("Scenery Variables")]
-    public GameObject[] sceneryObjects;
+    [SerializeField]
+    private GameObject[] sceneryObjects;
 
-    public bool mountainBorder;
-    public bool treeBorder;
+    [SerializeField]
+    private bool mountainBorder;
+
+    [SerializeField]
+    private bool treeBorder;
 
     [Header("Noise")]
-    public Texture2D noise;
+    [SerializeField]
+    private Texture2D noise;
 
     [Header("Noise Scale")]
-    public float noiseScale;
+    [SerializeField]
+    private float noiseScale;
 
     // Custom inspector variables
     [Header("Cell Variables")]
-    public float minCellHeight = 0.3f;
-    public float maxCellHeight = 1f;
-    
-    public List<Material> cellMaterials = new List<Material>();
+    [SerializeField]
+    private HexCellType[] cellTypes;
 
     [Header("Savekey")]
-    public GameObject[] towers;
+    [SerializeField]
+    private GameObject[] towerPrefabs;
 
-    public IDictionary<string, GameObject> nameToGameObject;
-    public IDictionary<GameObject, string> gameObjectToName;
+    private IDictionary<string, GameObject> nameToGameObject;
+    private IDictionary<GameObject, string> gameObjectToName;
 
     void OnEnable()
     {
@@ -60,6 +71,23 @@ public class HexGrid : MonoBehaviour
 
     void Awake()
     {
+        #region Singleton boilerplate
+
+        if (Singleton != null)
+        {
+            if (Singleton != this)
+            {
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
+        Singleton = this;
+
+        #endregion Singleton boilerplate
+
         playerBase = GameObject.FindGameObjectWithTag("Base");
 
         // Calculate borders for the terrain
@@ -71,11 +99,12 @@ public class HexGrid : MonoBehaviour
 
         foreach (GameObject obj in sceneryObjects)
         {
-            nameToGameObject.Add($"{obj.name}(Clone)", obj);
-            gameObjectToName.Add(obj, $"{obj.name}(Clone)");
+            string gameObjectName = $"{obj.name}(Clone)";
+            nameToGameObject.Add(gameObjectName, obj);
+            gameObjectToName.Add(obj, gameObjectName);
         }
 
-        foreach (GameObject obj in towers)
+        foreach (GameObject obj in towerPrefabs)
         {
             nameToGameObject.Add($"{obj.name}(Clone)", obj);
             gameObjectToName.Add(obj, $"{obj.name}(Clone)");
@@ -136,6 +165,7 @@ public class HexGrid : MonoBehaviour
             }
         }
     }
+
     // Creates an array of all cells and fills it out with individual cells
     private void CreateCells()
     {
@@ -194,23 +224,24 @@ public class HexGrid : MonoBehaviour
             }
         }
 
-        Vector4 noiseVec = HexMetrics.SampleNoise(cell.transform.localPosition, noise);
-        int elevation = Mathf.FloorToInt(noiseVec.y * cellMaterials.Count * 1.1f);
-        cell.elevation = elevation;
-
-        ElevateCell(cell, elevation);
-
-        // For performance reasons cells do not cast shadows, but we wish elevated cells to do so
-        if (elevation == cellMaterials.Count - 1)
-        {
-            cell.mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        }
-
         // Add cell to correlating chunk
         int chunkX = x / HexMetrics.CHUNK_SIZE_X;
         int chunkZ = z / HexMetrics.CHUNK_SIZE_Z;
 
         cell.transform.SetParent(chunks[chunkX + chunkZ * chunkCountX]);
+
+        SetTypeForCell(cell);
+    }
+
+    /// <summary>
+    /// Adjust a cells transform and material information based off the elevation integer.
+    /// </summary>
+    /// <param name="cell">The target cell</param>
+    private void SetTypeForCell(HexCell cell)
+    {
+        float noiseValue = HexMetrics.SampleNoise(cell.transform.localPosition, noise).y; // will be between 0.0 and 1.0 (both inclusive)
+        int cellTypeIndex = Mathf.FloorToInt(noiseValue * cellTypes.Length * 0.99f); // will be between 0 and the last index of `cellTypes`
+        cell.CellType = cellTypes[cellTypeIndex];
     }
 
     /// <summary>
@@ -260,46 +291,40 @@ public class HexGrid : MonoBehaviour
     /// </summary>
     private void CreateSceneryObjects()
     {
-        // The cells between the min and max elevations are areas where we can place scenery objects
-        int minElevation = 1;
-        int maxElevation = cellMaterials.Count - 1;
-
         if (sceneryObjects.Length == 0)
         {
             Debug.LogError("No scenery objects have been assigned!");
             return;
         }
 
+        // Code from https://stackoverflow.com/a/3188804
+        HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
+
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
+            if (mountainBorder)
+                cell.CellType = tallestCellType;
+
+            if (treeBorder)
             {
-                if (mountainBorder)
-                {
-                    cell.elevation = maxElevation;
-                    ElevateCell(cell, maxElevation);
-                }
-                
-                if (treeBorder)
-                {
-                    GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
-                    sceneryObj.transform.SetParent(cell.transform);
-                    float yRotation = Random.Range(0f, 360f);
-                    sceneryObj.transform.Rotate(0, yRotation, 0);
-                    cell.OccupyingObject = sceneryObj;
-                }
+                GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
+                sceneryObj.transform.SetParent(cell.transform);
+                float yRotation = Random.Range(0f, 360f);
+                sceneryObj.transform.Rotate(0, yRotation, 0);
+                cell.OccupyingObject = sceneryObj;
             }
         }
 
         foreach (HexCell cell in cells)
         {
-            int elevation = cell.elevation;
+            float elevation = cell.CellType.elevation;
             if (Random.Range(0, 100) > 10f
-                || elevation < minElevation
-                || elevation >= maxElevation
+                || elevation < 0
+                || elevation >= tallestCellType.elevation
                 || cell.IsOccupied)
                 continue;
-            
+
             int sceneryIndex = Random.Range(0, sceneryObjects.Length);
             GameObject sceneryObject = Instantiate(sceneryObjects[sceneryIndex], cell.transform.position, Quaternion.identity);
             float yRotation = Random.Range(0f, 360f);
@@ -307,28 +332,6 @@ public class HexGrid : MonoBehaviour
             sceneryObject.transform.SetParent(cell.transform);
             cell.OccupyingObject = sceneryObject;
         }
-    }
-
-    /// <summary>
-    /// Adjust a cells transform and material information based off the elevation integer.
-    /// </summary>
-    /// <param name="cell">The target cell</param>
-    /// <param name="elevation">The desired elevation value, clamped to ensure only allowed values are used</param>
-    private void ElevateCell(HexCell cell, int elevation)
-    {
-        elevation = Mathf.Clamp(elevation, 0, cellMaterials.Count - 1);
-        cell.elevation = elevation;
-
-        if (elevation == cellMaterials.Count - 1)
-        {
-            cell.transform.localPosition += Vector3.up * maxCellHeight;
-        }
-        else if(elevation == 0)
-        {
-            cell.transform.localPosition += Vector3.down * minCellHeight;
-        }
-
-        cell.mr.material = cellMaterials[elevation];
     }
 
     public void SaveTerrain()
@@ -354,20 +357,21 @@ public class HexGrid : MonoBehaviour
         // Update all cells according to stored data
         for (int i = 0; i < cells.Length; i++)
         {
-            cells[i].elevation = data.elevation[i];
+            HexCellData hexCellData = data.hexCells[i];
+            cells[i].CellType = hexCellData.cellType;
 
-            if (data.occupier[i] == "null" || !nameToGameObject.ContainsKey(data.occupier[i]))
+            if (hexCellData.occupier == "null" || !nameToGameObject.ContainsKey(hexCellData.occupier))
                 continue;
 
-            GameObject sceneryObject = Instantiate(nameToGameObject[data.occupier[i]], cells[i].transform.position, Quaternion.identity);
+            GameObject sceneryObject = Instantiate(nameToGameObject[hexCellData.occupier], cells[i].transform.position, Quaternion.identity);
             if (sceneryObject.GetComponent<RotatableTowerLogic>() != null)
             {
                 RotatableTowerLogic rotatableTowerLogic = sceneryObject.GetComponent<RotatableTowerLogic>();
                 Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
-                rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else
             {
-                sceneryObject.transform.rotation = Quaternion.Euler(0f, data.occupierRotation[i], 0f);
+                sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             }
 
             sceneryObject.transform.SetParent(cells[i].transform);
@@ -375,5 +379,3 @@ public class HexGrid : MonoBehaviour
         }
     }
 }
-
-

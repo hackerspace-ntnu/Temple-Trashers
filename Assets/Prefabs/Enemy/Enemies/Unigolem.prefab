@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 565083274721829043}
   - component: {fileID: 1188638836342214499}
   m_Layer: 11
-  m_Name: Unigolemn
+  m_Name: Unigolem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

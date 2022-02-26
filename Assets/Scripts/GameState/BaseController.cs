@@ -17,9 +17,6 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private GameObject destroyedBase;
 
-    // Base Animator
-    private Animator anim;
-
     // Particle Effect
     [SerializeField]
     private GameObject deathParticles;
@@ -27,10 +24,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    private HealthLogic healthController;
-
-    // The gamemanager object that organizes enemies and player spawning
-    public EndlessMode gameManager;
+    // Crystal Transform
+    [SerializeField]
+    private Transform mainCrystal;
 
     // Death flag
     private bool dead = false;
@@ -45,11 +41,14 @@ public class BaseController : MonoBehaviour
     public int explosionLightningCount = 20;
     public float explosionLightningSpawnDelay = 0.2f;
 
-    public Transform SpawnPoint => spawnPoint;
+    private HealthLogic healthController;
 
-    // Crystal Transform
-    [SerializeField]
-    private Transform mainCrystal;
+    private Animator anim;
+
+    // The gamemanager object that organizes enemies and player spawning
+    private EndlessMode gameManager;
+
+    public Transform SpawnPoint => spawnPoint;
 
     private static readonly int deathAnimatorParam = Animator.StringToHash("death");
     private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
@@ -79,6 +78,11 @@ public class BaseController : MonoBehaviour
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
+    }
+
+    void Start()
+    {
+        gameManager = EndlessMode.Singleton;
     }
 
     void OnDestroy()

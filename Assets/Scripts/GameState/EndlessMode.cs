@@ -4,6 +4,8 @@ using System.Collections;
 
 public class EndlessMode : MonoBehaviour
 {
+    public static EndlessMode Singleton { get; private set; }
+
     // Public variables
     public Enemy[] enemyPrefabs;
 
@@ -21,6 +23,26 @@ public class EndlessMode : MonoBehaviour
     private int waveNumber = 1;
 
     private float timeSinceLastWaveStart = 0;
+
+    void Awake()
+    {
+        #region Singleton boilerplate
+
+        if (Singleton != null)
+        {
+            if (Singleton != this)
+            {
+                Debug.LogWarning($"There's more than one {Singleton.GetType()} in the scene!");
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
+        Singleton = this;
+
+        #endregion Singleton boilerplate
+    }
 
     void Start()
     { // Ensure values are assigned

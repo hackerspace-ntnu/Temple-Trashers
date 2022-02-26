@@ -367,6 +367,4 @@ public partial class PlayerStateController : MonoBehaviour
         SetFocusedInteractable(turret);
         UpdateConstructionTowerTargetCell();
     }
-
-
 }

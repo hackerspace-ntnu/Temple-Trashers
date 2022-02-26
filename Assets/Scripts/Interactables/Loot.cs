@@ -22,7 +22,7 @@ public class Loot : Interactable
     // The position to be absorbed in
     private Vector3 absorbTarget;
 
-    BaseController baseController;
+    private BaseController baseController;
 
     // The current dissolve state
     private float dissolveState = 0;
@@ -43,12 +43,17 @@ public class Loot : Interactable
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
-    void Start()
+    void Awake()
     {
-        inventory = InventoryManager.Singleton;
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
         rigidbody = GetComponent<Rigidbody>();
         meshCollider = GetComponent<MeshCollider>();
+    }
+
+    void Start()
+    {
+        baseController = BaseController.Singleton;
+        inventory = InventoryManager.Singleton;
     }
 
     void Update()
@@ -117,14 +122,13 @@ public class Loot : Interactable
             meshCollider.enabled = false;
 
             player.Lift(gameObject);
-
         } else
         {
             // Drop the loot!
             carried = false;
             rigidbody.isKinematic = false;
             meshCollider.enabled = true;
-            
+
             // If i'm to be destroyed, prevent me from being interacted with
             if (destroy)
             {
@@ -140,11 +144,9 @@ public class Loot : Interactable
     /// <summary>
     /// Prepares the loot object to be destroyed.
     /// </summary>
-
     public void Absorb()
     {
         // Set the object to be destroyed
-        baseController = BaseController.Singleton;
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
     }

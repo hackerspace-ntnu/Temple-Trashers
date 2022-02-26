@@ -534,6 +534,7 @@ MonoBehaviour:
   destroyedBase: {fileID: 7907768064546073796, guid: ced5130962de4c54185e3ca432063c03, type: 3}
   deathParticles: {fileID: 5015622875412468078, guid: f9753b14761704b478696f93e9bb9b68, type: 3}
   spawnPoint: {fileID: 5829545455071137389}
+  gameManager: {fileID: 0}
   crystals: 0
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
   explosionLightningCount: 20
@@ -918,15 +919,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8351407049151897928}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.53}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 1, z: 0.9}
   m_Children:
   - {fileID: 6926947724646838049}
   - {fileID: 7405313704689744503}
   m_Father: {fileID: 5829545455071137389}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
 --- !u!1 &8690521819055323384
 GameObject:
   m_ObjectHideFlags: 0

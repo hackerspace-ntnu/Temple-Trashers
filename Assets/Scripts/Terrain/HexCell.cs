@@ -15,17 +15,18 @@ public struct HexCellType
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
-    public MeshRenderer meshRenderer;
 
     [ReadOnly, SerializeField]
     private HexCellType _cellType;
 
-    [SerializeField]
+    [ReadOnly, SerializeField]
     private HexCell[] neighbors;
 
     // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
     [SerializeField]
     private GameObject _occupyingObject;
+
+    private MeshRenderer meshRenderer;
 
     private float? lastSetElevation = null;
 
@@ -46,6 +47,11 @@ public class HexCell : MonoBehaviour
         }
     }
 
+    /// <returns>
+    /// The <c>GameObject</c> placed on top of this cell.
+    /// <br/>
+    /// Note: this might be an already destroyed <c>GameObject</c>!
+    /// </returns>
     public GameObject OccupyingObject
     {
         get => _occupyingObject;
@@ -71,10 +77,38 @@ public class HexCell : MonoBehaviour
     /// </returns>
     public bool IsOccupied => OccupyingObject;
 
+    /// <returns>
+    /// <c>false</c> if the cell is occupied by another object, or if it's too close to the player base or another tower;
+    /// <c>true</c> otherwise.
+    /// </returns>
+    public bool CanPlaceTowerOnCell
+    {
+        get
+        {
+            if (IsOccupied)
+                return false;
+
+            foreach (HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+            {
+                GameObject neighboringOccupyingObject = GetNeighbor(direction).OccupyingObject;
+                if (!neighboringOccupyingObject)
+                    continue;
+                // If a neighboring cell has a tower or the player base on top of it, it's not allowed to place a tower on this cell,
+                // as they would be too close to each other
+                if (neighboringOccupyingObject.GetComponent<TowerLogic>()
+                    || neighboringOccupyingObject.GetComponent<BaseController>())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
     void Awake()
     {
-        if (meshRenderer == null)
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     public HexCell GetNeighbor(HexDirection direction)

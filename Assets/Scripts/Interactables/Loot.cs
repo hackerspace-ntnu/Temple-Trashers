@@ -22,7 +22,7 @@ public class Loot : Interactable
     // The position to be absorbed in
     private Vector3 absorbTarget;
 
-    BaseController baseController;
+    private BaseController baseController;
 
     // The current dissolve state
     private float dissolveState = 0;
@@ -34,16 +34,25 @@ public class Loot : Interactable
     public int lootValue = 10;
     private InventoryManager inventory;
 
+    // Loot Rigidbody
+    private Rigidbody rigidbody;
+
+    // Loot collider
+    private MeshCollider meshCollider;
+
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
     void Awake()
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        rigidbody = GetComponent<Rigidbody>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
     void Start()
     {
+        baseController = BaseController.Singleton;
         inventory = InventoryManager.Singleton;
     }
 
@@ -103,33 +112,56 @@ public class Loot : Interactable
         {
             // Carry the loot!
             carried = true;
+
+            // Reset rigidbody
+            rigidbody.isKinematic = true;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
+
+            // Disable collider
+            meshCollider.enabled = false;
+
             player.Lift(gameObject);
         } else
         {
             // Drop the loot!
             carried = false;
+            rigidbody.isKinematic = false;
+            meshCollider.enabled = true;
+
             // If i'm to be destroyed, prevent me from being interacted with
             if (destroy)
+            {
                 canInteract = false;
+                rigidbody.isKinematic = true;
+            }
 
             player.Drop(gameObject);
             absorbTarget = transform.position + new Vector3(0, 3, 0);
         }
     }
 
-    public void Absorb(BaseController baseController)
+    /// <summary>
+    /// Prepares the loot object to be destroyed.
+    /// </summary>
+    public void Absorb()
     {
         // Set the object to be destroyed
-        this.baseController = baseController;
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
     }
 
+    /// <summary>
+    /// Prevents the object from being destroyed afterall, called when the loot leaves the base trigger zone.
+    /// </summary>
     public void CancelAbsorb()
     {
         destroy = false;
     }
 
+    /// <summary>
+    /// Highlight the loot object
+    /// </summary>
     private void Highlight()
     {
         // Add the selection material to all existing meshes
@@ -141,6 +173,9 @@ public class Loot : Interactable
         }
     }
 
+    /// <summary>
+    /// Remove the highlight material
+    /// </summary>
     private void Unhighlight()
     {
         // Remove selection material from all meshes

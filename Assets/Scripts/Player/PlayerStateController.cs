@@ -263,52 +263,6 @@ public partial class PlayerStateController : MonoBehaviour
         Destroy(tower.gameObject);
     }
 
-    #region D-Pad
-    private void OnDLeft()
-    {
-        TowerScriptableObject tower = ui.controllerWheel.GetTower(0);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
-    }
-
-    private void OnDRight()
-    {
-        TowerScriptableObject tower = ui.controllerWheel.GetTower(1);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
-    }
-
-    private void OnDUp()
-    {
-        TowerScriptableObject tower = ui.controllerWheel.GetTower(0);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
-    }
-
-    private void OnDDown()
-    {
-        TowerScriptableObject tower = ui.controllerWheel.GetTower(1);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
-    }
-    #endregion
-
     public void AddInteractable(Interactable interactable)
     {
         interactables.Add(interactable);

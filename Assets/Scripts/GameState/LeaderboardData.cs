@@ -86,11 +86,11 @@ public static class LeaderboardData
             Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
             return LoadScores();
         }
-        
+
         // check scores for 0 values
-        foreach(Highscore highScore in data)
+        foreach (Highscore highScore in data)
         {
-            if(highScore.score == 0)
+            if (highScore.score == 0)
             {
                 File.Delete(highscoresDataPath);
                 return LoadScores();

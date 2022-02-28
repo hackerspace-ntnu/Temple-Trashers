@@ -15,6 +15,7 @@ public class HealthLogic : MonoBehaviour
     public float maxHealth;
 
     private bool dead = false;
+
     public virtual void DealDamage(float input, Vector3? knockBackDir = null, float? knockBackForce = null)
     {
         health -= input;
@@ -31,6 +32,7 @@ public class HealthLogic : MonoBehaviour
             dead = true;
             onDeath?.Invoke(damage);
         }
+
         onDamage?.Invoke(damage);
     }
 

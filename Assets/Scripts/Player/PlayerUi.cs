@@ -16,7 +16,9 @@ public class PlayerUi : MonoBehaviour
 
     private Transform mainCameraTransform;
     private InventoryManager inventory;
-    public UIControllerWheel controllerWheel;
+    private UIControllerWheel controllerWheel;
+
+    public UIControllerWheel ControllerWheel => controllerWheel;
 
     void Awake()
     {

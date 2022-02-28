@@ -102,4 +102,52 @@ partial class PlayerStateController
             #endregion Developer hotkeys
         }
     }
+
+    #region D-pad
+
+    private void OnDLeft()
+    {
+        TowerScriptableObject tower = ui.ControllerWheel.GetTower(0);
+        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
+        {
+            inventoryManager.ResourceAmount -= tower.Cost;
+            tower.InstantiateConstructionTower(this);
+            SetState(PlayerStates.BUILDING);
+        }
+    }
+
+    private void OnDRight()
+    {
+        TowerScriptableObject tower = ui.ControllerWheel.GetTower(1);
+        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
+        {
+            inventoryManager.ResourceAmount -= tower.Cost;
+            tower.InstantiateConstructionTower(this);
+            SetState(PlayerStates.BUILDING);
+        }
+    }
+
+    private void OnDUp()
+    {
+        TowerScriptableObject tower = ui.ControllerWheel.GetTower(0);
+        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
+        {
+            inventoryManager.ResourceAmount -= tower.Cost;
+            tower.InstantiateConstructionTower(this);
+            SetState(PlayerStates.BUILDING);
+        }
+    }
+
+    private void OnDDown()
+    {
+        TowerScriptableObject tower = ui.ControllerWheel.GetTower(1);
+        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
+        {
+            inventoryManager.ResourceAmount -= tower.Cost;
+            tower.InstantiateConstructionTower(this);
+            SetState(PlayerStates.BUILDING);
+        }
+    }
+
+    #endregion D-pad
 }

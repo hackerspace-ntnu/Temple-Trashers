@@ -17,9 +17,6 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private GameObject destroyedBase;
 
-    // Base Animator
-    private Animator anim;
-
     // Particle Effect
     [SerializeField]
     private GameObject deathParticles;
@@ -27,10 +24,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform spawnPoint;
 
-    private HealthLogic healthController;
-
-    // The gamemanager object that organizes enemies and player spawning
-    public EndlessMode gameManager;
+    // Crystal Transform
+    [SerializeField]
+    private Transform mainCrystal;
 
     // Death flag
     private bool dead = false;
@@ -45,11 +41,17 @@ public class BaseController : MonoBehaviour
     public int explosionLightningCount = 20;
     public float explosionLightningSpawnDelay = 0.2f;
 
-    public Transform SpawnPoint => spawnPoint;
+    private HealthLogic healthController;
 
-    // Crystal Transform
-    [SerializeField]
-    private Transform mainCrystal;
+
+    public HealthLogic HealthController => healthController;
+
+    private Animator anim;
+
+    // The gamemanager object that organizes enemies and player spawning
+    private EndlessMode gameManager;
+
+    public Transform SpawnPoint => spawnPoint;
 
     private static readonly int deathAnimatorParam = Animator.StringToHash("death");
     private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
@@ -81,6 +83,11 @@ public class BaseController : MonoBehaviour
             Debug.LogError("Main Crystal not set.");
     }
 
+    void Start()
+    {
+        gameManager = EndlessMode.Singleton;
+    }
+
     void OnDestroy()
     {
         healthController.onDeath -= Die;
@@ -107,42 +114,41 @@ public class BaseController : MonoBehaviour
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
         Loot loot = player?.GetComponentInChildren<Loot>();
-        if (loot)
+        if (!loot)
+            return;
+
+        loot.Absorb();
+
+        // Add VFX
+        if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
         {
-            loot.Absorb();
+            Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
+            ray.SetParent(mainCrystal);
 
-            // Add VFX
-            if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
-            {
-                Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
-                ray.SetParent(mainCrystal);
+            // 1 is the index of the first child (after the parent itself)
+            Transform target = ray.GetComponentsInChildren<Transform>()[1];
+            target.SetParent(loot.transform);
+            target.localPosition = Vector3.zero;
 
-                // 1 is the index of the first child (after the parent itself)
-                Transform target = ray.GetComponentsInChildren<Transform>()[1];
-                target.SetParent(loot.transform);
-                target.localPosition = Vector3.zero;
-
-                rays.Add(new Ray(ray, target));
-                loot.target = target;
-            }
+            rays.Add(new Ray(ray, target));
+            loot.target = target;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
+        if (!player)
+            return;
 
-        if (player)
-        {
-            Loot loot = player.GetComponentInChildren<Loot>();
-            if (loot)
-            {
-                // Stop the absorbtion
-                loot.CancelAbsorb();
-                // Remove VFX
-                RemoveRayVFX(player.transform, 0f);
-            }
-        }
+        Loot loot = player.GetComponentInChildren<Loot>();
+        if (!loot)
+            return;
+
+        // Stop the absorbtion
+        loot.CancelAbsorb();
+        // Remove VFX
+        RemoveRayVFX(player.transform, 0f);
     }
 
     public void RemoveRayVFX(Transform target, float delay)

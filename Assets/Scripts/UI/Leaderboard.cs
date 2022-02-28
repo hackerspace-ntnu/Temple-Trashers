@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class Leaderboard : MonoBehaviour
 {
-    public GameObject highscoreEntry;
-
     [SerializeField]
     private GameObject[] entries;
 
@@ -20,9 +18,9 @@ public class Leaderboard : MonoBehaviour
         entries = new GameObject[10];
         for (int i = 0; i < 10; i++)
         {
-            GameObject entry = Instantiate(highscoreEntry, leaderboardBody);
-            entry.transform.GetChild(0).GetComponent<Text>().text = highscores[i].name;
-            entry.transform.GetChild(1).GetComponent<Text>().text = highscores[i].score.ToString();
+            Transform entry = leaderboardBody.GetChild(i);
+            entry.GetChild(0).GetComponent<Text>().text = highscores[i].name;
+            entry.GetChild(1).GetComponent<Text>().text = highscores[i].score.ToString();
         }
     }
 }

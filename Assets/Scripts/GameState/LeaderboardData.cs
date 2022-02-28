@@ -42,6 +42,8 @@ public static class LeaderboardData
     /// </summary>
     public static void AddScore(int score, string name)
     {
+        if (score == 0)
+            return;
         List<Highscore> highscores = LoadScores();
         highscores.Add(new Highscore(score, name));
 
@@ -83,6 +85,16 @@ public static class LeaderboardData
             File.Delete(highscoresDataPath);
             Debug.LogWarning($"Highscore data was corrupted, it has been replaced.\nException message: {e.Message}");
             return LoadScores();
+        }
+        
+        // check scores for 0 values
+        foreach(Highscore highScore in data)
+        {
+            if(highScore.score == 0)
+            {
+                File.Delete(highscoresDataPath);
+                return LoadScores();
+            }
         }
 
         return data;

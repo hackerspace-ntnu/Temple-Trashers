@@ -53,6 +53,8 @@ public partial class PlayerStateController : MonoBehaviour
 
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
+    public HexCell TargetCell => targetCell;
+
     public delegate void PlayerStateDelegate(PlayerStates newState, PlayerStates oldState);
 
     public PlayerStateDelegate onPlayerStateChange; //To allow other components to subscribe to stateChange events
@@ -140,8 +142,12 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void UpdateConstructionTowerTargetCell()
     {
-        targetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
-        focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        if (newTargetCell != targetCell)
+        {
+            targetCell = newTargetCell;
+            focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -234,7 +240,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         focusedInteractable.Interact(this); // interact with the current target
 
-        if (CurrentState == PlayerStates.BUILDING && !targetCell.IsOccupied)
+        if (CurrentState == PlayerStates.BUILDING && targetCell.CanPlaceTowerOnCell)
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
@@ -407,6 +413,4 @@ public partial class PlayerStateController : MonoBehaviour
         SetFocusedInteractable(turret);
         UpdateConstructionTowerTargetCell();
     }
-
-
 }

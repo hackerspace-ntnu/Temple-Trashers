@@ -154,40 +154,27 @@ partial class PlayerStateController
 
     private void OnDLeft()
     {
-        TowerScriptableObject tower = ui.ControllerWheel.GetTower(0);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
+        DoDPadAction(0);
     }
 
     private void OnDRight()
     {
-        TowerScriptableObject tower = ui.ControllerWheel.GetTower(1);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
+        DoDPadAction(1);
     }
 
     private void OnDUp()
     {
-        TowerScriptableObject tower = ui.ControllerWheel.GetTower(0);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
-        {
-            inventoryManager.ResourceAmount -= tower.Cost;
-            tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
-        }
+        DoDPadAction(0);
     }
 
     private void OnDDown()
     {
-        TowerScriptableObject tower = ui.ControllerWheel.GetTower(1);
+        DoDPadAction(1);
+    }
+
+    private void DoDPadAction(int towerIndex)
+    {
+        TowerScriptableObject tower = ui.ControllerWheel.GetTower(towerIndex);
         if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
         {
             inventoryManager.ResourceAmount -= tower.Cost;

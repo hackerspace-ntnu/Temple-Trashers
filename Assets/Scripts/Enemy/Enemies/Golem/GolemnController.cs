@@ -37,7 +37,7 @@ public class GolemnController : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.destination = BaseController.Instance.transform.position;
+        agent.destination = BaseController.Singleton.transform.position;
         anim = GetComponent<Animator>();
     }
    
@@ -156,7 +156,6 @@ public class GolemnController : MonoBehaviour
         
         if(other.tag == "Player")
         {
-            print("HEYO");
             if (state == states.Airborne)
             {
                 player = other.transform;

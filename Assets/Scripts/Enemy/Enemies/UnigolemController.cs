@@ -75,6 +75,6 @@ public class UnigolemController : MonoBehaviour
     private void Detonate()
     {
         baseTransform.GetComponent<HealthLogic>()?.DealDamage(damage);
-        Destroy(gameObject);
+        Destroy(transform.gameObject);
     }
 }

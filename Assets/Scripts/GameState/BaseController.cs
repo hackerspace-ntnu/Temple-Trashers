@@ -43,7 +43,6 @@ public class BaseController : MonoBehaviour
 
     private HealthLogic healthController;
 
-
     public HealthLogic HealthController => healthController;
 
     private Animator anim;

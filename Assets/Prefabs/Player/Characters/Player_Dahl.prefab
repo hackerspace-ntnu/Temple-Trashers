@@ -988,7 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e74379812e95c4d8e18cc3e19e9b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: {fileID: 0}
+  playerStateController: {fileID: 0}
   ui: {fileID: 3801039887214803664}
   segmentTiltDegrees: -225
 --- !u!114 &2954308745039272254

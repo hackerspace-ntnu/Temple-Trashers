@@ -14,9 +14,9 @@ public class UIManager : MonoBehaviour
 
     private InventoryManager inventory;
     private BaseController baseController;
-    
+
     private float baseMaxHealth;
-    
+
     public int score;
 
     void Awake()
@@ -47,10 +47,9 @@ public class UIManager : MonoBehaviour
         UpdateResourceUI();
         baseController.HealthController.onDamage += UpdateBaseHealth;
         baseMaxHealth = baseController.HealthController.maxHealth;
-
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         baseController.HealthController.onDamage -= UpdateBaseHealth;
     }
@@ -69,6 +68,6 @@ public class UIManager : MonoBehaviour
     private void UpdateBaseHealth(DamageInfo damage)
     {
         //The healthslider goes from right to left instead of left to right, thus it needs to be inverse (1-x)
-        healthSlider.size = 1 - damage.RemainingHealth/baseMaxHealth;
+        healthSlider.size = 1 - damage.RemainingHealth / baseMaxHealth;
     }
 }

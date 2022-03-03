@@ -81,6 +81,38 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""DUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae0a9726-d0a4-4757-81f8-3683dffdbb50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""42a6c193-0d8b-472e-bc38-c688b7372cdc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""53e9d0f4-0937-4c45-8553-462f3d4f5258"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""c47fb957-6919-48e8-9969-a148317e8161"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -219,7 +251,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bac400b0-2247-4df1-9c23-f98655a46a99"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -263,7 +295,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4ddd6f56-69c5-495d-b7f6-0d6711169908"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -334,6 +366,50 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Move tower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07799a7b-60d6-43de-a68c-9fd8c16c3d9e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76b11653-92b3-485a-b4aa-007a2496413d"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6091ca3-d08f-4892-bb79-738b4048a4c7"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb45578f-4af0-4821-a136-3d35355f1a6f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -426,6 +502,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Pause = m_MovePlayer.FindAction("Pause", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
         m_MovePlayer_Movetower = m_MovePlayer.FindAction("Move tower", throwIfNotFound: true);
+        m_MovePlayer_DUp = m_MovePlayer.FindAction("DUp", throwIfNotFound: true);
+        m_MovePlayer_DDown = m_MovePlayer.FindAction("DDown", throwIfNotFound: true);
+        m_MovePlayer_DLeft = m_MovePlayer.FindAction("DLeft", throwIfNotFound: true);
+        m_MovePlayer_DRight = m_MovePlayer.FindAction("DRight", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
@@ -487,6 +567,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Pause;
     private readonly InputAction m_MovePlayer_Readyfornextwave;
     private readonly InputAction m_MovePlayer_Movetower;
+    private readonly InputAction m_MovePlayer_DUp;
+    private readonly InputAction m_MovePlayer_DDown;
+    private readonly InputAction m_MovePlayer_DLeft;
+    private readonly InputAction m_MovePlayer_DRight;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -499,6 +583,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Pause => m_Wrapper.m_MovePlayer_Pause;
         public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
         public InputAction @Movetower => m_Wrapper.m_MovePlayer_Movetower;
+        public InputAction @DUp => m_Wrapper.m_MovePlayer_DUp;
+        public InputAction @DDown => m_Wrapper.m_MovePlayer_DDown;
+        public InputAction @DLeft => m_Wrapper.m_MovePlayer_DLeft;
+        public InputAction @DRight => m_Wrapper.m_MovePlayer_DRight;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -532,6 +620,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Movetower.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
                 @Movetower.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
                 @Movetower.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @DUp.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DUp.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DUp.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DDown.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DDown.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DDown.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DLeft.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DLeft.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DLeft.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DRight.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
+                @DRight.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
+                @DRight.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -560,6 +660,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Movetower.started += instance.OnMovetower;
                 @Movetower.performed += instance.OnMovetower;
                 @Movetower.canceled += instance.OnMovetower;
+                @DUp.started += instance.OnDUp;
+                @DUp.performed += instance.OnDUp;
+                @DUp.canceled += instance.OnDUp;
+                @DDown.started += instance.OnDDown;
+                @DDown.performed += instance.OnDDown;
+                @DDown.canceled += instance.OnDDown;
+                @DLeft.started += instance.OnDLeft;
+                @DLeft.performed += instance.OnDLeft;
+                @DLeft.canceled += instance.OnDLeft;
+                @DRight.started += instance.OnDRight;
+                @DRight.performed += instance.OnDRight;
+                @DRight.canceled += instance.OnDRight;
             }
         }
     }
@@ -633,6 +745,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
         void OnMovetower(InputAction.CallbackContext context);
+        void OnDUp(InputAction.CallbackContext context);
+        void OnDDown(InputAction.CallbackContext context);
+        void OnDLeft(InputAction.CallbackContext context);
+        void OnDRight(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

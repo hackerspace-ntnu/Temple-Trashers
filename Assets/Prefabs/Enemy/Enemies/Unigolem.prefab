@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 8304474390764948231}
   - component: {fileID: 2173745554029637035}
   m_Layer: 0
-  m_Name: Golemn
+  m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -451,11 +451,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aef6c4389403004fb375d20b6a56bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentTarget: {fileID: 0}
+  currentState: 0
+  anim: {fileID: 2369600441914515938}
+  attackDamage: 5
+  scoreValue: 10
   model: {fileID: 7764703935131286064}
   tiltAngleSide: 10
   tiltAngleFront: 30
-  anim: {fileID: 2369600441914515938}
-  damage: 5
   detonationDistance: 2
 --- !u!114 &1188638836342214499
 MonoBehaviour:

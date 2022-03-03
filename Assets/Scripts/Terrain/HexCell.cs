@@ -60,9 +60,8 @@ public class HexCell : MonoBehaviour
             if (value && IsOccupied)
             {
                 Destroy(value);
-                throw new ArgumentException(
-                    $"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!"
-                );
+                Debug.LogError($"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!");
+                return;
             }
 
             _occupyingObject = value;

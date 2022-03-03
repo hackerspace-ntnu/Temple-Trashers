@@ -194,8 +194,6 @@ public class SkeletonController : Enemy
                 break;
             case EnemyState.DEAD:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 }

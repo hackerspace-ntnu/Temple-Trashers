@@ -38,8 +38,6 @@ public class DahlPropController : MonoBehaviour
             case PlayerStates.IN_TURRET_MENU:
                 blueprint.enabled = false;
                 break;
-            default:
-                break;
         }
 
         switch (newState)
@@ -49,8 +47,6 @@ public class DahlPropController : MonoBehaviour
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 blueprint.enabled = true;
-                break;
-            default:
                 break;
         }
     }

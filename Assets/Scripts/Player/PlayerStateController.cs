@@ -135,8 +135,6 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.FREE);
 
                 break;
-            default:
-                break;
         }
     }
 
@@ -188,8 +186,6 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.IN_TURRET_MENU:
                 anim.SetBool(planningAnimatorParam, false);
                 break;
-            default:
-                break;
         }
 
         //Effects when changing to state
@@ -218,8 +214,6 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.IN_ANIMATION:
                 SetFocusedInteractable(null);
-                break;
-            default:
                 break;
         }
 

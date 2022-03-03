@@ -18,7 +18,7 @@ public class HurtBox : MonoBehaviour
             if (!other.CompareTag(tagToDamage))
                 continue;
 
-            other.GetComponent<HealthLogic>().DealDamage(damage);
+            other.GetComponent<HealthLogic>().OnReceiveDamage(damage);
         }
     }
 }

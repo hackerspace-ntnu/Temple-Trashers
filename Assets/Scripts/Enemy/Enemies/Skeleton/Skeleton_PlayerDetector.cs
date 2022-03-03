@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Enemy_PlayerDetector : MonoBehaviour
+public class Skeleton_PlayerDetector : MonoBehaviour
 {
-    public Enemy enemy;
+    [SerializeField]
+    private SkeletonController skeleton;
 
     void OnTriggerEnter(Collider collider)
     {
         // If the colliding object is a player:
         if (collider.CompareTag("Player"))
-            enemy.OnPlayerDetected(collider.transform);
+            skeleton.OnPlayerDetected(collider.transform);
     }
 }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 
@@ -36,7 +37,6 @@ public class EndlessMode : MonoBehaviour
     private int waveNumber = 1;
     private float timeSinceLastWaveStart = 0;
 
-    private (int, int, Enemy)[] spawnProbabilityRangesAndEnemies;
     private int spawnProbabilityWeightSum;
 
     void Awake()
@@ -58,22 +58,13 @@ public class EndlessMode : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-        spawnProbabilityRangesAndEnemies = new (int, int, Enemy)[enemyPrefabs.Length];
-        int cumulativeWeight = 0;
-        // Fill the `spawnProbabilityRangesAndEnemies` array with tuples each covering a sub-range
-        // of the entire probability range from 0 to `spawnProbabilityWeightSum`
-        for (int i = 0; i < enemyPrefabs.Length; i++)
+        spawnProbabilityWeightSum = 0;
+        foreach (EnemySpawnData spawnData in enemyPrefabs)
         {
-            EnemySpawnData spawnData = enemyPrefabs[i];
-            int probabilityRangeStart = cumulativeWeight;
-            int probabilityRangeEnd = cumulativeWeight + spawnData.probabilityWeight;
-            spawnProbabilityRangesAndEnemies[i] = (
-                probabilityRangeStart, probabilityRangeEnd, spawnData.prefab
-            );
-            cumulativeWeight += spawnData.probabilityWeight;
+            if (spawnData.probabilityWeight <= 0)
+                Debug.LogError($"A probability weight cannot be less than 1! Was {spawnData.probabilityWeight} for \"{spawnData.prefab}\"");
+            spawnProbabilityWeightSum += spawnData.probabilityWeight;
         }
-
-        spawnProbabilityWeightSum = cumulativeWeight;
     }
 
     void Start()
@@ -111,6 +102,7 @@ public class EndlessMode : MonoBehaviour
     private void SpawnEnemy()
     {
         Enemy enemyToSpawn = ChooseRandomEnemy();
+        Assert.IsNotNull(enemyToSpawn);
         HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
         Vector3 spawnPos = edgeCells[Random.Range(0, edgeCells.Length - 1)].transform.position;
         Instantiate(enemyToSpawn.gameObject, spawnPos, Quaternion.identity, transform);
@@ -118,29 +110,16 @@ public class EndlessMode : MonoBehaviour
 
     private Enemy ChooseRandomEnemy()
     {
-        int spawnProbabilityPoint = Random.Range(0, spawnProbabilityWeightSum);
-        // The probability range used for searching should only be a single point
-        (int, int, Enemy) searchTuple = (spawnProbabilityPoint, spawnProbabilityPoint, null); // the enemy doesn't affect the search, and so can be `null`
-        int foundIndex = Array.BinarySearch(spawnProbabilityRangesAndEnemies,
-            searchTuple,
-            Comparer<(int, int, Enemy)>.Create(
-                // `rangeB` is always the search point (`searchTuple`)
-                (rangeA, rangeB) =>
-                {
-                    (int probabilityRangeAStart, int probabilityRangeAEnd, Enemy enemyA) = rangeA;
-                    (int probabilityRangeBStart, int probabilityRangeBEnd, Enemy enemyB) = rangeB;
-                    if (probabilityRangeBEnd < probabilityRangeAStart)
-                        return 1; // `rangeA` is "greater than" `rangeB`
-                    if (probabilityRangeBStart >= probabilityRangeAEnd)
-                        return -1; // `rangeA` is "less than" `rangeB`
-                    // The search point is either equal to the start of the checked range, or somewhere in the middle of it
-                    // (but not equal to the end of the range), and so the correct probability range has been found,
-                    // and the index of `rangeA` will be returned
-                    return 0; // `rangeA` is "equal" to `rangeB`
-                })
-        );
-        Debug.Log(foundIndex);
-        (int rangeStart, int rangeEnd, Enemy enemy) = spawnProbabilityRangesAndEnemies[foundIndex];
-        return enemy;
+        int weightedSpawnProbabilityChoice = Random.Range(0, spawnProbabilityWeightSum);
+        int cumulativeWeight = 0;
+        foreach (EnemySpawnData spawnData in enemyPrefabs)
+        {
+            cumulativeWeight += spawnData.probabilityWeight;
+            if (weightedSpawnProbabilityChoice < cumulativeWeight)
+                return spawnData.prefab;
+        }
+
+        // Should never be reached
+        return null;
     }
 }

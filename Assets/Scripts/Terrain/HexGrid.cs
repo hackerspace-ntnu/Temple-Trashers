@@ -303,11 +303,9 @@ public class HexGrid : MonoBehaviour
 
             if (treeBorder)
             {
-                GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
-                sceneryObj.transform.SetParent(cell.transform);
+                GameObject sceneryObj = cell.InstantiatePrefabOnCell(sceneryObjects[0]);
                 float yRotation = Random.Range(0f, 360f);
                 sceneryObj.transform.Rotate(0, yRotation, 0);
-                cell.OccupyingObject = sceneryObj;
             }
         }
 
@@ -321,11 +319,9 @@ public class HexGrid : MonoBehaviour
                 continue;
 
             int sceneryIndex = Random.Range(0, sceneryObjects.Length);
-            GameObject sceneryObject = Instantiate(sceneryObjects[sceneryIndex], cell.transform.position, Quaternion.identity);
+            GameObject sceneryObject = cell.InstantiatePrefabOnCell(sceneryObjects[sceneryIndex]);
             float yRotation = Random.Range(0f, 360f);
             sceneryObject.transform.Rotate(0, yRotation, 0);
-            sceneryObject.transform.SetParent(cell.transform);
-            cell.OccupyingObject = sceneryObject;
         }
     }
 
@@ -358,7 +354,7 @@ public class HexGrid : MonoBehaviour
             if (hexCellData.occupier == "null" || !nameToGameObject.ContainsKey(hexCellData.occupier))
                 continue;
 
-            GameObject sceneryObject = Instantiate(nameToGameObject[hexCellData.occupier], cells[i].transform.position, Quaternion.identity);
+            GameObject sceneryObject = cells[i].InstantiatePrefabOnCell(nameToGameObject[hexCellData.occupier]);
             if (sceneryObject.GetComponent<RotatableTowerLogic>() is RotatableTowerLogic rotatableTowerLogic)
             {
                 Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
@@ -367,9 +363,6 @@ public class HexGrid : MonoBehaviour
             {
                 sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             }
-
-            sceneryObject.transform.SetParent(cells[i].transform);
-            cells[i].OccupyingObject = sceneryObject;
         }
     }
 }

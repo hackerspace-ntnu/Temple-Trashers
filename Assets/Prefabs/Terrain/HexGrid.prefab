@@ -49,10 +49,12 @@ MonoBehaviour:
   cellPrefab: {fileID: 3232745420878418644, guid: 344428ef3825a48459c49cc3f55d5f2b, type: 3}
   cells: []
   edgeCells: []
-  sceneryObjects:
+  occupyingSceneryObjects:
   - {fileID: 582512043729321896, guid: d516299b5c2ef0c41bef1c06bf150d76, type: 3}
   - {fileID: 6453742252294820681, guid: 3f8b52c6be1c3af44b7be0ed2b1e604a, type: 3}
   - {fileID: 8390892766367341337, guid: 98175291f4e95704baf1a9612e215751, type: 3}
+  nonOccupyingSceneryObjects:
+  - {fileID: 4525528604836273348, guid: c98672e40ed3e434c8a5259d8b2cf0a7, type: 3}
   mountainBorder: 1
   treeBorder: 1
   noise: {fileID: 2800000, guid: 600eed7c653e4b34db0e0ba17c323e1a, type: 3}

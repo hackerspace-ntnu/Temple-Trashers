@@ -36,7 +36,10 @@ public class HexGrid : MonoBehaviour
 
     [Header("Scenery Variables")]
     [SerializeField]
-    private GameObject[] sceneryObjects;
+    private GameObject[] occupyingSceneryObjects;
+
+    [SerializeField]
+    private GameObject[] nonOccupyingSceneryObjects;
 
     [SerializeField]
     private bool mountainBorder;
@@ -97,7 +100,7 @@ public class HexGrid : MonoBehaviour
         nameToGameObject = new Dictionary<string, GameObject>();
         gameObjectToName = new Dictionary<GameObject, string>();
 
-        IEnumerable<GameObject> allGameObjectArrays = towerPrefabs.Concat(sceneryObjects);
+        IEnumerable<GameObject> allGameObjectArrays = towerPrefabs.Concat(occupyingSceneryObjects).Concat(nonOccupyingSceneryObjects);
         foreach (GameObject obj in allGameObjectArrays)
         {
             string gameObjectName = $"{obj.name}(Clone)";
@@ -286,7 +289,7 @@ public class HexGrid : MonoBehaviour
     /// </summary>
     private void PlaceSceneryObjects()
     {
-        if (sceneryObjects.Length == 0)
+        if (occupyingSceneryObjects.Length == 0)
         {
             Debug.LogError("No scenery objects have been assigned!");
             return;
@@ -295,7 +298,8 @@ public class HexGrid : MonoBehaviour
         // Code from https://stackoverflow.com/a/3188804
         HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
         PlaceSceneryOnMapEdge(tallestCellType);
-        PlaceSceneryOnPlayArea(tallestCellType);
+        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true, tallestCellType);
+        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false, tallestCellType);
     }
 
     private void PlaceSceneryOnMapEdge(HexCellType tallestCellType)
@@ -308,14 +312,14 @@ public class HexGrid : MonoBehaviour
 
             if (treeBorder)
             {
-                GameObject sceneryObj = cell.InstantiatePrefabOnCell(sceneryObjects[0]);
+                GameObject sceneryObj = cell.InstantiatePrefabOnCell(occupyingSceneryObjects[0]);
                 float yRotation = Random.Range(0f, 360f);
                 sceneryObj.transform.Rotate(0, yRotation, 0);
             }
         }
     }
 
-    private void PlaceSceneryOnPlayArea(HexCellType tallestCellType)
+    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying, HexCellType tallestCellType)
     {
         foreach (HexCell cell in cells)
         {
@@ -330,6 +334,9 @@ public class HexGrid : MonoBehaviour
             GameObject sceneryObject = cell.InstantiatePrefabOnCell(sceneryObjects[sceneryIndex]);
             float yRotation = Random.Range(0f, 360f);
             sceneryObject.transform.Rotate(0, yRotation, 0);
+
+            if (!occupying)
+                cell.OccupyingObject = null;
         }
     }
 

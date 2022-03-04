@@ -121,7 +121,7 @@ public class HexGrid : MonoBehaviour
 
         PlacePlayerBase();
 
-        CreateSceneryObjects();
+        PlaceSceneryObjects();
     }
 
     private void PlacePlayerBase()
@@ -284,7 +284,7 @@ public class HexGrid : MonoBehaviour
     /// <summary>
     /// Creates the map decorations
     /// </summary>
-    private void CreateSceneryObjects()
+    private void PlaceSceneryObjects()
     {
         if (sceneryObjects.Length == 0)
         {
@@ -294,7 +294,12 @@ public class HexGrid : MonoBehaviour
 
         // Code from https://stackoverflow.com/a/3188804
         HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
+        PlaceSceneryOnMapEdge(tallestCellType);
+        PlaceSceneryOnPlayArea(tallestCellType);
+    }
 
+    private void PlaceSceneryOnMapEdge(HexCellType tallestCellType)
+    {
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
@@ -308,7 +313,10 @@ public class HexGrid : MonoBehaviour
                 sceneryObj.transform.Rotate(0, yRotation, 0);
             }
         }
+    }
 
+    private void PlaceSceneryOnPlayArea(HexCellType tallestCellType)
+    {
         foreach (HexCell cell in cells)
         {
             float elevation = cell.CellType.elevation;

@@ -30,6 +30,9 @@ public class PlayerSpecificManager : MonoBehaviour
 
     public void InitializePlayer()
     {
+        // Spawn at a random position around the base
+        spawnPoint += new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10));
+
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this);

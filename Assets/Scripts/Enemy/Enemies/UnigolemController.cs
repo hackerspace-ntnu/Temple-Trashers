@@ -56,7 +56,7 @@ public class UnigolemController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float angularSpeed = Vector3.Cross(lastForward, transform.forward).y / Time.deltaTime;
         lastForward = transform.forward;

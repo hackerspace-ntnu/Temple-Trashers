@@ -412,11 +412,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6094904989433470017}
-  - component: {fileID: 5596777997928769972}
   - component: {fileID: 8135351288033698040}
+  - component: {fileID: 1188638836342214499}
+  - component: {fileID: 5596777997928769972}
   - component: {fileID: 7415659850581668381}
   - component: {fileID: 565083274721829043}
-  - component: {fileID: 1188638836342214499}
   m_Layer: 11
   m_Name: Unigolem
   m_TagString: Untagged
@@ -439,6 +439,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8135351288033698040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094904989433470016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aef6c4389403004fb375d20b6a56bc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 7764703935131286064}
+  tiltAngleSide: 10
+  tiltAngleFront: 30
+  anim: {fileID: 2369600441914515938}
+  damage: 5
+  detonationDistance: 2
+--- !u!114 &1188638836342214499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094904989433470016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  maxHealth: 1
 --- !u!195 &5596777997928769972
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -461,24 +493,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8135351288033698040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094904989433470016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aef6c4389403004fb375d20b6a56bc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  model: {fileID: 7764703935131286064}
-  tiltAngleSide: 10
-  tiltAngleFront: 30
-  anim: {fileID: 2369600441914515938}
-  damage: 5
-  detonationDistance: 2
 --- !u!136 &7415659850581668381
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -509,20 +523,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1188638836342214499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094904989433470016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  maxHealth: 1
 --- !u!1 &6368280498027986459
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +595,7 @@ GameObject:
   - component: {fileID: 7764703935131286064}
   - component: {fileID: 2369600441914515938}
   m_Layer: 0
-  m_Name: unigolemn_model
+  m_Name: Unigolem_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

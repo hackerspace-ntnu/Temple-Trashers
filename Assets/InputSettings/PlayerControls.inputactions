@@ -68,6 +68,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "DUp",
+                    "type": "Button",
+                    "id": "ae0a9726-d0a4-4757-81f8-3683dffdbb50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DDown",
+                    "type": "Button",
+                    "id": "42a6c193-0d8b-472e-bc38-c688b7372cdc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DLeft",
+                    "type": "Button",
+                    "id": "53e9d0f4-0937-4c45-8553-462f3d4f5258",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DRight",
+                    "type": "Button",
+                    "id": "c47fb957-6919-48e8-9969-a148317e8161",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -206,7 +238,7 @@
                 {
                     "name": "",
                     "id": "bac400b0-2247-4df1-9c23-f98655a46a99",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -250,7 +282,7 @@
                 {
                     "name": "",
                     "id": "4ddd6f56-69c5-495d-b7f6-0d6711169908",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -321,6 +353,50 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Move tower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07799a7b-60d6-43de-a68c-9fd8c16c3d9e",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76b11653-92b3-485a-b4aa-007a2496413d",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6091ca3-d08f-4892-bb79-738b4048a4c7",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb45578f-4af0-4821-a136-3d35355f1a6f",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

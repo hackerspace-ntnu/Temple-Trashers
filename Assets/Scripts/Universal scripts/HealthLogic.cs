@@ -21,7 +21,7 @@ public class HealthLogic : MonoBehaviour
         if (Dead)
             return;
 
-        health -= damage;
+        health -= Mathf.Clamp(damage, 0, health);
 
         DamageInfo damageInfo = new DamageInfo(
             damage,

@@ -37,7 +37,10 @@ public class EnemyManager : MonoBehaviour
         {
             Type enemyType = prefab.GetComponent<Enemy>().GetType();
             if (enemyTypeToPrefab.ContainsKey(enemyType))
-                throw new ArgumentException($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
+            {
+                Debug.LogError($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
+                break;
+            }
 
             enemyTypeToPrefab.Add(enemyType, prefab);
         }

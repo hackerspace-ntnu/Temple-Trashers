@@ -16,12 +16,12 @@ public class HealthLogic : MonoBehaviour
 
     public bool Dead => health <= 0;
 
-    public virtual void DealDamage(float damage, Vector3? knockBackDir = null, float? knockBackForce = null)
+    public virtual void OnReceiveDamage(float damage, Vector3? knockBackDir = null, float? knockBackForce = null)
     {
         if (Dead)
             return;
 
-        health -= Mathf.Max(damage, health);
+        health -= damage;
 
         DamageInfo damageInfo = new DamageInfo(
             damage,

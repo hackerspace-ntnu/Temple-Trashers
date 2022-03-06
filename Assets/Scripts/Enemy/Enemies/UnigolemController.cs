@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
-public class UnigolemController : MonoBehaviour
+public class UnigolemController : Enemy
 {
     [SerializeField]
     private Transform model;
@@ -16,44 +15,33 @@ public class UnigolemController : MonoBehaviour
     private float tiltAngleFront = 30f;
 
     [SerializeField]
-    private Animator anim;
-
-    [SerializeField]
-    private float damage;
-
-    [SerializeField]
     private float detonationDistance = 2f;
-
-    private Transform baseTransform;
-    private NavMeshAgent agent;
-    private HealthLogic healthLogic;
 
     private Vector3 lastForward;
 
     private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
 
-    void Awake()
+    protected override void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        healthLogic = GetComponent<HealthLogic>();
-        healthLogic.onDeath += Die;
-    }
+        base.Start();
 
-    void Start()
-    {
-        baseTransform = BaseController.Singleton.transform;
-        agent.SetDestination(baseTransform.position);
+        CurrentTarget = baseTransform;
         lastForward = transform.forward;
     }
 
-    void OnDestroy()
+    protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
     {
-        healthLogic.onDeath -= Die;
-    }
-
-    private void Die(DamageInfo damageInfo)
-    {
-        Destroy(gameObject);
+        switch (newState)
+        {
+            case EnemyState.WALKING:
+            case EnemyState.ATTACK_PLAYER:
+            case EnemyState.ATTACK_BASE:
+            case EnemyState.CHASING:
+                break;
+            case EnemyState.DEAD:
+                Destroy(gameObject);
+                break;
+        }
     }
 
     void FixedUpdate()
@@ -74,7 +62,7 @@ public class UnigolemController : MonoBehaviour
 
     private void Detonate()
     {
-        baseTransform.GetComponent<HealthLogic>()?.DealDamage(damage);
+        baseHealth?.OnReceiveDamage(attackDamage);
         Destroy(gameObject);
     }
 }

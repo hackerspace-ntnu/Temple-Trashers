@@ -97,17 +97,12 @@ public class HexGrid : MonoBehaviour
         nameToGameObject = new Dictionary<string, GameObject>();
         gameObjectToName = new Dictionary<GameObject, string>();
 
-        foreach (GameObject obj in sceneryObjects)
+        IEnumerable<GameObject> allGameObjectArrays = towerPrefabs.Concat(sceneryObjects);
+        foreach (GameObject obj in allGameObjectArrays)
         {
             string gameObjectName = $"{obj.name}(Clone)";
             nameToGameObject.Add(gameObjectName, obj);
             gameObjectToName.Add(obj, gameObjectName);
-        }
-
-        foreach (GameObject obj in towerPrefabs)
-        {
-            nameToGameObject.Add($"{obj.name}(Clone)", obj);
-            gameObjectToName.Add(obj, $"{obj.name}(Clone)");
         }
     }
 
@@ -364,9 +359,8 @@ public class HexGrid : MonoBehaviour
                 continue;
 
             GameObject sceneryObject = Instantiate(nameToGameObject[hexCellData.occupier], cells[i].transform.position, Quaternion.identity);
-            if (sceneryObject.GetComponent<RotatableTowerLogic>() != null)
+            if (sceneryObject.GetComponent<RotatableTowerLogic>() is RotatableTowerLogic rotatableTowerLogic)
             {
-                RotatableTowerLogic rotatableTowerLogic = sceneryObject.GetComponent<RotatableTowerLogic>();
                 Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
                 rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else

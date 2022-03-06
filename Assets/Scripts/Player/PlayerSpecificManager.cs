@@ -24,14 +24,15 @@ public class PlayerSpecificManager : MonoBehaviour
 
     void Start()
     {
-        spawnPoint = BaseController.Singleton ? BaseController.Singleton.SpawnPoint.position : Vector3.zero;
         InitializePlayer();
     }
 
     public void InitializePlayer()
     {
+        // Get spawnpoint
+        spawnPoint = BaseController.Singleton ? BaseController.Singleton.SpawnPoint.position : Vector3.zero;
         // Spawn at a random position around the base
-        spawnPoint += new Vector3(Random.Range(-10, 10), 1, Random.Range(-10, 10));
+        spawnPoint += new Vector3(Random.Range(-5, 5), 1, Random.Range(-5, 5));
 
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();

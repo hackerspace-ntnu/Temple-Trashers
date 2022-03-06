@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// Controls the player movement and aligns the player towards the movement direction.
 /// Also currently updates the animation of the player to match the movement speed.
@@ -19,10 +20,11 @@ public class PlayerMotion : MonoBehaviour
 
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
-    private Animator anim = null;
+    private Animator anim;
 
-    //Sets up required instances for input to work. 
-    void Start()
+    private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
+
+    void Awake()
     {
         state = GetComponent<PlayerStateController>();
         body = GetComponent<Rigidbody>();
@@ -30,13 +32,16 @@ public class PlayerMotion : MonoBehaviour
 
     public void Move()
     {
+        if (state == null)
+            return;
+
         UpdateSpeed();
         UpdateRotation();
     }
 
     private void UpdateSpeed()
     {
-        if (state.CurrentState == PlayerStateController.PlayerStates.DEAD)
+        if (state.CurrentState == PlayerStates.DEAD)
             return;
 
         Vector2 scaledMoveInput = new Vector2(state.MoveInput.x, state.MoveInput.y) * 2f;
@@ -51,7 +56,7 @@ public class PlayerMotion : MonoBehaviour
         Vector3 force = speedDifference * playerAcceleration * scaledMoveInput.magnitude * Time.fixedDeltaTime;
         body.AddForce(force, ForceMode.VelocityChange);
 
-        anim.SetFloat("Speed", body.velocity.sqrMagnitude/Mathf.Pow(playerSpeed,2));
+        anim.SetFloat(speedAnimatorParam, body.velocity.sqrMagnitude / Mathf.Pow(playerSpeed, 2));
     }
 
     private void UpdateRotation()

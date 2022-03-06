@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BulletLogic : MonoBehaviour
 {
-    private float bulletSpeed;
-    private float damage;
-
-    public float BulletSpeed { get => bulletSpeed; set => bulletSpeed = value; }
-    public float Damage { get => damage; set => damage = value; }
+    public float BulletSpeed { get; set; }
+    public float Damage { get; set; }
 
     void Start()
     {
@@ -18,7 +16,7 @@ public class BulletLogic : MonoBehaviour
     void Update()
     {
         //move the bullet with specified speed
-        transform.position += transform.forward * bulletSpeed * Time.deltaTime;
+        transform.position += transform.forward * BulletSpeed * Time.deltaTime;
     }
 
     //On collision -> call collided objects damagelogic if it has one and destroy this bullet
@@ -26,7 +24,7 @@ public class BulletLogic : MonoBehaviour
     {
         HealthLogic healthLogic = other.GetComponent<HealthLogic>();
         if (healthLogic)
-            healthLogic.DealDamage(damage);
+            healthLogic.OnReceiveDamage(Damage);
 
         Destroy(gameObject);
     }

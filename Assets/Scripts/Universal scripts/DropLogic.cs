@@ -2,24 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class DropLogic : MonoBehaviour
 {
-    //Loot to be instantiated
+    // Loot to be instantiated
     public GameObject lootPrefab;
 
-    //Extra height to be added when instantiating loot.
+    // Extra height to be added when instantiating loot.
     public float spawnHeight = 2f;
 
-    private void Start()
+    // The drop chance
+    public float dropChance = 10f;
+
+    private HealthLogic health;
+
+    void Awake()
     {
-        //Using delegates to add loot drop function to death
-        GetComponent<HealthLogic>().onDeath += DropLoot;
+        health = GetComponent<HealthLogic>();
+        health.onDeath += DropLoot;
     }
 
-    private void DropLoot()
+    void OnDestroy()
     {
-        //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.
-        Vector3 spawnPos = transform.position + new Vector3(0, spawnHeight, 0);
-        Instantiate(lootPrefab, spawnPos, Quaternion.identity);
+        health.onDeath -= DropLoot;
+    }
+
+    private void DropLoot(DamageInfo dmg)
+    {
+        if (Random.Range(0, 100) < dropChance)
+        {
+            //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.
+            Vector3 spawnPos = transform.position + new Vector3(0, spawnHeight, 0);
+            Instantiate(lootPrefab, spawnPos, lootPrefab.transform.rotation);
+        }
     }
 }

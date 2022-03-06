@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class EnemyWaveManager : MonoBehaviour
 {
     private static EnemyWaveManager SINGLETON;
@@ -15,23 +16,23 @@ public class EnemyWaveManager : MonoBehaviour
 
     #region State variables for debugging
 
-    [ReadOnly]
-    public bool hasWaveEnded;
+    [ReadOnly, SerializeField]
+    private bool hasWaveEnded;
 
-    [ReadOnly]
-    public bool readyForNextWave;
+    [ReadOnly, SerializeField]
+    private bool readyForNextWave;
 
-    [ReadOnly]
-    public float timeUntilNextSpawn;
+    [TextLabel(greyedOut = true), SerializeField]
+    private float timeUntilNextSpawn;
 
-    [ReadOnly]
-    public int currentWaveIndex;
+    [TextLabel(greyedOut = true), SerializeField]
+    private int currentWaveIndex;
 
-    [ReadOnly]
-    public int currentSubWaveIndex;
+    [TextLabel(greyedOut = true), SerializeField]
+    private int currentSubWaveIndex;
 
-    [ReadOnly]
-    public int currentSubWaveEnemyCounter;
+    [TextLabel(greyedOut = true), SerializeField]
+    private int currentSubWaveEnemyCounter;
 
     #endregion State variables for debugging
 
@@ -90,9 +91,20 @@ public class EnemyWaveManager : MonoBehaviour
             SpawnNextEnemy();
     }
 
+    public static void Pause()
+    {
+        SINGLETON.enabled = false;
+    }
+
+    public static void Resume()
+    {
+        SINGLETON.enabled = true;
+    }
+
     public static void ReadyForNextWave()
     {
-        SINGLETON.readyForNextWave = true;
+        //TODO: This function should be called when not in endless mode. To be implemented again later.
+        //SINGLETON.readyForNextWave = true;
     }
 
     private void PrepareNextWave()

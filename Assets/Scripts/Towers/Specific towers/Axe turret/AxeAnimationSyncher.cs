@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AxeAnimationSyncher : MonoBehaviour
 {
-    public AxeTowerController controller;
+    public AxeTowerAnimationController animationController;
 
     public void animationGrabEvent()
     {
-        controller.Grab();
+        animationController.Grab();
     }
 
     public void animationTossEvent()
     {
-        controller.Shoot();
+        animationController.Shoot();
     }
 
     public void animationSpawnEvent()
     {
-        controller.Spawn();
+        animationController.Spawn();
     }
 }

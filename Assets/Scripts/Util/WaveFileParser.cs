@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 // Code based on https://github.com/hackerspace-ntnu/Defendy-Pengy/blob/bcc46d1f6f4799df822622efbccf03fcee0b0f0b/Assets/Scripts/Util/WaveParser.cs
 public class WaveFileParser
 {
@@ -13,7 +14,7 @@ public class WaveFileParser
         waves = new List<EnemyWave>();
         currentWave = new EnemyWave();
 
-        foreach (string l in waveFile.text.Split(new[] {"\n"}, StringSplitOptions.None))
+        foreach (string l in waveFile.text.Split(new[] { "\n" }, StringSplitOptions.None))
         {
             string line = l.Trim().ToLower();
             if (line.Length == 0 || line.StartsWith("//"))
@@ -81,11 +82,8 @@ public class WaveFileParser
     {
         switch (token)
         {
-            case "placeholder1":
-                return typeof(PlaceholderEnemy);
-
-            case "placeholder2":
-                return typeof(PlaceholderEnemy);
+            case "skeleton":
+                return typeof(SkeletonController);
 
             default:
                 throw new FormatException("Invalid enemy type: " + token);

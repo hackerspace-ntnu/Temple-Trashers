@@ -1,21 +1,32 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.VFX;
+
 
 public class BaseController : MonoBehaviour
 {
     public static BaseController Singleton { get; private set; }
 
+    [Header("Death components")]
     // GameOverScreen
     [SerializeField]
     private GameObject gameOverScreen;
 
-    //Explosion
+    // Rigidbody base
     [SerializeField]
-    private GameObject explosion;
+    private GameObject destroyedBase;
+
+    // Particle Effect
+    [SerializeField]
+    private GameObject deathParticles;
 
     [SerializeField]
     private Transform spawnPoint;
+
+    // Crystal Transform
+    [SerializeField]
+    private Transform mainCrystal;
 
     // Death flag
     private bool dead = false;
@@ -27,7 +38,22 @@ public class BaseController : MonoBehaviour
     public GameObject drainRay;
     private List<Ray> rays = new List<Ray>();
 
+    public int explosionLightningCount = 20;
+    public float explosionLightningSpawnDelay = 0.2f;
+
+    private HealthLogic healthController;
+
+    public HealthLogic HealthController => healthController;
+
+    private Animator anim;
+
+    // The gamemanager object that organizes enemies and player spawning
+    private EndlessMode gameManager;
+
     public Transform SpawnPoint => spawnPoint;
+
+    private static readonly int deathAnimatorParam = Animator.StringToHash("death");
+    private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
 
     void Awake()
     {
@@ -48,63 +74,80 @@ public class BaseController : MonoBehaviour
 
         #endregion Singleton boilerplate
 
-        GetComponent<HealthLogic>().onDeath += Die;
+        healthController = GetComponent<HealthLogic>();
+        healthController.onDeath += Die;
+        anim = GetComponent<Animator>();
+
+        if (mainCrystal == null)
+            Debug.LogError("Main Crystal not set.");
+    }
+
+    void Start()
+    {
+        gameManager = EndlessMode.Singleton;
     }
 
     void OnDestroy()
     {
-        GetComponent<HealthLogic>().onDeath -= Die;
+        healthController.onDeath -= Die;
+    }
+
+    private void Die(DamageInfo dmg)
+    {
+        if (!dead)
+        {
+            // Disable spawning of enemies
+            gameManager.enabled = false;
+
+            // Start overloading the crystal
+            anim.SetBool(deathAnimatorParam, true);
+
+            // Prepare the explosion
+            StartCoroutine(nameof(Explode));
+        }
+
+        dead = true;
     }
 
     void OnTriggerEnter(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
-        Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot != null)
+        Loot loot = player?.GetComponentInChildren<Loot>();
+        if (!loot)
+            return;
+
+        loot.Absorb();
+
+        // Add VFX
+        if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
         {
-            loot.Absorb(this);
+            Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
+            ray.SetParent(mainCrystal);
 
-            // Add VFX
-            if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
-            {
-                Transform ray = Instantiate(drainRay, transform.position, transform.rotation).transform;
-                ray.SetParent(transform);
+            // 1 is the index of the first child (after the parent itself)
+            Transform target = ray.GetComponentsInChildren<Transform>()[1];
+            target.SetParent(loot.transform);
+            target.localPosition = Vector3.zero;
 
-                // 1 is the index of the first child (after the parent itself)
-                Transform target = ray.GetComponentsInChildren<Transform>()[1];
-                target.SetParent(loot.transform);
-                target.localPosition = Vector3.zero;
-
-                rays.Add(new Ray(ray, target));
-                loot.target = target;
-            }
+            rays.Add(new Ray(ray, target));
+            loot.target = target;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         PlayerStateController player = other.GetComponentInParent<PlayerStateController>();
+        if (!player)
+            return;
+
         Loot loot = player.GetComponentInChildren<Loot>();
-        if (loot != null)
-        {
-            // Stop the absorbtion
-            loot.CancelAbsorb();
-            // Remove VFX
-            RemoveRayVFX(player.transform, 0f);
-        }
-    }
+        if (!loot)
+            return;
 
-    private void Die()
-    {
-        if (!dead)
-        {
-            //BIG EXPLOSION
-            Instantiate(explosion, transform.position, Quaternion.identity, transform);
-            // Creates the GUI "GameOverScreen"
-            Instantiate(gameOverScreen);
-        }
-
-        dead = true;
+        // Stop the absorbtion
+        loot.CancelAbsorb();
+        // Remove VFX
+        RemoveRayVFX(player.transform, 0f);
     }
 
     public void RemoveRayVFX(Transform target, float delay)
@@ -125,14 +168,14 @@ public class BaseController : MonoBehaviour
         if (i >= 0)
         {
             Transform r = rays[i].ray;
-            r.GetComponent<VisualEffect>().SetFloat("Length", change);
+            r.GetComponent<VisualEffect>().SetFloat(lengthShaderProperty, change);
             if (change <= 0.1f)
                 r.GetComponent<VisualEffect>().SendEvent("OnDie");
         }
     }
 
     /// <summary>
-    /// Returns -1 if `t` does not contain loot, -2 if loot was not registered
+    /// Returns -1 if <c>t</c> does not contain loot, -2 if loot was not registered
     /// </summary>
     public int GetIdVFX(Transform t)
     {
@@ -147,5 +190,50 @@ public class BaseController : MonoBehaviour
         }
 
         return -2;
+    }
+
+    IEnumerator Explode()
+    {
+        // Get a list of all transforms (lightning targets)
+        Transform[] transforms = FindObjectsOfType<Transform>();
+
+        // Create lightning as the crystal charges
+        for (int i = 0; i <= explosionLightningCount; i++)
+        {
+            Vector3 rayPos = transform.position + new Vector3(Random.Range(-1, 1), 5f, Random.Range(-1, 1));
+            Transform ray = Instantiate(drainRay, rayPos, transform.rotation, transform).transform;
+
+            // 1 is the index of the first child (after the parent itself)
+            Transform target = ray.GetComponentsInChildren<Transform>()[1];
+            Transform randomLightningTarget = transforms[Random.Range(0, transforms.Length)];
+            target.SetParent(randomLightningTarget);
+            target.localPosition = Vector3.zero;
+
+            // Ensure correct camera focus
+            Camera.main.GetComponent<CameraFocusController>().Focus(transform);
+
+            yield return new WaitForSeconds(explosionLightningSpawnDelay);
+        }
+
+        // Replace the base with a rigidbody based one
+        GameObject deadBase = Instantiate(destroyedBase, transform.position, Quaternion.identity);
+
+        // Add an explosion force on the base
+        foreach (Rigidbody rb in deadBase.GetComponentsInChildren<Rigidbody>())
+        {
+            rb.AddForce(new Vector3(Random.Range(-250f, 250f), Random.Range(500f, 800f), Random.Range(-250f, 250f)));
+        }
+
+        // Switch camera focus to the new base
+        Camera.main.GetComponent<CameraFocusController>().Focus(deadBase.transform);
+
+        // Creates the GUI "GameOverScreen"
+        Instantiate(gameOverScreen);
+
+        // Add particle system
+        Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);
+
+        // Clean up
+        Destroy(gameObject);
     }
 }

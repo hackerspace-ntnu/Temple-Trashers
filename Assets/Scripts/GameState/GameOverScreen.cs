@@ -3,26 +3,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Contains button functionality for the Game Over screen UI Canvas
+/// </summary>
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    private Text timerText;
+    private Text nameInput;
 
-    public float time = 5f;
+    [SerializeField]
+    private Text errorMsg;
 
-    void Update()
+    [SerializeField]
+    private Text scoreText;
+
+    void Start()
     {
-        timerText.text = Mathf.Round(time).ToString();
-        // Fix UI
-        time -= Time.deltaTime;
-
-        if (time <= 0)
-            Restart();
+        scoreText.text = UIManager.Singleton.score.ToString();
+        PauseManager.Singleton.gameObject.SetActive(false);
     }
 
     public void Restart()
     {
-        // Reloads the scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        UpdateLeaderboardAndLoadScene("Endless Mode");
+    }
+
+    public void MainMenu()
+    {
+        UpdateLeaderboardAndLoadScene("Main Menu");
+    }
+
+    private void UpdateLeaderboardAndLoadScene(string sceneName)
+    {
+        if (nameInput.text == "")
+        {
+            errorMsg.enabled = true;
+            return;
+        }
+
+        // Update leaderboard
+        LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+
+        SceneManager.LoadScene(sceneName);
     }
 }

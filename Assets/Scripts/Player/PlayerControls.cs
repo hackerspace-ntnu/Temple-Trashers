@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/InputSettings/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -43,7 +43,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Back"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""edbb2489-0819-43dd-bbbf-39f2ad7c7800"",
                     ""expectedControlType"": ""Button"",
@@ -59,9 +59,57 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""6702a6d5-4f86-4f26-90c0-615b6eeedd8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Ready for next wave"",
                     ""type"": ""Button"",
                     ""id"": ""0292f4fa-f566-411f-a1a7-367de1e92915"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Move tower"",
+                    ""type"": ""Button"",
+                    ""id"": ""34be8f5b-dd5f-48f5-91c6-67c76e24d444"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae0a9726-d0a4-4757-81f8-3683dffdbb50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""42a6c193-0d8b-472e-bc38-c688b7372cdc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""53e9d0f4-0937-4c45-8553-462f3d4f5258"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""c47fb957-6919-48e8-9969-a148317e8161"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -203,7 +251,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bac400b0-2247-4df1-9c23-f98655a46a99"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -214,7 +262,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1fa37b50-7164-456f-9b73-1a444e0b65b8"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/#(E)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -225,7 +273,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1aab1220-e456-4e6f-afdf-dd88a698329e"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -236,7 +284,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d3a671d1-a478-4c46-87e1-3ba1c1720988"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/#(R)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -247,33 +295,121 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4ddd6f56-69c5-495d-b7f6-0d6711169908"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""eeed5e82-f945-41b1-924f-37ce63a89e81"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""3d61bf77-1cda-452c-927e-df6ea1888261"",
-                    ""path"": ""<Keyboard>/n"",
+                    ""path"": ""<Keyboard>/#(N)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Ready for next wave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c1bc488-9030-434a-a8a3-eaf1bad2bea1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f01a655d-a686-401a-83fc-abf3fddc7d5f"",
+                    ""path"": ""<Keyboard>/#(P)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43c9fc11-5452-4f1b-b055-121563ed34c0"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Move tower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac308be8-d7ad-4bf2-a443-5a947eaf84b5"",
+                    ""path"": ""<Keyboard>/#(M)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move tower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07799a7b-60d6-43de-a68c-9fd8c16c3d9e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76b11653-92b3-485a-b4aa-007a2496413d"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6091ca3-d08f-4892-bb79-738b4048a4c7"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb45578f-4af0-4821-a136-3d35355f1a6f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -361,9 +497,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_Move = m_MovePlayer.FindAction("Move", throwIfNotFound: true);
         m_MovePlayer_Interact = m_MovePlayer.FindAction("Interact", throwIfNotFound: true);
         m_MovePlayer_Select = m_MovePlayer.FindAction("Select", throwIfNotFound: true);
-        m_MovePlayer_Back = m_MovePlayer.FindAction("Back", throwIfNotFound: true);
+        m_MovePlayer_Cancel = m_MovePlayer.FindAction("Cancel", throwIfNotFound: true);
         m_MovePlayer_Aim = m_MovePlayer.FindAction("Aim", throwIfNotFound: true);
+        m_MovePlayer_Pause = m_MovePlayer.FindAction("Pause", throwIfNotFound: true);
         m_MovePlayer_Readyfornextwave = m_MovePlayer.FindAction("Ready for next wave", throwIfNotFound: true);
+        m_MovePlayer_Movetower = m_MovePlayer.FindAction("Move tower", throwIfNotFound: true);
+        m_MovePlayer_DUp = m_MovePlayer.FindAction("DUp", throwIfNotFound: true);
+        m_MovePlayer_DDown = m_MovePlayer.FindAction("DDown", throwIfNotFound: true);
+        m_MovePlayer_DLeft = m_MovePlayer.FindAction("DLeft", throwIfNotFound: true);
+        m_MovePlayer_DRight = m_MovePlayer.FindAction("DRight", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
@@ -420,9 +562,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_Move;
     private readonly InputAction m_MovePlayer_Interact;
     private readonly InputAction m_MovePlayer_Select;
-    private readonly InputAction m_MovePlayer_Back;
+    private readonly InputAction m_MovePlayer_Cancel;
     private readonly InputAction m_MovePlayer_Aim;
+    private readonly InputAction m_MovePlayer_Pause;
     private readonly InputAction m_MovePlayer_Readyfornextwave;
+    private readonly InputAction m_MovePlayer_Movetower;
+    private readonly InputAction m_MovePlayer_DUp;
+    private readonly InputAction m_MovePlayer_DDown;
+    private readonly InputAction m_MovePlayer_DLeft;
+    private readonly InputAction m_MovePlayer_DRight;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -430,9 +578,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_MovePlayer_Move;
         public InputAction @Interact => m_Wrapper.m_MovePlayer_Interact;
         public InputAction @Select => m_Wrapper.m_MovePlayer_Select;
-        public InputAction @Back => m_Wrapper.m_MovePlayer_Back;
+        public InputAction @Cancel => m_Wrapper.m_MovePlayer_Cancel;
         public InputAction @Aim => m_Wrapper.m_MovePlayer_Aim;
+        public InputAction @Pause => m_Wrapper.m_MovePlayer_Pause;
         public InputAction @Readyfornextwave => m_Wrapper.m_MovePlayer_Readyfornextwave;
+        public InputAction @Movetower => m_Wrapper.m_MovePlayer_Movetower;
+        public InputAction @DUp => m_Wrapper.m_MovePlayer_DUp;
+        public InputAction @DDown => m_Wrapper.m_MovePlayer_DDown;
+        public InputAction @DLeft => m_Wrapper.m_MovePlayer_DLeft;
+        public InputAction @DRight => m_Wrapper.m_MovePlayer_DRight;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -451,15 +605,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Select.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
                 @Select.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
                 @Select.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnSelect;
-                @Back.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
-                @Back.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
-                @Back.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBack;
+                @Cancel.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnCancel;
                 @Aim.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnAim;
+                @Pause.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnPause;
                 @Readyfornextwave.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
                 @Readyfornextwave.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnReadyfornextwave;
+                @Movetower.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @Movetower.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @Movetower.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnMovetower;
+                @DUp.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DUp.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DUp.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDUp;
+                @DDown.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DDown.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DDown.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDDown;
+                @DLeft.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DLeft.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DLeft.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDLeft;
+                @DRight.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
+                @DRight.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
+                @DRight.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnDRight;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -473,15 +645,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
-                @Back.started += instance.OnBack;
-                @Back.performed += instance.OnBack;
-                @Back.canceled += instance.OnBack;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @Readyfornextwave.started += instance.OnReadyfornextwave;
                 @Readyfornextwave.performed += instance.OnReadyfornextwave;
                 @Readyfornextwave.canceled += instance.OnReadyfornextwave;
+                @Movetower.started += instance.OnMovetower;
+                @Movetower.performed += instance.OnMovetower;
+                @Movetower.canceled += instance.OnMovetower;
+                @DUp.started += instance.OnDUp;
+                @DUp.performed += instance.OnDUp;
+                @DUp.canceled += instance.OnDUp;
+                @DDown.started += instance.OnDDown;
+                @DDown.performed += instance.OnDDown;
+                @DDown.canceled += instance.OnDDown;
+                @DLeft.started += instance.OnDLeft;
+                @DLeft.performed += instance.OnDLeft;
+                @DLeft.canceled += instance.OnDLeft;
+                @DRight.started += instance.OnDRight;
+                @DRight.performed += instance.OnDRight;
+                @DRight.canceled += instance.OnDRight;
             }
         }
     }
@@ -550,9 +740,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
-        void OnBack(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnReadyfornextwave(InputAction.CallbackContext context);
+        void OnMovetower(InputAction.CallbackContext context);
+        void OnDUp(InputAction.CallbackContext context);
+        void OnDDown(InputAction.CallbackContext context);
+        void OnDLeft(InputAction.CallbackContext context);
+        void OnDRight(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

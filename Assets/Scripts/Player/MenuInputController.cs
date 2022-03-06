@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class MenuInputController : MonoBehaviour
 {
     public delegate void MouseClickEvent(Vector2 pos);
@@ -14,7 +15,7 @@ public class MenuInputController : MonoBehaviour
     private void MouseClick_Performed(InputAction.CallbackContext ctx) => OnClick(mousePos);
     private void MouseMove_Performed(InputAction.CallbackContext ctx) => mousePos = ctx.ReadValue<Vector2>();
 
-    private void Awake()
+    void Awake()
     {
         input = GetComponent<PlayerInput>();
 
@@ -22,7 +23,7 @@ public class MenuInputController : MonoBehaviour
         input.actions["MouseMove"].performed += MouseMove_Performed;
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         input.actions["MouseClick"].performed -= MouseClick_Performed;
         input.actions["MouseMove"].performed -= MouseMove_Performed;

@@ -2,21 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HealthLogic : MonoBehaviour
 {
-    public delegate void OnStatusUpdate();
+    public delegate void OnStatusUpdate(DamageInfo damage);
 
     public OnStatusUpdate onDeath;
+
+    public OnStatusUpdate onDamage;
 
     public float health;
     public float maxHealth;
 
-    public virtual void DealDamage(float input)
+    public bool Dead => health <= 0;
+
+    public virtual void OnReceiveDamage(float damage, Vector3? knockBackDir = null, float? knockBackForce = null)
     {
-        if (health <= input)
-            onDeath?.Invoke();
+        if (Dead)
+            return;
+
+        health -= Mathf.Clamp(damage, 0, health);
+
+        DamageInfo damageInfo = new DamageInfo(
+            damage,
+            health,
+            health <= 0,
+            knockBackDir ?? Vector3.up,
+            knockBackForce ?? 1f
+        );
+        if (Dead)
+            onDeath?.Invoke(damageInfo);
         else
-            health -= input;
+            onDamage?.Invoke(damageInfo);
     }
 
     public virtual void Heal(float input)

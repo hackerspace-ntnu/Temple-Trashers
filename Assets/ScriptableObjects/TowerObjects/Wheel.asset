@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerName: Wheel Tower
   cost: 20
-  tower: {fileID: 4073339244315473739, guid: db4cf6bf2ec202a4d9beec3d1e41ae19, type: 3}
+  towerConstructionPrefab: {fileID: 7722909000114666498, guid: db4cf6bf2ec202a4d9beec3d1e41ae19, type: 3}
   icon: {fileID: 0}
   iconHighlight: {fileID: 0}

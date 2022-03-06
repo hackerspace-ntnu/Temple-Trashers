@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraFocusController : MonoBehaviour
 {
     public static CameraFocusController Singleton { get; private set; }
@@ -17,6 +18,12 @@ public class CameraFocusController : MonoBehaviour
 
     // Minimum distance the camera is from the `focusObjects`
     public float minDistance;
+
+    // Overview distance
+    public float overviewDistance;
+
+    // Are we in overview mode
+    public bool overview;
 
     // The Lerp point; higher = more snappy and responsive
     public float smoothing;
@@ -70,7 +77,11 @@ public class CameraFocusController : MonoBehaviour
         float radialDist = Mathf.Sqrt(xDist * xDist + yDist * yDist);
 
         //Taking the mean sqare avg of the mindistance and box distance
-        distance = Mathf.Sqrt(radialDist * radialDist + minDistance * minDistance);
+        if (!overview)
+            distance = Mathf.Sqrt(radialDist * radialDist + minDistance * minDistance);
+        else
+            distance = Mathf.Sqrt(radialDist * radialDist + overviewDistance * overviewDistance);
+
         return center + distance * viewDir;
     }
 
@@ -84,5 +95,26 @@ public class CameraFocusController : MonoBehaviour
     public void RemoveFocusObject(Transform obj)
     {
         focusObjects.Remove(obj);
+    }
+
+    /// <summary>
+    /// Replace all focus objects with a single target
+    /// </summary>
+    public void Focus(Transform obj)
+    {
+        focusObjects.Clear();
+        AddFocusObject(obj);
+
+        // Switch to overview mode
+        EnableOverview();
+    }
+
+    public void EnableOverview()
+    {
+        if (!overview)
+        {
+            overview = true;
+            smoothing /= 10;
+        }
     }
 }

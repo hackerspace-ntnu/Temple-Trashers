@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 
 public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager SINGLETON;
 
-    public static readonly Type[] ENEMY_TYPES = {typeof(PlaceholderEnemy)};
-    private static readonly Dictionary<Type, GameObject> ENEMY_TYPE_TO_PREFAB = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
+    public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
+    private Dictionary<Type, GameObject> enemyTypeToPrefab;
 
     public GameObject[] enemyPrefabs;
-
-    public HexGrid hexGrid;
-
-    [Header("Enemy Variables")]
-    public float speed = 5f;
 
     void Awake()
     {
@@ -37,13 +32,17 @@ public class EnemyManager : MonoBehaviour
 
         #endregion Singleton boilerplate
 
+        enemyTypeToPrefab = new Dictionary<Type, GameObject>(ENEMY_TYPES.Length);
         foreach (GameObject prefab in enemyPrefabs)
         {
             Type enemyType = prefab.GetComponent<Enemy>().GetType();
-            if (ENEMY_TYPE_TO_PREFAB.ContainsKey(enemyType))
-                throw new ArgumentException($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
+            if (enemyTypeToPrefab.ContainsKey(enemyType))
+            {
+                Debug.LogError($"Enemy type {enemyType} appears more than once among the enemy prefabs!");
+                break;
+            }
 
-            ENEMY_TYPE_TO_PREFAB.Add(enemyType, prefab);
+            enemyTypeToPrefab.Add(enemyType, prefab);
         }
     }
 
@@ -51,18 +50,17 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject prefab = GetEnemyPrefab(enemyType);
         Vector3 spawnPos = ChoosePosForSpawningEnemy();
-        Enemy spawnedEnemy = Instantiate(prefab, spawnPos, Quaternion.identity, transform).GetComponent<Enemy>();
-        // Pass along the enemy settings
-        spawnedEnemy.speed = speed;
+        Instantiate(prefab, spawnPos, Quaternion.identity, transform);
     }
 
     private Vector3 ChoosePosForSpawningEnemy()
     {
-        return hexGrid.edgeCells[Random.Range(0, hexGrid.edgeCells.Length)].transform.position;
+        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        return edgeCells[Random.Range(0, edgeCells.Length)].transform.position;
     }
 
     public static GameObject GetEnemyPrefab(Type enemyType)
     {
-        return ENEMY_TYPE_TO_PREFAB[enemyType];
+        return SINGLETON.enemyTypeToPrefab[enemyType];
     }
 }

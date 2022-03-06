@@ -1,61 +1,93 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+public enum EnemyState
+{
+    WALKING,
+    ATTACK_PLAYER,
+    ATTACK_BASE,
+    CHASING,
+    DEAD,
+}
+
+[RequireComponent(typeof(NavMeshAgent), typeof(HealthLogic))]
 public abstract class Enemy : MonoBehaviour
 {
-    public Transform playerBase;
+    [ReadOnly, SerializeField]
+    protected Transform _currentTarget;
 
-    [ReadOnly]
-    public Transform currentTarget;
+    [TextLabel(greyedOut = true), SerializeField]
+    protected EnemyState currentState = EnemyState.WALKING;
 
-    public float damageDealt = 1.0f;
+    [SerializeField]
+    protected Animator anim;
 
-    private NavMeshAgent agent;
+    [SerializeField]
+    protected float attackDamage = 1f;
 
-    public float speed = 5f;
+    [SerializeField]
+    protected int scoreValue = 10;
 
-    void Awake()
+    protected NavMeshAgent agent;
+    protected HealthLogic healthLogic;
+
+    protected Transform baseTransform;
+    protected HealthLogic baseHealth;
+
+    protected Transform CurrentTarget
     {
-        if (playerBase == null)
-            playerBase = BaseController.Singleton.transform;
-
-        GetComponent<HealthLogic>().onDeath += Die;
+        get => _currentTarget;
+        set
+        {
+            _currentTarget = value;
+            if (_currentTarget)
+            {
+                agent.SetDestination(_currentTarget.position);
+                if (agent.isStopped)
+                    agent.isStopped = false;
+            } else
+            {
+                agent.SetDestination(agent.nextPosition);
+                agent.isStopped = true;
+            }
+        }
     }
 
-    protected void Start()
+    protected virtual void Awake()
     {
-        currentTarget = playerBase;
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
+        healthLogic = GetComponent<HealthLogic>();
+        healthLogic.onDeath += Die;
     }
 
-    void FixedUpdate()
+    protected virtual void OnDestroy()
     {
-        agent.destination = currentTarget.position;
+        healthLogic.onDeath -= Die;
     }
 
-    void OnDestroy()
+    protected virtual void Die(DamageInfo damageInfo)
     {
-        GetComponent<HealthLogic>().onDeath -= Die;
+        SetState(EnemyState.DEAD);
     }
 
-    void OnCollisionEnter(Collision collision)
+    protected virtual void Start()
     {
-        HealthLogic healthComponent = collision.collider.GetComponent<HealthLogic>();
-        if (healthComponent)
-            healthComponent.DealDamage(damageDealt);
+        baseTransform = BaseController.Singleton.transform;
+        CurrentTarget = baseTransform;
+        baseHealth = baseTransform.GetComponent<HealthLogic>();
     }
 
-    public void OnPlayerDetected(Transform playerTransform)
+    protected virtual void SetState(EnemyState newState)
     {
-        currentTarget = playerTransform;
+        if (newState == currentState)
+            return;
+
+        HandleStateChange(currentState, newState);
+        currentState = newState;
     }
 
-    public void Die()
-    {
-        Destroy(gameObject);
-    }
+    protected abstract void HandleStateChange(EnemyState oldState, EnemyState newState);
 }

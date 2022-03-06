@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.VFX;
+
 
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
+    [SerializeField]
+    private VisualEffect sparksEffect;
+
     //The radius for the turret and all it's targets.
     public float lightningRadius = 4;
 
@@ -15,48 +20,58 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     public GameObject drainRay;
 
     //LighntingEffect duration
-    public float effectDuration = 0.3f;
+    public float effectDuration = 0.7f;
 
     //What layers the collider will check in, should be player and enemy layers.
     public LayerMask shockLayers;
 
     //Marked objects
-    private List<GameObject> zappTargets = new List<GameObject>();
+    private List<Transform> zapTargets = new List<Transform>();
+
+    //Making lightning spawn from top of turret
+    [SerializeField]
+    private Transform zapOrigin;
 
     /// <summary>
-    /// Called through an animation event on `Lightning.anim`.
+    /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
     public void Shoot()
     {
-        CheckZap(gameObject);
+        CheckZap(transform);
 
-        foreach (var zap in zappTargets)
-            zap.GetComponent<HealthLogic>().DealDamage(damage);
+        foreach (var zap in zapTargets)
+        {
+            Vector3 diff = (zap.position - transform.position).normalized;
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
+        }
 
         //Clear all marked objects.
-        zappTargets.Clear();
+        zapTargets.Clear();
     }
 
     //Marks soon-to-be zapped objects and adds a VFX.
-    private void AddZap(GameObject target)
+    private void AddZap(Transform target, Transform previous)
     {
-        if (zappTargets.Contains(target))
+        if (zapTargets.Contains(target))
             return;
 
-        GameObject previousTarget = zappTargets.LastOrDefault() ?? gameObject;
-        LightningVFX(previousTarget.transform, target.transform);
-        zappTargets.Add(target);
+        //Transform previousTarget = zapTargets.LastOrDefault() ?? zapOrigin;
+        if (previous == transform)
+            previous = zapOrigin;
+
+        LightningVFX(previous, target);
+        zapTargets.Add(target);
         CheckZap(target);
     }
 
     //Checks for non-marked zappable objects.
-    private void CheckZap(GameObject target)
+    private void CheckZap(Transform target)
     {
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, lightningRadius, shockLayers);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponent<HealthLogic>())
-                AddZap(hitCollider.gameObject);
+                AddZap(hitCollider.transform, target);
         }
     }
 
@@ -71,5 +86,16 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
         //Destroying effect after duration:
         Destroy(ray, effectDuration);
+        Destroy(target.gameObject, effectDuration);
+    }
+
+    public void StartSparks()
+    {
+        sparksEffect.SendEvent("OnPlay");
+    }
+
+    public void StopSparks()
+    {
+        sparksEffect.SendEvent("OnStop");
     }
 }

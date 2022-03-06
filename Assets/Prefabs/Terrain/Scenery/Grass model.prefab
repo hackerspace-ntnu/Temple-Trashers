@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632085302824876712}
   m_LocalRotation: {x: -0.66435486, y: 0.20306404, z: 0.15056194, w: 0.70336956}
-  m_LocalPosition: {x: -1.0050251, y: -0.012506227, z: -0.005538357}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 1.4289627, y: 1.4289626, z: 1.4289627}
   m_Children: []
   m_Father: {fileID: 1231975208940651491}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1231975208940651491}
   m_Layer: 0
-  m_Name: Gass model
+  m_Name: Grass model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4525528604836273348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 57.099663, y: 1.6190808, z: 30.316105}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 256228641337204754}

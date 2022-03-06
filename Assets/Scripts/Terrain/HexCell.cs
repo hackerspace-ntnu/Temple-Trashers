@@ -110,6 +110,19 @@ public class HexCell : MonoBehaviour
         meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
+    public GameObject InstantiatePrefabOnCell(GameObject prefab)
+    {
+        if (IsOccupied)
+        {
+            Debug.LogError($"Cannot place {prefab} on cell at {coordinates}, as it's already occupied by {OccupyingObject}!");
+            return null;
+        }
+
+        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+        OccupyingObject = obj;
+        return obj;
+    }
+
     public HexCell GetNeighbor(HexDirection direction)
     {
         return neighbors[(int)direction];

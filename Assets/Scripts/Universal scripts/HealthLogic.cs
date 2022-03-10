@@ -20,8 +20,8 @@ public class HealthLogic : MonoBehaviour
     {
         if (Dead)
             return;
-
-        health -= Mathf.Max(damage, health);
+       
+        health -= Mathf.Min(damage, health);
 
         DamageInfo damageInfo = new DamageInfo(
             damage,

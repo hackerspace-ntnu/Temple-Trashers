@@ -11,6 +11,6 @@ public class SkeletonEventHelper : MonoBehaviour
     /// </summary>
     public void OnAttackEvent()
     {
-        controller.DealDamage();
+        controller.OnDealDamage();
     }
 }

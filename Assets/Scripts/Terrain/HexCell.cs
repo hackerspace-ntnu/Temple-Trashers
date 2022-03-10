@@ -60,9 +60,8 @@ public class HexCell : MonoBehaviour
             if (value && IsOccupied)
             {
                 Destroy(value);
-                throw new ArgumentException(
-                    $"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!"
-                );
+                Debug.LogError($"Cannot place {value} on cell at {coordinates}, as it's already occupied by {_occupyingObject}!");
+                return;
             }
 
             _occupyingObject = value;
@@ -109,6 +108,19 @@ public class HexCell : MonoBehaviour
     void Awake()
     {
         meshRenderer = GetComponentInChildren<MeshRenderer>();
+    }
+
+    public GameObject InstantiatePrefabOnCell(GameObject prefab)
+    {
+        if (IsOccupied)
+        {
+            Debug.LogError($"Cannot place {prefab} on cell at {coordinates}, as it's already occupied by {OccupyingObject}!");
+            return null;
+        }
+
+        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+        OccupyingObject = obj;
+        return obj;
     }
 
     public HexCell GetNeighbor(HexDirection direction)

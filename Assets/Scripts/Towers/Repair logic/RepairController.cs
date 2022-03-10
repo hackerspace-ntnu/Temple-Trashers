@@ -77,8 +77,6 @@ public class RepairController : MonoBehaviour
             case WearState.HIGH:
                 Destroy(gameObject);
                 break;
-            default:
-                break;
         }
 
         onWearStateChange?.Invoke(CurrentWearState, prevState);

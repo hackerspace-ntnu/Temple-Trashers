@@ -36,7 +36,10 @@ public class HexGrid : MonoBehaviour
 
     [Header("Scenery Variables")]
     [SerializeField]
-    private GameObject[] sceneryObjects;
+    private GameObject[] occupyingSceneryObjects;
+
+    [SerializeField]
+    private GameObject[] nonOccupyingSceneryObjects;
 
     [SerializeField]
     private bool mountainBorder;
@@ -97,17 +100,12 @@ public class HexGrid : MonoBehaviour
         nameToGameObject = new Dictionary<string, GameObject>();
         gameObjectToName = new Dictionary<GameObject, string>();
 
-        foreach (GameObject obj in sceneryObjects)
+        IEnumerable<GameObject> allGameObjectArrays = towerPrefabs.Concat(occupyingSceneryObjects).Concat(nonOccupyingSceneryObjects);
+        foreach (GameObject obj in allGameObjectArrays)
         {
             string gameObjectName = $"{obj.name}(Clone)";
             nameToGameObject.Add(gameObjectName, obj);
             gameObjectToName.Add(obj, gameObjectName);
-        }
-
-        foreach (GameObject obj in towerPrefabs)
-        {
-            nameToGameObject.Add($"{obj.name}(Clone)", obj);
-            gameObjectToName.Add(obj, $"{obj.name}(Clone)");
         }
     }
 
@@ -126,7 +124,7 @@ public class HexGrid : MonoBehaviour
 
         PlacePlayerBase();
 
-        CreateSceneryObjects();
+        PlaceSceneryObjects();
     }
 
     private void PlacePlayerBase()
@@ -289,9 +287,9 @@ public class HexGrid : MonoBehaviour
     /// <summary>
     /// Creates the map decorations
     /// </summary>
-    private void CreateSceneryObjects()
+    private void PlaceSceneryObjects()
     {
-        if (sceneryObjects.Length == 0)
+        if (occupyingSceneryObjects.Length == 0)
         {
             Debug.LogError("No scenery objects have been assigned!");
             return;
@@ -299,7 +297,13 @@ public class HexGrid : MonoBehaviour
 
         // Code from https://stackoverflow.com/a/3188804
         HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
+        PlaceSceneryOnMapEdge(tallestCellType);
+        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true, tallestCellType);
+        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false, tallestCellType);
+    }
 
+    private void PlaceSceneryOnMapEdge(HexCellType tallestCellType)
+    {
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
         {
@@ -308,14 +312,15 @@ public class HexGrid : MonoBehaviour
 
             if (treeBorder)
             {
-                GameObject sceneryObj = Instantiate(sceneryObjects[0], cell.transform.position, Quaternion.identity);
-                sceneryObj.transform.SetParent(cell.transform);
+                GameObject sceneryObj = cell.InstantiatePrefabOnCell(occupyingSceneryObjects[0]);
                 float yRotation = Random.Range(0f, 360f);
                 sceneryObj.transform.Rotate(0, yRotation, 0);
-                cell.OccupyingObject = sceneryObj;
             }
         }
+    }
 
+    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying, HexCellType tallestCellType)
+    {
         foreach (HexCell cell in cells)
         {
             float elevation = cell.CellType.elevation;
@@ -326,11 +331,12 @@ public class HexGrid : MonoBehaviour
                 continue;
 
             int sceneryIndex = Random.Range(0, sceneryObjects.Length);
-            GameObject sceneryObject = Instantiate(sceneryObjects[sceneryIndex], cell.transform.position, Quaternion.identity);
+            GameObject sceneryObject = cell.InstantiatePrefabOnCell(sceneryObjects[sceneryIndex]);
             float yRotation = Random.Range(0f, 360f);
             sceneryObject.transform.Rotate(0, yRotation, 0);
-            sceneryObject.transform.SetParent(cell.transform);
-            cell.OccupyingObject = sceneryObject;
+
+            if (!occupying)
+                cell.OccupyingObject = null;
         }
     }
 
@@ -363,19 +369,15 @@ public class HexGrid : MonoBehaviour
             if (hexCellData.occupier == "null" || !nameToGameObject.ContainsKey(hexCellData.occupier))
                 continue;
 
-            GameObject sceneryObject = Instantiate(nameToGameObject[hexCellData.occupier], cells[i].transform.position, Quaternion.identity);
-            if (sceneryObject.GetComponent<RotatableTowerLogic>() != null)
+            GameObject sceneryObject = cells[i].InstantiatePrefabOnCell(nameToGameObject[hexCellData.occupier]);
+            if (sceneryObject.GetComponent<RotatableTowerLogic>() is RotatableTowerLogic rotatableTowerLogic)
             {
-                RotatableTowerLogic rotatableTowerLogic = sceneryObject.GetComponent<RotatableTowerLogic>();
                 Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
                 rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else
             {
                 sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             }
-
-            sceneryObject.transform.SetParent(cells[i].transform);
-            cells[i].OccupyingObject = sceneryObject;
         }
     }
 }

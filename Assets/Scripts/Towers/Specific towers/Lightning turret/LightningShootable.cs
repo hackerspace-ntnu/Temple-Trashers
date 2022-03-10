@@ -42,7 +42,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         foreach (var zap in zapTargets)
         {
             Vector3 diff = (zap.position - transform.position).normalized;
-            zap.GetComponent<HealthLogic>().DealDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
         }
 
         //Clear all marked objects.

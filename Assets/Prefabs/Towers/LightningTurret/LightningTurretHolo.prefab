@@ -486,7 +486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 684046418129813649, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 684046418129813649, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
       propertyPath: m_LocalRotation.x
@@ -526,7 +526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 684046418129813649, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.43
+      value: 4.94
       objectReference: {fileID: 0}
     - target: {fileID: 684046418129813649, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
       propertyPath: m_SizeDelta.x
@@ -572,8 +572,23 @@ PrefabInstance:
       propertyPath: focused
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6118477816947665869, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
+--- !u!114 &7550623835226867393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4700895259126507490, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
+  m_PrefabInstance: {fileID: 3023563566847762723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c22bc6aef29cb4f882cdbf4026bb0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8150323975678578433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -589,6 +604,10 @@ PrefabInstance:
       propertyPath: _towerScriptableObject
       value: 
       objectReference: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
+    - target: {fileID: 3777615045600658458, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
+      propertyPath: tutorialText
+      value: 
+      objectReference: {fileID: 7550623835226867393}
     - target: {fileID: 7211280855749776597, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
       propertyPath: m_RootOrder
       value: 0

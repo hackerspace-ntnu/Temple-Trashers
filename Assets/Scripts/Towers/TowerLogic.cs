@@ -27,6 +27,9 @@ public class TowerLogic : Interactable
     {
         Vector3 cellPos = HexGrid.Singleton.GetCell(transform.position).transform.position;
         transform.position = cellPos;
+
+        // Setup tutorial ui elements           
+        tutorialText.SetButton(TutorialText.Direction.North, true);
     }
 
     // Allow turret to be operated when focused

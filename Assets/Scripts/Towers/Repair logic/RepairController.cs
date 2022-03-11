@@ -60,7 +60,7 @@ public class RepairController : MonoBehaviour
         WearState newState = WearState.NONE;
         onWearStateChange?.Invoke(newState, CurrentWearState);
         CurrentWearState = newState;
-        tutorialText.SetEnabledElements(false, false, false, false);
+        tutorialText.SetButton(TutorialText.Direction.South, false);
     }
 
     private void NextState()
@@ -71,7 +71,7 @@ public class RepairController : MonoBehaviour
         {
             case WearState.NONE:
                 CurrentWearState = WearState.LOW;
-                tutorialText.SetEnabledElements(false, true, false, false);
+                tutorialText.SetButton(TutorialText.Direction.South, true);
                 break;
             case WearState.LOW:
                 CurrentWearState = WearState.MEDIUM;

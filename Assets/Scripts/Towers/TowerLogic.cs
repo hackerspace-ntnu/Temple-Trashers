@@ -15,6 +15,9 @@ public class TowerLogic : Interactable
 
     private RepairAnimationController repairAnimationController;
 
+    [SerializeField]
+    private TutorialText tutorialText;
+
     void Awake()
     {
         repairAnimationController = GetComponent<RepairAnimationController>();
@@ -30,12 +33,16 @@ public class TowerLogic : Interactable
     public override void Focus(PlayerStateController player)
     {
         turretInput = player.GetComponent<TurretInput>();
+        if (tutorialText)
+            tutorialText.Focus();
     }
 
     // When player leaves, prevent it from changing the turret position
     public override void Unfocus(PlayerStateController player)
     {
         turretInput = null;
+        if(tutorialText)
+            tutorialText.Unfocus();
     }
 
     public override void Interact(PlayerStateController player)

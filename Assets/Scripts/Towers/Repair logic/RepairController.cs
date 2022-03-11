@@ -31,6 +31,9 @@ public class RepairController : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private TutorialText tutorialText;
+
     //To allow other components to subscribe to stateChange events
     public delegate void WearStateDelegate(WearState newState, WearState oldState);
 
@@ -57,6 +60,7 @@ public class RepairController : MonoBehaviour
         WearState newState = WearState.NONE;
         onWearStateChange?.Invoke(newState, CurrentWearState);
         CurrentWearState = newState;
+        tutorialText.SetEnabledElements(false, false, false, false);
     }
 
     private void NextState()
@@ -67,6 +71,7 @@ public class RepairController : MonoBehaviour
         {
             case WearState.NONE:
                 CurrentWearState = WearState.LOW;
+                tutorialText.SetEnabledElements(false, true, false, false);
                 break;
             case WearState.LOW:
                 CurrentWearState = WearState.MEDIUM;

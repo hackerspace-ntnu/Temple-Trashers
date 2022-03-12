@@ -8,6 +8,7 @@ TagManager:
   - Base
   - Loot
   - Enemy
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -784,6 +784,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c22bc6aef29cb4f882cdbf4026bb0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonsUI:
+  - {fileID: 3916009857289649109}
+  - {fileID: 3916009857245373067}
+  - {fileID: 3916009857844994217}
+  - {fileID: 3916009857893900875}
+  - {fileID: 3916009858849601236}
   focused: 1
 --- !u!1 &3916009858849601236
 GameObject:

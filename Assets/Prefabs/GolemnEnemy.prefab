@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550704162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5.93, z: 5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1381365247}
@@ -1094,7 +1094,9 @@ MonoBehaviour:
   shimmySpeed: 60
   timeBetweenJumps: 2
   anim: {fileID: 2106480867618331615}
-  damage: 999
+  playerDamage: 999
+  baseDamage: 20
+  baseStopDistance: 2.5
   sync: {fileID: 4272603375916495953}
 --- !u!195 &864269227
 NavMeshAgent:

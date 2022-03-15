@@ -51,6 +51,8 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
+    public Transform EnemyViewFocus;
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public HexCell TargetCell => targetCell;
@@ -88,7 +90,9 @@ public partial class PlayerStateController : MonoBehaviour
         manager.RespawnPlayer(1f);
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
-        Destroy(gameObject);
+        GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
+        anim.enabled = false;
+        Destroy(gameObject, 2f);
     }
 
     void Start()

@@ -17,15 +17,31 @@ public class GolemnController : MonoBehaviour
     private Quaternion rotationTarget;
     private bool canJump = true;
     [SerializeField]
-    private float damage;
+    private float playerDamage;
 
-    private Transform player;
+    [SerializeField]
+    private float baseDamage;
 
-    public Transform Player {
-        get { return player; }
+    private Transform aggroTarget;
+
+    [SerializeField]
+    private float baseStopDistance = 1.5f;
+
+    public Transform AggroTarget {
+        get { return aggroTarget; }
         private set {
-            player = value;
-            sync.targetPlayer = value; }
+            aggroTarget = value;
+            var playerController = value.GetComponent<PlayerStateController>();
+            if (playerController)
+            {
+                sync.targetPlayer = playerController.EnemyViewFocus;
+            }
+            else
+            {
+                sync.targetPlayer = value;
+            }
+
+        }
     }
 
     [SerializeField]
@@ -38,6 +54,7 @@ public class GolemnController : MonoBehaviour
         Shimmy,
         Airborne,
         Aggro,
+        AttackingBase
     }
     // Start is called before the first frame update
     void Start()
@@ -61,6 +78,8 @@ public class GolemnController : MonoBehaviour
                 break;
             case states.Airborne:
                 break;
+            case states.AttackingBase:
+                break;
             default:
                 break;
         }
@@ -83,10 +102,17 @@ public class GolemnController : MonoBehaviour
     private void CheckForNextAction()
     {
         updateNextPosition();
-        if(Player != null)
+        if((agent.destination - transform.position).sqrMagnitude < Mathf.Pow(baseStopDistance, 2))
+        {
+            state = states.AttackingBase;
+            AggroTarget = BaseController.Singleton.transform;
+            Slap(AggroTarget.position);
+            return;
+        }
+        if(AggroTarget != null)
         {
             state = states.Aggro;
-            Slap(Player.position);
+            Slap(AggroTarget.position);
         }
         else if (Vector3.Dot(transform.forward, next.normalized) >= 0.98f )
         {
@@ -127,7 +153,7 @@ public class GolemnController : MonoBehaviour
     }
     private void Shimmy()
     {
-        if(Player != null)
+        if(AggroTarget != null)
         {
             state = states.Waiting;
             anim.SetBool("Shimmy", false);
@@ -196,22 +222,23 @@ public class GolemnController : MonoBehaviour
     }
     public void OnAttackFinish()
     {
-        if(state == states.Aggro)
+        if(state == states.Aggro || state == states.AttackingBase)
         {
             state = states.Waiting;
-            Player = null;
+            AggroTarget = null;
 
         }
     }
 
     public void DealDamage() {
-        Player.GetComponent<HealthLogic>().DealDamage(damage, (Player.position - transform.position + Vector3.up * 2).normalized, 5f);
+        var damage = state == states.AttackingBase ? baseDamage : playerDamage;
+        AggroTarget.GetComponent<HealthLogic>().OnReceiveDamage(damage, (AggroTarget.position - transform.position + Vector3.up * 2).normalized, 10f);
     }
     private void OnTriggerEnter(Collider other)
     { 
         if(other.tag == "Player")
         {
-            Player = other.transform;    
+            AggroTarget = other.transform;    
         }
     }
 }

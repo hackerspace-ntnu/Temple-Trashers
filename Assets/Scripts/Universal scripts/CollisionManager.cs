@@ -23,7 +23,7 @@ public class CollisionManager : MonoBehaviour
     public List<Collider> getColliders()
     {
         //This is very stupid, but Unity has forced my hand.
-        //There is a bug in this version of Unity where a destoyed object will NOT trigger OnTriggerExit, thus a manual check is needed.
+        //This is due to Destroy() not triggering OnTriggerExit, requiring this manual check.
         for (int i = 0; i < colliders.Count; i++)
         {
             if (colliders[i] == null){colliders.RemoveAt(i);}

@@ -63,15 +63,12 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         zapTargets.Clear();
     }
 
-
-
     //Marks soon-to-be zapped objects and adds a VFX.
     private void AddZap(Transform target, Transform previous)
     {
         if (zapTargets.Contains(target))
             return;
 
-        //Transform previousTarget = zapTargets.LastOrDefault() ?? zapOrigin;
         if (previous == transform)
             previous = zapOrigin;
 
@@ -84,7 +81,6 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     private void CheckZap(Transform target)
     {
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, lightningRadius, shockLayers);
-        //Collider[] hitColliders = hitbox.;
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponent<HealthLogic>())

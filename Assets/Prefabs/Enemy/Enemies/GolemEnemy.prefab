@@ -467,10 +467,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1616908388623204710}
+  - component: {fileID: 4272603375916495953}
   - component: {fileID: 2106480867618331615}
   - component: {fileID: 2106480867618331613}
   - component: {fileID: 2106480867618331614}
-  - component: {fileID: 4272603375916495953}
   m_Layer: 0
   m_Name: GolemModel
   m_TagString: Untagged
@@ -496,6 +496,22 @@ Transform:
   m_Father: {fileID: 2256889440719203287}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4272603375916495953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106480867618331612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9cae0aedae9b544fb08dbf75d74e8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPlayer: {fileID: 0}
+  rigTarget: {fileID: 5098507263211514893}
+  controller: {fileID: 864269226}
+  dust: {fileID: 2462701833798390475}
 --- !u!95 &2106480867618331615
 Animator:
   serializedVersion: 3
@@ -550,22 +566,6 @@ MonoBehaviour:
   - m_Rig: {fileID: 1381365246}
     m_Active: 1
   m_Effectors: []
---- !u!114 &4272603375916495953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2106480867618331612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9cae0aedae9b544fb08dbf75d74e8df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPlayer: {fileID: 0}
-  rigTarget: {fileID: 5098507263211514893}
-  controller: {fileID: 864269226}
-  dust: {fileID: 2462701833798390475}
 --- !u!1 &2135127792075158362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,11 +1050,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2256889440719203287}
   - component: {fileID: 864269226}
+  - component: {fileID: 2043701056}
   - component: {fileID: 864269227}
   - component: {fileID: 3956364541041349617}
   - component: {fileID: 5382063570081766175}
   - component: {fileID: 8129516142914331847}
-  - component: {fileID: 2043701056}
   m_Layer: 11
   m_Name: GolemEnemy
   m_TagString: Untagged
@@ -1070,7 +1070,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3862809870043681472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.563248, y: 3.6807494, z: 33.511345}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1616908388623204710}
@@ -1089,15 +1089,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94be38dacd2b4e74f8aebdafaeb8d53c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentTarget: {fileID: 0}
+  currentState: 0
+  anim: {fileID: 2106480867618331615}
+  attackDamage: 1
+  scoreValue: 10
   jumpLength: 1
   jumpTime: 0.55
   shimmySpeed: 60
   timeBetweenJumps: 2
-  anim: {fileID: 2106480867618331615}
+  currentGolemState: 0
+  canJump: 1
   playerDamage: 999
   baseDamage: 20
+  aggroTarget: {fileID: 0}
   baseStopDistance: 2.5
   sync: {fileID: 4272603375916495953}
+--- !u!114 &2043701056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862809870043681472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  maxHealth: 200
 --- !u!195 &864269227
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1163,20 +1184,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2043701056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3862809870043681472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
 --- !u!1 &4331790451238940941
 GameObject:
   m_ObjectHideFlags: 0

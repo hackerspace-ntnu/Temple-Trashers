@@ -1,213 +1,223 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
+
+public enum GolemState
+{
+    WAITING,
+    BUSY,
+    SHIMMY,
+    AIRBORNE,
+    AGGRO,
+    ATTACKING_BASE,
+}
 
 public class GolemController : Enemy
 {
     [SerializeField]
-    private float jumpLength = 1f, jumpTime = 0.62f, shimmySpeed = 250f, timeBetweenJumps = 2;
-    private states state = states.Waiting;
-    private Vector3 next, nextNormalized;
+    private float jumpLength = 1f;
+
+    [SerializeField]
+    private float jumpTime = 0.62f;
+
+    [SerializeField]
+    private float shimmySpeed = 250f;
+
+    [SerializeField]
+    private float timeBetweenJumps = 2;
+
+    [TextLabel(greyedOut = true), SerializeField]
+    private GolemState currentGolemState = GolemState.WAITING;
+
+    private Vector3 next;
+    private Vector3 nextNormalized;
     private Quaternion rotationTarget;
+
+    [TextLabel(greyedOut = true), SerializeField]
     private bool canJump = true;
+
     [SerializeField]
     private float playerDamage;
 
     [SerializeField]
     private float baseDamage;
 
+    [ReadOnly, SerializeField]
     private Transform aggroTarget;
 
     [SerializeField]
     private float baseStopDistance = 1.5f;
 
-    public Transform AggroTarget {
-        get { return aggroTarget; }
-        private set {
+    public Transform AggroTarget
+    {
+        get => aggroTarget;
+        private set
+        {
             aggroTarget = value;
-            var playerController = value.GetComponent<PlayerStateController>();
-            if (playerController)
+            if (aggroTarget
+                && aggroTarget.GetComponent<PlayerStateController>() is PlayerStateController playerController)
             {
-                sync.targetPlayer = playerController.EnemyViewFocus;
-            }
-            else
-            {
-                sync.targetPlayer = value;
-            }
-
+                sync.targetPlayer = playerController.enemyViewFocus;
+            } else
+                sync.targetPlayer = aggroTarget;
         }
     }
 
     [SerializeField]
     private GolemAnimationSyncer sync;
 
-    private enum states
-    {
-        Waiting,
-        Busy,
-        Shimmy,
-        Airborne,
-        Aggro,
-        AttackingBase
-    }
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
+    private static readonly int headButtAnimatorParam = Animator.StringToHash("HeadButt");
+    private static readonly int slapRightAnimatorParam = Animator.StringToHash("SlapRight");
+    private static readonly int slapLeftAnimatorParam = Animator.StringToHash("SlapLeft");
+    private static readonly int shimmyAnimatorParam = Animator.StringToHash("Shimmy");
+    private static readonly int jumpAnimatorParam = Animator.StringToHash("Jump");
 
-        agent = GetComponent<NavMeshAgent>();
-        agent.destination = BaseController.Singleton.transform.position;
-        GetComponent<HealthLogic>().onDeath += (dmg) => Destroy(gameObject);
-    }
-   
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        switch (state)
+        switch (currentGolemState)
         {
-            case states.Waiting:
+            case GolemState.WAITING:
                 CheckForNextAction();
                 break;
-            case states.Busy:
+            case GolemState.BUSY:
                 break;
-            case states.Shimmy:
+            case GolemState.SHIMMY:
                 Shimmy();
                 break;
-            case states.Airborne:
+            case GolemState.AIRBORNE:
                 break;
-            case states.AttackingBase:
-                break;
-            default:
+            case GolemState.ATTACKING_BASE:
                 break;
         }
     }
 
-    private void updateNextPosition()
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            AggroTarget = other.transform;
+    }
+
+    protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
+    {
+        if (newState == EnemyState.DEAD)
+            Destroy(gameObject);
+    }
+
+    private void UpdateNextPosition()
     {
         if (agent.path.corners.Length >= 2)
-        {
             next = agent.path.corners[1] - transform.position;
-        }
-        else
-        {
-            next = agent.destination;
-        }
+        else if (CurrentTarget)
+            next = CurrentTarget.position;
+
         next.y = 0;
         nextNormalized = next.normalized;
     }
 
     private void CheckForNextAction()
     {
-        updateNextPosition();
-        if((agent.destination - transform.position).sqrMagnitude < Mathf.Pow(baseStopDistance, 2))
+        UpdateNextPosition();
+        if (CurrentTarget && transform.position.DistanceLessThan(baseStopDistance, CurrentTarget.position))
         {
-            state = states.AttackingBase;
+            currentGolemState = GolemState.ATTACKING_BASE;
             AggroTarget = BaseController.Singleton.transform;
             Slap(AggroTarget.position);
             return;
         }
-        if(AggroTarget != null)
+
+        if (AggroTarget)
         {
-            state = states.Aggro;
+            currentGolemState = GolemState.AGGRO;
             Slap(AggroTarget.position);
-        }
-        else if (Vector3.Dot(transform.forward, next.normalized) >= 0.98f )
+        } else if (Vector3.Dot(transform.forward, next.normalized) >= 0.98f)
         {
             if (canJump)
             {
-                anim.SetTrigger("Jump");
-                Invoke("ResetJump", timeBetweenJumps);
-                Invoke("FinishJumpAnim", 1.2f);
-                state = states.Busy;
+                anim.SetTrigger(jumpAnimatorParam);
+                Invoke(nameof(ResetJump), timeBetweenJumps);
+                Invoke(nameof(FinishJumpAnim), 1.2f);
+                currentGolemState = GolemState.BUSY;
             }
-        }
-        else
+        } else
         {
-            state = states.Shimmy;
-            anim.SetBool("Shimmy", true);
+            currentGolemState = GolemState.SHIMMY;
+            anim.SetBool(shimmyAnimatorParam, true);
             rotationTarget = Quaternion.LookRotation(nextNormalized, Vector3.up);
         }
     }
 
-    private void ResetJump(){canJump = true;}
-    private void FinishJumpAnim() { state = states.Waiting; }
+    private void ResetJump()
+    {
+        canJump = true;
+    }
+
+    private void FinishJumpAnim()
+    {
+        currentGolemState = GolemState.WAITING;
+    }
 
     public void JumpTrigger()
     {
         canJump = false;
-        state = states.Airborne;
-        Vector3 target = nextNormalized * jumpLength; //: next;
+        currentGolemState = GolemState.AIRBORNE;
+        Vector3 target = nextNormalized * jumpLength;
         JumpTo(transform.position + target, jumpTime);
     }
 
-    public void SpawnTrigger()
+    private void JumpTo(Vector3 pos, float time)
     {
-        state = states.Waiting;
+        LeanTween.move(gameObject, pos, time);
     }
 
-    private void JumpTo(Vector3 pos, float time) {
-        LeanTween.move(gameObject, pos, time);     
-    }
     private void Shimmy()
     {
-        if(AggroTarget != null)
+        if (AggroTarget)
         {
-            state = states.Waiting;
-            anim.SetBool("Shimmy", false);
+            currentGolemState = GolemState.WAITING;
+            anim.SetBool(shimmyAnimatorParam, false);
         }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationTarget, shimmySpeed * Time.fixedDeltaTime);
-        if(next == Vector3.zero || Vector3.Dot(transform.forward, nextNormalized) >= 0.98)
+        if (next == Vector3.zero || Vector3.Dot(transform.forward, nextNormalized) >= 0.98)
         {
-            state = states.Waiting;
-            anim.SetBool("Shimmy", false);
+            currentGolemState = GolemState.WAITING;
+            anim.SetBool(shimmyAnimatorParam, false);
         }
     }
 
     private void Slap(Vector3 target)
     {
         Vector3 diff = target - transform.position;
-        
-        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z)*180/Mathf.PI - transform.rotation.eulerAngles.y, 360);
-        
-        if(angle < 15f || angle > 345f)
-        {
-            anim.SetTrigger("HeadButt");
-        }
-        else if(angle < 180f)
-        {
-            anim.SetTrigger("SlapRight");
-        }
+
+        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * 180 / Mathf.PI - transform.rotation.eulerAngles.y, 360);
+
+        if (angle < 15f || angle > 345f)
+            anim.SetTrigger(headButtAnimatorParam);
+        else if (angle < 180f)
+            anim.SetTrigger(slapRightAnimatorParam);
         else
-        {
-            anim.SetTrigger("SlapLeft");
-        }
+            anim.SetTrigger(slapLeftAnimatorParam);
     }
 
     public void OnAttackFinish()
     {
-        if(state == states.Aggro || state == states.AttackingBase)
+        if (currentGolemState == GolemState.AGGRO
+            || currentGolemState == GolemState.ATTACKING_BASE)
         {
-            state = states.Waiting;
+            currentGolemState = GolemState.WAITING;
             AggroTarget = null;
-
         }
     }
 
-    public void DealDamage() {
-        var damage = state == states.AttackingBase ? baseDamage : playerDamage;
-        AggroTarget.GetComponent<HealthLogic>().OnReceiveDamage(damage, (AggroTarget.position - transform.position + Vector3.up * 2).normalized, 10f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    { 
-        if(other.tag == "Player")
-        {
-            AggroTarget = other.transform;    
-        }
-    }
-
-    protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
+    public void OnDealDamage()
     {
+        if (!AggroTarget)
+            return;
+
+        float damage = currentGolemState == GolemState.ATTACKING_BASE ? baseDamage : playerDamage;
+        HealthLogic targetHealth = AggroTarget.GetComponent<HealthLogic>();
+        Vector3 knockBackDir = (AggroTarget.position - transform.position + Vector3.up * 2).normalized;
+        targetHealth.OnReceiveDamage(damage, knockBackDir, 10f);
     }
 }

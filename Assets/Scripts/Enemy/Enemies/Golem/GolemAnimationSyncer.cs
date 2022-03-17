@@ -15,7 +15,7 @@ public class GolemAnimationSyncer : MonoBehaviour
     private VisualEffect dust;
     public void AttackTrigger(string dir)
     {
-        controller.DealDamage();
+        controller.OnDealDamage();
     }
     public void JumpTrigger()
     {

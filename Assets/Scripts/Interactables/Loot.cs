@@ -40,6 +40,10 @@ public class Loot : Interactable
     // Loot collider
     private MeshCollider meshCollider;
 
+    // Tutorial text
+    [SerializeField]
+    private TutorialText tutorialText;
+
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
@@ -99,11 +103,15 @@ public class Loot : Interactable
     public override void Focus(PlayerStateController player)
     {
         Highlight();
+        tutorialText.Focus();
+        tutorialText.SetButton(TutorialText.Direction.South, true);
     }
 
     public override void Unfocus(PlayerStateController player)
     {
         Unhighlight();
+        tutorialText.Unfocus();
+        tutorialText.SetButton(TutorialText.Direction.South, false);
     }
 
     public override void Interact(PlayerStateController player)
@@ -149,6 +157,9 @@ public class Loot : Interactable
         // Set the object to be destroyed
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
+
+        // Create flashing tutorialtext
+        tutorialText.GetComponent<Animator>().enabled = true;
     }
 
     /// <summary>
@@ -157,6 +168,9 @@ public class Loot : Interactable
     public void CancelAbsorb()
     {
         destroy = false;
+
+        // Stop flashing ui
+        tutorialText.GetComponent<Animator>().enabled = false;
     }
 
     /// <summary>

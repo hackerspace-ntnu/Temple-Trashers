@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BaseMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 97287dcf0baaca246b7ef5e7591c75ec, type: 3}
-  m_ShaderKeywords: _EMISSION _SPECULAR_SETUP
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _EMISSION _SPECULAR_SETUP
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -68,6 +68,7 @@ Material:
     - Rate: 1
     - State: 0.1
     - Vector1_1DC7BFE3: 100
+    - Vector1_20C92801: 1
     - Vector1_3B95BBD: 0.52
     - Vector1_92557405: 0.1
     - Vector1_B9C007CA: 0

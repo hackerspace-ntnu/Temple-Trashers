@@ -55,6 +55,9 @@ public class BaseController : MonoBehaviour
     private static readonly int deathAnimatorParam = Animator.StringToHash("death");
     private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -117,6 +120,7 @@ public class BaseController : MonoBehaviour
             return;
 
         loot.Absorb();
+        audioSource.Play();
 
         // Add VFX
         if (GetIdVFX(player.transform) == -1) // Check that we have not added one already

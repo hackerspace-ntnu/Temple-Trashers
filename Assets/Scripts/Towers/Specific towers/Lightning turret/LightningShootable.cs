@@ -35,6 +35,9 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     [SerializeField]
     private Transform zapOrigin;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
@@ -59,6 +62,10 @@ public class LightningShootable : MonoBehaviour, TurretInterface
             zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
         }
 
+        if (zapTargets.Count > 0)
+        {
+            audioSource.Play();
+        }
         //Clear all marked objects.
         zapTargets.Clear();
     }

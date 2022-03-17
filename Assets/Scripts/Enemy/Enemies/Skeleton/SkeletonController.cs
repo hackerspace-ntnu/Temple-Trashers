@@ -22,6 +22,9 @@ public class SkeletonController : Enemy
     [SerializeField]
     protected float playerChaseStopDistance = 4f;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     private static readonly int attackAnimatorParam = Animator.StringToHash("Attack");
     private static readonly int chasingAnimatorParam = Animator.StringToHash("Chasing");
     private static readonly int walkModeAnimatorParam = Animator.StringToHash("WalkMode");
@@ -177,6 +180,7 @@ public class SkeletonController : Enemy
             case EnemyState.ATTACK_PLAYER:
                 HealthLogic playerHealth = CurrentTarget.GetComponent<HealthLogic>();
                 playerHealth.OnReceiveDamage(attackDamage);
+                audioSource.Play();
                 if (playerHealth.health <= 0)
                 {
                     SetState(EnemyState.WALKING);

@@ -5,13 +5,10 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
 
-public class GolemnController : MonoBehaviour
+public class GolemnController : Enemy
 {
     [SerializeField]
     private float jumpLength = 1f, jumpTime = 0.62f, shimmySpeed = 250f, timeBetweenJumps = 2;
-    private NavMeshAgent agent;
-    [SerializeField]
-    private Animator anim;
     private states state = states.Waiting;
     private Vector3 next, nextNormalized;
     private Quaternion rotationTarget;
@@ -57,8 +54,10 @@ public class GolemnController : MonoBehaviour
         AttackingBase
     }
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         agent = GetComponent<NavMeshAgent>();
         agent.destination = BaseController.Singleton.transform.position;
         GetComponent<HealthLogic>().onDeath += (dmg) => Destroy(gameObject);
@@ -134,11 +133,11 @@ public class GolemnController : MonoBehaviour
 
     private void ResetJump(){canJump = true;}
     private void FinishJumpAnim() { state = states.Waiting; }
+
     public void JumpTrigger()
     {
         canJump = false;
         state = states.Airborne;
-        //next.sqrMagnitude > jumpLength * jumpLength ?
         Vector3 target = nextNormalized * jumpLength; //: next;
         JumpTo(transform.position + target, jumpTime);
     }
@@ -165,10 +164,9 @@ public class GolemnController : MonoBehaviour
             anim.SetBool("Shimmy", false);
         }
     }
+
     private void Slap(Vector3 target)
     {
-        //anim.SetTrigger("Slap");
-        //Vector3 orig = slapCity.localPosition;
         Vector3 diff = target - transform.position;
         
         float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z)*180/Mathf.PI - transform.rotation.eulerAngles.y, 360);
@@ -185,41 +183,8 @@ public class GolemnController : MonoBehaviour
         {
             anim.SetTrigger("SlapLeft");
         }
-
-        
-        /*
-        Quaternion fromRot = Quaternion.identity;
-        float toRot;
-        if (right)
-        {
-            if(rightRig!= null)
-            {
-                rightRig.weight = 1;
-            }
-            toRot = angle + 120;
-        }
-        else
-        {
-            if(leftRig != null)
-            {
-                leftRig.weight = 1;
-            }
-            toRot = angle - 120;
-        }
-
-        LeanTween.value(0, 1, 1f)
-        .setOnUpdate(x => {
-            slapCity.localRotation = Quaternion.Euler(new Vector3(0, angle * x, 0));
-            slapCity.localPosition = orig + x * (diff.y+3)*Vector3.up;
-        })
-        .setEase(slapCurve)
-        .setOnComplete(() => {
-            slapCity.localPosition = orig;
-            slapCity.localRotation = fromRot;
-            player = null;
-        });
-        */
     }
+
     public void OnAttackFinish()
     {
         if(state == states.Aggro || state == states.AttackingBase)
@@ -234,11 +199,16 @@ public class GolemnController : MonoBehaviour
         var damage = state == states.AttackingBase ? baseDamage : playerDamage;
         AggroTarget.GetComponent<HealthLogic>().OnReceiveDamage(damage, (AggroTarget.position - transform.position + Vector3.up * 2).normalized, 10f);
     }
+
     private void OnTriggerEnter(Collider other)
     { 
         if(other.tag == "Player")
         {
             AggroTarget = other.transform;    
         }
+    }
+
+    protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
+    {
     }
 }

@@ -31,7 +31,10 @@ public class HealthLogic : MonoBehaviour
             knockBackForce ?? 1f
         );
         if (Dead)
+        {
+            onDamage?.Invoke(damageInfo);
             onDeath?.Invoke(damageInfo);
+        }
         else
             onDamage?.Invoke(damageInfo);
     }

@@ -9,7 +9,7 @@ public class GolemAnimationSyncer : MonoBehaviour
     public Transform rigTarget;
     
     [SerializeField]
-    private GolemnController controller;
+    private GolemController controller;
 
     [SerializeField]
     private VisualEffect dust;

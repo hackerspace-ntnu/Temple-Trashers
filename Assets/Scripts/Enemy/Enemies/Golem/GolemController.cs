@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Animations.Rigging;
 
 
-public class GolemnController : Enemy
+public class GolemController : Enemy
 {
     [SerializeField]
     private float jumpLength = 1f, jumpTime = 0.62f, shimmySpeed = 250f, timeBetweenJumps = 2;

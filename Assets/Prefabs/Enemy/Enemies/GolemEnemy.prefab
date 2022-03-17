@@ -1056,7 +1056,7 @@ GameObject:
   - component: {fileID: 8129516142914331847}
   - component: {fileID: 2043701056}
   m_Layer: 11
-  m_Name: GolemnEnemy
+  m_Name: GolemEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,6 +13,9 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     //The radius for the turret and all it's targets.
     public float lightningRadius = 4;
 
+    //All targets in range of lightning turret's mesh collider hitbox
+    public CollisionManager collisionTargets;
+
     //Damage per zap.
     public float damage = 10;
 
@@ -35,10 +38,21 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
+    /// 
     public void Shoot()
     {
-        CheckZap(transform);
 
+        foreach (var target in collisionTargets.getColliders())
+        {
+            if (target && target.GetComponent<HealthLogic>()) 
+            { 
+                //Adds the first lightning vfx between Lightning Tower and first hit
+                AddZap(target.transform, transform);
+                //Starts recursion
+                CheckZap(target.transform);
+            }
+        }
+        
         foreach (var zap in zapTargets)
         {
             Vector3 diff = (zap.position - transform.position).normalized;
@@ -55,7 +69,6 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         if (zapTargets.Contains(target))
             return;
 
-        //Transform previousTarget = zapTargets.LastOrDefault() ?? zapOrigin;
         if (previous == transform)
             previous = zapOrigin;
 

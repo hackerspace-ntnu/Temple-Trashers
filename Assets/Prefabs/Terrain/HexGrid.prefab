@@ -48,7 +48,7 @@ MonoBehaviour:
   chunkPrefab: {fileID: 1715380707449622486, guid: 644482283630127498f5d5fd3538180e, type: 3}
   cellPrefab: {fileID: 3232745420878418644, guid: 344428ef3825a48459c49cc3f55d5f2b, type: 3}
   cells: []
-  edgeCells: []
+  _spawnableEdgeCells: []
   occupyingSceneryObjects:
   - {fileID: 582512043729321896, guid: d516299b5c2ef0c41bef1c06bf150d76, type: 3}
   - {fileID: 6453742252294820681, guid: 3f8b52c6be1c3af44b7be0ed2b1e604a, type: 3}

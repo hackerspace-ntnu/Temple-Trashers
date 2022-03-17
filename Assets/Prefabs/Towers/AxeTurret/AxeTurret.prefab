@@ -780,7 +780,7 @@ MonoBehaviour:
   turretInput: {fileID: 0}
   tutorialText: {fileID: 1383192093049101063}
   rotAxis: {fileID: 929849385462332844}
-  directionalPointer: {fileID: 0}
+  directionalPointer: {fileID: 8198781589771022394}
 --- !u!114 &8637078598552028505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1304,6 +1304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+--- !u!1 &8198781589771022394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3454596370188697067, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}
+  m_PrefabInstance: {fileID: 6788856973596233169}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5564782166609652078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1372699136307061951, guid: ee8fb43cc43677e479751a906e5344d5, type: 3}

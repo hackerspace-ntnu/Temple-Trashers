@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -41,31 +40,29 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
-    /// 
     public void Shoot()
     {
-
-        foreach (var target in collisionTargets.getColliders())
+        foreach (Collider target in collisionTargets.GetColliders())
         {
-            if (target && target.GetComponent<HealthLogic>()) 
-            { 
-                //Adds the first lightning vfx between Lightning Tower and first hit
-                AddZap(target.transform, transform);
-                //Starts recursion
-                CheckZap(target.transform);
-            }
+            if (!target || !target.GetComponent<HealthLogic>())
+                continue;
+
+            //Adds the first lightning vfx between Lightning Tower and first hit
+            AddZap(target.transform, transform);
+            //Starts recursion
+            CheckZap(target.transform);
         }
-        
-        foreach (var zap in zapTargets)
+
+        foreach (Transform zap in zapTargets)
         {
             Vector3 diff = (zap.position - transform.position).normalized;
-            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
+            Vector3 knockBackDir = new Vector3(diff.x, 2, diff.z);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
         }
 
         if (zapTargets.Count > 0)
-        {
             audioSource.Play();
-        }
+
         //Clear all marked objects.
         zapTargets.Clear();
     }

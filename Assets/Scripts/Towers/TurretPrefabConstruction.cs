@@ -43,14 +43,14 @@ public class TurretPrefabConstruction : Interactable
     {
         transform.position = targetCell.transform.position;
         SetMaterial(targetCell.CanPlaceTowerOnCell ? normalMaterial : errorMaterial);
-        tutorialText.SetButton(TutorialText.Direction.South, targetCell.CanPlaceTowerOnCell);
+        tutorialText.SetButton(Direction.SOUTH, targetCell.CanPlaceTowerOnCell);
     }
-    
+
     private void SetMaterial(Material material)
     {
         foreach (Renderer renderer in renderers)
         {
-            if (!renderer.enabled || renderer.gameObject.tag == "UI")
+            if (!renderer.enabled || renderer.CompareTag("UI"))
                 continue;
 
             Material[] newMaterials = new Material[renderer.materials.Length];

@@ -89,8 +89,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - prefab: {fileID: 6262807936475223191, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
-    probabilityWeight: 9
+    probabilityWeight: 17
   - prefab: {fileID: 8135351288033698040, guid: 767ddbfeac0c989439abe3071e1e0890, type: 3}
+    probabilityWeight: 2
+  - prefab: {fileID: 864269226, guid: 7497f65ba251e1e43b7af57f43abb4b1, type: 3}
     probabilityWeight: 1
   linearSpawnRate: 3
   exponentialSpawnRate: 1.1

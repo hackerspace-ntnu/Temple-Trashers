@@ -55,7 +55,7 @@ public class EnemyManager : MonoBehaviour
 
     private Vector3 ChoosePosForSpawningEnemy()
     {
-        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        HexCell[] edgeCells = HexGrid.Singleton.SpawnableEdgeCells;
         return edgeCells[Random.Range(0, edgeCells.Length)].transform.position;
     }
 

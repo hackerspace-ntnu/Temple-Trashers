@@ -32,7 +32,8 @@ public class HexGrid : MonoBehaviour
     [HideInInspector]
     public HexCell[] cells;
 
-    public HexCell[] edgeCells;
+    [ReadOnly, SerializeField]
+    private HexCell[] _spawnableEdgeCells;
 
     [Header("Scenery Variables")]
     [SerializeField]
@@ -60,12 +61,16 @@ public class HexGrid : MonoBehaviour
     [SerializeField]
     private HexCellType[] cellTypes;
 
+    private HexCellType tallestCellType;
+
     [Header("Savekey")]
     [SerializeField]
     private GameObject[] towerPrefabs;
 
     private IDictionary<string, GameObject> nameToGameObject;
     private IDictionary<GameObject, string> gameObjectToName;
+
+    public HexCell[] SpawnableEdgeCells { get => _spawnableEdgeCells; private set => _spawnableEdgeCells = value; }
 
     void OnEnable()
     {
@@ -93,9 +98,14 @@ public class HexGrid : MonoBehaviour
 
         playerBase = GameObject.FindGameObjectWithTag("Base");
 
+        // Code from https://stackoverflow.com/a/3188804
+        tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
+
         // Calculate borders for the terrain
         cellCountX = chunkCountX * HexMetrics.CHUNK_SIZE_X;
         cellCountZ = chunkCountZ * HexMetrics.CHUNK_SIZE_Z;
+
+        SpawnableEdgeCells = GetSpawnableEdgeCells();
 
         nameToGameObject = new Dictionary<string, GameObject>();
         gameObjectToName = new Dictionary<GameObject, string>();
@@ -174,8 +184,6 @@ public class HexGrid : MonoBehaviour
             for (int x = 0; x < cellCountX; x++)
                 CreateCell(x, z, i++);
         }
-
-        edgeCells = GetEdgeCells();
     }
 
     // Returns the HexCell at a given position
@@ -242,46 +250,37 @@ public class HexGrid : MonoBehaviour
         cell.CellType = cellTypes[cellTypeIndex];
     }
 
-    /// <summary>
-    /// Returns an array containing the cells on the edge of the map.
-    /// </summary>
-    /// <returns></returns>
-    public HexCell[] GetEdgeCells()
+    /// <returns>
+    /// An array containing the cells on the edge of the map (not including the "mountain" edge) that enemies can spawn on.
+    /// </returns>
+    public HexCell[] GetSpawnableEdgeCells()
     {
-        HexCell[] edgeCells = new HexCell[2 * cellCountX + 2 * cellCountZ - 4];
-        // Get the lower edge
-        int i = 0;
-        Vector2Int currentPos = new Vector2Int(0, 0);
+        List<HexCell> edgeCells = new List<HexCell>();
+        // Start at the corner that is the farthest towards -X and -Z (not including the "mountain" cells)
+        Vector2Int currentPos = new Vector2Int(1, 1);
 
-        for (int x = 0; x < cellCountX - 1; x++)
+        void SetEdgeCellsAlongEdge(int outerEdgeCellCount, Vector2Int edgeDir)
         {
-            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-            i++;
-            currentPos += new Vector2Int(1, 0);
+            for (int _ = 0; _ < outerEdgeCellCount - 3; _++)
+            {
+                HexCell cell = cells[currentPos.x + currentPos.y * cellCountX];
+                // Don't add the "mountain" cells, as enemies shouldn't spawn on them
+                if (cell.CellType.elevation < tallestCellType.elevation)
+                    edgeCells.Add(cell);
+                currentPos += edgeDir;
+            }
         }
 
-        for (int x = 0; x < cellCountZ - 1; x++)
-        {
-            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-            i++;
-            currentPos += new Vector2Int(0, 1);
-        }
+        // Traverse the cells along the -Z edge
+        SetEdgeCellsAlongEdge(cellCountX, new Vector2Int(1, 0));
+        // Traverse the cells along the +X edge
+        SetEdgeCellsAlongEdge(cellCountX, new Vector2Int(0, 1));
+        // Traverse the cells along the +Z edge
+        SetEdgeCellsAlongEdge(cellCountX, new Vector2Int(-1, 0));
+        // Traverse the cells along the -X edge
+        SetEdgeCellsAlongEdge(cellCountX, new Vector2Int(0, -1));
 
-        for (int x = 0; x < cellCountX - 1; x++)
-        {
-            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-            i++;
-            currentPos += new Vector2Int(-1, 0);
-        }
-
-        for (int x = 0; x < cellCountZ - 1; x++)
-        {
-            edgeCells[i] = cells[currentPos.x + currentPos.y * cellCountX];
-            i++;
-            currentPos += new Vector2Int(0, -1);
-        }
-
-        return edgeCells;
+        return edgeCells.ToArray();
     }
 
     /// <summary>
@@ -295,17 +294,15 @@ public class HexGrid : MonoBehaviour
             return;
         }
 
-        // Code from https://stackoverflow.com/a/3188804
-        HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
-        PlaceSceneryOnMapEdge(tallestCellType);
-        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true, tallestCellType);
-        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false, tallestCellType);
+        PlaceSceneryOnMapEdge();
+        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true);
+        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false);
     }
 
-    private void PlaceSceneryOnMapEdge(HexCellType tallestCellType)
+    private void PlaceSceneryOnMapEdge()
     {
         // Adding a wall around the map
-        foreach (HexCell cell in edgeCells)
+        foreach (HexCell cell in SpawnableEdgeCells)
         {
             if (mountainBorder)
                 cell.CellType = tallestCellType;
@@ -319,7 +316,7 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying, HexCellType tallestCellType)
+    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying)
     {
         foreach (HexCell cell in cells)
         {

@@ -21,6 +21,9 @@ public class RepairController : MonoBehaviour
 
     private float lastWearStateChangeTime;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     public WearState CurrentWearState
     {
         get => _currentWearState;
@@ -52,6 +55,7 @@ public class RepairController : MonoBehaviour
 
     public void Repair()
     {
+        audioSource.Play();
         ResetWearState();
     }
 

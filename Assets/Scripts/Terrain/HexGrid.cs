@@ -60,6 +60,8 @@ public class HexGrid : MonoBehaviour
     [SerializeField]
     private HexCellType[] cellTypes;
 
+    private HexCellType tallestCellType;
+
     [Header("Savekey")]
     [SerializeField]
     private GameObject[] towerPrefabs;
@@ -92,6 +94,9 @@ public class HexGrid : MonoBehaviour
         #endregion Singleton boilerplate
 
         playerBase = GameObject.FindGameObjectWithTag("Base");
+
+        // Code from https://stackoverflow.com/a/3188804
+        tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
 
         // Calculate borders for the terrain
         cellCountX = chunkCountX * HexMetrics.CHUNK_SIZE_X;
@@ -295,14 +300,12 @@ public class HexGrid : MonoBehaviour
             return;
         }
 
-        // Code from https://stackoverflow.com/a/3188804
-        HexCellType tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
-        PlaceSceneryOnMapEdge(tallestCellType);
-        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true, tallestCellType);
-        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false, tallestCellType);
+        PlaceSceneryOnMapEdge();
+        PlaceSceneryOnPlayArea(occupyingSceneryObjects, true);
+        PlaceSceneryOnPlayArea(nonOccupyingSceneryObjects, false);
     }
 
-    private void PlaceSceneryOnMapEdge(HexCellType tallestCellType)
+    private void PlaceSceneryOnMapEdge()
     {
         // Adding a wall around the map
         foreach (HexCell cell in edgeCells)
@@ -319,7 +322,7 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying, HexCellType tallestCellType)
+    private void PlaceSceneryOnPlayArea(GameObject[] sceneryObjects, bool occupying)
     {
         foreach (HexCell cell in cells)
         {

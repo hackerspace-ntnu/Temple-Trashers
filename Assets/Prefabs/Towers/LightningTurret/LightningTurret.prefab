@@ -554,8 +554,7 @@ VFXRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -706,11 +705,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7211280855749776597}
+  - component: {fileID: 7764072182270107089}
   - component: {fileID: -7945455886750344156}
   - component: {fileID: -9140866788019457868}
   - component: {fileID: 1378390819816396464}
   - component: {fileID: 5444241571611455560}
-  - component: {fileID: 7764072182270107089}
   - component: {fileID: 91039428920640535}
   m_Layer: 0
   m_Name: LightningTurret
@@ -735,6 +734,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7764072182270107089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425059109847644991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  _towerScriptableObject: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
+  turretInput: {fileID: 0}
+  tutorialText: {fileID: 7823104167414618001}
+  rotAxis: {fileID: 2395456624410596984}
+  directionalPointer: {fileID: 8552908902647958522}
 --- !u!114 &-7945455886750344156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,24 +817,6 @@ CapsuleCollider:
   m_Height: 4.7384577
   m_Direction: 1
   m_Center: {x: 0, y: 1.4092288, z: 0}
---- !u!114 &7764072182270107089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7425059109847644991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canInteract: 1
-  _towerScriptableObject: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
-  turretInput: {fileID: 0}
-  tutorialText: {fileID: 7823104167414618001}
-  rotAxis: {fileID: 2395456624410596984}
-  directionalPointer: {fileID: 8552908902647958522}
 --- !u!82 &91039428920640535
 AudioSource:
   m_ObjectHideFlags: 0

@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum Direction
+{
+    NONE,
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+}
+
 public class TutorialText : MonoBehaviour
 {
     [SerializeField]
@@ -12,39 +22,30 @@ public class TutorialText : MonoBehaviour
 
     private Camera mainCamera;
 
-    private void Awake()
+    void Awake()
     {
-        if(buttonsUI == null)
+        if (buttonsUI == null)
         {
-            buttonsUI = new GameObject[5]
+            buttonsUI = new[]
             {
                 transform.GetChild(0).gameObject,
                 transform.GetChild(0).GetChild(0).gameObject,
                 transform.GetChild(0).GetChild(1).gameObject,
                 transform.GetChild(0).GetChild(2).gameObject,
-                transform.GetChild(0).GetChild(3).gameObject
+                transform.GetChild(0).GetChild(3).gameObject,
             };
         }
     }
 
-    private void Start()
+    void Start()
     {
         mainCamera = Camera.main;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        
-
         transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.back, mainCamera.transform.rotation * Vector3.up);
     }
-
-    public enum Direction {
-    Base,
-    North,
-    South,
-    East,
-    West};
 
     public void SetButton(Direction button, bool state)
     {
@@ -56,14 +57,14 @@ public class TutorialText : MonoBehaviour
     private void UpdateUI()
     {
         // If no actions are possible, disable the base ui element.
-        if (buttonsUI[(int)Direction.North] == false &&
-            buttonsUI[(int)Direction.South] == false &&
-            buttonsUI[(int)Direction.East] == false &&
-            buttonsUI[(int)Direction.West] == false)
-
-            buttonsUI[(int)Direction.Base].SetActive(false);
-        else if(focused)
-            buttonsUI[(int)Direction.Base].SetActive(true);
+        if (!buttonsUI[(int)Direction.NORTH]
+            && !buttonsUI[(int)Direction.SOUTH]
+            && !buttonsUI[(int)Direction.EAST]
+            && !buttonsUI[(int)Direction.WEST])
+        {
+            buttonsUI[(int)Direction.NONE].SetActive(false);
+        } else if (focused)
+            buttonsUI[(int)Direction.NONE].SetActive(true);
     }
 
     public void Focus()
@@ -75,6 +76,6 @@ public class TutorialText : MonoBehaviour
     public void Unfocus()
     {
         focused = false;
-        buttonsUI[(int)Direction.Base].SetActive(false);
+        buttonsUI[(int)Direction.NONE].SetActive(false);
     }
 }

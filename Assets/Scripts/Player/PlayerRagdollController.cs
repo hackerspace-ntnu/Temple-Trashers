@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerRagdollController : MonoBehaviour
 {
     [SerializeField]
@@ -19,26 +20,23 @@ public class PlayerRagdollController : MonoBehaviour
     [SerializeField]
     private Rigidbody initialForceTarget;
 
-    public float impactForceMultiplier = 1f;
+    [SerializeField]
+    private float impactForceMultiplier = 1f;
+
     public void Ragdoll(DamageInfo info)
     {
         foreach (var body in bodiesToEnable)
-        {
             body.isKinematic = false;
-        }
+
         foreach (var body in bodiesToDisable)
-        {
             body.isKinematic = true;
-        }
 
         foreach (var collider in collidersToDisable)
-        {
             collider.enabled = false;
-        }
+
         foreach (var collider in collidersToEnable)
-        {
             collider.enabled = true;
-        }
-        initialForceTarget.AddForce(info.KnockBackDir * info.KnockBackForce*impactForceMultiplier, ForceMode.Impulse);
+
+        initialForceTarget.AddForce(info.KnockBackDir * info.KnockBackForce * impactForceMultiplier, ForceMode.Impulse);
     }
 }

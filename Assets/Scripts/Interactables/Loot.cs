@@ -104,14 +104,14 @@ public class Loot : Interactable
     {
         Highlight();
         tutorialText.Focus();
-        tutorialText.SetButton(TutorialText.Direction.South, true);
+        tutorialText.SetButton(Direction.SOUTH, true);
     }
 
     public override void Unfocus(PlayerStateController player)
     {
         Unhighlight();
         tutorialText.Unfocus();
-        tutorialText.SetButton(TutorialText.Direction.South, false);
+        tutorialText.SetButton(Direction.SOUTH, false);
     }
 
     public override void Interact(PlayerStateController player)

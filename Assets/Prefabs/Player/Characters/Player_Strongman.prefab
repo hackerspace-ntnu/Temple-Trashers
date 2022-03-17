@@ -1438,9 +1438,9 @@ GameObject:
   - component: {fileID: 3141754285660820167}
   - component: {fileID: 3123616270727055259}
   - component: {fileID: 5489817936349425048}
+  - component: {fileID: 6226741701120917524}
   - component: {fileID: 4315586048534869637}
   - component: {fileID: 4315586048534869638}
-  - component: {fileID: 6226741701120917524}
   m_Layer: 9
   m_Name: Player_Strongman
   m_TagString: Player
@@ -1485,7 +1485,7 @@ MonoBehaviour:
   targetCell: {fileID: 0}
   anim: {fileID: 4212238644612485010}
   heldItemBone: {fileID: 3677586431534401025}
-  EnemyViewFocus: {fileID: 2884578610783240193}
+  enemyViewFocus: {fileID: 2884578610783240193}
 --- !u!114 &4315586048534869632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,36 +1556,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crate: {fileID: 5412549372263867696}
   blueprint: {fileID: 5412549372030260906}
---- !u!136 &4315586048534869637
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4315586048534869639}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!54 &4315586048534869638
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4315586048534869639}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 10
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &6226741701120917524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,6 +1599,36 @@ MonoBehaviour:
   - {fileID: 7390252444814575690}
   initialForceTarget: {fileID: 8322371481059434553}
   impactForceMultiplier: 40
+--- !u!136 &4315586048534869637
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4315586048534869639}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &4315586048534869638
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4315586048534869639}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 10
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &4406181753404703009
 GameObject:
   m_ObjectHideFlags: 0

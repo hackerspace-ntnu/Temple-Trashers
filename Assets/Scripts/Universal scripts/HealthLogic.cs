@@ -21,9 +21,8 @@ public class HealthLogic : MonoBehaviour
         if (Dead)
             return;
 
-       
-        health -= Mathf.Min(damage, health);
-
+        // Prevent receiving negative damage (should instead use `Heal()`) and damage greater than the remaining health
+        health -= Mathf.Clamp(damage, 0, health);
 
         DamageInfo damageInfo = new DamageInfo(
             damage,

@@ -51,7 +51,7 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
-    public Transform EnemyViewFocus;
+    public Transform enemyViewFocus;
 
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 

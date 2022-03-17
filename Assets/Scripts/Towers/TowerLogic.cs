@@ -29,13 +29,14 @@ public class TowerLogic : Interactable
         transform.position = cellPos;
 
         // Setup tutorial ui elements           
-        tutorialText.SetButton(TutorialText.Direction.North, true);
+        tutorialText.SetButton(Direction.NORTH, true);
     }
 
     // Allow turret to be operated when focused
     public override void Focus(PlayerStateController player)
     {
         turretInput = player.GetComponent<TurretInput>();
+
         if (tutorialText)
             tutorialText.Focus();
     }
@@ -44,7 +45,8 @@ public class TowerLogic : Interactable
     public override void Unfocus(PlayerStateController player)
     {
         turretInput = null;
-        if(tutorialText)
+
+        if (tutorialText)
             tutorialText.Unfocus();
     }
 

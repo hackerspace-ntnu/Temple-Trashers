@@ -10,6 +10,8 @@ public class TutorialText : MonoBehaviour
     [SerializeField]
     private bool focused;
 
+    private Camera mainCamera;
+
     private void Awake()
     {
         if(buttonsUI == null)
@@ -23,7 +25,18 @@ public class TutorialText : MonoBehaviour
                 transform.GetChild(0).GetChild(3).gameObject
             };
         }
+    }
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
+
+    private void FixedUpdate()
+    {
         
+
+        transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.back, mainCamera.transform.rotation * Vector3.up);
     }
 
     public enum Direction {

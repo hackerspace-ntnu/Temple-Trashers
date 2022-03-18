@@ -13,8 +13,14 @@ public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
     public Transform forwardTransform;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource throws;
+    [SerializeField]
+    private AudioSource hits;
 
+    public void Hit()
+    {
+        hits.Play();
+    }
     public void Grab()
     {
         handAxe.enabled = true;
@@ -27,7 +33,7 @@ public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
         Rigidbody projectileBody = Instantiate(axeProjectilePrefab, spawnPoint.position, spawnPoint.rotation, transform)
             .GetComponent<Rigidbody>();
         projectileBody.velocity = forwardTransform.right * projectileSpeed;
-        audioSource.Play();
+        throws.Play();
     }
 
     public void Spawn()

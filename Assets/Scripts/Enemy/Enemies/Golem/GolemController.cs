@@ -49,6 +49,12 @@ public class GolemController : Enemy
     [SerializeField]
     private float baseStopDistance = 1.5f;
 
+    [SerializeField]
+    private AudioSource slap;
+
+    [SerializeField]
+    private AudioSource headbutt;
+
     public Transform AggroTarget
     {
         get => aggroTarget;
@@ -193,11 +199,20 @@ public class GolemController : Enemy
         float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * 180 / Mathf.PI - transform.rotation.eulerAngles.y, 360);
 
         if (angle < 15f || angle > 345f)
+        {
             anim.SetTrigger(headButtAnimatorParam);
+            headbutt.Play();
+        }
         else if (angle < 180f)
+        {
             anim.SetTrigger(slapRightAnimatorParam);
+            slap.Play();
+        }
         else
+        {
             anim.SetTrigger(slapLeftAnimatorParam);
+            slap.Play();
+        }
     }
 
     public void OnAttackFinish()

@@ -28,6 +28,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform mainCrystal;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     // Death flag
     private bool dead = false;
 
@@ -54,9 +57,6 @@ public class BaseController : MonoBehaviour
 
     private static readonly int deathAnimatorParam = Animator.StringToHash("death");
     private static readonly int lengthShaderProperty = Shader.PropertyToID("Length");
-
-    [SerializeField]
-    private AudioSource audioSource;
 
     void Awake()
     {

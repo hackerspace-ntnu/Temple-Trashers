@@ -103,7 +103,7 @@ public class EndlessMode : MonoBehaviour
     {
         Enemy enemyToSpawn = ChooseRandomEnemy();
         Assert.IsNotNull(enemyToSpawn);
-        HexCell[] edgeCells = HexGrid.Singleton.edgeCells;
+        HexCell[] edgeCells = HexGrid.Singleton.SpawnableEdgeCells;
         Vector3 spawnPos = edgeCells[Random.Range(0, edgeCells.Length - 1)].transform.position;
         Instantiate(enemyToSpawn.gameObject, spawnPos, Quaternion.identity, transform);
     }

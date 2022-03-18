@@ -537,11 +537,11 @@ MonoBehaviour:
   deathParticles: {fileID: 5015622875412468078, guid: f9753b14761704b478696f93e9bb9b68, type: 3}
   spawnPoint: {fileID: 5829545455071137389}
   mainCrystal: {fileID: 7990289546767576121}
+  audioSource: {fileID: 3538501339153533698}
   crystals: 0
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
   explosionLightningCount: 20
   explosionLightningSpawnDelay: 0.2
-  audioSource: {fileID: 3538501339153533698}
 --- !u!114 &4549690278803359290
 MonoBehaviour:
   m_ObjectHideFlags: 0

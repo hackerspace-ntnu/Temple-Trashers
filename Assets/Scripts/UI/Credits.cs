@@ -7,6 +7,6 @@ public class Credits : MonoBehaviour
 {
     public void ExitToMainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main_Menu");
     }
 }

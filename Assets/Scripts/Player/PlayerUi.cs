@@ -78,7 +78,6 @@ public class PlayerUi : MonoBehaviour
         // The controller points to nothing
         if (playerStateController.AimInput == Vector2.zero)
         {
-            controllerWheel.SelectedSegmentIndex = null;
             return;
         }
 

@@ -11,6 +11,7 @@ public struct EnemySpawnData
 {
     public Enemy prefab;
     public int probabilityWeight;
+    public int minWave;
 }
 
 
@@ -38,6 +39,8 @@ public class EndlessMode : MonoBehaviour
     private float timeSinceLastWaveStart = 0;
 
     private int spawnProbabilityWeightSum;
+
+    private HexCell[] spawnableCells;
 
     void Awake()
     {
@@ -71,6 +74,8 @@ public class EndlessMode : MonoBehaviour
     { // Ensure values are assigned
         if (enemyPrefabs.Length == 0)
             Debug.LogError("Enemies are not assigned");
+
+        spawnableCells = HexGrid.Singleton.SpawnableEdgeCells;
     }
 
     void Update()
@@ -90,8 +95,16 @@ public class EndlessMode : MonoBehaviour
         // Calculate the amount of enemies to spawn
         int spawnNum = Mathf.RoundToInt(linearSpawnRate * Mathf.Pow(waveNumber, exponentialSpawnRate));
 
+        HexCell spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
         for (int i = 0; i < spawnNum; i++)
-            SpawnEnemy();
+        {
+            SpawnEnemy(spawnCell); // Spawn enemies in groups no bigger than 10
+            if(i % 10 == 0)
+            {
+                spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
+            }
+        }
+            
 
         waveNumber++;
     }
@@ -99,12 +112,11 @@ public class EndlessMode : MonoBehaviour
     /// <summary>
     /// Spawn a random enemy at a random edgecell
     /// </summary>
-    private void SpawnEnemy()
+    private void SpawnEnemy(HexCell SpawnCell)
     {
         Enemy enemyToSpawn = ChooseRandomEnemy();
         Assert.IsNotNull(enemyToSpawn);
-        HexCell[] edgeCells = HexGrid.Singleton.SpawnableEdgeCells;
-        Vector3 spawnPos = edgeCells[Random.Range(0, edgeCells.Length - 1)].transform.position;
+        Vector3 spawnPos = SpawnCell.transform.position;
         Instantiate(enemyToSpawn.gameObject, spawnPos, Quaternion.identity, transform);
     }
 
@@ -116,9 +128,11 @@ public class EndlessMode : MonoBehaviour
         {
             cumulativeWeight += spawnData.probabilityWeight;
             if (weightedSpawnProbabilityChoice < cumulativeWeight)
-                return spawnData.prefab;
+                if (spawnData.minWave > waveNumber)
+                    return ChooseRandomEnemy();
+                else
+                    return spawnData.prefab;
         }
-
         // Should never be reached
         return null;
     }

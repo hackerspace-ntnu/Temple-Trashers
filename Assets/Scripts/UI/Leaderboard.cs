@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
+using TMPro;
 
 public class Leaderboard : MonoBehaviour
 {
@@ -19,8 +17,8 @@ public class Leaderboard : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             Transform entry = leaderboardBody.GetChild(i);
-            entry.GetChild(0).GetComponent<Text>().text = highscores[i].name;
-            entry.GetChild(1).GetComponent<Text>().text = highscores[i].score.ToString();
+            entry.GetChild(0).GetComponent<TextMeshProUGUI>().text = highscores[i].name;
+            entry.GetChild(1).GetComponent<TextMeshProUGUI>().text = highscores[i].score.ToString();
         }
     }
 }

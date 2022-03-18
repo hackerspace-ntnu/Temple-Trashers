@@ -19,7 +19,7 @@ public class AxeProjectile : MonoBehaviour
             Vector3 knockBackDir = (transform.right + Vector3.up * 0.5f).normalized;
             healthLogic.OnReceiveDamage(damage, knockBackDir, 10f);
         }
-
+        GetComponentInParent<AxeTowerAnimationController>().Hit();
         Destroy(gameObject);
     }
 }

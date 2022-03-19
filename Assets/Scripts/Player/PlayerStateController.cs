@@ -86,6 +86,10 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
+        // Prevent dying multiple times in single frame.
+        if (CurrentState == PlayerStates.DEAD)
+            return;
+
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
 

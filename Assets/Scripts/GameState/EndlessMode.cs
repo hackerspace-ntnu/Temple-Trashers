@@ -34,6 +34,8 @@ public class EndlessMode : MonoBehaviour
     [SerializeField]
     private float waveInterval = 15f;
 
+    public int maxGroupSize = 10;
+
     // Private variables
     private int waveNumber = 1;
     private float timeSinceLastWaveStart = 0;
@@ -98,8 +100,8 @@ public class EndlessMode : MonoBehaviour
         HexCell spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
         for (int i = 0; i < spawnNum; i++)
         {
-            SpawnEnemy(spawnCell); // Spawn enemies in groups no bigger than 10
-            if(i % 10 == 0)
+            SpawnEnemy(spawnCell); // Spawn enemies in groups no bigger than maxGroupSize
+            if(i % maxGroupSize == 0)
             {
                 spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
             }

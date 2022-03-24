@@ -64,7 +64,7 @@ public class UIControllerWheel : MonoBehaviour
 
     void OnEnable()
     {
-        SelectedSegmentIndex = null;
+        SelectedSegmentIndex = 0;
 
         // Reset the scale of all menu segments
         foreach (GameObject segment in menuSegments)

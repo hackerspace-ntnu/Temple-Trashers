@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI resourceText;
     public TextMeshProUGUI scoreText;
     public Scrollbar healthSlider;
+    public RectTransform startHelpPanel;
 
     private InventoryManager inventory;
     private BaseController baseController;
@@ -68,5 +69,10 @@ public class UIManager : MonoBehaviour
     private void UpdateBaseHealth(DamageInfo damage)
     {
         healthSlider.size = damage.RemainingHealth / baseMaxHealth;
+    }
+
+    public void DisableTutorial()
+    {
+        startHelpPanel.gameObject.SetActive(false);
     }
 }

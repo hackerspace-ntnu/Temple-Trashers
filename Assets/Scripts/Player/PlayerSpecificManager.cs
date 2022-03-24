@@ -25,6 +25,8 @@ public class PlayerSpecificManager : MonoBehaviour
     void Start()
     {
         InitializePlayer();
+
+        UIManager.Singleton.DisableTutorial();
     }
 
     public void InitializePlayer()

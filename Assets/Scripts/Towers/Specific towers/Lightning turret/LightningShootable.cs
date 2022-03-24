@@ -60,8 +60,8 @@ public class LightningShootable : MonoBehaviour, TurretInterface
             zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
         }
 
-        if (zapTargets.Count > 0)
-            audioSource.Play();
+       
+        audioSource.Play();
 
         //Clear all marked objects.
         zapTargets.Clear();

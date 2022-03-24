@@ -201,7 +201,7 @@ public class GolemController : Enemy
         if (angle < 15f || angle > 345f)
         {
             anim.SetTrigger(headButtAnimatorParam);
-            headbutt.Play();
+            headbutt.PlayDelayed(0.45f);
         }
         else if (angle < 180f)
         {

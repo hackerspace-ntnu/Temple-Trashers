@@ -28,6 +28,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private Transform mainCrystal;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     // Death flag
     private bool dead = false;
 
@@ -117,6 +120,7 @@ public class BaseController : MonoBehaviour
             return;
 
         loot.Absorb();
+        audioSource.Play();
 
         // Add VFX
         if (GetIdVFX(player.transform) == -1) // Check that we have not added one already

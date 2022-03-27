@@ -17,6 +17,7 @@ public class PlayerUi : MonoBehaviour
     private Transform mainCameraTransform;
     private InventoryManager inventory;
     private UIControllerWheel controllerWheel;
+    private MessageUI messageUI;
 
     public UIControllerWheel ControllerWheel => controllerWheel;
 
@@ -30,6 +31,7 @@ public class PlayerUi : MonoBehaviour
     {
         mainCameraTransform = Camera.main.transform;
         inventory = InventoryManager.Singleton;
+        messageUI = GetComponent<MessageUI>();
     }
 
     void LateUpdate()
@@ -59,8 +61,15 @@ public class PlayerUi : MonoBehaviour
                 inventory.ResourceAmount -= selectedSegment.Cost;
                 selectedSegment.InstantiateConstructionTower(playerStateController);
                 playerStateController.SetState(PlayerStates.BUILDING);
-            } else
+            }
+            else
+            {
                 playerStateController.SetState(PlayerStates.FREE);
+                if(inventory.ResourceAmount - selectedSegment.Cost < 0)
+                    messageUI.DisplayMessage("Missing crystals", MessageUI.TextColors.red);
+            }
+                
+
 
             ui.gameObject.SetActive(false);
         }
@@ -78,7 +87,6 @@ public class PlayerUi : MonoBehaviour
         // The controller points to nothing
         if (playerStateController.AimInput == Vector2.zero)
         {
-            controllerWheel.SelectedSegmentIndex = null;
             return;
         }
 

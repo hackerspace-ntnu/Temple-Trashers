@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton { get; private set; }
 
-    public Text resourceText;
-    public Text scoreText;
+    public TextMeshProUGUI resourceText;
+    public TextMeshProUGUI scoreText;
     public Scrollbar healthSlider;
+    public RectTransform startHelpPanel;
 
     private InventoryManager inventory;
     private BaseController baseController;
@@ -67,7 +68,11 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
-        //The healthslider goes from right to left instead of left to right, thus it needs to be inverse (1-x)
-        healthSlider.size = 1 - damage.RemainingHealth / baseMaxHealth;
+        healthSlider.size = damage.RemainingHealth / baseMaxHealth;
+    }
+
+    public void DisableTutorial()
+    {
+        startHelpPanel.gameObject.SetActive(false);
     }
 }

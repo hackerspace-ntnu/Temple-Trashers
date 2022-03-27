@@ -4,10 +4,10 @@ using UnityEngine;
 
 
 /// <summary>
-/// Component made for updating Dahl's props when states are changed.
+/// Component made for updating the player characters' props when states are changed.
 /// Latches on to <c>PlayerStateContoller</c>'s <c>onPlayerStateChange</c> delegate to enable/disabled the crate and blueprints.
 /// </summary>
-public class DahlPropController : MonoBehaviour
+public class PlayerPropController : MonoBehaviour
 {
     [SerializeField]
     private MeshRenderer crate;

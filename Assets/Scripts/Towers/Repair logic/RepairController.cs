@@ -21,6 +21,9 @@ public class RepairController : MonoBehaviour
 
     private float lastWearStateChangeTime;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     public WearState CurrentWearState
     {
         get => _currentWearState;
@@ -30,6 +33,9 @@ public class RepairController : MonoBehaviour
             lastWearStateChangeTime = Time.time;
         }
     }
+
+    [SerializeField]
+    private TutorialText tutorialText;
 
     //To allow other components to subscribe to stateChange events
     public delegate void WearStateDelegate(WearState newState, WearState oldState);
@@ -49,6 +55,7 @@ public class RepairController : MonoBehaviour
 
     public void Repair()
     {
+        audioSource.Play();
         ResetWearState();
     }
 
@@ -57,6 +64,7 @@ public class RepairController : MonoBehaviour
         WearState newState = WearState.NONE;
         onWearStateChange?.Invoke(newState, CurrentWearState);
         CurrentWearState = newState;
+        tutorialText.SetButton(Direction.SOUTH, false);
     }
 
     private void NextState()
@@ -67,6 +75,7 @@ public class RepairController : MonoBehaviour
         {
             case WearState.NONE:
                 CurrentWearState = WearState.LOW;
+                tutorialText.SetButton(Direction.SOUTH, true);
                 break;
             case WearState.LOW:
                 CurrentWearState = WearState.MEDIUM;

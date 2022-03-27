@@ -51,6 +51,10 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private Transform heldItemBone;
 
+    public Transform enemyViewFocus;
+
+    private MessageUI messageUI;
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public HexCell TargetCell => targetCell;
@@ -69,6 +73,7 @@ public partial class PlayerStateController : MonoBehaviour
         health.onDeath += Die;
 
         ui = GetComponent<PlayerUi>();
+        messageUI = GetComponent<MessageUI>();
     }
 
     void OnDestroy()
@@ -88,7 +93,9 @@ public partial class PlayerStateController : MonoBehaviour
         manager.RespawnPlayer(1f);
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
-        Destroy(gameObject);
+        GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
+        anim.enabled = false;
+        Destroy(gameObject, 2f);
     }
 
     void Start()
@@ -238,6 +245,7 @@ public partial class PlayerStateController : MonoBehaviour
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
+            messageUI.DisplayMessage("-" + focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.red);
             Drop(focusedInteractable.gameObject);
             RemoveInteractable(focusedInteractable);
             SetState(PlayerStates.FREE);
@@ -333,6 +341,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+        messageUI.DisplayMessage("+" + tower.TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.green);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);

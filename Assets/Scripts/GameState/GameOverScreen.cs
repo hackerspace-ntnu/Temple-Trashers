@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 
 /// <summary>
@@ -10,13 +11,13 @@ using UnityEngine.UI;
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    private Text nameInput;
+    private TextMeshProUGUI nameInput;
 
     [SerializeField]
-    private Text errorMsg;
+    private TextMeshProUGUI errorMsg;
 
     [SerializeField]
-    private Text scoreText;
+    private TextMeshProUGUI scoreText;
 
     void Start()
     {
@@ -26,12 +27,12 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {
-        UpdateLeaderboardAndLoadScene("Endless Mode");
+        UpdateLeaderboardAndLoadScene("Endless_Mode");
     }
 
     public void MainMenu()
     {
-        UpdateLeaderboardAndLoadScene("Main Menu");
+        UpdateLeaderboardAndLoadScene("Main_Menu");
     }
 
     private void UpdateLeaderboardAndLoadScene(string sceneName)

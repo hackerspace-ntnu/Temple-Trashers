@@ -17,6 +17,9 @@ public class TurretPrefabConstruction : Interactable
     [SerializeField]
     private TowerScriptableObject _towerScriptableObject;
 
+    [SerializeField]
+    private TutorialText tutorialText;
+
     private Renderer[] renderers;
 
     public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
@@ -40,13 +43,14 @@ public class TurretPrefabConstruction : Interactable
     {
         transform.position = targetCell.transform.position;
         SetMaterial(targetCell.CanPlaceTowerOnCell ? normalMaterial : errorMaterial);
+        tutorialText.SetButton(Direction.SOUTH, targetCell.CanPlaceTowerOnCell);
     }
 
     private void SetMaterial(Material material)
     {
         foreach (Renderer renderer in renderers)
         {
-            if (!renderer.enabled)
+            if (!renderer.enabled || renderer.CompareTag("UI"))
                 continue;
 
             Material[] newMaterials = new Material[renderer.materials.Length];

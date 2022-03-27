@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -12,6 +11,9 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
     //The radius for the turret and all it's targets.
     public float lightningRadius = 4;
+
+    //All targets in range of lightning turret's mesh collider hitbox
+    public CollisionManager collisionTargets;
 
     //Damage per zap.
     public float damage = 10;
@@ -32,18 +34,34 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     [SerializeField]
     private Transform zapOrigin;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
     /// </summary>
     public void Shoot()
     {
-        CheckZap(transform);
+        foreach (Collider target in collisionTargets.GetColliders())
+        {
+            if (!target || !target.GetComponent<HealthLogic>())
+                continue;
 
-        foreach (var zap in zapTargets)
+            //Adds the first lightning vfx between Lightning Tower and first hit
+            AddZap(target.transform, transform);
+            //Starts recursion
+            CheckZap(target.transform);
+        }
+
+        foreach (Transform zap in zapTargets)
         {
             Vector3 diff = (zap.position - transform.position).normalized;
-            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, new Vector3(diff.x, 2, diff.z), 5);
+            Vector3 knockBackDir = new Vector3(diff.x, 2, diff.z);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
         }
+
+       
+        audioSource.Play();
 
         //Clear all marked objects.
         zapTargets.Clear();
@@ -55,7 +73,6 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         if (zapTargets.Contains(target))
             return;
 
-        //Transform previousTarget = zapTargets.LastOrDefault() ?? zapOrigin;
         if (previous == transform)
             previous = zapOrigin;
 

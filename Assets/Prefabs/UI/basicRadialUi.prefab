@@ -47,6 +47,7 @@ MonoBehaviour:
   towers:
   - {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
   - {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
+  - {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
   menuSegments:
   - {fileID: 1101525838174688385}
   - {fileID: 4318313169925171475}

@@ -22,6 +22,12 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (ui == null)
+            ui = UIManager.Singleton;
+    }
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -40,8 +46,5 @@ public class InventoryManager : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
-
-        if (ui == false)
-            ui = UIManager.Singleton;
     }
 }

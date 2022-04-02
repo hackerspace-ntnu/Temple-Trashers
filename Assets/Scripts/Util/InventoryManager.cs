@@ -40,5 +40,8 @@ public class InventoryManager : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
+
+        if (ui == false)
+            ui = UIManager.Singleton;
     }
 }

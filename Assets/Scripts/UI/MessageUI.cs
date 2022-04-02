@@ -6,7 +6,7 @@ using TMPro;
 public class MessageUI : MonoBehaviour
 {
     [SerializeField]
-    private GameObject messagePrefab;
+    private GameObject messagePrefab = default;
 
     public Color[] colors;
 

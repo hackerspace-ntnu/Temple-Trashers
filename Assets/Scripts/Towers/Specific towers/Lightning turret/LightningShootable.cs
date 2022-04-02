@@ -7,7 +7,7 @@ using UnityEngine.VFX;
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
     [SerializeField]
-    private VisualEffect sparksEffect;
+    private VisualEffect sparksEffect = default;
 
     //The radius for the turret and all it's targets.
     public float lightningRadius = 4;
@@ -32,10 +32,10 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
     //Making lightning spawn from top of turret
     [SerializeField]
-    private Transform zapOrigin;
+    private Transform zapOrigin = default;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = default;
 
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.

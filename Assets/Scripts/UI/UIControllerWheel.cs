@@ -7,13 +7,13 @@ using UnityEngine;
 public class UIControllerWheel : MonoBehaviour
 {
     [SerializeField]
-    private TowerScriptableObject[] towers;
+    private TowerScriptableObject[] towers = default;
 
     [SerializeField]
-    private GameObject[] menuSegments;
+    private GameObject[] menuSegments = default;
 
     [SerializeField]
-    private List<SpriteRenderer> iconHolders;
+    private List<SpriteRenderer> iconHolders = default;
 
     public Sprite normalSprite;
     public Sprite highlightSprite;

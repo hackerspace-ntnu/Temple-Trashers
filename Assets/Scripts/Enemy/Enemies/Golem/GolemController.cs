@@ -38,22 +38,22 @@ public class GolemController : Enemy
     private bool canJump = true;
 
     [SerializeField]
-    private float playerDamage;
+    private float playerDamage = default;
 
     [SerializeField]
-    private float baseDamage;
+    private float baseDamage = default;
 
     [ReadOnly, SerializeField]
-    private Transform aggroTarget;
+    private Transform aggroTarget = default;
 
     [SerializeField]
     private float baseStopDistance = 1.5f;
 
     [SerializeField]
-    private AudioSource slap;
+    private AudioSource slap = default;
 
     [SerializeField]
-    private AudioSource headbutt;
+    private AudioSource headbutt = default;
 
     public Transform AggroTarget
     {
@@ -71,7 +71,7 @@ public class GolemController : Enemy
     }
 
     [SerializeField]
-    private GolemAnimationSyncer sync;
+    private GolemAnimationSyncer sync = default;
 
     private static readonly int headButtAnimatorParam = Animator.StringToHash("HeadButt");
     private static readonly int slapRightAnimatorParam = Animator.StringToHash("SlapRight");

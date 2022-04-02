@@ -8,19 +8,16 @@ using UnityEngine.AI;
 public class SkeletonRagdollController : MonoBehaviour
 {
     [SerializeField]
-    private Animator anim;
+    private Animator anim = default;
 
     [SerializeField]
-    private Collider colliderToDisable;
+    private Collider colliderToDisable = default;
 
     [SerializeField]
-    private Collider colliderToEnable;
+    private Collider colliderToEnable = default;
 
     [SerializeField]
-    private Vector2 launchSpeed;
-
-    [SerializeField]
-    private float launchRotationSpeed;
+    private float launchRotationSpeed = default;
 
     private Rigidbody body;
     private NavMeshAgent agent;

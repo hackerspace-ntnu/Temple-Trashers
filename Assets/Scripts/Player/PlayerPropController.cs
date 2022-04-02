@@ -10,10 +10,10 @@ using UnityEngine;
 public class PlayerPropController : MonoBehaviour
 {
     [SerializeField]
-    private MeshRenderer crate;
+    private MeshRenderer crate = default;
 
     [SerializeField]
-    private MeshRenderer blueprint;
+    private MeshRenderer blueprint = default;
 
     private PlayerStateController playerStateController;
 

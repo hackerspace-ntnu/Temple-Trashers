@@ -11,10 +11,10 @@ public class GolemAnimationSyncer : MonoBehaviour
     public Transform rigTarget;
 
     [SerializeField]
-    private GolemController controller;
+    private GolemController controller = default;
 
     [SerializeField]
-    private VisualEffect dust;
+    private VisualEffect dust = default;
 
     /// <summary>
     /// Called through an animation event on the <c>Armature_HeadButtFront.anim</c>,

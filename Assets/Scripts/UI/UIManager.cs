@@ -20,16 +20,20 @@ public class UIManager : MonoBehaviour
     public Slider healthbar;
     public Slider followBar;
 
+    public Material greenUI;
+    public Material redUI;
+
     [Range(0, 5)]
     public float followBarDelay = 2f;
     
-    private float maxSize;  // The size of the bars
     private float followBarCountdown; 
 
     private InventoryManager inventory;
     private BaseController baseController;
 
     private float baseMaxHealth;
+
+    private float actualhealth = 0;
 
     void Awake()
     {
@@ -58,19 +62,43 @@ public class UIManager : MonoBehaviour
 
         UpdateResourceUI();
         baseController.HealthController.onDamage += UpdateBaseHealth;
+        baseController.HealthController.onHeal += UpdateBaseHealth;
+
         baseMaxHealth = baseController.HealthController.maxHealth;
+        actualhealth = baseController.HealthController.health;
 
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
-        healthbar.value = followBar.value = baseMaxHealth;
+        healthbar.value = followBar.value = actualhealth;
+
+        StartCoroutine("healthbarTest");
     }
 
     private void Update()
     {
         followBarCountdown -= Time.deltaTime;
 
-        if(followBarCountdown <= 0)
+        if (actualhealth > healthbar.value)
         {
-            followBar.value = Mathf.Lerp(followBar.value, healthbar.value, Time.deltaTime);
+            // We are healing
+            followBar.fillRect.GetComponent<Image>().material = greenUI;
+            followBar.value = actualhealth;
+
+            if (followBarCountdown <= 0)
+            {
+                healthbar.value +=baseMaxHealth / 10f * Time.deltaTime;
+            }
+        }
+
+        if (actualhealth < followBar.value)
+        {
+            // We are taking damage
+            followBar.fillRect.GetComponent<Image>().material = redUI;
+            healthbar.value = actualhealth;
+
+            if (followBarCountdown <= 0)
+            {
+                followBar.value = Mathf.Lerp(followBar.value, healthbar.value, Time.deltaTime);
+            }
         }
     }
 
@@ -92,12 +120,25 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
-        healthbar.value = damage.RemainingHealth;
+        actualhealth = damage.RemainingHealth;
         followBarCountdown = followBarDelay;
     }
 
     public void DisableTutorial()
     {
         startHelpPanel.gameObject.SetActive(false);
+    }
+
+    IEnumerator healthbarTest()
+    {
+        baseController.HealthController.OnReceiveDamage(20, null, null);
+
+        yield return new WaitForSeconds(5f);
+
+        baseController.HealthController.Heal(20);
+
+        yield return new WaitForSeconds(5f);
+
+        StartCoroutine("healthbarTest");
     }
 }

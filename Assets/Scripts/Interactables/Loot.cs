@@ -44,6 +44,10 @@ public class Loot : Interactable
     [SerializeField]
     private TutorialText tutorialText;
 
+    // Heal amount
+    [SerializeField]
+    private float baseHealAmount = 10f;
+
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
 
@@ -94,6 +98,8 @@ public class Loot : Interactable
                 inventory.ResourceAmount += lootValue;
 
                 Destroy(gameObject);
+
+                baseController.GetComponent<HealthLogic>().Heal(baseHealAmount);
             }
         }
 

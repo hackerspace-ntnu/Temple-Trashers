@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UIGlowBlue
+  m_Name: UIGlowGreen
   m_Shader: {fileID: -6465566751694194690, guid: 64fb404fb7ff34c49a08c01f0673d1d9, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 2
@@ -62,7 +62,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Boolean_303BBFA: 1
-    - HColor: 0.04
+    - HColor: 2.69
     - Vector1_83F0A84C: -0.3
     - Vector1_C59A3E38: 1.75
     - Vector1_EA7075C6: 2.41
@@ -89,7 +89,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_2C56C891: {r: 0.2431373, g: 0.9098039, b: 1.772549, a: 0}
-    - HoloColor: {r: 0, g: 0.15021265, b: 1.7411011, a: 1}
+    - HoloColor: {r: 0, g: 0.4862745, b: 0.021156972, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

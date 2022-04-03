@@ -11,6 +11,8 @@ public class HealthLogic : MonoBehaviour
 
     public OnStatusUpdate onDamage;
 
+    public OnStatusUpdate onHeal;
+
     public float health;
     public float maxHealth;
 
@@ -45,5 +47,15 @@ public class HealthLogic : MonoBehaviour
         health += input;
         if (health > maxHealth && maxHealth > 0)
             health = maxHealth;
+
+        DamageInfo healInfo = new DamageInfo(
+            -input,
+            health,
+            health <= 0,
+            Vector3.zero,
+            0
+        );
+
+        onHeal?.Invoke(healInfo);
     }
 }

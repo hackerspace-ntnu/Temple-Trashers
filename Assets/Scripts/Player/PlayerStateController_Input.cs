@@ -164,7 +164,7 @@ partial class PlayerStateController
 
     private void OnDUp()
     {
-        DoDPadAction(0);
+        DoDPadAction(2);
     }
 
     private void OnDDown()

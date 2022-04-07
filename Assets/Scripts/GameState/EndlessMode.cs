@@ -21,7 +21,7 @@ public class EndlessMode : MonoBehaviour
 
     // Serialized variables
     [SerializeField]
-    private EnemySpawnData[] enemyPrefabs;
+    private EnemySpawnData[] enemyPrefabs = default;
 
     [Header("Enemies: f(x) = linearSpawnRate * x^(exponentialSpawnRate)")]
     [Range(1, 10), SerializeField]

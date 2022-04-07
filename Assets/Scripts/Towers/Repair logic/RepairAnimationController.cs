@@ -6,13 +6,13 @@ using UnityEngine;
 public class RepairAnimationController : RepairController
 {
     [SerializeField]
-    private GameObject lowWearVFXPrefab;
+    private GameObject lowWearVFXPrefab = default;
 
     [SerializeField]
-    private GameObject mediumWearVFXPrefab;
+    private GameObject mediumWearVFXPrefab = default;
 
     [SerializeField]
-    private GameObject highWearVFXPrefab;
+    private GameObject highWearVFXPrefab = default;
 
     // Prefab instances
     private GameObject lowWearVFX;

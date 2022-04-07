@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnigolemController : Enemy
 {
     [SerializeField]
-    private Transform model;
+    private Transform model = default;
 
     [SerializeField]
     private float tiltAngleSide = 30f;

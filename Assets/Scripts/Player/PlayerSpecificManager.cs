@@ -11,7 +11,7 @@ public class PlayerSpecificManager : MonoBehaviour
     private PlayerInput input;
 
     [SerializeField]
-    private GameObject[] playerPrefabs;
+    private GameObject[] playerPrefabs = default;
 
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;

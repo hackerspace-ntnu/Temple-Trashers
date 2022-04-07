@@ -19,10 +19,10 @@ public class RepairController : MonoBehaviour
     [TextLabel(greyedOut = true), SerializeField]
     private WearState _currentWearState;
 
-    private float lastWearStateChangeTime;
+    private float lastWearStateChangeTime = default;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = default;
 
     public WearState CurrentWearState
     {
@@ -35,7 +35,7 @@ public class RepairController : MonoBehaviour
     }
 
     [SerializeField]
-    private TutorialText tutorialText;
+    private TutorialText tutorialText = default;
 
     //To allow other components to subscribe to stateChange events
     public delegate void WearStateDelegate(WearState newState, WearState oldState);

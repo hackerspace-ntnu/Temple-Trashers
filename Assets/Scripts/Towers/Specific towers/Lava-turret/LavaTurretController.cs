@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LavaTurretController : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
     private MeshRenderer canOnPan;
@@ -18,9 +17,6 @@ public class LavaTurretController : MonoBehaviour
 
     private GameObject canProjectile;
     private LavaCanController canProjectileController;
-
-
-    
 
     void Start()
     {

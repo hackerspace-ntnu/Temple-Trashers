@@ -14,14 +14,16 @@ public class LavaExplosionController : MonoBehaviour
     float delay = 0f;
 
     [SerializeField]
-    LayerMask mask;
+    LayerMask mask = default;
 
     [SerializeField]
-    float radius;
+    float radius = default;
+
     public void Explode()
     {
         StartCoroutine(WaitAndExplode());
     }
+
     private IEnumerator WaitAndExplode()
     {
         yield return new WaitForSeconds(delay);
@@ -41,5 +43,4 @@ public class LavaExplosionController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
     }
-    
 }

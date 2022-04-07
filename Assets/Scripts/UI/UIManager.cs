@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
         healthbar.value = followBar.value = actualhealth;
 
-        //StartCoroutine("healthbarTest");
+        StartCoroutine("healthbarTest");
     }
 
     void OnDestroy()
@@ -92,11 +92,12 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
-        print("WOOP: " + damage.Damage.ToString() + Time.time.ToString());
         actualhealth = damage.RemainingHealth;
 
+        var clampedDamage = Mathf.Clamp(damage.Damage, baseMaxHealth - actualhealth, actualhealth);
+
         // Keeps track of recent damage changes, allows damage to negate healing so the bar animates smoother
-        healthAnimDiff += damage.Damage;
+        healthAnimDiff += clampedDamage;
         
         // Prevents several damage sources to animate simultaneously
         if (followTweenId != -1)

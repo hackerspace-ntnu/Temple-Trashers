@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     private float baseMaxHealth;
 
-    private float actualhealth = 0;
+    private float actualHealth = 0;
 
     private int followTweenId = -1;
 
@@ -66,10 +66,10 @@ public class UIManager : MonoBehaviour
         baseController.HealthController.onHeal += UpdateBaseHealth;
 
         baseMaxHealth = baseController.HealthController.maxHealth;
-        actualhealth = baseController.HealthController.health;
+        actualHealth = baseController.HealthController.health;
 
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
-        healthbar.value = followBar.value = actualhealth;
+        healthbar.value = followBar.value = actualHealth;
 
         StartCoroutine("healthbarTest");
     }
@@ -92,9 +92,9 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
-        actualhealth = damage.RemainingHealth;
+        var clampedDamage = Mathf.Clamp(damage.Damage, actualHealth-baseMaxHealth, actualHealth);
 
-        var clampedDamage = Mathf.Clamp(damage.Damage, baseMaxHealth - actualhealth, actualhealth);
+        actualHealth = damage.RemainingHealth;
 
         // Keeps track of recent damage changes, allows damage to negate healing so the bar animates smoother
         healthAnimDiff += clampedDamage;
@@ -116,13 +116,13 @@ public class UIManager : MonoBehaviour
             //Runs function on each update
             .setOnUpdate(x => {
                 healthAnimDiff = x;
-                tweenBar.value = actualhealth + healthAnimDiff;
+                tweenBar.value = actualHealth + healthAnimDiff;
             })
             .setEaseInOutCubic()
             .setDelay(followBarDelay).id;
 
         // Sets the noon-tweened bar to the actual health 
-        (healthAnimDiff >= 0 ? healthbar : followBar).value = actualhealth;
+        (healthAnimDiff >= 0 ? healthbar : followBar).value = actualHealth;
     }
 
     public void DisableTutorial()

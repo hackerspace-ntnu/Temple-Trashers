@@ -24,9 +24,7 @@ public class UIManager : MonoBehaviour
     public Material redUI;
 
     [Range(0, 5)]
-    public float followBarDelay = 2f;
-    
-    private float followBarCountdown; 
+    public float followBarDelay = 2f; 
 
     private InventoryManager inventory;
     private BaseController baseController;
@@ -35,6 +33,9 @@ public class UIManager : MonoBehaviour
 
     private float actualhealth = 0;
 
+    private int followTweenId = -1;
+
+    private float healthAnimDiff = 0f;
     void Awake()
     {
         #region Singleton boilerplate
@@ -70,36 +71,7 @@ public class UIManager : MonoBehaviour
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
         healthbar.value = followBar.value = actualhealth;
 
-        StartCoroutine("healthbarTest");
-    }
-
-    private void Update()
-    {
-        followBarCountdown -= Time.deltaTime;
-
-        if (actualhealth > healthbar.value)
-        {
-            // We are healing
-            followBar.fillRect.GetComponent<Image>().material = greenUI;
-            followBar.value = actualhealth;
-
-            if (followBarCountdown <= 0)
-            {
-                healthbar.value +=baseMaxHealth / 10f * Time.deltaTime;
-            }
-        }
-
-        if (actualhealth < followBar.value)
-        {
-            // We are taking damage
-            followBar.fillRect.GetComponent<Image>().material = redUI;
-            healthbar.value = actualhealth;
-
-            if (followBarCountdown <= 0)
-            {
-                followBar.value = Mathf.Lerp(followBar.value, healthbar.value, Time.deltaTime);
-            }
-        }
+        //StartCoroutine("healthbarTest");
     }
 
     void OnDestroy()
@@ -120,8 +92,36 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
+        print("WOOP: " + damage.Damage.ToString() + Time.time.ToString());
         actualhealth = damage.RemainingHealth;
-        followBarCountdown = followBarDelay;
+
+        // Keeps track of recent damage changes, allows damage to negate healing so the bar animates smoother
+        healthAnimDiff += damage.Damage;
+        
+        // Prevents several damage sources to animate simultaneously
+        if (followTweenId != -1)
+        {
+            LeanTween.cancel(followTweenId);
+        }
+        
+        followBar.fillRect.GetComponent<Image>().material = healthAnimDiff >= 0 ? redUI  : greenUI;
+        
+        // Which bar to animate
+        var tweenBar = healthAnimDiff >= 0 ? followBar : healthbar;
+
+        followTweenId = LeanTween
+            //Lerps from healthAnimDiff to 0 in the given time
+            .value(healthAnimDiff, 0, 0.7f) 
+            //Runs function on each update
+            .setOnUpdate(x => {
+                healthAnimDiff = x;
+                tweenBar.value = actualhealth + healthAnimDiff;
+            })
+            .setEaseInOutCubic()
+            .setDelay(followBarDelay).id;
+
+        // Sets the noon-tweened bar to the actual health 
+        (healthAnimDiff >= 0 ? healthbar : followBar).value = actualhealth;
     }
 
     public void DisableTutorial()

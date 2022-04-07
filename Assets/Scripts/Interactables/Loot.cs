@@ -86,17 +86,17 @@ public class Loot : Interactable
             meshRenderer.material.SetFloat(stateMaterialProperty, dissolveState); // Continue animation
             baseController.ArcLengthVFX(transform, 1 - dissolveState);
 
-            //Add resources to inventory
-            baseController.crystals++;
-            inventory.ResourceAmount += lootValue;
-            baseController.GetComponent<HealthLogic>().Heal(baseHealAmount);
-
             // If the animation is finished
             if (meshRenderers[0].material.GetFloat(stateMaterialProperty)
                 / meshRenderers[0].material.GetFloat(rateMaterialProperty)
                 > 1)
             {
                 baseController.RemoveRayVFX(transform, 10f);
+
+                //Add resources to inventory
+                baseController.crystals++;
+                inventory.ResourceAmount += lootValue;
+                baseController.GetComponent<HealthLogic>().Heal(baseHealAmount);
 
                 Destroy(gameObject);                
             }

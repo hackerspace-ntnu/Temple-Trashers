@@ -1124,7 +1124,7 @@ MonoBehaviour:
   followBar: {fileID: 1817279381}
   greenUI: {fileID: 2100000, guid: b369c72f5b3389149b900b5fff580613, type: 2}
   redUI: {fileID: 2100000, guid: 75f2cadc7741dfb4894e495bcf93fb56, type: 2}
-  followBarDelay: 2
+  followBarDelay: 1
 --- !u!1 &5614426935969384080
 GameObject:
   m_ObjectHideFlags: 0

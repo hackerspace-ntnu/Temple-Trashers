@@ -6,19 +6,19 @@ using UnityEngine;
 public class PlayerRagdollController : MonoBehaviour
 {
     [SerializeField]
-    private List<Rigidbody> bodiesToEnable;
+    private List<Rigidbody> bodiesToEnable = default;
 
     [SerializeField]
-    private List<Rigidbody> bodiesToDisable;
+    private List<Rigidbody> bodiesToDisable = default;
 
     [SerializeField]
-    private List<Collider> collidersToEnable;
+    private List<Collider> collidersToEnable = default;
 
     [SerializeField]
-    private List<Collider> collidersToDisable;
+    private List<Collider> collidersToDisable = default;
 
     [SerializeField]
-    private Rigidbody initialForceTarget;
+    private Rigidbody initialForceTarget = default;
 
     [SerializeField]
     private float impactForceMultiplier = 1f;

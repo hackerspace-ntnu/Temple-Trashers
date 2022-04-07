@@ -6,7 +6,7 @@ using UnityEngine;
 public class TowerLogic : Interactable
 {
     [SerializeField]
-    private TowerScriptableObject _towerScriptableObject;
+    private TowerScriptableObject _towerScriptableObject = default;
 
     [ReadOnly, SerializeField]
     protected TurretInput turretInput;
@@ -16,7 +16,7 @@ public class TowerLogic : Interactable
     private RepairAnimationController repairAnimationController;
 
     [SerializeField]
-    private TutorialText tutorialText;
+    private TutorialText tutorialText = default;
 
     void Awake()
     {

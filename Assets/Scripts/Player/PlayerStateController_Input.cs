@@ -164,7 +164,7 @@ partial class PlayerStateController
 
     private void OnDUp()
     {
-        DoDPadAction(0);
+        DoDPadAction(2);
     }
 
     private void OnDDown()
@@ -175,6 +175,8 @@ partial class PlayerStateController
     private void DoDPadAction(int towerIndex)
     {
         TowerScriptableObject tower = ui.ControllerWheel.GetTower(towerIndex);
+        if (inventoryManager.ResourceAmount < tower.Cost)
+            messageUI.DisplayMessage("Not enough crystals", MessageUI.TextColors.red);
         if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
         {
             inventoryManager.ResourceAmount -= tower.Cost;

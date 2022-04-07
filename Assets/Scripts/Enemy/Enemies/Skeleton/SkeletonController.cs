@@ -23,7 +23,7 @@ public class SkeletonController : Enemy
     protected float playerChaseStopDistance = 4f;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = default;
 
     private static readonly int attackAnimatorParam = Animator.StringToHash("Attack");
     private static readonly int chasingAnimatorParam = Animator.StringToHash("Chasing");

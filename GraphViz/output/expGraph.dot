@@ -1,7 +1,7 @@
 digraph G {
 node0 [shape="box" color="cyan" style="filled" label="VFXExpressionMax Float
 Rate_a"]
-node1 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (50000)"]
+node1 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0.5)"]
 node2 [shape="box" color="lightslategray" style="filled" label="VFXValue`1 Float (0)"]
 node3 [shape="box" color="cyan" style="filled" label="VFXExpressionCombine Float3
 bounds_center"]
@@ -13,46 +13,30 @@ bounds_size"]
 node8 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (2)"]
 node9 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (3)"]
 node10 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (2)"]
-node11 [shape="box" color="cyan" style="filled" label="VFXValue`1 Float (1)
-A_a"]
-node12 [shape="box" color="cyan" style="filled" label="VFXValue`1 Float (1)
-B_a"]
+node11 [shape="box" color="cyan" style="filled" label="VFXMeshValue Mesh (654)
+mesh"]
+node12 [shape="box" color="cyan" style="filled" label="VFXValue`1 Uint32 (4294967295)
+subMeshMask"]
 node13 [shape="box" color="cyan" style="filled" label="VFXExpressionCombine Float3
-Position_b"]
-node14 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
-node15 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
+Color_a"]
+node14 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (32)"]
+node15 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (5.46889)"]
 node16 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
-node17 [shape="box" color="orange" style="filled" label="VFXExpressionCombine Float3
+node17 [shape="box" color="cyan" style="filled" label="VFXValue`1 Float (0.1)
+Lifetime_b"]
+node18 [shape="box" color="cyan" style="filled" label="VFXExpressionCombine Float3
 Position_c"]
-node18 [shape="box" color="yellow" style="filled" label="VFXExpressionExtractComponent Float"]
-node19 [shape="box" color="yellow" style="filled" label="VFXExpressionSampleTexture2D Float4"]
-node20 [shape="box" color="lightslategray" style="filled" label="VFXTexture2DValue Texture2D (637674)"]
-node21 [shape="box" color="yellow" style="filled" label="VFXExpressionCombine Float2"]
-node22 [shape="box" color="yellow" style="filled" label="VFXExpressionDivide Float"]
-node23 [shape="box" color="yellow" style="filled" label="VFXExpressionFloor Float"]
-node24 [shape="box" color="yellow" style="filled" label="VFXExpressionMul Float"]
-node25 [shape="box" color="yellow" style="filled" label="VFXExpressionAdd Float"]
-node26 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
-node27 [shape="box" color="yellow" style="filled" label="VFXExpressionMul Float"]
-node28 [shape="box" color="yellow" style="filled" label="VFXExpressionRandom Float"]
-node29 [shape="box" color="lightgray" style="filled" label="VFXExpressionSubtract Float"]
-node30 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (1)"]
-node31 [shape="box" color="lightgray" style="filled" label="VFXExpressionCastIntToFloat Float"]
-node32 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Int32 (10)"]
-node33 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0.75)"]
-node34 [shape="box" color="lightgray" style="filled" label="VFXExpressionMax Float"]
-node35 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (1)"]
-node36 [shape="box" color="yellow" style="filled" label="VFXExpressionExtractComponent Float"]
-node37 [shape="box" color="yellow" style="filled" label="VFXExpressionExtractComponent Float"]
-node38 [shape="box" color="cyan" style="filled" label="VFXBuiltInExpression Float (DeltaTime)
+node19 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
+node20 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
+node21 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Float (0)"]
+node22 [shape="box" color="cyan" style="filled" label="VFXValue`1 Float (0)
+Size_d"]
+node23 [shape="box" color="cyan" style="filled" label="VFXBuiltInExpression Float (DeltaTime)
 deltaTime_a"]
-node39 [shape="box" color="cyan" style="filled" label="VFXExpressionBakeCurve Float4
-Size_b"]
-node40 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Curve (UnityEngine.AnimationCurve)"]
-node41 [shape="box" color="cyan" style="filled" label="VFXExpressionBakeGradient Float
-Color_c"]
-node42 [shape="box" color="lightgray" style="filled" label="VFXValue`1 ColorGradient (UnityEngine.Gradient)"]
-node43 [shape="box" color="cyan" style="filled" label="VFXTexture2DValue Texture2D (636000)
+node24 [shape="box" color="cyan" style="filled" label="VFXExpressionBakeCurve Float4
+Size_a"]
+node25 [shape="box" color="lightgray" style="filled" label="VFXValue`1 Curve (UnityEngine.AnimationCurve)"]
+node26 [shape="box" color="cyan" style="filled" label="VFXTexture2DValue Texture2D (82712)
 mainTexture"]
 node1 -> node0 [headlabel="0"]
 node2 -> node0 [headlabel="1"]
@@ -65,31 +49,8 @@ node10 -> node7 [headlabel="2"]
 node14 -> node13 [headlabel="0"]
 node15 -> node13 [headlabel="1"]
 node16 -> node13 [headlabel="2"]
-node18 -> node17 [headlabel="0"]
-node36 -> node17 [headlabel="1"]
-node37 -> node17 [headlabel="2"]
-node19 -> node18 
-node20 -> node19 [headlabel="0"]
-node21 -> node19 [headlabel="1"]
-node34 -> node19 [headlabel="2"]
-node22 -> node21 [headlabel="0"]
-node33 -> node21 [headlabel="1"]
-node23 -> node22 [headlabel="0"]
-node31 -> node22 [headlabel="1"]
-node24 -> node23 
-node25 -> node24 [headlabel="0"]
-node31 -> node24 [headlabel="1"]
-node26 -> node25 [headlabel="0"]
-node27 -> node25 [headlabel="1"]
-node28 -> node27 [headlabel="0"]
-node29 -> node27 [headlabel="1"]
-node30 -> node29 [headlabel="0"]
-node26 -> node29 [headlabel="1"]
-node32 -> node31 
-node35 -> node34 [headlabel="0"]
-node2 -> node34 [headlabel="1"]
-node19 -> node36 
-node19 -> node37 
-node40 -> node39 
-node42 -> node41 
+node19 -> node18 [headlabel="0"]
+node20 -> node18 [headlabel="1"]
+node21 -> node18 [headlabel="2"]
+node25 -> node24 
 }

@@ -12,7 +12,7 @@ public class PauseManager : MonoBehaviour
 
     // An array of all audiosources in the game.
     [SerializeField]
-    private AudioSource[] audioSources;
+    private AudioSource[] audioSources = default;
 
     [SerializeField]
     private float normalAudioVolume = 1f;

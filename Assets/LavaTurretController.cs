@@ -42,7 +42,7 @@ public class LavaTurretController : MonoBehaviour
     {
         if(canProjectile == null)
         {
-            canProjectile = Instantiate(canPrefab, canTransform.position, canTransform.rotation);
+            canProjectile = Instantiate(canPrefab, canTransform.position, canTransform.rotation, transform);
             canProjectileController = canProjectile.GetComponent<LavaCanController>();
         }
         else

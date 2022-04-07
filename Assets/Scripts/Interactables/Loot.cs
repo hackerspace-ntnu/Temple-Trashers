@@ -20,9 +20,9 @@ public class Loot : Interactable
     private bool destroy = false;
 
     // The position to be absorbed in
-    private Vector3 absorbTarget;
+    private Vector3 absorbTarget = default;
 
-    private BaseController baseController;
+    private BaseController baseController = default;
 
     // The current dissolve state
     private float dissolveState = 0;
@@ -32,17 +32,17 @@ public class Loot : Interactable
 
     //Loot-value to resources in inventory
     public int lootValue = 10;
-    private InventoryManager inventory;
+    private InventoryManager inventory = default;
 
     // Loot Rigidbody
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
 
     // Loot collider
-    private MeshCollider meshCollider;
+    private MeshCollider meshCollider = default;
 
     // Tutorial text
     [SerializeField]
-    private TutorialText tutorialText;
+    private TutorialText tutorialText = default;
 
     // Heal amount
     [SerializeField]

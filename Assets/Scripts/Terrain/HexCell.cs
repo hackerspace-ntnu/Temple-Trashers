@@ -20,7 +20,7 @@ public class HexCell : MonoBehaviour
     private HexCellType _cellType;
 
     [ReadOnly, SerializeField]
-    private HexCell[] neighbors;
+    private HexCell[] neighbors = default;
 
     // Is an object currently occupying (is placed on) the HexCell(tm)? This bit of code has the answers!
     [SerializeField]

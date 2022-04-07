@@ -13,9 +13,9 @@ public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
     public Transform forwardTransform;
 
     [SerializeField]
-    private AudioSource throws;
+    private AudioSource throws = default;
     [SerializeField]
-    private AudioSource hits;
+    private AudioSource hits = default;
 
     public void Hit()
     {

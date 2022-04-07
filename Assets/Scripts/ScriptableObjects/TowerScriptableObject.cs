@@ -10,7 +10,7 @@ public class TowerScriptableObject : ScriptableObject
     public string towerName;
 
     [SerializeField]
-    private int cost;
+    private int cost = default;
 
     public TurretPrefabConstruction towerConstructionPrefab;
     public Sprite icon;

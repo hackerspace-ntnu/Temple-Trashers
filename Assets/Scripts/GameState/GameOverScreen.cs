@@ -11,13 +11,13 @@ using TMPro;
 public class GameOverScreen : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI nameInput;
+    private TextMeshProUGUI nameInput = default;
 
     [SerializeField]
-    private TextMeshProUGUI errorMsg;
+    private TextMeshProUGUI errorMsg = default;
 
     [SerializeField]
-    private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI scoreText = default;
 
     void Start()
     {

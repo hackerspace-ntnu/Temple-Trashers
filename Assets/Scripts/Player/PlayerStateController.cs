@@ -46,10 +46,10 @@ public partial class PlayerStateController : MonoBehaviour
     private HexCell targetCell;
 
     [SerializeField]
-    private Animator anim; //Reference to animation controller of the player
+    private Animator anim = default; //Reference to animation controller of the player
 
     [SerializeField]
-    private Transform heldItemBone;
+    private Transform heldItemBone = default;
 
     public Transform enemyViewFocus;
 

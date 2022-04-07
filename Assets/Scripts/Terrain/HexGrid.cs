@@ -19,53 +19,53 @@ public class HexGrid : MonoBehaviour
     public int chunkCountZ = 3;
 
     [SerializeField]
-    private Transform chunkPrefab;
+    private Transform chunkPrefab = default;
 
     [SerializeField]
-    private HexCell cellPrefab;
+    private HexCell cellPrefab = default;
 
-    private GameObject playerBase;
+    private GameObject playerBase = default;
 
     [Header("Terrain Data")]
-    private Transform[] chunks;
+    private Transform[] chunks = default;
 
     [HideInInspector]
     public HexCell[] cells;
 
     [ReadOnly, SerializeField]
-    private HexCell[] _spawnableEdgeCells;
+    private HexCell[] _spawnableEdgeCells = default;
 
     [Header("Scenery Variables")]
     [SerializeField]
-    private GameObject[] occupyingSceneryObjects;
+    private GameObject[] occupyingSceneryObjects = default;
 
     [SerializeField]
-    private GameObject[] nonOccupyingSceneryObjects;
+    private GameObject[] nonOccupyingSceneryObjects = default;
 
     [SerializeField]
-    private bool mountainBorder;
+    private bool mountainBorder = default;
 
     [SerializeField]
-    private bool treeBorder;
+    private bool treeBorder = default;
 
     [Header("Noise")]
     [SerializeField]
-    private Texture2D noise;
+    private Texture2D noise = default;
 
     [Header("Noise Scale")]
     [SerializeField]
-    private float noiseScale;
+    private float noiseScale = default;
 
     // Custom inspector variables
     [Header("Cell Variables")]
     [SerializeField]
-    private HexCellType[] cellTypes;
+    private HexCellType[] cellTypes = default;
 
-    private HexCellType tallestCellType;
+    private HexCellType tallestCellType = default;
 
     [Header("Savekey")]
     [SerializeField]
-    private GameObject[] towerPrefabs;
+    private GameObject[] towerPrefabs = default;
 
     private IDictionary<string, GameObject> nameToGameObject;
     private IDictionary<GameObject, string> gameObjectToName;

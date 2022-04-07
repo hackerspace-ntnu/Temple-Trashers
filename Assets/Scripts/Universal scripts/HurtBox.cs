@@ -6,10 +6,10 @@ using UnityEngine;
 public class HurtBox : MonoBehaviour
 {
     [SerializeField]
-    private string[] tagsToDamage;
+    private string[] tagsToDamage = default;
 
     [SerializeField]
-    private int damage;
+    private int damage = default;
 
     void OnTriggerEnter(Collider other)
     {

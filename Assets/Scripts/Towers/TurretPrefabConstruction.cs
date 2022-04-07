@@ -6,21 +6,21 @@ using UnityEngine;
 public class TurretPrefabConstruction : Interactable
 {
     [SerializeField]
-    private GameObject towerPrefab;
+    private GameObject towerPrefab = default;
 
     [SerializeField]
-    private Material normalMaterial;
+    private Material normalMaterial = default;
 
     [SerializeField]
-    private Material errorMaterial;
+    private Material errorMaterial = default;
 
     [SerializeField]
-    private TowerScriptableObject _towerScriptableObject;
+    private TowerScriptableObject _towerScriptableObject = default;
 
     [SerializeField]
-    private TutorialText tutorialText;
+    private TutorialText tutorialText = default;
 
-    private Renderer[] renderers;
+    private Renderer[] renderers = default;
 
     public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 

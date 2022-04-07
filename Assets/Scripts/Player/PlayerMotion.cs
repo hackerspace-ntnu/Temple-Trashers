@@ -20,7 +20,7 @@ public class PlayerMotion : MonoBehaviour
 
     //Temporary solution, have not yet decided upon exact player component hierarchy
     [SerializeField]
-    private Animator anim;
+    private Animator anim = default;
 
     private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
 

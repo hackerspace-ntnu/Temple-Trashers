@@ -11,25 +11,25 @@ public class BaseController : MonoBehaviour
     [Header("Death components")]
     // GameOverScreen
     [SerializeField]
-    private GameObject gameOverScreen;
+    private GameObject gameOverScreen = default;
 
     // Rigidbody base
     [SerializeField]
-    private GameObject destroyedBase;
+    private GameObject destroyedBase = default;
 
     // Particle Effect
     [SerializeField]
-    private GameObject deathParticles;
+    private GameObject deathParticles = default;
 
     [SerializeField]
-    private Transform spawnPoint;
+    private Transform spawnPoint = default;
 
     // Crystal Transform
     [SerializeField]
-    private Transform mainCrystal;
+    private Transform mainCrystal = default;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = default;
 
     // Death flag
     private bool dead = false;

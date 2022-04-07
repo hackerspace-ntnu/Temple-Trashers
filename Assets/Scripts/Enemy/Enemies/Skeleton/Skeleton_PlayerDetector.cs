@@ -6,7 +6,7 @@ using UnityEngine;
 public class Skeleton_PlayerDetector : MonoBehaviour
 {
     [SerializeField]
-    private SkeletonController skeleton;
+    private SkeletonController skeleton = default;
 
     void OnTriggerEnter(Collider collider)
     {

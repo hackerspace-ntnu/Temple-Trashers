@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
         healthbar.value = followBar.value = actualHealth;
 
-        StartCoroutine("healthbarTest");
+        //StartCoroutine("healthbarTest");
     }
 
     void OnDestroy()

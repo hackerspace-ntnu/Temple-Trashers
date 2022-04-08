@@ -10,15 +10,14 @@ public class RotatableTowerLogic : TowerLogic
 
     public GameObject directionalPointer;
 
+    private int lastTweenId = -1;
+
     protected new void Start()
     {
         base.Start();
 
         initialRotation = rotAxis.rotation;
 
-        // Hide arrow pointer initially
-        if (directionalPointer)
-            directionalPointer.SetActive(false);
     }
 
     void FixedUpdate()
@@ -45,7 +44,14 @@ public class RotatableTowerLogic : TowerLogic
         base.Focus(player);
 
         if (directionalPointer)
-            directionalPointer.SetActive(true);
+        {
+            if (lastTweenId != -1)
+            {
+                LeanTween.cancel(lastTweenId);
+            }
+            lastTweenId = LeanTween.scale(directionalPointer, Vector3.one, 0.15f).setEaseInOutQuad().id;
+        }
+                
     }
 
     public override void Unfocus(PlayerStateController player)
@@ -53,6 +59,13 @@ public class RotatableTowerLogic : TowerLogic
         base.Unfocus(player);
 
         if (directionalPointer)
-            directionalPointer.SetActive(false);
+        {
+            if (lastTweenId != -1)
+            {
+                LeanTween.cancel(lastTweenId);
+            }
+            lastTweenId = LeanTween.scale(directionalPointer, Vector3.zero, 0.15f).setEaseInOutQuad().id;
+        }
+        
     }
 }

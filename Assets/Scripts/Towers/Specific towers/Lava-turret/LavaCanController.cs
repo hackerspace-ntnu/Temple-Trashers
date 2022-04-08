@@ -5,13 +5,13 @@ using UnityEngine;
 public class LavaCanController : MonoBehaviour
 {
     [SerializeField]
-    private float timeToTarget;
+    private float timeToTarget = default;
 
     [SerializeField]
-    private AnimationCurve yCurve;
+    private AnimationCurve yCurve = default;
 
     [SerializeField]
-    private GameObject explosionPrefab;
+    private GameObject explosionPrefab = default;
     private GameObject instantiatedExplosion;
     private LavaExplosionController instantiatedExplosionController;
     private static Quaternion angularRotation = Quaternion.Euler(-90f, 0, 0);

@@ -6,14 +6,14 @@ public class LavaTurretController : MonoBehaviour
 {
 
     [SerializeField]
-    private MeshRenderer canOnPan;
+    private MeshRenderer canOnPan = default;
     private Transform canTransform;
 
     [SerializeField]
-    private GameObject canPrefab;
+    private GameObject canPrefab = default;
 
     [SerializeField]
-    private Transform target;
+    private Transform target = default;
 
     private GameObject canProjectile;
     private LavaCanController canProjectileController;

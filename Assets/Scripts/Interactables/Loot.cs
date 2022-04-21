@@ -10,7 +10,7 @@ public class Loot : Interactable
     public Material selectionMaterial;
 
     // All mesh renderers attached to the object
-    private MeshRenderer[] meshRenderers;
+    private Renderer[] meshRenderers;
 
     [ReadOnly]
     // Is the object being carried
@@ -53,7 +53,7 @@ public class Loot : Interactable
 
     void Awake()
     {
-        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        meshRenderers = GetComponentsInChildren<Renderer>();
         rigidbody = GetComponent<Rigidbody>();
         meshCollider = GetComponent<Collider>();
     }
@@ -77,7 +77,7 @@ public class Loot : Interactable
         if (transform.position.DistanceGreaterThan(0.7f, absorbTarget))
             return;
 
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        foreach (Renderer meshRenderer in meshRenderers)
         {
             // Check if the material has the correct property
             if (!meshRenderer.material.HasProperty(stateMaterialProperty))
@@ -184,7 +184,7 @@ public class Loot : Interactable
     private void Highlight()
     {
         // Add the selection material to all existing meshes
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        foreach (Renderer meshRenderer in meshRenderers)
         {
             List<Material> rendererMaterials = new List<Material>(meshRenderer.materials);
             rendererMaterials.Add(selectionMaterial);
@@ -198,7 +198,7 @@ public class Loot : Interactable
     private void Unhighlight()
     {
         // Remove selection material from all meshes
-        foreach (MeshRenderer meshRenderer in meshRenderers)
+        foreach (Renderer meshRenderer in meshRenderers)
         {
             Material[] rendererMaterials = meshRenderer.materials;
             Array.Resize(ref rendererMaterials, rendererMaterials.Length - 1);

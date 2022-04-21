@@ -38,7 +38,7 @@ public class Loot : Interactable
     private new Rigidbody rigidbody;
 
     // Loot collider
-    private MeshCollider meshCollider = default;
+    private Collider meshCollider = default;
 
     // Tutorial text
     [SerializeField]
@@ -55,7 +55,7 @@ public class Loot : Interactable
     {
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
         rigidbody = GetComponent<Rigidbody>();
-        meshCollider = GetComponent<MeshCollider>();
+        meshCollider = GetComponent<Collider>();
     }
 
     void Start()

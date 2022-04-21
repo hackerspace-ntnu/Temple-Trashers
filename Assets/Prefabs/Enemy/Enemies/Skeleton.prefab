@@ -1997,7 +1997,6 @@ MonoBehaviour:
   anim: {fileID: 6942039963572180435}
   colliderToDisable: {fileID: 6262807936475223194}
   colliderToEnable: {fileID: 1737569877594554043}
-  launchSpeed: {x: 7, y: 15}
   launchRotationSpeed: 25
 --- !u!114 &6262807936475223196
 MonoBehaviour:
@@ -2376,7 +2375,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 69439c36c083b9747a28963cf3639195, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

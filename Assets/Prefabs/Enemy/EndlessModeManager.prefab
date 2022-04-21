@@ -96,7 +96,7 @@ MonoBehaviour:
     minWave: 4
   - prefab: {fileID: 3879888277256051438, guid: 71793fb4b0027504b933226080096fa5, type: 3}
     probabilityWeight: 4
-    minWave: 5
+    minWave: 10
   - prefab: {fileID: 864269226, guid: 7497f65ba251e1e43b7af57f43abb4b1, type: 3}
     probabilityWeight: 1
     minWave: 10

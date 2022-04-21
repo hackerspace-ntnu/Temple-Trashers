@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton_Hard
       objectReference: {fileID: 0}
+    - target: {fileID: 6262807936475223191, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
+      propertyPath: attackDamage
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6262807936475223192, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

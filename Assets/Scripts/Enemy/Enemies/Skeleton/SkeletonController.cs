@@ -50,7 +50,7 @@ public class SkeletonController : Enemy
     private void AnimationSetup()
     {
         // Set random walk animation
-        anim.SetFloat(walkModeAnimatorParam, Mathf.Floor(Random.Range(0, 2)));
+        anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 3));
     }
 
     void FixedUpdate()

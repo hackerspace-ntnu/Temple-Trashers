@@ -90,10 +90,20 @@ MonoBehaviour:
   enemyPrefabs:
   - prefab: {fileID: 6262807936475223191, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
     probabilityWeight: 17
+    minWave: 0
   - prefab: {fileID: 8135351288033698040, guid: 767ddbfeac0c989439abe3071e1e0890, type: 3}
     probabilityWeight: 2
+    minWave: 4
+  - prefab: {fileID: 3879888277256051438, guid: 71793fb4b0027504b933226080096fa5, type: 3}
+    probabilityWeight: 4
+    minWave: 5
   - prefab: {fileID: 864269226, guid: 7497f65ba251e1e43b7af57f43abb4b1, type: 3}
     probabilityWeight: 1
-  linearSpawnRate: 3
-  exponentialSpawnRate: 1.1
+    minWave: 10
+  - prefab: {fileID: 822805728555764521, guid: c2eb70ff676056f48a9f05ccb2aab476, type: 3}
+    probabilityWeight: 3
+    minWave: 10
+  linearSpawnRate: 2
+  exponentialSpawnRate: 1
   waveInterval: 15
+  maxGroupSize: 5

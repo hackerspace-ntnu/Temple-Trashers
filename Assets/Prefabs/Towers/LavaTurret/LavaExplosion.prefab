@@ -122,8 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81001d42228bb084582e781502e3c12d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  knockBackForce: 10
+  damage: 5
+  knockBackForce: 5
   delay: 0.2
   mask:
     serializedVersion: 2

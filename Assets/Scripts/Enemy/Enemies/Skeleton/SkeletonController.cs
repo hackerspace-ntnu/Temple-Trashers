@@ -179,7 +179,7 @@ public class SkeletonController : Enemy
                 break;
             case EnemyState.ATTACK_PLAYER:
                 HealthLogic playerHealth = CurrentTarget.GetComponent<HealthLogic>();
-                playerHealth.OnReceiveDamage(attackDamage);
+                playerHealth.OnReceiveDamage(this, attackDamage);
                 audioSource.Play();
                 if (playerHealth.health <= 0)
                 {
@@ -192,7 +192,7 @@ public class SkeletonController : Enemy
 
                 break;
             case EnemyState.ATTACK_BASE:
-                baseHealth?.OnReceiveDamage(attackDamage);
+                baseHealth?.OnReceiveDamage(this, attackDamage);
                 break;
             case EnemyState.CHASING:
                 break;

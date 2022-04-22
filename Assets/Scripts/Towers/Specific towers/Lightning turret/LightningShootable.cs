@@ -57,7 +57,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         {
             Vector3 diff = (zap.position - transform.position).normalized;
             Vector3 knockBackDir = new Vector3(diff.x, 2, diff.z);
-            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(this, damage, knockBackDir, 5f);
         }
 
        

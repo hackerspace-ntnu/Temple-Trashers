@@ -130,11 +130,11 @@ public class UIManager : MonoBehaviour
 
     IEnumerator healthbarTest()
     {
-        baseController.HealthController.OnReceiveDamage(20, null, null);
+        baseController.HealthController.OnReceiveDamage(this, 20, null, null);
 
         yield return new WaitForSeconds(5f);
 
-        baseController.HealthController.Heal(20);
+        baseController.HealthController.Heal(this, 20);
 
         yield return new WaitForSeconds(5f);
 

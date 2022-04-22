@@ -62,7 +62,7 @@ public class UnigolemController : Enemy
 
     private void Detonate()
     {
-        baseHealth?.OnReceiveDamage(attackDamage);
+        baseHealth?.OnReceiveDamage(this, attackDamage);
         Destroy(gameObject);
     }
 }

@@ -233,6 +233,6 @@ public class GolemController : Enemy
         float damage = currentGolemState == GolemState.ATTACKING_BASE ? baseDamage : playerDamage;
         HealthLogic targetHealth = AggroTarget.GetComponent<HealthLogic>();
         Vector3 knockBackDir = (AggroTarget.position - transform.position + Vector3.up * 2).normalized;
-        targetHealth.OnReceiveDamage(damage, knockBackDir, 10f);
+        targetHealth.OnReceiveDamage(this, damage, knockBackDir, 10f);
     }
 }

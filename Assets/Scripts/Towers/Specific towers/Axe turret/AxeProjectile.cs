@@ -17,7 +17,7 @@ public class AxeProjectile : MonoBehaviour
         if (other.GetComponent<HealthLogic>() is HealthLogic healthLogic)
         {
             Vector3 knockBackDir = (transform.right + Vector3.up * 0.5f).normalized;
-            healthLogic.OnReceiveDamage(damage, knockBackDir, 10f);
+            healthLogic.OnReceiveDamage(this, damage, knockBackDir, 10f);
         }
         GetComponentInParent<AxeTowerAnimationController>().Hit();
         Destroy(gameObject);

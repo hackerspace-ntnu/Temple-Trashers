@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LavaTurretController : MonoBehaviour
 {
-
     [SerializeField]
     private MeshRenderer canOnPan = default;
-    private Transform canTransform;
 
     [SerializeField]
     private GameObject canPrefab = default;
@@ -15,6 +14,7 @@ public class LavaTurretController : MonoBehaviour
     [SerializeField]
     private Transform target = default;
 
+    private Transform canTransform;
     private GameObject canProjectile;
     private LavaCanController canProjectileController;
 
@@ -23,12 +23,18 @@ public class LavaTurretController : MonoBehaviour
         canTransform = canOnPan.transform;
     }
 
+    void OnDestroy()
+    {
+        Destroy(canProjectile, 3f);
+    }
+
     public void Shoot()
     {
         canOnPan.enabled = false;
         //Do other shooty stuff
         ShootCan();
     }
+
     public void ResetCan()
     {
         canOnPan.enabled = true;
@@ -36,21 +42,17 @@ public class LavaTurretController : MonoBehaviour
 
     private void ShootCan()
     {
-        if(canProjectile == null)
+        if (canProjectile == null)
         {
             canProjectile = Instantiate(canPrefab, canTransform.position, canTransform.rotation, transform);
             canProjectileController = canProjectile.GetComponent<LavaCanController>();
-        }
-        else
+        } else
         {
             canProjectile.transform.position = canOnPan.transform.position;
             canProjectile.transform.rotation = canOnPan.transform.rotation;
             canProjectile.SetActive(true);
         }
+
         canProjectileController.Fly(target.position);
-    }
-    private void OnDestroy()
-    {
-        Destroy(canProjectile, 3f);
     }
 }

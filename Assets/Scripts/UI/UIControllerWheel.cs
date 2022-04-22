@@ -15,10 +15,17 @@ public class UIControllerWheel : MonoBehaviour
     [SerializeField]
     private List<SpriteRenderer> iconHolders = default;
 
-    public Sprite normalSprite;
-    public Sprite highlightSprite;
-    public float highlightedSpriteScale = 1.2f;
-    public float highlightScaleAnimationDuration = 0.2f;
+    [SerializeField]
+    private Sprite normalSprite = default;
+
+    [SerializeField]
+    private Sprite highlightSprite = default;
+
+    [SerializeField]
+    private float highlightedSpriteScale = 1.2f;
+
+    [SerializeField]
+    private float highlightScaleAnimationDuration = 0.2f;
 
     private int? _selectedSegmentIndex = null;
 

@@ -38,11 +38,15 @@ public class BaseController : MonoBehaviour
     public int crystals = 0;
 
     // Lightning arc
-    public GameObject drainRay;
+    [SerializeField]
+    private GameObject drainRay = default;
     private List<Ray> rays = new List<Ray>();
 
-    public int explosionLightningCount = 20;
-    public float explosionLightningSpawnDelay = 0.2f;
+    [SerializeField]
+    private int explosionLightningCount = 20;
+
+    [SerializeField]
+    private float explosionLightningSpawnDelay = 0.2f;
 
     private HealthLogic healthController;
 

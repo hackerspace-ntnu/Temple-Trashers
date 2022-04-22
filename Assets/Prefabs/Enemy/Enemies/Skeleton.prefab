@@ -1994,10 +1994,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 6942039963572180435}
   colliderToDisable: {fileID: 6262807936475223194}
   colliderToEnable: {fileID: 1737569877594554043}
-  launchSpeed: {x: 7, y: 15}
   launchRotationSpeed: 25
 --- !u!114 &6262807936475223196
 MonoBehaviour:

@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class PlayerUi : MonoBehaviour
 {
     [SerializeField]
-    private PlayerStateController playerStateController;
+    private PlayerStateController playerStateController = default;
 
-    public GameObject ui;
+    [SerializeField]
+    private GameObject ui = default;
 
     [Tooltip("The number of degrees the menu segments are tilted.")]
-    public float segmentTiltDegrees;
+    [SerializeField]
+    private float segmentTiltDegrees = default;
 
     private Transform mainCameraTransform;
     private InventoryManager inventory;
@@ -61,15 +63,12 @@ public class PlayerUi : MonoBehaviour
                 inventory.ResourceAmount -= selectedSegment.Cost;
                 selectedSegment.InstantiateConstructionTower(playerStateController);
                 playerStateController.SetState(PlayerStates.BUILDING);
-            }
-            else
+            } else
             {
                 playerStateController.SetState(PlayerStates.FREE);
-                if(inventory.ResourceAmount - selectedSegment.Cost < 0)
-                    messageUI.DisplayMessage("Missing crystals", MessageUI.TextColors.red);
+                if (inventory.ResourceAmount - selectedSegment.Cost < 0)
+                    messageUI.DisplayMessage("Missing crystals", MessageTextColor.RED);
             }
-                
-
 
             ui.gameObject.SetActive(false);
         }
@@ -86,9 +85,7 @@ public class PlayerUi : MonoBehaviour
 
         // The controller points to nothing
         if (playerStateController.AimInput == Vector2.zero)
-        {
             return;
-        }
 
         float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) / Mathf.PI;
         inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentTiltDegrees);

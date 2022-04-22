@@ -7,12 +7,15 @@ public class EnemyWaveManager : MonoBehaviour
 {
     private static EnemyWaveManager SINGLETON;
 
-    public TextAsset waveFile;
+    [SerializeField]
+    private TextAsset waveFile = default;
 
     [Tooltip("In seconds.")]
-    public float durationBetweenEnemies = 3f;
+    [SerializeField]
+    private float durationBetweenEnemies = 3f;
 
-    public EnemyManager enemyManager;
+    [SerializeField]
+    private EnemyManager enemyManager = default;
 
     #region State variables for debugging
 

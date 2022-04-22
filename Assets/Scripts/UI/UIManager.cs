@@ -4,27 +4,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton { get; private set; }
 
     [Header("Resource UI")]
-    public TextMeshProUGUI resourceText;
-    public TextMeshProUGUI scoreText;
-    public int score;
+    [SerializeField]
+    private TextMeshProUGUI resourceText = default;
+
+    [SerializeField]
+    private TextMeshProUGUI scoreText = default;
+
+    [SerializeField]
+    private int score = default;
 
     [Header("Tutorial UI")]
-    public RectTransform startHelpPanel;
+    [SerializeField]
+    private RectTransform startHelpPanel = default;
 
     [Header("Health bar variables")]
-    public Slider healthbar;
-    public Slider followBar;
+    [SerializeField]
+    private Slider healthbar = default;
 
-    public Material greenUI;
-    public Material redUI;
+    [SerializeField]
+    private Slider followBar = default;
 
-    [Range(0, 5)]
-    public float followBarDelay = 2f; 
+    [SerializeField]
+    private Material greenUI = default;
+
+    [SerializeField]
+    private Material redUI = default;
+
+    [Range(0, 5), SerializeField]
+    private float followBarDelay = 2f;
 
     private InventoryManager inventory;
     private BaseController baseController;
@@ -36,6 +49,9 @@ public class UIManager : MonoBehaviour
     private int followTweenId = -1;
 
     private float healthAnimDiff = 0f;
+
+    public int Score => score;
+
     void Awake()
     {
         #region Singleton boilerplate
@@ -90,29 +106,28 @@ public class UIManager : MonoBehaviour
 
     private void UpdateBaseHealth(DamageInfo damage)
     {
-        var clampedDamage = Mathf.Clamp(damage.Damage, actualHealth-baseMaxHealth, actualHealth);
+        float clampedDamage = Mathf.Clamp(damage.Damage, actualHealth - baseMaxHealth, actualHealth);
 
         actualHealth = damage.RemainingHealth;
 
         // Keeps track of recent damage changes, allows damage to negate healing so the bar animates smoother
         healthAnimDiff += clampedDamage;
-        
+
         // Prevents several damage sources to animate simultaneously
         if (followTweenId != -1)
-        {
             LeanTween.cancel(followTweenId);
-        }
-        
-        followBar.fillRect.GetComponent<Image>().material = healthAnimDiff >= 0 ? redUI  : greenUI;
-        
+
+        followBar.fillRect.GetComponent<Image>().material = healthAnimDiff >= 0 ? redUI : greenUI;
+
         // Which bar to animate
-        var tweenBar = healthAnimDiff >= 0 ? followBar : healthbar;
+        Slider tweenBar = healthAnimDiff >= 0 ? followBar : healthbar;
 
         followTweenId = LeanTween
             //Lerps from healthAnimDiff to 0 in the given time
-            .value(healthAnimDiff, 0, 0.7f) 
+            .value(healthAnimDiff, 0, 0.7f)
             //Runs function on each update
-            .setOnUpdate(x => {
+            .setOnUpdate(x =>
+            {
                 healthAnimDiff = x;
                 tweenBar.value = actualHealth + healthAnimDiff;
             })
@@ -126,18 +141,5 @@ public class UIManager : MonoBehaviour
     public void DisableTutorial()
     {
         startHelpPanel.gameObject.SetActive(false);
-    }
-
-    IEnumerator healthbarTest()
-    {
-        baseController.HealthController.OnReceiveDamage(this, 20, null, null);
-
-        yield return new WaitForSeconds(5f);
-
-        baseController.HealthController.Heal(this, 20);
-
-        yield return new WaitForSeconds(5f);
-
-        StartCoroutine("healthbarTest");
     }
 }

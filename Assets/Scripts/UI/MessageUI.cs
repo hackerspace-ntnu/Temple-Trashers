@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+public enum MessageTextColor
+{
+    RED,
+    GREEN,
+}
+
 public class MessageUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject messagePrefab = default;
 
-    public Color[] colors;
+    [SerializeField]
+    private Color[] colors = default;
 
-    public enum TextColors
-    {
-        red,
-        green
-    }
-
-    public void DisplayMessage(string message, TextColors color)
+    public void DisplayMessage(string message, MessageTextColor color)
     {
         TextMeshProUGUI text = Instantiate(messagePrefab, transform.position, messagePrefab.transform.rotation).GetComponentInChildren<TextMeshProUGUI>();
         text.text = message;

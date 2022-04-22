@@ -245,7 +245,7 @@ public partial class PlayerStateController : MonoBehaviour
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
-            messageUI.DisplayMessage("-" + focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.red);
+            messageUI.DisplayMessage($"-{focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost}", MessageTextColor.RED);
             Drop(focusedInteractable.gameObject);
             RemoveInteractable(focusedInteractable);
             SetState(PlayerStates.FREE);
@@ -341,7 +341,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
-        messageUI.DisplayMessage("+" + tower.TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.green);
+        messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class AxeProjectile : MonoBehaviour
 {
-    public int damage = 10;
+    [SerializeField]
+    private int damage = 10;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class AxeProjectile : MonoBehaviour
             Vector3 knockBackDir = (transform.right + Vector3.up * 0.5f).normalized;
             healthLogic.OnReceiveDamage(this, damage, knockBackDir, 10f);
         }
+
         GetComponentInParent<AxeTowerAnimationController>().Hit();
         Destroy(gameObject);
     }

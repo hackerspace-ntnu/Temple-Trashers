@@ -38,8 +38,7 @@ public class HealthLogic : MonoBehaviour
         {
             onDamage?.Invoke(damageInfo);
             onDeath?.Invoke(damageInfo);
-        }
-        else
+        } else
             onDamage?.Invoke(damageInfo);
     }
 

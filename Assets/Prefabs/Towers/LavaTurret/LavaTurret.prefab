@@ -746,10 +746,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7265220401336946866}
-  - component: {fileID: 8041440857710938633}
-  - component: {fileID: 8041440857710938634}
-  - component: {fileID: 8041440857710938628}
   - component: {fileID: 8236370605616967420}
+  - component: {fileID: 8041440857710938634}
+  - component: {fileID: 8041440857710938633}
+  - component: {fileID: 8041440857710938628}
   - component: {fileID: 1065295213568500601}
   m_Layer: 0
   m_Name: LavaTurret
@@ -776,6 +776,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8236370605616967420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041440857710938632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canInteract: 1
+  _towerScriptableObject: {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
+  turretInput: {fileID: 0}
+  tutorialText: {fileID: 5898447049405178633}
+  rotationAxis: {fileID: 1757505722665910316}
+  directionalPointer: {fileID: 0}
+--- !u!114 &8041440857710938634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041440857710938632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c14ef476636e6f4e95968ed4680ed9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canOnPan: {fileID: 4273623382050030849}
+  canPrefab: {fileID: 5064482532363297040, guid: 589b04cd374b6b84eb13d4149577ee19, type: 3}
+  target: {fileID: 6676167701213934849}
 --- !u!95 &8041440857710938633
 Animator:
   serializedVersion: 3
@@ -795,21 +828,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8041440857710938634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041440857710938632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c14ef476636e6f4e95968ed4680ed9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canOnPan: {fileID: 4273623382050030849}
-  canPrefab: {fileID: 5064482532363297040, guid: 589b04cd374b6b84eb13d4149577ee19, type: 3}
-  target: {fileID: 6676167701213934849}
 --- !u!136 &8041440857710938628
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -824,24 +842,6 @@ CapsuleCollider:
   m_Height: 2.3711948
   m_Direction: 1
   m_Center: {x: 0, y: 0.6855974, z: 0}
---- !u!114 &8236370605616967420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8041440857710938632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canInteract: 1
-  _towerScriptableObject: {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
-  turretInput: {fileID: 0}
-  tutorialText: {fileID: 5898447049405178633}
-  rotAxis: {fileID: 1757505722665910316}
-  directionalPointer: {fileID: 0}
 --- !u!208 &1065295213568500601
 NavMeshObstacle:
   m_ObjectHideFlags: 0

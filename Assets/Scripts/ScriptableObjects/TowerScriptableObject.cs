@@ -7,14 +7,17 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
 public class TowerScriptableObject : ScriptableObject
 {
-    public string towerName;
+    [SerializeField]
+    private string towerName = default;
 
     [SerializeField]
     private int cost = default;
 
-    public TurretPrefabConstruction towerConstructionPrefab;
-    public Sprite icon;
-    public Sprite iconHighlight;
+    [SerializeField]
+    private TurretPrefabConstruction towerConstructionPrefab = default;
+
+    public Sprite icon = default;
+    public Sprite iconHighlight = default;
 
     public int Cost => cost;
 

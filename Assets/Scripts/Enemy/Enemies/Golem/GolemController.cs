@@ -202,13 +202,11 @@ public class GolemController : Enemy
         {
             anim.SetTrigger(headButtAnimatorParam);
             headbutt.PlayDelayed(0.45f);
-        }
-        else if (angle < 180f)
+        } else if (angle < 180f)
         {
             anim.SetTrigger(slapRightAnimatorParam);
             slap.Play();
-        }
-        else
+        } else
         {
             anim.SetTrigger(slapLeftAnimatorParam);
             slap.Play();

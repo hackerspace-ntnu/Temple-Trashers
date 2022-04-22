@@ -21,7 +21,7 @@ public class GameOverScreen : MonoBehaviour
 
     void Start()
     {
-        scoreText.text = UIManager.Singleton.score.ToString();
+        scoreText.text = UIManager.Singleton.Score.ToString();
         PauseManager.Singleton.gameObject.SetActive(false);
     }
 
@@ -44,7 +44,7 @@ public class GameOverScreen : MonoBehaviour
         }
 
         // Update leaderboard
-        LeaderboardData.AddScore(UIManager.Singleton.score, nameInput.text);
+        LeaderboardData.AddScore(UIManager.Singleton.Score, nameInput.text);
 
         SceneManager.LoadScene(sceneName);
     }

@@ -81,6 +81,9 @@ public class GolemController : Enemy
 
     void FixedUpdate()
     {
+        if (currentState == EnemyState.DEAD)
+            return;
+
         switch (currentGolemState)
         {
             case GolemState.WAITING:

@@ -40,6 +40,19 @@ public class BaseController : MonoBehaviour
     // Lightning arc
     [SerializeField]
     private GameObject drainRay = default;
+
+    [SerializeField]
+    private GameObject enemyZap = default;
+
+    [SerializeField]
+    private float enemyZapDamage = default;
+
+    [SerializeField]
+    private float enemyZapKnockBackForce = default;
+
+    [SerializeField]
+    private float enemyZapKnockBack_dirWeightAwayFromUp = 0.1f;
+
     private List<Ray> rays = new List<Ray>();
 
     [SerializeField]
@@ -82,6 +95,7 @@ public class BaseController : MonoBehaviour
         #endregion Singleton boilerplate
 
         healthController = GetComponent<HealthLogic>();
+        healthController.onDamage += OnReceiveDamage;
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
 
@@ -96,22 +110,48 @@ public class BaseController : MonoBehaviour
 
     void OnDestroy()
     {
+        healthController.onDamage -= OnReceiveDamage;
         healthController.onDeath -= Die;
     }
 
-    private void Die(DamageInfo dmg)
+    private void OnReceiveDamage(DamageInfo damageInfo)
     {
-        if (!dead)
-        {
-            // Disable spawning of enemies
-            gameManager.enabled = false;
+        if (damageInfo.FromSource is Enemy enemy)
+            ZapAttackingEnemy(enemy);
+    }
 
-            // Start overloading the crystal
-            anim.SetBool(deathAnimatorParam, true);
+    private void ZapAttackingEnemy(Enemy enemy)
+    {
+        Transform ray = Instantiate(enemyZap, mainCrystal.transform.position, mainCrystal.transform.rotation, mainCrystal).transform;
 
-            // Prepare the explosion
-            StartCoroutine(nameof(Explode));
-        }
+        // TODO: refactor this, to reduce code duplication with `OnTriggerEnter()` below
+        // 1 is the index of the first child (after the parent itself)
+        Transform rayTarget = ray.GetComponentsInChildren<Transform>()[1];
+        rayTarget.SetParent(enemy.transform);
+        // Set the ray target's position to the center of the enemy
+        rayTarget.position = enemy.GetComponent<Collider>().bounds.center;
+
+        Destroy(ray.gameObject, 0.25f);
+
+        HealthLogic enemyHealthLogic = enemy.GetComponent<HealthLogic>();
+        Vector3 dirToEnemy = (enemy.transform.position - transform.position).normalized;
+        Vector3 knockBackDir = (Vector3.up + enemyZapKnockBack_dirWeightAwayFromUp * dirToEnemy).normalized;
+        enemyHealthLogic.OnReceiveDamage(this, enemyZapDamage, knockBackDir, enemyZapKnockBackForce);
+    }
+
+    private void Die(DamageInfo damageInfo)
+    {
+        if (dead)
+            return;
+
+        // Disable spawning of enemies
+        gameManager.enabled = false;
+
+        // Start overloading the crystal
+        anim.SetBool(deathAnimatorParam, true);
+
+        // Prepare the explosion
+        StartCoroutine(nameof(Explode));
 
         dead = true;
     }
@@ -132,6 +172,7 @@ public class BaseController : MonoBehaviour
             Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
             ray.SetParent(mainCrystal);
 
+            // TODO: refactor this, to reduce code duplication with `ZapAttackingEnemy()` above
             // 1 is the index of the first child (after the parent itself)
             Transform target = ray.GetComponentsInChildren<Transform>()[1];
             target.SetParent(loot.transform);

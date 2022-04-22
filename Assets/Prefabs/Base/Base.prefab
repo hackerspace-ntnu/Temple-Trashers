@@ -540,6 +540,10 @@ MonoBehaviour:
   audioSource: {fileID: 3538501339153533698}
   crystals: 0
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
+  enemyZap: {fileID: 2977432110045038679, guid: f1bc93ee2c672d948ab1f78aa23c5d21, type: 3}
+  enemyZapDamage: 40
+  enemyZapKnockBackForce: 20
+  enemyZapKnockBack_dirWeightAwayFromUp: 0.1
   explosionLightningCount: 20
   explosionLightningSpawnDelay: 0.2
 --- !u!114 &4549690278803359290

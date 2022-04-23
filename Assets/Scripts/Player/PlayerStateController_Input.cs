@@ -9,6 +9,7 @@ partial class PlayerStateController
 {
     private PlayerInput input; // Controller input
 
+    public Color FocusedColor { get; private set; } = Color.white;
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 AimInput { get; private set; } = Vector2.zero;
     public bool Interact { get; private set; } = false;
@@ -76,10 +77,12 @@ partial class PlayerStateController
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
     // Called by `PlayerSpecificManager` after instantiating the player
-    public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager)
+    public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager, Color color)
     {
         input = newInput;
         manager = newManager;
+
+        FocusedColor = color;
 
         newInput.actions["Move"].performed += MoveInput_Performed;
         newInput.actions["Move"].canceled += MoveInput_Canceled;

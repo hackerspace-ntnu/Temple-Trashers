@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.VFX;
 
 public class RotatableTowerLogic : TowerLogic
 {
@@ -50,6 +50,7 @@ public class RotatableTowerLogic : TowerLogic
                 LeanTween.cancel(lastTweenId);
             }
             lastTweenId = LeanTween.scale(directionalPointer, Vector3.one, 0.15f).setEaseInOutQuad().id;
+            directionalPointer.GetComponent<VisualEffect>().SetVector4("Color", player.FocusedColor);
         }
                 
     }

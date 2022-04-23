@@ -16,10 +16,13 @@ public class PlayerSpecificManager : MonoBehaviour
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
 
+    private Color playerColor;
+
     void Awake()
     {
         playerIndex = playerCount++;
         input = GetComponent<PlayerInput>();
+        playerColor = Random.ColorHSV();
     }
 
     void Start()
@@ -38,7 +41,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
-        instantiatedPlayer.SetUpInput(input, this);
+        instantiatedPlayer.SetUpInput(input, this, playerColor);
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
     }
 

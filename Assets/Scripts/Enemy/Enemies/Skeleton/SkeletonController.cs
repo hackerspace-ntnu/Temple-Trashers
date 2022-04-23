@@ -41,7 +41,11 @@ public class SkeletonController : EnemyLight
     private void AnimationSetup()
     {
         // Set random walk animation
+<<<<<<< HEAD
         anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 2));
+=======
+        anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 3));
+>>>>>>> feature/skelly-bois
     }
 
     void FixedUpdate()

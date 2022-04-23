@@ -52,7 +52,7 @@ public class UnigolemController : Enemy
         lastForward = transform.forward;
 
         float sidewaysAngle = -tiltAngleSide * angularSpeed;
-        lastSidewaysTilt = lastSidewaysTilt * sidewaysTiltSmoothing + sidewaysAngle * (1 - lastSidewaysTilt); 
+        lastSidewaysTilt = lastSidewaysTilt * sidewaysTiltSmoothing + sidewaysAngle * (1 - sidewaysTiltSmoothing); 
         float speed = agent.velocity.magnitude / agent.speed;
         anim.SetFloat(speedAnimatorParam, speed);
         float forwardAngle = tiltAngleFront * speed;

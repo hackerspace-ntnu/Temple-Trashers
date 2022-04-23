@@ -458,7 +458,7 @@ MonoBehaviour:
   scoreValue: 10
   model: {fileID: 7764703935131286064}
   tiltAngleSide: 10
-  tiltAngleFront: 20
+  tiltAngleFront: 15
   detonationDistance: 2
 --- !u!114 &1188638836342214499
 MonoBehaviour:

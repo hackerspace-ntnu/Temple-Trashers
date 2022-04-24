@@ -25,9 +25,9 @@ partial class PlayerStateController
 
     #endregion D-pad
 
-    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>();
+    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
-    private void AimInput_Performed(InputAction.CallbackContext ctx) => AimInput = ctx.ReadValue<Vector2>();
+    private void AimInput_Performed(InputAction.CallbackContext ctx) => AimInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
     private void AimInput_Canceled(InputAction.CallbackContext ctx) => AimInput = Vector2.zero;
     private void InteractInput_Performed(InputAction.CallbackContext ctx) => OnInteract();
     private void CancelInput_Performed(InputAction.CallbackContext ctx) => Cancel = true;
@@ -81,6 +81,9 @@ partial class PlayerStateController
     {
         input = newInput;
         manager = newManager;
+
+
+
 
         FocusedColor = color;
 

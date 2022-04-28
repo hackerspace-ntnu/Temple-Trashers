@@ -81,6 +81,9 @@ public class GolemController : Enemy
 
     void FixedUpdate()
     {
+        if (currentState == EnemyState.DEAD)
+            return;
+
         switch (currentGolemState)
         {
             case GolemState.WAITING:
@@ -202,13 +205,11 @@ public class GolemController : Enemy
         {
             anim.SetTrigger(headButtAnimatorParam);
             headbutt.PlayDelayed(0.45f);
-        }
-        else if (angle < 180f)
+        } else if (angle < 180f)
         {
             anim.SetTrigger(slapRightAnimatorParam);
             slap.Play();
-        }
-        else
+        } else
         {
             anim.SetTrigger(slapLeftAnimatorParam);
             slap.Play();
@@ -233,6 +234,6 @@ public class GolemController : Enemy
         float damage = currentGolemState == GolemState.ATTACKING_BASE ? baseDamage : playerDamage;
         HealthLogic targetHealth = AggroTarget.GetComponent<HealthLogic>();
         Vector3 knockBackDir = (AggroTarget.position - transform.position + Vector3.up * 2).normalized;
-        targetHealth.OnReceiveDamage(damage, knockBackDir, 10f);
+        targetHealth.OnReceiveDamage(this, damage, knockBackDir, 10f);
     }
 }

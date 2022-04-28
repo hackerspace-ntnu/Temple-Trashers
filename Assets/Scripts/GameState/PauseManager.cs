@@ -8,7 +8,7 @@ public class PauseManager : MonoBehaviour
     public static PauseManager Singleton { get; private set; }
 
     [SerializeField]
-    public GameObject ui;
+    private GameObject ui = default;
 
     // An array of all audiosources in the game.
     [SerializeField]

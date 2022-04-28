@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LavaExplosionController : MonoBehaviour
 {
     [SerializeField]
-    float damage = 0f;
+    private float damage = 0f;
 
     [SerializeField]
-    float knockBackForce = 0f;
+    private float knockBackForce = 0f;
 
     [SerializeField]
-    float delay = 0f;
+    private float delay = 0f;
 
     [SerializeField]
-    LayerMask mask = default;
+    private LayerMask mask = default;
 
     [SerializeField]
-    float radius = default;
+    private float radius = default;
 
     public void Explode()
     {
@@ -30,15 +31,14 @@ public class LavaExplosionController : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, mask);
         foreach (var hit in hits)
         {
-            hit.GetComponent<HealthLogic>()?.OnReceiveDamage(damage, (hit.transform.position + Vector3.up/2f - transform.position).normalized, knockBackForce);
+            Vector3 knockBackDir = (hit.transform.position + Vector3.up / 2f - transform.position).normalized;
+            hit.GetComponent<HealthLogic>()?.OnReceiveDamage(this, damage, knockBackDir, knockBackForce);
         }
-        var baseTransform = BaseController.Singleton.transform;
 
-        if ((baseTransform.position-transform.position).magnitude < radius)
-        {
-            baseTransform.GetComponent<HealthLogic>()?.OnReceiveDamage(damage, Vector3.up, knockBackForce);
+        Transform baseTransform = BaseController.Singleton.transform;
 
-        }
+        if (transform.position.DistanceLessThan(radius, baseTransform.position))
+            baseTransform.GetComponent<HealthLogic>()?.OnReceiveDamage(this, damage, Vector3.up, knockBackForce);
 
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);

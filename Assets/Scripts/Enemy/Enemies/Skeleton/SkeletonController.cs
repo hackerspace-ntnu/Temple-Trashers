@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 
-public class SkeletonController : Enemy
+public class SkeletonController : EnemyLight
 {
     [SerializeField]
     protected float walkSpeed = 1.8f;
@@ -29,13 +27,6 @@ public class SkeletonController : Enemy
     private static readonly int chasingAnimatorParam = Animator.StringToHash("Chasing");
     private static readonly int walkModeAnimatorParam = Animator.StringToHash("WalkMode");
 
-    protected override void Die(DamageInfo damageInfo)
-    {
-        base.Die(damageInfo);
-
-        UIManager.Singleton.IncreaseScore(scoreValue);
-    }
-
     protected override void Start()
     {
         base.Start();
@@ -50,11 +41,14 @@ public class SkeletonController : Enemy
     private void AnimationSetup()
     {
         // Set random walk animation
-        anim.SetFloat(walkModeAnimatorParam, Mathf.Floor(Random.Range(0, 2)));
+        anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 2));
     }
 
     void FixedUpdate()
     {
+        if (currentState == EnemyState.DEAD)
+            return;
+
         HasLostTargetCheck();
 
         if (CurrentTarget)
@@ -63,9 +57,6 @@ public class SkeletonController : Enemy
 
     private void HasLostTargetCheck()
     {
-        if (currentState == EnemyState.DEAD)
-            return;
-
         if (!CurrentTarget) // Previous target was destroyed
         {
             if (baseTransform)
@@ -108,7 +99,8 @@ public class SkeletonController : Enemy
     {
         base.SetState(newState);
 
-        HasLostTargetCheck();
+        if (currentState != EnemyState.DEAD)
+            HasLostTargetCheck();
     }
 
     protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
@@ -151,7 +143,7 @@ public class SkeletonController : Enemy
                 break;
             case EnemyState.DEAD:
                 CurrentTarget = null;
-                Destroy(gameObject, 2.5f);
+                Destroy(gameObject, durationBeforeDespawn);
                 break;
         }
     }
@@ -179,7 +171,7 @@ public class SkeletonController : Enemy
                 break;
             case EnemyState.ATTACK_PLAYER:
                 HealthLogic playerHealth = CurrentTarget.GetComponent<HealthLogic>();
-                playerHealth.OnReceiveDamage(attackDamage);
+                playerHealth.OnReceiveDamage(this, attackDamage);
                 audioSource.Play();
                 if (playerHealth.health <= 0)
                 {
@@ -192,7 +184,7 @@ public class SkeletonController : Enemy
 
                 break;
             case EnemyState.ATTACK_BASE:
-                baseHealth?.OnReceiveDamage(attackDamage);
+                baseHealth?.OnReceiveDamage(this, attackDamage);
                 break;
             case EnemyState.CHASING:
                 break;

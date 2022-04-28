@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UnigolemController : Enemy
+public class UnigolemController : EnemyLight
 {
     [SerializeField]
     private Transform model = default;
@@ -39,13 +39,17 @@ public class UnigolemController : Enemy
             case EnemyState.CHASING:
                 break;
             case EnemyState.DEAD:
-                Destroy(gameObject);
+                anim.enabled = false;
+                Destroy(gameObject, durationBeforeDespawn);
                 break;
         }
     }
 
     void FixedUpdate()
     {
+        if (currentState == EnemyState.DEAD)
+            return;
+
         float angularSpeed = Vector3.Cross(lastForward, transform.forward).y / Time.deltaTime;
         lastForward = transform.forward;
 
@@ -57,12 +61,6 @@ public class UnigolemController : Enemy
         model.localRotation = Quaternion.Euler(forwardAngle, 0, sidewaysAngle);
 
         if (Vector3.Distance(transform.position, baseTransform.position) < detonationDistance)
-            Detonate();
-    }
-
-    private void Detonate()
-    {
-        baseHealth?.OnReceiveDamage(attackDamage);
-        Destroy(gameObject);
+            baseHealth?.OnReceiveDamage(this, attackDamage);
     }
 }

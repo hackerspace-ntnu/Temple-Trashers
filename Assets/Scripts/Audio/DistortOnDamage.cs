@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class DistortOnDamage : MonoBehaviour
 {
-    public AnimationCurve distortCurve;
-    public float distortTime;
-    bool distorting = false;
+    [SerializeField]
+    private AnimationCurve distortCurve = default;
+
+    [SerializeField]
+    private float distortTime = default;
+
+    private bool distorting = false;
 
     private HealthLogic baseHealthLogic;
     private AudioSource audioSource;

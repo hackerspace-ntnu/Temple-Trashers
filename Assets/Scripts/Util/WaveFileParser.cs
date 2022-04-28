@@ -86,7 +86,7 @@ public class WaveFileParser
                 return typeof(SkeletonController);
 
             default:
-                throw new FormatException("Invalid enemy type: " + token);
+                throw new FormatException($"Invalid enemy type: {token}");
         }
     }
 }

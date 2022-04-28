@@ -164,7 +164,8 @@ MonoBehaviour:
   canInteract: 1
   _towerScriptableObject: {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
   turretInput: {fileID: 0}
-  rotAxis: {fileID: 769070955576516685}
+  tutorialText: {fileID: 0}
+  rotationAxis: {fileID: 769070955576516685}
   directionalPointer: {fileID: 8246341762033966926}
 --- !u!114 &2609491176346275453
 MonoBehaviour:

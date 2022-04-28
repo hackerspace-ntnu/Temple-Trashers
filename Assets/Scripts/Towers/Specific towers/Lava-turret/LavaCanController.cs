@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LavaCanController : MonoBehaviour
 {
     [SerializeField]
@@ -12,9 +13,18 @@ public class LavaCanController : MonoBehaviour
 
     [SerializeField]
     private GameObject explosionPrefab = default;
+
     private GameObject instantiatedExplosion;
     private LavaExplosionController instantiatedExplosionController;
-    private static Quaternion angularRotation = Quaternion.Euler(-90f, 0, 0);
+
+    private static readonly Quaternion angularRotation = Quaternion.Euler(-90f, 0, 0);
+
+    void OnDestroy()
+    {
+        if (instantiatedExplosion)
+            Destroy(instantiatedExplosion);
+    }
+
     public void Fly(Vector3 target)
     {
         StartCoroutine(MoveToPosition(target, timeToTarget));
@@ -24,33 +34,26 @@ public class LavaCanController : MonoBehaviour
     {
         float startTime = Time.time;
         Vector3 startPos = transform.position;
-        while(startTime + time > Time.time)
+        while (startTime + time > Time.time)
         {
             float x = (Time.time - startTime) / time;
-            transform.position = startPos * (1 - x) + input * x + yCurve.Evaluate(x)*Vector3.up;
-            transform.rotation = transform.rotation * Quaternion.Lerp(Quaternion.identity, angularRotation, Time.deltaTime*10f);
+            transform.position = startPos * (1 - x) + input * x + yCurve.Evaluate(x) * Vector3.up;
+            transform.rotation *= Quaternion.Lerp(Quaternion.identity, angularRotation, Time.deltaTime * 10f);
 
             yield return new WaitForEndOfFrame();
         }
+
         if (instantiatedExplosion != null)
         {
             instantiatedExplosion.transform.position = input;
             instantiatedExplosion.SetActive(true);
-        }
-        else
+        } else
         {
             instantiatedExplosion = Instantiate(explosionPrefab, input, Quaternion.identity);
             instantiatedExplosionController = instantiatedExplosion.GetComponent<LavaExplosionController>();
         }
+
         instantiatedExplosionController.Explode();
         gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        if (instantiatedExplosion)
-        {
-            Destroy(instantiatedExplosion);
-        }
     }
 }

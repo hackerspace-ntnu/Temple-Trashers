@@ -321,7 +321,7 @@ public class HexGrid : MonoBehaviour
         foreach (HexCell cell in cells)
         {
             float elevation = cell.CellType.elevation;
-            if (Random.Range(0, 100) > 10f
+            if (Random.Range(0, 100) > 10
                 || elevation < 0
                 || elevation >= tallestCellType.elevation
                 || cell.IsOccupied)
@@ -369,8 +369,8 @@ public class HexGrid : MonoBehaviour
             GameObject sceneryObject = cells[i].InstantiatePrefabOnCell(nameToGameObject[hexCellData.occupier]);
             if (sceneryObject.GetComponent<RotatableTowerLogic>() is RotatableTowerLogic rotatableTowerLogic)
             {
-                Quaternion rotation = rotatableTowerLogic.rotAxis.rotation;
-                rotatableTowerLogic.rotAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
+                Quaternion rotation = rotatableTowerLogic.RotationAxis.rotation;
+                rotatableTowerLogic.RotationAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else
             {
                 sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);

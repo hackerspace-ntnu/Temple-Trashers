@@ -7,9 +7,9 @@ public class HealthLogic : MonoBehaviour
 {
     public delegate void OnStatusUpdate(DamageInfo damage);
 
-    public OnStatusUpdate onDeath;
-
     public OnStatusUpdate onDamage;
+
+    public OnStatusUpdate onDeath;
 
     public OnStatusUpdate onHeal;
 
@@ -18,7 +18,7 @@ public class HealthLogic : MonoBehaviour
 
     public bool Dead => health <= 0;
 
-    public virtual void OnReceiveDamage(float damage, Vector3? knockBackDir = null, float? knockBackForce = null)
+    public virtual void OnReceiveDamage(MonoBehaviour fromSource, float damage, Vector3? knockBackDir = null, float? knockBackForce = null)
     {
         if (Dead)
             return;
@@ -27,6 +27,7 @@ public class HealthLogic : MonoBehaviour
         health -= Mathf.Clamp(damage, 0, health);
 
         DamageInfo damageInfo = new DamageInfo(
+            fromSource,
             damage,
             health,
             health <= 0,
@@ -37,19 +38,19 @@ public class HealthLogic : MonoBehaviour
         {
             onDamage?.Invoke(damageInfo);
             onDeath?.Invoke(damageInfo);
-        }
-        else
+        } else
             onDamage?.Invoke(damageInfo);
     }
 
-    public virtual void Heal(float input)
+    public virtual void Heal(MonoBehaviour fromSource, float healAmount)
     {
-        health += input;
+        health += healAmount;
         if (health > maxHealth && maxHealth > 0)
             health = maxHealth;
 
         DamageInfo healInfo = new DamageInfo(
-            -input,
+            fromSource,
+            -healAmount,
             health,
             health <= 0,
             Vector3.zero,

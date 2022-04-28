@@ -70,6 +70,10 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die(DamageInfo damageInfo)
     {
+        // Don't increase the score if killed by the base's zap
+        if (!(damageInfo.FromSource is BaseController))
+            UIManager.Singleton.IncreaseScore(scoreValue);
+
         SetState(EnemyState.DEAD);
     }
 

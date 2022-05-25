@@ -8,10 +8,12 @@ public class UIWheel : MonoBehaviour
     [SerializeField]
     private TowerScriptableObject[] towers = default;
     [SerializeField]
-    private Transform iconPositioner;
+    private Transform iconOffset;
     [SerializeField]
     private Transform middleOrigin;
-    private List<Sprite> icons;
+    [SerializeField]
+    private GameObject iconWrapper;
+    private List<Sprite> icons = new List<Sprite>();
     private float iconDegree = default;
 
     void Start()
@@ -24,10 +26,11 @@ public class UIWheel : MonoBehaviour
         //Calculate what share of degress from the wheel each icon should have
         iconDegree = 360/icons.Count;
 
-        for (int i = 0; i < icons.Count-1; i++)
+        for (int i = 0; i < icons.Count; i++)
         {
-            //GameObject icon = Instantiate(icons[i], iconPositioner.position, transform.rotation, transform);
-            //icon.transform.RotateAround(middleOrigin.position, Vector3.forward, i*iconDegree);
+            GameObject icon = Instantiate(iconWrapper, iconOffset.position, transform.rotation, transform);
+            icon.GetComponent<SpriteRenderer>().sprite = icons[i];
+            icon.transform.RotateAround(middleOrigin.position, Vector3.forward, i*iconDegree);
         }
     }
 

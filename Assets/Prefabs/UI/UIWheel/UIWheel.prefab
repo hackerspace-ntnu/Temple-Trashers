@@ -48,8 +48,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a59d08db63548fb4b851e0848fc561ec, type: 2}
   - {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
   - {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
-  iconPositioner: {fileID: 9101943136987841406}
+  iconOffset: {fileID: 9101943136987841406}
   middleOrigin: {fileID: 728688949125428938}
+  iconWrapper: {fileID: 4891366039889099010, guid: 99854d7ea75ca79419e3715aba447de0, type: 3}
 --- !u!1 &2157005380706962313
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +61,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9101943136987841406}
   m_Layer: 0
-  m_Name: IconPositioner
+  m_Name: IconOffset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

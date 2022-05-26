@@ -12,21 +12,17 @@ public class PlayerUi : MonoBehaviour
     [SerializeField]
     private GameObject ui = default;
 
-    [Tooltip("The number of degrees the menu segments are tilted.")]
-    [SerializeField]
-    private float segmentTiltDegrees = default;
-
     private Transform mainCameraTransform;
     private InventoryManager inventory;
-    private UIControllerWheel controllerWheel;
+    private UIWheel controllerWheel;
     private MessageUI messageUI;
 
-    public UIControllerWheel ControllerWheel => controllerWheel;
+    public UIWheel ControllerWheel => controllerWheel;
 
     void Awake()
     {
         playerStateController = GetComponent<PlayerStateController>();
-        controllerWheel = ui.GetComponentInChildren<UIControllerWheel>();
+        controllerWheel = ui.GetComponentInChildren<UIWheel>();
     }
 
     void Start()
@@ -87,10 +83,14 @@ public class PlayerUi : MonoBehaviour
         if (playerStateController.AimInput == Vector2.zero)
             return;
 
-        float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) / Mathf.PI;
-        inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentTiltDegrees);
-
+        float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) /  Mathf.PI;
+        if (inputAngle<0)
+        {
+            inputAngle = 360+inputAngle;
+        }
+        
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
+        inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentAreaDegrees/2);
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
         controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
     }

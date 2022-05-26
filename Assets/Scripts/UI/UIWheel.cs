@@ -34,10 +34,6 @@ public class UIWheel : MonoBehaviour
         get => _selectedSegmentIndex;
         set
         {
-            /*
-            if (value < 0 || value >= iconWrappers.Count)
-                throw new IndexOutOfRangeException();
-                */
             if (value == _selectedSegmentIndex)
                 return;
 
@@ -46,8 +42,6 @@ public class UIWheel : MonoBehaviour
             {
                 int index = (int)_selectedSegmentIndex;
                 LeanTween.scale(iconWrappers[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
-                //iconHolders[index].sprite = towers[index].iconHighlight;
-                //menuSegments[index].GetComponent<SpriteRenderer>().sprite = highlightSprite;
             }
 
             NormalizeSegments();

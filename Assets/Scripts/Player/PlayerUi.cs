@@ -90,7 +90,11 @@ public class PlayerUi : MonoBehaviour
         }
         
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
+
+        //Update inputAngle to take into account that the origin of the icon is the middle and not the start of a segment
         inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentAreaDegrees/2);
+
+        //Find/set correct index
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
         controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
     }

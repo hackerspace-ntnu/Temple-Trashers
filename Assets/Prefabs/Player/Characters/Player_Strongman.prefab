@@ -774,6 +774,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6dbeeba5d48f2514fb8286fa53bd327e, type: 2}
+  - {fileID: 2100000, guid: e91d2ffa7d8cc7c4f8e7eea610751188, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1487,6 +1488,7 @@ MonoBehaviour:
   anim: {fileID: 4212238644612485010}
   heldItemBone: {fileID: 3677586431534401025}
   enemyViewFocus: {fileID: 2884578610783240193}
+  toggleMaterial: {fileID: 3200627148845523505}
 --- !u!114 &4315586048534869632
 MonoBehaviour:
   m_ObjectHideFlags: 0

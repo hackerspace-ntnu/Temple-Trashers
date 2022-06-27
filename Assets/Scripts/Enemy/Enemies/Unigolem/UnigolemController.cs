@@ -21,6 +21,8 @@ public class UnigolemController : EnemyLight
 
     private static readonly int speedAnimatorParam = Animator.StringToHash("Speed");
 
+    private float lastSidewaysTilt = 0;
+    private float sidewaysTiltSmoothing = 0.9f;
     protected override void Start()
     {
         base.Start();
@@ -54,11 +56,12 @@ public class UnigolemController : EnemyLight
         lastForward = transform.forward;
 
         float sidewaysAngle = -tiltAngleSide * angularSpeed;
+        lastSidewaysTilt = lastSidewaysTilt * sidewaysTiltSmoothing + sidewaysAngle * (1 - sidewaysTiltSmoothing); 
         float speed = agent.velocity.magnitude / agent.speed;
         anim.SetFloat(speedAnimatorParam, speed);
         float forwardAngle = tiltAngleFront * speed;
 
-        model.localRotation = Quaternion.Euler(forwardAngle, 0, sidewaysAngle);
+        model.localRotation = Quaternion.Euler(forwardAngle, 0, lastSidewaysTilt);
 
         if (Vector3.Distance(transform.position, baseTransform.position) < detonationDistance)
             baseHealth?.OnReceiveDamage(this, attackDamage);

@@ -11,6 +11,9 @@ public class RotatableTowerLogic : TowerLogic
     [SerializeField]
     private GameObject directionalPointer = default;
 
+    [SerializeField]
+    private int rotationDelay = 200;
+
     private Quaternion initialRotation;
     private int lastTweenId = -1;
 
@@ -37,8 +40,8 @@ public class RotatableTowerLogic : TowerLogic
         Vector2 aim = turretInput.GetAimInput();
         if (aim.sqrMagnitude > 0.01f)
         {
-            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI; // - 90;
-            rotationAxis.rotation = Quaternion.Euler(0f, angle, 0f) * initialRotation;
+            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI;
+            rotationAxis.rotation = Quaternion.RotateTowards(rotationAxis.rotation, Quaternion.Euler(0f, angle, 0f)*initialRotation, Time.deltaTime*rotationDelay);
         }
     }
 

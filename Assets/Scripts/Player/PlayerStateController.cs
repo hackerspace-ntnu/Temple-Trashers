@@ -55,6 +55,9 @@ public partial class PlayerStateController : MonoBehaviour
 
     private MessageUI messageUI;
 
+    [SerializeField]
+    private SkinnedMeshRenderer toggleMaterial = default;
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public HexCell TargetCell => targetCell;
@@ -89,12 +92,19 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
+        
+
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
+
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
         GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
         anim.enabled = false;
+
+        //Makes sure respawn blink is disabled before ragdoll is made.
+        DisableOutline();
+
         Destroy(gameObject, 2f);
     }
 
@@ -103,6 +113,8 @@ public partial class PlayerStateController : MonoBehaviour
         inventoryManager = InventoryManager.Singleton;
 
         CurrentState = PlayerStates.FREE;
+
+        StartCoroutine(SpawnEffectTimer());
     }
 
     void FixedUpdate()
@@ -370,4 +382,22 @@ public partial class PlayerStateController : MonoBehaviour
         SetFocusedInteractable(turret);
         UpdateConstructionTowerTargetCell();
     }
+
+    private void ResetOutline()
+    {
+        toggleMaterial.materials[1].SetFloat("BorderScale", 1.04f);
+    }
+
+    public void DisableOutline()
+    {
+        toggleMaterial.materials[1].SetFloat("BorderScale",0.01f);
+    }
+
+    private IEnumerator SpawnEffectTimer()
+    {
+        ResetOutline();
+        yield return new WaitForSeconds(3f);
+        DisableOutline();
+    }
+
 }

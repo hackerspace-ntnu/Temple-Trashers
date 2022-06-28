@@ -11,12 +11,35 @@ public class UIInputController : MonoBehaviour
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        //playerInput.actions["Move"] += ;
+        //playerInput.actions["Move"].performed += SetRelevantButton();
+        //playerInput.actions["Interact"].performed += Select();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMove()
     {
-        ControllerButtonNavigator.currentButton.buttonUp.setCurrentButton();
+        
     }
+
+    private void SetRelevantButton(InputAction.CallbackContext ctx)
+    {
+        if (ctx.ReadValue<Vector2>().magnitude > 0.1f)
+        {
+            if (ctx.ReadValue<Vector2>().y > 0)
+            {
+                ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
+            }
+            else
+            {
+                ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
+            }
+        }
+    }
+
+    private void Select()
+    {
+        ControllerButtonNavigator.currentButton.PressButton();
+    }
+    
+
+
 }

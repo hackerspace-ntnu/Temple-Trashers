@@ -17,17 +17,18 @@ public class ControllerButtonNavigator : MonoBehaviour
         {
             currentButton = this;
         }
+
     }
 
-    public void setCurrentButton()
+    public void SetCurrentButton()
     {
         //Reset highlight of previous currentButton
-        //currentButton.GetComponent<>();
+        //currentButton.GetComponent<Button>();
         currentButton = this;
         //currentButton.GetComponent<>();
     }
 
-    public void pressButton()
+    public void PressButton()
     {
         GetComponent<Button>().onClick.Invoke();
     }

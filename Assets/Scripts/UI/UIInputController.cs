@@ -7,24 +7,30 @@ public class UIInputController : MonoBehaviour
 {
     //private play
     private PlayerInput playerInput;
-    // Start is called before the first frame update
-    void Start()
+
+    public Vector2 MoveInput { get; private set; } = Vector2.zero;
+
+    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
+    private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
+    private void MoveInputer(InputAction.CallbackContext ctx) => OnMove();
+    private void MoveInput_Interacted(InputAction.CallbackContext ctx) => Select();
+
+        void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        //playerInput.actions["Move"].performed += SetRelevantButton();
-        //playerInput.actions["Interact"].performed += Select();
+        playerInput.actions["Move"].performed += MoveInput_Performed;
+        playerInput.actions["Move"].performed += MoveInputer;
+        playerInput.actions["Move"].canceled += MoveInput_Canceled;
+        playerInput.actions["Interact"].performed += MoveInput_Interacted;
     }
+
 
     private void OnMove()
-    {
-        
-    }
 
-    private void SetRelevantButton(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<Vector2>().magnitude > 0.1f)
+        if (MoveInput.magnitude > 0.1f)
         {
-            if (ctx.ReadValue<Vector2>().y > 0)
+            if (MoveInput.y > 0)
             {
                 ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
             }
@@ -39,7 +45,13 @@ public class UIInputController : MonoBehaviour
     {
         ControllerButtonNavigator.currentButton.PressButton();
     }
-    
 
+    private void OnDestroy()
+    {
+        playerInput.actions["Move"].performed -= MoveInputer;
+        playerInput.actions["Move"].performed -= MoveInput_Performed;
+        playerInput.actions["Move"].performed -= MoveInput_Canceled;
+        playerInput.actions["Interact"].performed -= MoveInput_Interacted;
+    }
 
 }

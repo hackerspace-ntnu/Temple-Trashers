@@ -7,6 +7,7 @@ public class UIInputController : MonoBehaviour
 {
     //private play
     private PlayerInput playerInput;
+    private float snapshot;
 
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
@@ -17,6 +18,7 @@ public class UIInputController : MonoBehaviour
 
         void Start()
     {
+        snapshot = Time.fixedTime;
         playerInput = GetComponent<PlayerInput>();
         playerInput.actions["Move"].performed += MoveInput_Performed;
         playerInput.actions["Move"].performed += MoveInputer;
@@ -26,17 +28,19 @@ public class UIInputController : MonoBehaviour
 
 
     private void OnMove()
-
     {
-        if (MoveInput.magnitude > 0.1f)
-        {
-            if (MoveInput.y > 0)
+        if (Time.fixedTime - snapshot > 0.2f) {
+            snapshot = Time.fixedTime;
+            if (MoveInput.magnitude > 0.1f)
             {
-                ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
-            }
-            else
-            {
-                ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
+                if (MoveInput.y > 0)
+                {
+                    ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
+                }
+                else
+                {
+                    ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
+                }
             }
         }
     }

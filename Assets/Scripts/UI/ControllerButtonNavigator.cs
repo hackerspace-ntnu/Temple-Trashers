@@ -11,14 +11,17 @@ public class ControllerButtonNavigator : MonoBehaviour
     public ControllerButtonNavigator buttonUp;
     public ControllerButtonNavigator buttonDown;
     public ControllerButtonNavigator defaultButton;
+    [SerializeField]
+    private Color normalColor;
+    [SerializeField]
+    private Color highlightColor;
 
-    // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         if (!currentButton)
         {
             currentButton = defaultButton;
-            currentButton.GetComponent<Button>().Select();
+            currentButton.GetComponent<Image>().color = highlightColor;
         }
 
     }
@@ -26,11 +29,10 @@ public class ControllerButtonNavigator : MonoBehaviour
     public void SetCurrentButton()
     {
         //Reset highlight of previous currentButton
-        //currentButton.GetComponent<Button>().
-        EventSystem.current.SetSelectedGameObject(null);
+        //There are better ways to do this, but Unity refused to cooperate :(
+        currentButton.GetComponent<Image>().color = normalColor;
         currentButton = this;
-        currentButton.GetComponent<Button>().Select();
-        //currentButton.GetComponent<>();
+        currentButton.GetComponent<Image>().color = highlightColor;
     }
 
     public void PressButton()

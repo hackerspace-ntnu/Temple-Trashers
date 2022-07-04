@@ -16,6 +16,8 @@ partial class PlayerStateController
     public bool Cancel { get; private set; } = false;
     public bool Select { get; private set; } = false;
 
+    private UIInputController uiInputController;
+
     #region D-pad
 
     public bool DLeft { get; private set; } = false;
@@ -34,7 +36,7 @@ partial class PlayerStateController
     private void CancelInput_Canceled(InputAction.CallbackContext ctx) => Cancel = false;
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
-    private void PauseInput_Performed(InputAction.CallbackContext ctx) => PauseManager.Singleton.PauseGame();
+    private void PauseInput_Performed(InputAction.CallbackContext ctx) => SetUpUiInput();
 
     #region D-pad
 
@@ -76,12 +78,28 @@ partial class PlayerStateController
 
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
+
+    public void SetUpUiInput()
+    {
+        PauseManager.Singleton.PauseGame();
+        if (PauseManager.Singleton.IsPaused) 
+        {
+            //uiInputController.setUIInputController(input);
+            uiInputController.ListenersAdd();
+        }
+        else
+        {
+            uiInputController.ListenersRemove();
+        }
+    }
+
     // Called by `PlayerSpecificManager` after instantiating the player
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager, Color color)
     {
         input = newInput;
         manager = newManager;
-
+        uiInputController.setUIInputController(newInput);
+        uiInputController.ListenersRemove();
 
 
 

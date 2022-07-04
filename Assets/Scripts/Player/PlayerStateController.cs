@@ -58,6 +58,7 @@ public partial class PlayerStateController : MonoBehaviour
     [SerializeField]
     private SkinnedMeshRenderer toggleMaterial = default;
 
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public HexCell TargetCell => targetCell;
@@ -77,6 +78,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         ui = GetComponent<PlayerUi>();
         messageUI = GetComponent<MessageUI>();
+        uiInputController = GetComponent<UIInputController>();
     }
 
     void OnDestroy()

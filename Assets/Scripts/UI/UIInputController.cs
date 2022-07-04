@@ -16,14 +16,18 @@ public class UIInputController : MonoBehaviour
     private void MoveInputer(InputAction.CallbackContext ctx) => OnMove();
     private void MoveInput_Interacted(InputAction.CallbackContext ctx) => Select();
 
+    private bool isOn;
+
+    public void setUIInputController(PlayerInput playerInput) 
+    {
+        this.playerInput = playerInput;
+    }
+
         void Start()
     {
+        ListenersAdd();
         snapshot = Time.fixedTime;
         playerInput = GetComponent<PlayerInput>();
-        playerInput.actions["Move"].performed += MoveInput_Performed;
-        playerInput.actions["Move"].performed += MoveInputer;
-        playerInput.actions["Move"].canceled += MoveInput_Canceled;
-        playerInput.actions["Interact"].performed += MoveInput_Interacted;
     }
 
 
@@ -50,7 +54,17 @@ public class UIInputController : MonoBehaviour
         ControllerButtonNavigator.currentButton.PressButton();
     }
 
-    private void OnDestroy()
+    public void ListenersAdd()
+    {
+
+        playerInput.actions["Move"].performed += MoveInput_Performed;
+        playerInput.actions["Move"].performed += MoveInputer;
+        playerInput.actions["Move"].canceled += MoveInput_Canceled;
+        playerInput.actions["Interact"].performed += MoveInput_Interacted;
+
+    }
+
+    public void ListenersRemove()
     {
         playerInput.actions["Move"].performed -= MoveInputer;
         playerInput.actions["Move"].performed -= MoveInput_Performed;

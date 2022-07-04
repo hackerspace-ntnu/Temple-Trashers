@@ -20,9 +20,12 @@ public class PauseManager : MonoBehaviour
     [SerializeField]
     private float pauseAudioVolume = 0.3f;
 
+
     public bool IsPaused { get; private set; } = false;
 
     private float initialTimeScale;
+
+
 
     void Awake()
     {
@@ -71,6 +74,8 @@ public class PauseManager : MonoBehaviour
 
         // Reduce the listener volume level
         AudioListener.volume = IsPaused ? pauseAudioVolume : normalAudioVolume;
+
+
     }
 
     public void QuitGame()

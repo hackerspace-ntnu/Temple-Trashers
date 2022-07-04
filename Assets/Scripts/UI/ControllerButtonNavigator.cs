@@ -33,6 +33,7 @@ public class ControllerButtonNavigator : MonoBehaviour
         currentButton.GetComponent<Image>().color = normalColor;
         currentButton = this;
         currentButton.GetComponent<Image>().color = highlightColor;
+        Debug.Log(currentButton.name);
     }
 
     public void PressButton()

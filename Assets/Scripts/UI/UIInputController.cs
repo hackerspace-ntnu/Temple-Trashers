@@ -5,9 +5,7 @@ using UnityEngine.InputSystem;
 
 public class UIInputController : MonoBehaviour
 {
-    //private play
     private PlayerInput playerInput;
-    private float snapshot;
 
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
@@ -16,7 +14,6 @@ public class UIInputController : MonoBehaviour
     private void MoveInputer(InputAction.CallbackContext ctx) => OnMove();
     private void MoveInput_Interacted(InputAction.CallbackContext ctx) => Select();
 
-    private bool isOn;
 
     public void setUIInputController(PlayerInput playerInput) 
     {
@@ -26,15 +23,14 @@ public class UIInputController : MonoBehaviour
         void Start()
     {
         ListenersAdd();
-        snapshot = Time.fixedTime;
         playerInput = GetComponent<PlayerInput>();
     }
 
 
     private void OnMove()
     {
-        if (Time.fixedTime - snapshot > 0.2f) {
-            snapshot = Time.fixedTime;
+        if (PauseManager.Singleton.IsPaused)
+        {
             if (MoveInput.magnitude > 0.1f)
             {
                 if (MoveInput.y > 0)
@@ -51,7 +47,9 @@ public class UIInputController : MonoBehaviour
 
     private void Select()
     {
+        if (PauseManager.Singleton.IsPaused) { 
         ControllerButtonNavigator.currentButton.PressButton();
+        }
     }
 
     public void ListenersAdd()

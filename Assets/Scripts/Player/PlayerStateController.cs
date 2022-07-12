@@ -55,6 +55,9 @@ public partial class PlayerStateController : MonoBehaviour
 
     private MessageUI messageUI;
 
+    [SerializeField]
+    private SkinnedMeshRenderer toggleMaterial = default;
+
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
     public HexCell TargetCell => targetCell;
@@ -65,6 +68,7 @@ public partial class PlayerStateController : MonoBehaviour
 
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
+    private static readonly int borderScaleShaderProperty = Shader.PropertyToID("BorderScale");
 
     void Awake()
     {
@@ -89,12 +93,18 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
+
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
+
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
         GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
         anim.enabled = false;
+
+        //Makes sure respawn blink is disabled before ragdoll is made.
+        DisableOutline();
+
         Destroy(gameObject, 2f);
     }
 
@@ -103,6 +113,8 @@ public partial class PlayerStateController : MonoBehaviour
         inventoryManager = InventoryManager.Singleton;
 
         CurrentState = PlayerStates.FREE;
+
+        StartCoroutine(SpawnEffectTimer());
     }
 
     void FixedUpdate()
@@ -245,7 +257,7 @@ public partial class PlayerStateController : MonoBehaviour
         {
             // Build the turret we are holding
             focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
-            messageUI.DisplayMessage("-" + focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.red);
+            messageUI.DisplayMessage($"-{focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost}", MessageTextColor.RED);
             Drop(focusedInteractable.gameObject);
             RemoveInteractable(focusedInteractable);
             SetState(PlayerStates.FREE);
@@ -341,7 +353,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
-        messageUI.DisplayMessage("+" + tower.TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.green);
+        messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -369,5 +381,22 @@ public partial class PlayerStateController : MonoBehaviour
         heldInteractable = turret;
         SetFocusedInteractable(turret);
         UpdateConstructionTowerTargetCell();
+    }
+
+    private void ResetOutline()
+    {
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 1.04f);
+    }
+
+    public void DisableOutline()
+    {
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 0.01f);
+    }
+
+    private IEnumerator SpawnEffectTimer()
+    {
+        ResetOutline();
+        yield return new WaitForSeconds(3f);
+        DisableOutline();
     }
 }

@@ -7,24 +7,22 @@ using UnityEngine.UI;
 public class PlayerUi : MonoBehaviour
 {
     [SerializeField]
-    private PlayerStateController playerStateController;
+    private PlayerStateController playerStateController = default;
 
-    public GameObject ui;
-
-    [Tooltip("The number of degrees the menu segments are tilted.")]
-    public float segmentTiltDegrees;
+    [SerializeField]
+    private GameObject ui = default;
 
     private Transform mainCameraTransform;
     private InventoryManager inventory;
-    private UIControllerWheel controllerWheel;
+    private UIWheel controllerWheel;
     private MessageUI messageUI;
 
-    public UIControllerWheel ControllerWheel => controllerWheel;
+    public UIWheel ControllerWheel => controllerWheel;
 
     void Awake()
     {
         playerStateController = GetComponent<PlayerStateController>();
-        controllerWheel = ui.GetComponentInChildren<UIControllerWheel>();
+        controllerWheel = ui.GetComponentInChildren<UIWheel>();
     }
 
     void Start()
@@ -61,15 +59,12 @@ public class PlayerUi : MonoBehaviour
                 inventory.ResourceAmount -= selectedSegment.Cost;
                 selectedSegment.InstantiateConstructionTower(playerStateController);
                 playerStateController.SetState(PlayerStates.BUILDING);
-            }
-            else
+            } else
             {
                 playerStateController.SetState(PlayerStates.FREE);
-                if(inventory.ResourceAmount - selectedSegment.Cost < 0)
-                    messageUI.DisplayMessage("Missing crystals", MessageUI.TextColors.red);
+                if (inventory.ResourceAmount - selectedSegment.Cost < 0)
+                    messageUI.DisplayMessage("Missing crystals", MessageTextColor.RED);
             }
-                
-
 
             ui.gameObject.SetActive(false);
         }
@@ -86,14 +81,18 @@ public class PlayerUi : MonoBehaviour
 
         // The controller points to nothing
         if (playerStateController.AimInput == Vector2.zero)
-        {
             return;
-        }
 
         float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) / Mathf.PI;
-        inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentTiltDegrees);
+        if (inputAngle < 0f)
+            inputAngle += 360f;
 
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
+
+        //Update inputAngle to take into account that the origin of the icon is the middle and not the start of a segment
+        inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentAreaDegrees / 2f);
+
+        //Find/set correct index
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
         controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
     }

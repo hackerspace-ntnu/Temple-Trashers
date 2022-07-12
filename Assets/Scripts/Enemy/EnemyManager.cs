@@ -11,7 +11,8 @@ public class EnemyManager : MonoBehaviour
     public static readonly Type[] ENEMY_TYPES = { typeof(SkeletonController) };
     private Dictionary<Type, GameObject> enemyTypeToPrefab;
 
-    public GameObject[] enemyPrefabs;
+    [SerializeField]
+    private GameObject[] enemyPrefabs = default;
 
     void Awake()
     {

@@ -2,12 +2,14 @@
 using UnityEngine;
 using TMPro;
 
+
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] entries;
+    private GameObject[] entries = default;
 
-    public Transform leaderboardBody;
+    [SerializeField]
+    private Transform leaderboardBody = default;
 
     void Start()
     {

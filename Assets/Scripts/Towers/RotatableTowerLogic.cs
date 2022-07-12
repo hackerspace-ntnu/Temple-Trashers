@@ -5,19 +5,22 @@ using UnityEngine;
 
 public class RotatableTowerLogic : TowerLogic
 {
-    public Transform rotAxis;
+    [SerializeField]
+    private Transform rotationAxis = default;
+
+    [SerializeField]
+    private GameObject directionalPointer = default;
+
     private Quaternion initialRotation;
-
-    public GameObject directionalPointer;
-
     private int lastTweenId = -1;
+
+    public Transform RotationAxis => rotationAxis;
 
     protected new void Start()
     {
         base.Start();
 
-        initialRotation = rotAxis.rotation;
-
+        initialRotation = rotationAxis.rotation;
     }
 
     void FixedUpdate()
@@ -35,7 +38,7 @@ public class RotatableTowerLogic : TowerLogic
         if (aim.sqrMagnitude > 0.01f)
         {
             float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI; // - 90;
-            rotAxis.rotation = Quaternion.Euler(0f, angle, 0f) * initialRotation;
+            rotationAxis.rotation = Quaternion.Euler(0f, angle, 0f) * initialRotation;
         }
     }
 
@@ -46,12 +49,10 @@ public class RotatableTowerLogic : TowerLogic
         if (directionalPointer)
         {
             if (lastTweenId != -1)
-            {
                 LeanTween.cancel(lastTweenId);
-            }
+
             lastTweenId = LeanTween.scale(directionalPointer, Vector3.one, 0.15f).setEaseInOutQuad().id;
         }
-                
     }
 
     public override void Unfocus(PlayerStateController player)
@@ -64,8 +65,8 @@ public class RotatableTowerLogic : TowerLogic
             {
                 LeanTween.cancel(lastTweenId);
             }
+
             lastTweenId = LeanTween.scale(directionalPointer, Vector3.zero, 0.15f).setEaseInOutQuad().id;
         }
-        
     }
 }

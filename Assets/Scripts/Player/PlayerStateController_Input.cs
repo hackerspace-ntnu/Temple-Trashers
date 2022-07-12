@@ -176,7 +176,7 @@ partial class PlayerStateController
     {
         TowerScriptableObject tower = ui.ControllerWheel.GetTower(towerIndex);
         if (inventoryManager.ResourceAmount < tower.Cost)
-            messageUI.DisplayMessage("Not enough crystals", MessageUI.TextColors.red);
+            messageUI.DisplayMessage("Not enough crystals", MessageTextColor.RED);
         if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
         {
             inventoryManager.ResourceAmount -= tower.Cost;

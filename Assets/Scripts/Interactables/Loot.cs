@@ -7,14 +7,15 @@ using UnityEngine;
 public class Loot : Interactable
 {
     // Selection / highlight material
-    public Material selectionMaterial;
+    [SerializeField]
+    private Material selectionMaterial = default;
 
     // All mesh renderers attached to the object
     private MeshRenderer[] meshRenderers;
 
-    [ReadOnly]
     // Is the object being carried
-    public bool carried = false;
+    [ReadOnly, SerializeField]
+    private bool carried = false;
 
     // Set the object to be destroyed
     private bool destroy = false;
@@ -31,7 +32,9 @@ public class Loot : Interactable
     public Transform target;
 
     //Loot-value to resources in inventory
-    public int lootValue = 10;
+    [SerializeField]
+    private int lootValue = 10;
+
     private InventoryManager inventory = default;
 
     // Loot Rigidbody
@@ -96,9 +99,9 @@ public class Loot : Interactable
                 //Add resources to inventory
                 baseController.crystals++;
                 inventory.ResourceAmount += lootValue;
-                baseController.GetComponent<HealthLogic>().Heal(baseHealAmount);
+                baseController.GetComponent<HealthLogic>().Heal(this, baseHealAmount);
 
-                Destroy(gameObject);                
+                Destroy(gameObject);
             }
         }
 

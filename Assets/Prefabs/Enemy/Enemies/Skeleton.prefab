@@ -1514,10 +1514,10 @@ BoxCollider:
   m_GameObject: {fileID: 4422063928826571137}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 3.3345633, z: 0.7306381}
-  m_Center: {x: 0, y: 1.6659284, z: -0.04871437}
+  m_Size: {x: 1, y: 2.8, z: 0.7306381}
+  m_Center: {x: 0, y: 1.4, z: -0.04871437}
 --- !u!1 &4878646531778641708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,8 +1974,9 @@ MonoBehaviour:
   _currentTarget: {fileID: 0}
   currentState: 0
   anim: {fileID: 6942039963572180435}
-  attackDamage: 1
+  attackDamage: 5
   scoreValue: 10
+  durationBeforeDespawn: 2.5
   walkSpeed: 1.3
   chaseSpeed: 3
   baseAttackDistance: 2
@@ -1994,10 +1995,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 6942039963572180435}
   colliderToDisable: {fileID: 6262807936475223194}
   colliderToEnable: {fileID: 1737569877594554043}
-  launchSpeed: {x: 7, y: 15}
   launchRotationSpeed: 25
 --- !u!114 &6262807936475223196
 MonoBehaviour:

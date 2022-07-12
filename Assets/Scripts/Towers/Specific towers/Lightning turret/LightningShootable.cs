@@ -10,22 +10,28 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     private VisualEffect sparksEffect = default;
 
     //The radius for the turret and all it's targets.
-    public float lightningRadius = 4;
+    [SerializeField]
+    private float lightningRadius = 4;
 
     //All targets in range of lightning turret's mesh collider hitbox
-    public CollisionManager collisionTargets;
+    [SerializeField]
+    private CollisionManager collisionTargets = default;
 
     //Damage per zap.
-    public float damage = 10;
+    [SerializeField]
+    private float damage = 10;
 
     //Lightning VFX
-    public GameObject drainRay;
+    [SerializeField]
+    private GameObject drainRay = default;
 
     //LighntingEffect duration
-    public float effectDuration = 0.7f;
+    [SerializeField]
+    private float effectDuration = 0.7f;
 
     //What layers the collider will check in, should be player and enemy layers.
-    public LayerMask shockLayers;
+    [SerializeField]
+    private LayerMask shockLayers = default;
 
     //Marked objects
     private List<Transform> zapTargets = new List<Transform>();
@@ -57,10 +63,9 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         {
             Vector3 diff = (zap.position - transform.position).normalized;
             Vector3 knockBackDir = new Vector3(diff.x, 2, diff.z);
-            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(this, damage, knockBackDir, 5f);
         }
 
-       
         audioSource.Play();
 
         //Clear all marked objects.

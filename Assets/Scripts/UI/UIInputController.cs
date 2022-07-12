@@ -8,6 +8,8 @@ public class UIInputController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
+    private float snapshot;
+
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
     private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
@@ -32,7 +34,14 @@ public class UIInputController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Main_Menu")
         {
-            DetermineDirection();
+            Debug.Log("OnMove called in main_menu");
+            if (Time.fixedTime - snapshot > 0.2f)
+            {
+                snapshot = Time.fixedTime;
+
+                DetermineDirection();
+            }
+            Debug.Log(ControllerButtonNavigator.currentButton);
         }
         else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
         {

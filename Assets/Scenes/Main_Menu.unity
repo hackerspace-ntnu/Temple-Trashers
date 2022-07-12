@@ -980,7 +980,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1068,8 +1068,8 @@ MonoBehaviour:
   buttonUp: {fileID: 2007215728}
   buttonDown: {fileID: 899438832}
   defaultButton: {fileID: 2007215728}
-  normalColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
-  highlightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &424034902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +2009,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2057,7 +2057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2097,8 +2097,8 @@ MonoBehaviour:
   buttonUp: {fileID: 417787818}
   buttonDown: {fileID: 2007215728}
   defaultButton: {fileID: 2007215728}
-  normalColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
-  highlightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &902376838
 GameObject:
   m_ObjectHideFlags: 0
@@ -4565,7 +4565,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -4613,7 +4613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4653,8 +4653,8 @@ MonoBehaviour:
   buttonUp: {fileID: 899438832}
   buttonDown: {fileID: 417787818}
   defaultButton: {fileID: 2007215728}
-  normalColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
-  highlightColor: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &2017846405
 GameObject:
   m_ObjectHideFlags: 0

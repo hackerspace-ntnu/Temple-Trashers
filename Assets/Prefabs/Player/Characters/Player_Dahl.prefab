@@ -1461,6 +1461,8 @@ MonoBehaviour:
   anim: {fileID: 6367115686714045310}
   heldItemBone: {fileID: 7197418879628508991}
   enemyViewFocus: {fileID: 3115779887983679145}
+  outlineMaterial: {fileID: 2100000, guid: e91d2ffa7d8cc7c4f8e7eea610751188, type: 2}
+  toggleMaterial: {fileID: 2327685517829295026}
 --- !u!114 &4071846026879171961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2416,6 +2418,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: b7907ca54009e944ea8aa6663a840d36, type: 2}
+  - {fileID: 2100000, guid: e91d2ffa7d8cc7c4f8e7eea610751188, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

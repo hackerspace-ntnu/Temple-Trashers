@@ -27,9 +27,22 @@ partial class PlayerStateController
 
     #endregion D-pad
 
-    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
+    private void MoveInput_Performed(InputAction.CallbackContext ctx)
+    {
+        MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
+            ? ctx.ReadValue<Vector2>()
+            : Vector2.zero;
+    }
+
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
-    private void AimInput_Performed(InputAction.CallbackContext ctx) => AimInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
+
+    private void AimInput_Performed(InputAction.CallbackContext ctx)
+    {
+        AimInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
+            ? ctx.ReadValue<Vector2>()
+            : Vector2.zero;
+    }
+
     private void AimInput_Canceled(InputAction.CallbackContext ctx) => AimInput = Vector2.zero;
     private void InteractInput_Performed(InputAction.CallbackContext ctx) => OnInteract();
     private void CancelInput_Performed(InputAction.CallbackContext ctx) => Cancel = true;
@@ -78,15 +91,12 @@ partial class PlayerStateController
 
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
-
     // Called by `PlayerSpecificManager` after instantiating the player
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager, Color color)
     {
         input = newInput;
         manager = newManager;
-        uiInputController.setUIInputController(newInput);
-
-
+        uiInputController.SetUpInput(newInput);
 
         FocusedColor = color;
 

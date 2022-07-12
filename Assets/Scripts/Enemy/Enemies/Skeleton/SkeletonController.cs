@@ -42,7 +42,6 @@ public class SkeletonController : EnemyLight
     {
         // Set random walk animation
         anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 3));
-
     }
 
     void FixedUpdate()

@@ -10,8 +10,7 @@ public class EnemyWaveManager : MonoBehaviour
     [SerializeField]
     private TextAsset waveFile = default;
 
-    [Tooltip("In seconds.")]
-    [SerializeField]
+    [SerializeField, Tooltip("In seconds.")]
     private float durationBetweenEnemies = 3f;
 
     [SerializeField]

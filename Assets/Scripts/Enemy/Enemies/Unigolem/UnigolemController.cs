@@ -23,6 +23,7 @@ public class UnigolemController : EnemyLight
 
     private float lastSidewaysTilt = 0;
     private float sidewaysTiltSmoothing = 0.9f;
+
     protected override void Start()
     {
         base.Start();
@@ -52,11 +53,11 @@ public class UnigolemController : EnemyLight
         if (currentState == EnemyState.DEAD)
             return;
 
-        float angularSpeed = Vector3.Cross(lastForward, transform.forward).y / Time.deltaTime;
+        float angularSpeed = Vector3.Cross(lastForward, transform.forward).y / Time.fixedDeltaTime;
         lastForward = transform.forward;
 
         float sidewaysAngle = -tiltAngleSide * angularSpeed;
-        lastSidewaysTilt = lastSidewaysTilt * sidewaysTiltSmoothing + sidewaysAngle * (1 - sidewaysTiltSmoothing); 
+        lastSidewaysTilt = lastSidewaysTilt * sidewaysTiltSmoothing + sidewaysAngle * (1 - sidewaysTiltSmoothing);
         float speed = agent.velocity.magnitude / agent.speed;
         anim.SetFloat(speedAnimatorParam, speed);
         float forwardAngle = tiltAngleFront * speed;

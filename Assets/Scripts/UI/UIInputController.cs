@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class UIInputController : MonoBehaviour
 {
@@ -22,33 +23,47 @@ public class UIInputController : MonoBehaviour
 
         void Start()
     {
-        ListenersAdd();
         playerInput = GetComponent<PlayerInput>();
+        ListenersAdd();   
     }
 
 
     private void OnMove()
     {
-        if (PauseManager.Singleton.IsPaused)
+        if (SceneManager.GetActiveScene().name == "Main_Menu")
         {
-            if (MoveInput.magnitude > 0.1f)
+            DetermineDirection();
+        }
+        else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
+        {
+            DetermineDirection();
+        }
+    }
+
+    private void DetermineDirection()
+    {
+        if (MoveInput.magnitude > 0.1f)
+        {
+            if (MoveInput.y > 0)
             {
-                if (MoveInput.y > 0)
-                {
-                    ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
-                }
-                else
-                {
-                    ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
-                }
+                ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
+            }
+            else
+            {
+                ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
             }
         }
     }
 
     private void Select()
     {
-        if (PauseManager.Singleton.IsPaused) { 
-        ControllerButtonNavigator.currentButton.PressButton();
+        if (SceneManager.GetActiveScene().name == "Main_Menu")
+        {
+            ControllerButtonNavigator.currentButton.PressButton();
+        }
+        else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver) 
+        { 
+            ControllerButtonNavigator.currentButton.PressButton();
         }
     }
 

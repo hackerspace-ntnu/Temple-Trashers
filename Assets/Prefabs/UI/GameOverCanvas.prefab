@@ -1720,6 +1720,7 @@ GameObject:
   - component: {fileID: 7344749675072495166}
   - component: {fileID: 7344749675072495165}
   - component: {fileID: 7344749675072495164}
+  - component: {fileID: 5047435676398250102}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1840,6 +1841,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5047435676398250102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7344749675072495154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b58244e9d88c084c8c2d769cf23fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonUp: {fileID: 5047435676398250102}
+  buttonDown: {fileID: 8415195858791496192}
+  defaultButton: {fileID: 5047435676398250102}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &7344749675497066198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,6 +1870,7 @@ GameObject:
   - component: {fileID: 7344749675497066194}
   - component: {fileID: 7344749675497066193}
   - component: {fileID: 7344749675497066192}
+  - component: {fileID: 8415195858791496192}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -1972,6 +1991,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8415195858791496192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7344749675497066198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b58244e9d88c084c8c2d769cf23fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonUp: {fileID: 5047435676398250102}
+  buttonDown: {fileID: 8415195858791496192}
+  defaultButton: {fileID: 5047435676398250102}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &7344749675737859047
 GameObject:
   m_ObjectHideFlags: 0

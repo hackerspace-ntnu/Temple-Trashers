@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class UIWheel : MonoBehaviour
 {
-
     [SerializeField]
     private TowerScriptableObject[] towers = default;
 
@@ -51,16 +51,17 @@ public class UIWheel : MonoBehaviour
     void Awake()
     {
         //Calculate what share of degress from the wheel each icon should have
-        iconDegree = 360/towers.Length;
+        iconDegree = 360f / towers.Length;
 
         //Create and store icon objects. 
         for (int i = 0; i < towers.Length; i++)
         {
             GameObject icon = Instantiate(iconWrapper, iconOffset.position, transform.rotation, transform);
             icon.GetComponent<SpriteRenderer>().sprite = towers[i].icon;
-            icon.transform.RotateAround(middleOrigin.position, Vector3.forward, -i*iconDegree);
+            icon.transform.RotateAround(middleOrigin.position, Vector3.forward, -i * iconDegree);
             iconWrappers.Add(icon);
         }
+
         gameObject.SetActive(false);
     }
 
@@ -78,6 +79,7 @@ public class UIWheel : MonoBehaviour
     {
         return towers[(int)SelectedSegmentIndex];
     }
+
     public TowerScriptableObject GetTower(int index)
     {
         return towers[index];
@@ -98,5 +100,4 @@ public class UIWheel : MonoBehaviour
             LeanTween.scale(iconWrappers[i], Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
         }
     }
-
 }

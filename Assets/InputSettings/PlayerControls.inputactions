@@ -421,6 +421,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Cancel_Menu",
+                    "type": "Button",
+                    "id": "feb7851d-a86e-4ac7-9c45-b84dd4523100",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -443,6 +451,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de0c889b-37a7-4bd0-9ed5-67c2355efc6c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Cancel_Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc1d4a7f-a2ed-4e9e-9471-bf8ab3cb4abb",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Cancel_Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

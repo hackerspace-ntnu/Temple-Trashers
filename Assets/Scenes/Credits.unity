@@ -762,7 +762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Thank you for playing
+  m_text: Thank you for playing!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f027972298acae14e978368df0ba88f4, type: 2}
   m_sharedMaterial: {fileID: -1103543631157091081, guid: f027972298acae14e978368df0ba88f4, type: 2}
@@ -1143,14 +1143,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "A game by Hackerspace NTNU\n\n\nProject leads\n\nThomas Jakob Gabrielsen\nFredrik
-    Lillemoen Eiding\nMagni Svergja\nSondre Husoy\n\n\nProgramming\n\nThomas Jakob
-    Gabrielsen\nFredrik Lillemoen Eiding\nAnders Hovden\nJesper Norsted\nSondre Husoy\n\n\n3D
-    modeling and VFX\n\nThomas Jakob Gabrielsen\nFredrik Lillemoen Eiding\nJesper
-    Norsted\nMagni Svergja\nIngvild Mjelva\nSondre Husoy\n\n\nConcept art & Textures\n\nMagni
-    Svergja\nIngvild Mjelva\nLivia Valenti\n\nBeta testers\n\nHanne Karine Loftesnes\nElias
+    Lillemoen Eiding\nMagni Svergja\nSondre Hus\xF8y\n\n\nProgramming\n\nThomas Jakob
+    Gabrielsen\nFredrik Lillemoen Eiding\nAnders Hovden\nJesper Norsted\nSondre Hus\xF8y\n\n\n3D
+    modelling and VFX\n\nThomas Jakob Gabrielsen\nFredrik Lillemoen Eiding\nJesper
+    Norsted\nMagni Svergja\nIngvild Mjelva\nSondre Hus\xF8y\n\n\nConcept art & Textures\n\nMagni
+    Svergja\nIngvild Mjelva\nLivia Valenti\n\n\nBeta testers\n\nHanne Karine Loftesnes\nElias
     Hoel Birketvedt\nConrad Aarstad \nNicolai Amador\nNatanael Yanai\n\n\nSpecial
-    thanks\n\nMembers of Hackerspace NTNU for their \"useful feedback\" and \"enlightening
-    advice\".\n\nIDI\n\nKID"
+    thanks\n\nMembers of Hackerspace NTNU for their\n\"useful feedback\" and \"enlightening
+    advice\"\n\nDepartment of Computer Science (IDI)\nat NTNU\n\nN\xE6ringslivsnettverket
+    KID"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}

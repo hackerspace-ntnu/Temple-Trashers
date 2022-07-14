@@ -9,6 +9,8 @@ public class UIInputController : MonoBehaviour
     private PlayerInput playerInput;
 
     private float snapshot;
+    [SerializeField]
+    private float buttonChangeDelay = 0.2f;
 
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
@@ -34,14 +36,11 @@ public class UIInputController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Main_Menu")
         {
-            Debug.Log("OnMove called in main_menu");
-            if (Time.fixedTime - snapshot > 0.2f)
+            if (Time.fixedTime - snapshot > buttonChangeDelay)
             {
                 snapshot = Time.fixedTime;
-
                 DetermineDirection();
             }
-            Debug.Log(ControllerButtonNavigator.currentButton);
         }
         else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
         {
@@ -78,12 +77,12 @@ public class UIInputController : MonoBehaviour
 
     public void ListenersAdd()
     {
-
+        if (playerInput) { 
         playerInput.actions["Move"].performed += MoveInput_Performed;
         playerInput.actions["Move"].performed += MoveInputer;
         playerInput.actions["Move"].canceled += MoveInput_Canceled;
         playerInput.actions["Interact"].performed += MoveInput_Interacted;
-
+        }
     }
 
     public void ListenersRemove()

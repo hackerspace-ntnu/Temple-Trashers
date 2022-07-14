@@ -47,7 +47,10 @@ The team uses Trello for our agile development process, which is available for p
 
 [magsve](https://github.com/magsve)
 
-
+---
+<p align="center">
+<img src="Assets/Textures/Menu/poster.png" alt="Main menu screen">
+</p>
 
 ---
 

@@ -21,6 +21,11 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     [SerializeField]
     private float damage = 10;
 
+    //Damage per zap.
+    [SerializeField]
+    [Range(1,16)]
+    private int maxTargets = 8;
+
     //Lightning VFX
     [SerializeField]
     private GameObject drainRay = default;
@@ -92,7 +97,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, lightningRadius, shockLayers);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.GetComponent<HealthLogic>())
+            if (hitCollider.GetComponent<HealthLogic>() && zapTargets.Count > maxTargets)
                 AddZap(hitCollider.transform, target);
         }
     }

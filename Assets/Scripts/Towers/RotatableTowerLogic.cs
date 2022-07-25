@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.VFX;
 
 public class RotatableTowerLogic : TowerLogic
 {
@@ -10,6 +10,9 @@ public class RotatableTowerLogic : TowerLogic
 
     [SerializeField]
     private GameObject directionalPointer = default;
+
+    [SerializeField]
+    private int rotationDelay = 200;
 
     private Quaternion initialRotation;
     private int lastTweenId = -1;
@@ -37,8 +40,8 @@ public class RotatableTowerLogic : TowerLogic
         Vector2 aim = turretInput.GetAimInput();
         if (aim.sqrMagnitude > 0.01f)
         {
-            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI; // - 90;
-            rotationAxis.rotation = Quaternion.Euler(0f, angle, 0f) * initialRotation;
+            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI;
+            rotationAxis.rotation = Quaternion.RotateTowards(rotationAxis.rotation, Quaternion.Euler(0f, angle, 0f)*initialRotation, Time.deltaTime*rotationDelay);
         }
     }
 
@@ -52,6 +55,7 @@ public class RotatableTowerLogic : TowerLogic
                 LeanTween.cancel(lastTweenId);
 
             lastTweenId = LeanTween.scale(directionalPointer, Vector3.one, 0.15f).setEaseInOutQuad().id;
+            directionalPointer.GetComponent<VisualEffect>().SetVector4("Color", player.FocusedColor);
         }
     }
 

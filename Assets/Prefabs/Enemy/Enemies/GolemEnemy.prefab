@@ -523,7 +523,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1ea9a33d423ef66498786eac3c271fb6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1121,8 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
+  health: 100
+  maxHealth: 100
 --- !u!195 &864269227
 NavMeshAgent:
   m_ObjectHideFlags: 0

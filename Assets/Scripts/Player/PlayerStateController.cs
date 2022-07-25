@@ -69,6 +69,7 @@ public partial class PlayerStateController : MonoBehaviour
 
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
+    private static readonly int borderScaleShaderProperty = Shader.PropertyToID("BorderScale");
 
     void Awake()
     {
@@ -94,7 +95,6 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
-        
 
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
@@ -387,12 +387,12 @@ public partial class PlayerStateController : MonoBehaviour
 
     private void ResetOutline()
     {
-        toggleMaterial.materials[1].SetFloat("BorderScale", 1.04f);
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 1.04f);
     }
 
     public void DisableOutline()
     {
-        toggleMaterial.materials[1].SetFloat("BorderScale",0.01f);
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 0.01f);
     }
 
     private IEnumerator SpawnEffectTimer()
@@ -401,5 +401,4 @@ public partial class PlayerStateController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         DisableOutline();
     }
-
 }

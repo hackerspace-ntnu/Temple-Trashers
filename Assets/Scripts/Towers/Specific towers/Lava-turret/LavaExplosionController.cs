@@ -39,11 +39,15 @@ public class LavaExplosionController : MonoBehaviour
                 knockBackForce * Mathf.Clamp(1 - dist / (2 * radius), 0.5f, 1f)
             );
         }
-        var baseTransform = BaseController.Singleton.transform;
 
-        if (transform.position.DistanceLessThan(radius, baseTransform.position))
-            baseTransform.GetComponent<HealthLogic>()?.OnReceiveDamage(this, damage, Vector3.up, knockBackForce);
+        if(BaseController.Singleton != null)
+        {
+            var baseTransform = BaseController.Singleton.transform;
 
+            if (transform.position.DistanceLessThan(radius, baseTransform.position))
+                baseTransform.GetComponent<HealthLogic>()?.OnReceiveDamage(this, damage, Vector3.up, knockBackForce);
+        }
+        
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
     }

@@ -67,6 +67,8 @@ public class BaseController : MonoBehaviour
 
     private Animator anim;
 
+    public bool isGameOver = false;
+
     // The gamemanager object that organizes enemies and player spawning
     private EndlessMode gameManager;
 
@@ -101,6 +103,8 @@ public class BaseController : MonoBehaviour
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
+
+        isGameOver = false;
     }
 
     void Start()
@@ -281,6 +285,9 @@ public class BaseController : MonoBehaviour
 
         // Add particle system
         Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);
+
+        //Mark state as Game over
+        isGameOver = true;
 
         // Clean up
         Destroy(gameObject);

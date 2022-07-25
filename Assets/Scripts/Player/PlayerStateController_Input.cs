@@ -16,6 +16,8 @@ partial class PlayerStateController
     public bool Cancel { get; private set; } = false;
     public bool Select { get; private set; } = false;
 
+    private UIInputController uiInputController;
+
     #region D-pad
 
     public bool DLeft { get; private set; } = false;
@@ -76,12 +78,13 @@ partial class PlayerStateController
 
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
+
     // Called by `PlayerSpecificManager` after instantiating the player
     public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager, Color color)
     {
         input = newInput;
         manager = newManager;
-
+        uiInputController.setUIInputController(newInput);
 
 
 

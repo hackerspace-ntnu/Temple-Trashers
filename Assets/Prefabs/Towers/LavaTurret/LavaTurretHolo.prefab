@@ -530,6 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   _towerScriptableObject: {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
+  rotationAxis: {fileID: 1757505722665910316}
   towerPrefab: {fileID: 8041440857710938632, guid: 85958d1124dc0cf43ac31a81a1755d3c, type: 3}
   normalMaterial: {fileID: 2100000, guid: 59d031ebc8c2ac646a62fa1061db29af, type: 2}
   errorMaterial: {fileID: 2100000, guid: 8cee3c2bf4294d14788acacbbcb6cd03, type: 2}

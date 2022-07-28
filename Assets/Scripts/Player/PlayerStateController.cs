@@ -144,7 +144,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.BUILDING:
                 UpdateFocusedInteractable();
                 motion.Move();
-                UpdateConstructionTowerTargetCell();
+                UpdateConstructionTower();
                 if (Cancel)
                 {
                     SellTower();
@@ -158,14 +158,17 @@ public partial class PlayerStateController : MonoBehaviour
         }
     }
 
-    private void UpdateConstructionTowerTargetCell()
+    private void UpdateConstructionTower()
     {
+        TurretPrefabConstruction turretConstruction = focusedInteractable.GetComponent<TurretPrefabConstruction>();
+
         HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
         if (newTargetCell != targetCell)
         {
             targetCell = newTargetCell;
-            focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+            turretConstruction.FocusCell(targetCell);
         }
+        turretConstruction.RotateFacing(transform.forward);
     }
 
     void OnTriggerEnter(Collider other)
@@ -257,7 +260,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (CurrentState == PlayerStates.BUILDING && targetCell.CanPlaceTowerOnCell)
         {
             // Build the turret we are holding
-            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
+            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell, transform.forward);
             messageUI.DisplayMessage($"-{focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost}", MessageTextColor.RED);
             Drop(focusedInteractable.gameObject);
             RemoveInteractable(focusedInteractable);
@@ -381,7 +384,7 @@ public partial class PlayerStateController : MonoBehaviour
         AddInteractable(turret);
         heldInteractable = turret;
         SetFocusedInteractable(turret);
-        UpdateConstructionTowerTargetCell();
+        UpdateConstructionTower();
     }
 
     private void ResetOutline()

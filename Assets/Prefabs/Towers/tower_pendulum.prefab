@@ -50,9 +50,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInteract: 1
   _towerScriptableObject: {fileID: 0}
+  rotationAxis: {fileID: 5529524980676544149}
   turretInput: {fileID: 0}
   tutorialText: {fileID: 0}
-  rotationAxis: {fileID: 5529524980676544149}
   directionalPointer: {fileID: 4654737029441173943}
 --- !u!114 &2175461025215403135
 MonoBehaviour:

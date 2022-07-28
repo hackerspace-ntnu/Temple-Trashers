@@ -19,15 +19,21 @@ public class TurretPrefabConstruction : AbstractTower
 
     private Renderer[] renderers = default;
 
-    void Awake()
+    new void Awake()
     {
+        base.Awake();
+
         renderers = GetComponentsInChildren<Renderer>();
     }
 
-    public void Construct(HexCell targetCell)
+    public void Construct(HexCell targetCell, Vector3 facingDir)
     {
         GameObject tower = Instantiate(towerPrefab, targetCell.transform.position, towerPrefab.transform.rotation, targetCell.transform);
         targetCell.OccupyingObject = tower;
+
+        TowerLogic towerLogic = tower.GetComponent<TowerLogic>();
+        towerLogic.RotateFacing(facingDir);
+
         Destroy(gameObject);
     }
 

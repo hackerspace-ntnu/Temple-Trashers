@@ -13,8 +13,10 @@ public class TowerLogic : AbstractTower
 
     private RepairAnimationController repairAnimationController;
 
-    protected void Awake()
+    new void Awake()
     {
+        base.Awake();
+
         repairAnimationController = GetComponent<RepairAnimationController>();
     }
 

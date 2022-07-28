@@ -367,10 +367,10 @@ public class HexGrid : MonoBehaviour
                 continue;
 
             GameObject sceneryObject = cells[i].InstantiatePrefabOnCell(nameToGameObject[hexCellData.occupier]);
-            if (sceneryObject.GetComponent<RotatableTowerLogic>() is RotatableTowerLogic rotatableTowerLogic)
+            if (sceneryObject.GetComponent<TowerLogic>() is TowerLogic towerLogic)
             {
-                Quaternion rotation = rotatableTowerLogic.RotationAxis.rotation;
-                rotatableTowerLogic.RotationAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
+                Quaternion rotation = towerLogic.RotationAxis.rotation;
+                towerLogic.RotationAxis.rotation = rotation * Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);
             } else
             {
                 sceneryObject.transform.rotation = Quaternion.Euler(0f, hexCellData.occupierRotation, 0f);

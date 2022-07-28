@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TowerLogic : Interactable
+public class TowerLogic : AbstractTower
 {
-    [SerializeField]
-    private TowerScriptableObject _towerScriptableObject = default;
-
     [ReadOnly, SerializeField]
     protected TurretInput turretInput;
-
-    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 
     [SerializeField]
     private TutorialText tutorialText = default;

@@ -53,7 +53,4 @@ The team used Trello for our agile development process, and [our Trello board](h
 
 ---
 
-<img src="Assets/Textures/PlayerCharacters/Dahl/Sussy_Dahl.gif" alt="Sussy Dahl" width="20%">
-
-
 *[Development guide](Assets/README.md)*

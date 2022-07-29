@@ -34,9 +34,6 @@ public class UIWheel : MonoBehaviour
         get => _selectedSegmentIndex;
         set
         {
-            if (value == _selectedSegmentIndex)
-                return;
-
             _selectedSegmentIndex = value;
             if (_selectedSegmentIndex != null)
             {

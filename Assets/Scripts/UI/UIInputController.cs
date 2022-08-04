@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 
 public class UIInputController : MonoBehaviour
 {
-    [SerializeField]
-    private float buttonChangeDelay = 0.2f;
-
     private PlayerInput playerInput;
-
-    private float snapshot;
 
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
@@ -26,15 +20,6 @@ public class UIInputController : MonoBehaviour
 
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
     private void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
-
-     void Start()
-     {
-        if (SceneManager.GetActiveScene().name == "Main_Menu")
-        {
-            playerInput = GetComponent<PlayerInput>();
-            AddListeners();
-        }
-     }
 
     public void SetUpInput(PlayerInput playerInput)
     {
@@ -62,20 +47,13 @@ public class UIInputController : MonoBehaviour
         playerInput.actions["Interact"].performed -= InteractInput_Performed;
     }
 
-    private void OnMove()
+    protected virtual void OnMove()
     {
-        if (SceneManager.GetActiveScene().name == "Main_Menu")
-        {
-            if (Time.fixedTime - snapshot > buttonChangeDelay)
-            {
-                snapshot = Time.fixedTime;
-                DetermineDirection();
-            }
-        } else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
+        if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
             DetermineDirection();
     }
 
-    private void DetermineDirection()
+    protected void DetermineDirection()
     {
         if (MoveInput.magnitude <= 0.1f)
             return;
@@ -86,11 +64,9 @@ public class UIInputController : MonoBehaviour
             ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
     }
 
-    private void Select()
+    protected virtual void Select()
     {
-        if (SceneManager.GetActiveScene().name == "Main_Menu")
-            ControllerButtonNavigator.currentButton.PressButton();
-        else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
+        if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
             ControllerButtonNavigator.currentButton.PressButton();
     }
 }

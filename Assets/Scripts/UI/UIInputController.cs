@@ -15,7 +15,7 @@ public class UIInputController : MonoBehaviour
         MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
             ? ctx.ReadValue<Vector2>()
             : Vector2.zero;
-        OnMove();
+        Move();
     }
 
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
@@ -47,7 +47,7 @@ public class UIInputController : MonoBehaviour
         playerInput.actions["Interact"].performed -= InteractInput_Performed;
     }
 
-    protected virtual void OnMove()
+    protected virtual void Move()
     {
         if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
             DetermineDirection();

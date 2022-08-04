@@ -16,7 +16,7 @@ public class MainMenuInputController : UIInputController
         SetUpInput(GetComponent<PlayerInput>());
     }
 
-    protected override void OnMove()
+    protected override void Move()
     {
         if (Time.fixedTime - snapshot > buttonChangeDelay)
         {

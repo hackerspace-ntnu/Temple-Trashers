@@ -27,6 +27,14 @@ public class UIInputController : MonoBehaviour
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
     private void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
 
+     void Start()
+     {
+        if (SceneManager.GetActiveScene().name == "Main_Menu")
+        {
+            playerInput = GetComponent<PlayerInput>();
+            AddListeners();
+        }
+     }
 
     public void SetUpInput(PlayerInput playerInput)
     {

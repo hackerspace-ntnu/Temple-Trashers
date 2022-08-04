@@ -6,11 +6,6 @@ using UnityEngine.InputSystem;
 
 public class MainMenuInputController : UIInputController
 {
-    [SerializeField]
-    private float buttonChangeDelay = 0.2f;
-
-    private float snapshot;
-
     void Awake()
     {
         SetUpInput(GetComponent<PlayerInput>());
@@ -18,11 +13,7 @@ public class MainMenuInputController : UIInputController
 
     protected override void Move()
     {
-        if (Time.fixedTime - snapshot > buttonChangeDelay)
-        {
-            snapshot = Time.fixedTime;
-            DetermineDirection();
-        }
+        DetermineDirection();
     }
 
     protected override void Select()

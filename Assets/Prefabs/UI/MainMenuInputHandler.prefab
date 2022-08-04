@@ -74,4 +74,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0835d1bf43e328439a972fc4b133184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonChangeDelay: 0.2

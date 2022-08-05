@@ -224,6 +224,7 @@ MonoBehaviour:
   lightningRadius: 4
   collisionTargets: {fileID: 4024091668885285353}
   damage: 5
+  maxTargets: 8
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
   effectDuration: 0.35
   shockLayers:
@@ -708,7 +709,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7211280855749776597}
-  - component: {fileID: 7764072182270107089}
+  - component: {fileID: 1093080146702716901}
   - component: {fileID: -7945455886750344156}
   - component: {fileID: -9140866788019457868}
   - component: {fileID: 1378390819816396464}
@@ -738,7 +739,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7764072182270107089
+--- !u!114 &1093080146702716901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -747,15 +748,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7425059109847644991}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a624fc6506f6f45a6bfd0335d144e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
   _towerScriptableObject: {fileID: 11400000, guid: 2ec78001a1c2b2d4bbf643cf65b22984, type: 2}
-  turretInput: {fileID: 0}
-  tutorialText: {fileID: 7823104167414618001}
   rotationAxis: {fileID: 2395456624410596984}
   directionalPointer: {fileID: 5266758742339188749}
+  rotationDuration: 200
+  turretInput: {fileID: 0}
+  tutorialText: {fileID: 7823104167414618001}
 --- !u!114 &-7945455886750344156
 MonoBehaviour:
   m_ObjectHideFlags: 0

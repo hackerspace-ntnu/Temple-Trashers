@@ -746,7 +746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7265220401336946866}
-  - component: {fileID: 8236370605616967420}
+  - component: {fileID: 2983518772547509129}
   - component: {fileID: 8041440857710938634}
   - component: {fileID: 8041440857710938633}
   - component: {fileID: 8041440857710938628}
@@ -777,7 +777,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8236370605616967420
+--- !u!114 &2983518772547509129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -786,15 +786,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8041440857710938632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bdf2e92d29c3a4e8319c1f05e5334f, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a624fc6506f6f45a6bfd0335d144e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
   _towerScriptableObject: {fileID: 11400000, guid: 4ea73a26687bb8f4aa40154b07f90383, type: 2}
-  turretInput: {fileID: 0}
-  tutorialText: {fileID: 5898447049405178633}
   rotationAxis: {fileID: 1757505722665910316}
   directionalPointer: {fileID: 6599925453243458282}
+  rotationDuration: 200
+  turretInput: {fileID: 0}
+  tutorialText: {fileID: 5898447049405178633}
 --- !u!114 &8041440857710938634
 MonoBehaviour:
   m_ObjectHideFlags: 0

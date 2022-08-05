@@ -12,9 +12,15 @@ public class UIInputController : MonoBehaviour
 
     private void MoveInput_Performed(InputAction.CallbackContext ctx)
     {
-        MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
-            ? ctx.ReadValue<Vector2>()
-            : Vector2.zero;
+        Vector2 newMoveInput = ctx.ReadValue<Vector2>();
+        if (newMoveInput.magnitude <= 0.1f // acts as a joystick deadzone
+            // Ensures that a joystick has to be either reset to neutral position or moved from a southward to a northward direction (or vice versa),
+            // before a button press is handled below
+            // (this logic only works for vertical menus - with buttons placed on top of each other)
+            || MathUtils.StrictSign(newMoveInput.y) == MathUtils.StrictSign(MoveInput.y))
+            return;
+
+        MoveInput = newMoveInput;
         Move();
     }
 

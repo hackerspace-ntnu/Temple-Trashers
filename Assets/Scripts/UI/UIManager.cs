@@ -90,7 +90,10 @@ public class UIManager : MonoBehaviour
 
     void OnDestroy()
     {
-        baseController.HealthController.onDamage -= UpdateBaseHealth;
+        if (baseController)
+        {
+            baseController.HealthController.onDamage -= UpdateBaseHealth;
+        }
     }
 
     public void UpdateResourceUI()

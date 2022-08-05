@@ -66,7 +66,7 @@ public class UIInputController : MonoBehaviour
 
         if (MoveInput.y > 0)
             ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
-        else
+        else if (MoveInput.y < 0f)
             ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
     }
 

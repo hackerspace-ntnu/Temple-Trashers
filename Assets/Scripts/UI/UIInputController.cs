@@ -2,95 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
+
 
 public class UIInputController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
-    private float snapshot;
-    [SerializeField]
-    private float buttonChangeDelay = 0.2f;
-
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
-    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f ? ctx.ReadValue<Vector2>() : Vector2.zero;
+    private void MoveInput_Performed(InputAction.CallbackContext ctx)
+    {
+        Vector2 newMoveInput = ctx.ReadValue<Vector2>();
+        if (newMoveInput.magnitude <= 0.1f // acts as a joystick deadzone
+            // Ensures that a joystick has to be either reset to neutral position or moved from a southward to a northward direction (or vice versa),
+            // before a button press is handled below
+            // (this logic only works for vertical menus - with buttons placed on top of each other)
+            || MathUtils.StrictSign(newMoveInput.y) == MathUtils.StrictSign(MoveInput.y))
+            return;
+
+        MoveInput = newMoveInput;
+        Move();
+    }
+
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
-    private void MoveInputer(InputAction.CallbackContext ctx) => OnMove();
-    private void MoveInput_Interacted(InputAction.CallbackContext ctx) => Select();
+    private void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
 
-
-    public void setUIInputController(PlayerInput playerInput) 
+    public void SetUpInput(PlayerInput playerInput)
     {
         this.playerInput = playerInput;
+        AddListeners();
     }
 
-        void Start()
+    void OnDestroy()
     {
-        playerInput = GetComponent<PlayerInput>();
-        ListenersAdd();   
+        if (playerInput)
+            RemoveListeners();
     }
 
-
-    private void OnMove()
+    private void AddListeners()
     {
-        if (SceneManager.GetActiveScene().name == "Main_Menu")
-        {
-            if (Time.fixedTime - snapshot > buttonChangeDelay)
-            {
-                snapshot = Time.fixedTime;
-                DetermineDirection();
-            }
-        }
-        else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
-        {
-            DetermineDirection();
-        }
-    }
-
-    private void DetermineDirection()
-    {
-        if (MoveInput.magnitude > 0.1f)
-        {
-            if (MoveInput.y > 0)
-            {
-                ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
-            }
-            else
-            {
-                ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
-            }
-        }
-    }
-
-    private void Select()
-    {
-        if (SceneManager.GetActiveScene().name == "Main_Menu")
-        {
-            ControllerButtonNavigator.currentButton.PressButton();
-        }
-        else if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver) 
-        { 
-            ControllerButtonNavigator.currentButton.PressButton();
-        }
-    }
-
-    public void ListenersAdd()
-    {
-        if (playerInput) { 
         playerInput.actions["Move"].performed += MoveInput_Performed;
-        playerInput.actions["Move"].performed += MoveInputer;
         playerInput.actions["Move"].canceled += MoveInput_Canceled;
-        playerInput.actions["Interact"].performed += MoveInput_Interacted;
-        }
+        playerInput.actions["Interact"].performed += InteractInput_Performed;
     }
 
-    public void ListenersRemove()
+    private void RemoveListeners()
     {
-        playerInput.actions["Move"].performed -= MoveInputer;
         playerInput.actions["Move"].performed -= MoveInput_Performed;
-        playerInput.actions["Move"].performed -= MoveInput_Canceled;
-        playerInput.actions["Interact"].performed -= MoveInput_Interacted;
+        playerInput.actions["Move"].canceled -= MoveInput_Canceled;
+        playerInput.actions["Interact"].performed -= InteractInput_Performed;
     }
 
+    protected virtual void Move()
+    {
+        if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
+            ChangeSelectedButton();
+    }
+
+    protected void ChangeSelectedButton()
+    {
+        if (MoveInput.y > 0f)
+            ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
+        else if (MoveInput.y < 0f)
+            ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();
+    }
+
+    protected virtual void Select()
+    {
+        if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
+            ControllerButtonNavigator.currentButton.PressButton();
+    }
 }

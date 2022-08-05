@@ -8,11 +8,11 @@ public class MenuInputController : MonoBehaviour
 {
     public delegate void MouseClickEvent(Vector2 pos);
 
-    public static MouseClickEvent OnClick;
+    public static MouseClickEvent onClick;
     private Vector2 mousePos;
     private PlayerInput input;
 
-    private void MouseClick_Performed(InputAction.CallbackContext ctx) => OnClick(mousePos);
+    private void MouseClick_Performed(InputAction.CallbackContext ctx) => onClick(mousePos);
     private void MouseMove_Performed(InputAction.CallbackContext ctx) => mousePos = ctx.ReadValue<Vector2>();
 
     void Awake()

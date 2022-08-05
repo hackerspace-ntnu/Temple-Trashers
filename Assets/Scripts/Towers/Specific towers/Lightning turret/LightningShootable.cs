@@ -22,8 +22,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
     private float damage = 10;
 
     //Damage per zap.
-    [SerializeField]
-    [Range(1,16)]
+    [SerializeField, Range(1, 16)]
     private int maxTargets = 8;
 
     //Lightning VFX

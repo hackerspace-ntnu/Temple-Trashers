@@ -1,29 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 
 public class ControllerButtonNavigator : MonoBehaviour
 {
-
     public static ControllerButtonNavigator currentButton;
     public ControllerButtonNavigator buttonUp;
     public ControllerButtonNavigator buttonDown;
     public ControllerButtonNavigator defaultButton;
+
     [SerializeField]
     private Color normalColor;
+
     [SerializeField]
     private Color highlightColor;
 
-    private void Start()
+    void Start()
     {
         if (!currentButton)
         {
             currentButton = defaultButton;
             currentButton.GetComponent<Image>().color = highlightColor;
         }
-
     }
 
     public void SetCurrentButton()
@@ -39,5 +39,4 @@ public class ControllerButtonNavigator : MonoBehaviour
     {
         GetComponent<Button>().onClick.Invoke();
     }
-
 }

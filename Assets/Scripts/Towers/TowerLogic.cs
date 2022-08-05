@@ -13,17 +13,17 @@ public class TowerLogic : Interactable
 
     public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
 
-    private RepairAnimationController repairAnimationController;
-
     [SerializeField]
     private TutorialText tutorialText = default;
 
-    void Awake()
+    private RepairAnimationController repairAnimationController;
+
+    protected void Awake()
     {
         repairAnimationController = GetComponent<RepairAnimationController>();
     }
 
-    protected void Start()
+    void Start()
     {
         Vector3 cellPos = HexGrid.Singleton.GetCell(transform.position).transform.position;
         transform.position = cellPos;

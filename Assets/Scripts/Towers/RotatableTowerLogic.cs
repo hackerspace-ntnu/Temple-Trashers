@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
+
 public class RotatableTowerLogic : TowerLogic
 {
-    [SerializeField]
+    [SerializeField, Tooltip("This object should be rotated so that it's facing the direction of the red (X) axis.")]
     private Transform rotationAxis = default;
 
     [SerializeField]
@@ -19,9 +20,9 @@ public class RotatableTowerLogic : TowerLogic
 
     public Transform RotationAxis => rotationAxis;
 
-    protected new void Start()
+    protected new void Awake()
     {
-        base.Start();
+        base.Awake();
 
         initialRotation = rotationAxis.rotation;
     }
@@ -40,8 +41,9 @@ public class RotatableTowerLogic : TowerLogic
         Vector2 aim = turretInput.GetAimInput();
         if (aim.sqrMagnitude > 0.01f)
         {
-            float angle = -Mathf.Atan2(aim.y, aim.x) * 180f / Mathf.PI;
-            rotationAxis.rotation = Quaternion.RotateTowards(rotationAxis.rotation, Quaternion.Euler(0f, angle, 0f)*initialRotation, Time.deltaTime*rotationDelay);
+            // Assumes that the initial rotation has been set so that it faces the direction of the red (X) axis (aka. `right`)
+            Quaternion fromToRotation = Quaternion.FromToRotation(Vector3.right, new Vector3(aim.x, 0f, aim.y));
+            rotationAxis.rotation = Quaternion.RotateTowards(rotationAxis.rotation, fromToRotation * initialRotation, Time.fixedDeltaTime * rotationDelay);
         }
     }
 
@@ -51,10 +53,7 @@ public class RotatableTowerLogic : TowerLogic
 
         if (directionalPointer)
         {
-            if (lastTweenId != -1)
-                LeanTween.cancel(lastTweenId);
-
-            lastTweenId = LeanTween.scale(directionalPointer, Vector3.one, 0.15f).setEaseInOutQuad().id;
+            ScaleDirectionalPointer(Vector3.one);
             directionalPointer.GetComponent<VisualEffect>().SetVector4("Color", player.FocusedColor);
         }
     }
@@ -64,13 +63,14 @@ public class RotatableTowerLogic : TowerLogic
         base.Unfocus(player);
 
         if (directionalPointer)
-        {
-            if (lastTweenId != -1)
-            {
-                LeanTween.cancel(lastTweenId);
-            }
+            ScaleDirectionalPointer(Vector3.zero);
+    }
 
-            lastTweenId = LeanTween.scale(directionalPointer, Vector3.zero, 0.15f).setEaseInOutQuad().id;
-        }
+    private void ScaleDirectionalPointer(Vector3 toScale)
+    {
+        if (lastTweenId != -1)
+            LeanTween.cancel(lastTweenId);
+
+        lastTweenId = LeanTween.scale(directionalPointer, toScale, 0.15f).setEaseInOutQuad().id;
     }
 }

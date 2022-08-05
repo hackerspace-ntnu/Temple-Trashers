@@ -53,7 +53,7 @@ public class PlayerMotion : MonoBehaviour
             scaledMoveInput.y * playerSpeed - currentSpeed.z
         ).normalized;
 
-        Vector3 force = speedDifference * playerAcceleration * scaledMoveInput.magnitude * Time.fixedDeltaTime;
+        Vector3 force = playerAcceleration * scaledMoveInput.magnitude * Time.fixedDeltaTime * speedDifference;
         body.AddForce(force, ForceMode.VelocityChange);
 
         anim.SetFloat(speedAnimatorParam, body.velocity.sqrMagnitude / Mathf.Pow(playerSpeed, 2));

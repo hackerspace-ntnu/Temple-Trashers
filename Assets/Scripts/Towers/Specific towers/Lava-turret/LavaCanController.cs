@@ -43,7 +43,7 @@ public class LavaCanController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        if (instantiatedExplosion != null)
+        if (instantiatedExplosion)
         {
             instantiatedExplosion.transform.position = input;
             instantiatedExplosion.SetActive(true);

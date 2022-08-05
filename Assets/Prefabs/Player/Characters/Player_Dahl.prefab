@@ -1463,7 +1463,6 @@ MonoBehaviour:
   heldItemBone: {fileID: 7197418879628508991}
   enemyViewFocus: {fileID: 3115779887983679145}
   toggleMaterial: {fileID: 2327685517829295026}
-  uiInputController: {fileID: 8307878755883973337, guid: f148a403f5706984996613b84ae42317, type: 3}
 --- !u!114 &4071846026879171961
 MonoBehaviour:
   m_ObjectHideFlags: 0

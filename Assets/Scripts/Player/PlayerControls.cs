@@ -434,6 +434,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cancel_Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""feb7851d-a86e-4ac7-9c45-b84dd4523100"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -456,6 +464,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de0c889b-37a7-4bd0-9ed5-67c2355efc6c"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Cancel_Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc1d4a7f-a2ed-4e9e-9471-bf8ab3cb4abb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Cancel_Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -510,6 +540,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
         m_Menu_MouseClick = m_Menu.FindAction("MouseClick", throwIfNotFound: true);
+        m_Menu_Cancel_Menu = m_Menu.FindAction("Cancel_Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -682,12 +713,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IMenuActions m_MenuActionsCallbackInterface;
     private readonly InputAction m_Menu_MouseMove;
     private readonly InputAction m_Menu_MouseClick;
+    private readonly InputAction m_Menu_Cancel_Menu;
     public struct MenuActions
     {
         private @PlayerControls m_Wrapper;
         public MenuActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseMove => m_Wrapper.m_Menu_MouseMove;
         public InputAction @MouseClick => m_Wrapper.m_Menu_MouseClick;
+        public InputAction @Cancel_Menu => m_Wrapper.m_Menu_Cancel_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -703,6 +736,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MouseClick.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
                 @MouseClick.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
                 @MouseClick.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMouseClick;
+                @Cancel_Menu.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel_Menu;
+                @Cancel_Menu.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel_Menu;
+                @Cancel_Menu.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnCancel_Menu;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
@@ -713,6 +749,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MouseClick.started += instance.OnMouseClick;
                 @MouseClick.performed += instance.OnMouseClick;
                 @MouseClick.canceled += instance.OnMouseClick;
+                @Cancel_Menu.started += instance.OnCancel_Menu;
+                @Cancel_Menu.performed += instance.OnCancel_Menu;
+                @Cancel_Menu.canceled += instance.OnCancel_Menu;
             }
         }
     }
@@ -754,5 +793,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnMouseMove(InputAction.CallbackContext context);
         void OnMouseClick(InputAction.CallbackContext context);
+        void OnCancel_Menu(InputAction.CallbackContext context);
     }
 }

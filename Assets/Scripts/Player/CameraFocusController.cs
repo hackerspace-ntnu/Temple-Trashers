@@ -66,10 +66,10 @@ public class CameraFocusController : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, boundingBoxCenter(), smoothing * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, BoundingBoxCenter(), smoothing * Time.deltaTime);
     }
 
-    private Vector3 boundingBoxCenter()
+    private Vector3 BoundingBoxCenter()
     {
         //Makes a "Bounding box"
         float xMin = focusObjects.Min(x => x.position.x);

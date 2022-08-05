@@ -31,23 +31,23 @@ public class LavaExplosionController : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, mask);
         foreach (var hit in hits)
         {
-            var dist = (hit.transform.position - transform.position).magnitude;
+            float dist = (hit.transform.position - transform.position).magnitude;
             hit.GetComponent<HealthLogic>()?.OnReceiveDamage(
                 this,
-                damage, 
-                (hit.transform.position + Vector3.up/2f - transform.position).normalized, 
+                damage,
+                (hit.transform.position + Vector3.up / 2f - transform.position).normalized,
                 knockBackForce * Mathf.Clamp(1 - dist / (2 * radius), 0.5f, 1f)
             );
         }
 
-        if(BaseController.Singleton != null)
+        if (BaseController.Singleton)
         {
-            var baseTransform = BaseController.Singleton.transform;
+            Transform baseTransform = BaseController.Singleton.transform;
 
             if (transform.position.DistanceLessThan(radius, baseTransform.position))
                 baseTransform.GetComponent<HealthLogic>()?.OnReceiveDamage(this, damage, Vector3.up, knockBackForce);
         }
-        
+
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
     }

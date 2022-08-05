@@ -199,7 +199,7 @@ public class GolemController : Enemy
     {
         Vector3 diff = target - transform.position;
 
-        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * 180 / Mathf.PI - transform.rotation.eulerAngles.y, 360);
+        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y, 360);
 
         if (angle < 15f || angle > 345f)
         {

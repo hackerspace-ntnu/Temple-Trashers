@@ -1638,7 +1638,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719700428}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 444.75, y: 250, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3734,10 +3734,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1871952688}
+  - component: {fileID: 1871952689}
   - component: {fileID: 1871952687}
   - component: {fileID: 1871952686}
   - component: {fileID: 1871952685}
-  - component: {fileID: 1871952689}
   m_Layer: 5
   m_Name: LeaderboardUI
   m_TagString: Untagged
@@ -5591,10 +5591,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7726891426493628471}
+  - component: {fileID: 7726891426493628493}
   - component: {fileID: 7726891426493628488}
   - component: {fileID: 7726891426493628489}
   - component: {fileID: 7726891426493628492}
-  - component: {fileID: 7726891426493628493}
   m_Layer: 5
   m_Name: MenuUI
   m_TagString: Untagged

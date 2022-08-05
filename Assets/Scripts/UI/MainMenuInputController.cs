@@ -13,7 +13,7 @@ public class MainMenuInputController : UIInputController
 
     protected override void Move()
     {
-        DetermineDirection();
+        ChangeSelectedButton();
     }
 
     protected override void Select()

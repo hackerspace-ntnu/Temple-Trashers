@@ -56,15 +56,12 @@ public class UIInputController : MonoBehaviour
     protected virtual void Move()
     {
         if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
-            DetermineDirection();
+            ChangeSelectedButton();
     }
 
-    protected void DetermineDirection()
+    protected void ChangeSelectedButton()
     {
-        if (MoveInput.magnitude <= 0.1f)
-            return;
-
-        if (MoveInput.y > 0)
+        if (MoveInput.y > 0f)
             ControllerButtonNavigator.currentButton.buttonUp.SetCurrentButton();
         else if (MoveInput.y < 0f)
             ControllerButtonNavigator.currentButton.buttonDown.SetCurrentButton();

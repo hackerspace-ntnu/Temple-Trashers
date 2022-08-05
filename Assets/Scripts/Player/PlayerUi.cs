@@ -83,12 +83,8 @@ public class PlayerUi : MonoBehaviour
         if (playerStateController.AimInput == Vector2.zero)
             return;
 
-        float inputAngle = 180f * Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) / Mathf.PI;
-        if (inputAngle < 0f)
-            inputAngle += 360f;
-
+        float inputAngle = Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) * Mathf.Rad2Deg;
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
-
         //Update inputAngle to take into account that the origin of the icon is the middle and not the start of a segment
         inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentAreaDegrees / 2f);
 

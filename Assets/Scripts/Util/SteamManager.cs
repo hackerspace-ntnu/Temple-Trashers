@@ -82,5 +82,10 @@ public class SteamManager : MonoBehaviour
         }
         
     }
+
+    public void resetAchievementProgress()
+    {
+        golemsDestroyed = 0;
+    }
     
 }

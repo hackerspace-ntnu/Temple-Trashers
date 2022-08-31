@@ -27,6 +27,7 @@ public class GameOverScreen : MonoBehaviour
         {
             SteamManager.Singleton.setAchievement("ACH_SPEEDRUN");
         }
+        SteamManager.Singleton.resetAchievementProgress();
     }
 
     public void Restart()

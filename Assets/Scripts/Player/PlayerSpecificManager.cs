@@ -39,6 +39,7 @@ public class PlayerSpecificManager : MonoBehaviour
         // Spawn at a random position around the base
         spawnPoint += new Vector3(Random.Range(-5, 5), 1, Random.Range(-5, 5));
 
+        if (playerIndex > 2){ SteamManager.Singleton.setAchievement("ACH_CROWD"); }
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this, playerColor);

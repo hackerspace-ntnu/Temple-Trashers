@@ -23,6 +23,10 @@ public class GameOverScreen : MonoBehaviour
     {
         scoreText.text = UIManager.Singleton.Score.ToString();
         PauseManager.Singleton.gameObject.SetActive(false);
+        if (Time.timeSinceLevelLoad < 30f)
+        {
+            SteamManager.Singleton.setAchievement("ACH_SPEEDRUN");
+        }
     }
 
     public void Restart()

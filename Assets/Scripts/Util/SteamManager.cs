@@ -42,7 +42,7 @@ public class SteamManager : MonoBehaviour
 
     void Update()
     {
-        //Used for syncronizing steam with the game (Must be called every update acroding to documentation)
+        //Used for syncronizing steam with the game (Must be called every update according to documentation)
         Steamworks.SteamClient.RunCallbacks();
     }
 

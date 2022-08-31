@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Steamworks;
 
 /// <summary>
 /// Contains button functionality for the Game Over screen UI Canvas
@@ -39,8 +39,12 @@ public class GameOverScreen : MonoBehaviour
     {
         if (nameInput.text == "")
         {
-            errorMsg.enabled = true;
-            return;
+            if (!SteamClient.IsValid)
+            {
+                errorMsg.enabled = true;
+                return;
+            }
+                LeaderboardData.AddScore(UIManager.Singleton.Score, SteamManager.Singleton.getPlayerName());
         }
 
         // Update leaderboard

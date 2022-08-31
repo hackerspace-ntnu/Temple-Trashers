@@ -63,6 +63,8 @@ public class SteamManager : MonoBehaviour
 
     public void setAchievement(string name)
     {
+        if (!SteamClient.IsValid){return;}
+
         switch (name){
             case "ACH_SLAPPED_GOLEM":
                 golemsDestroyed++;

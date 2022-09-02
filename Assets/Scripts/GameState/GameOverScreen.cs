@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Steamworks;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Contains button functionality for the Game Over screen UI Canvas
@@ -49,7 +50,8 @@ public class GameOverScreen : MonoBehaviour
                 errorMsg.enabled = true;
                 return;
             }
-                LeaderboardData.AddScore(UIManager.Singleton.Score, SteamManager.Singleton.getPlayerName());
+            Task.Run(() => SteamManager.Singleton.addScore(UIManager.Singleton.Score));
+
         }
 
         // Update leaderboard

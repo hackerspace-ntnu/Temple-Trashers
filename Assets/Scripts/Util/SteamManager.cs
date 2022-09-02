@@ -2,6 +2,8 @@
 using Steamworks.Data;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class SteamManager : MonoBehaviour
@@ -11,6 +13,7 @@ public class SteamManager : MonoBehaviour
     private float playerSteamId = 0;
     //Round based achievement tracking
     private int golemsDestroyed = 0;
+    //Global leaderboard
 
     void Awake()
     {
@@ -86,6 +89,31 @@ public class SteamManager : MonoBehaviour
     public void resetAchievementProgress()
     {
         golemsDestroyed = 0;
+    }
+
+    public async Task getLeaderboard(List<Transform> tileParent)
+    {
+        var leaderboard = await SteamUserStats.FindLeaderboardAsync("Scoreboard");
+        if (leaderboard.HasValue)
+        {
+            var globalScores = await leaderboard.Value.GetScoresAsync(tileParent.Count);
+
+            for (int i = 0; i < tileParent.Count; i++)
+            {
+                tileParent[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = globalScores[i].User.Name;
+                tileParent[i].GetChild(1).GetComponent<TextMeshProUGUI>().text = globalScores[i].Score.ToString();
+            }
+        }
+    }
+
+    public async Task addScore(int score)
+    {
+        var leaderboardGlobal = await SteamUserStats.FindLeaderboardAsync("Scoreboard");
+        if (leaderboardGlobal.HasValue)
+        {
+            await leaderboardGlobal.Value.SubmitScoreAsync(score);
+        }
+            
     }
     
 }

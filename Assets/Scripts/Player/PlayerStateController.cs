@@ -400,7 +400,14 @@ public partial class PlayerStateController : MonoBehaviour
     private IEnumerator SpawnEffectTimer()
     {
         ResetOutline();
+        float maxHealthPrev = health.maxHealth;
+        //Set health to an arbitrarly high amount
+        health.maxHealth = 10000;
+        health.health= 10000;
         yield return new WaitForSeconds(3f);
+        //Reset health
+        health.maxHealth = maxHealthPrev;
+        health.health = maxHealthPrev;
         DisableOutline();
     }
 }

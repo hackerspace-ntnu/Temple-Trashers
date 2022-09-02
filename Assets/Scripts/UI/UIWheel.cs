@@ -39,6 +39,7 @@ public class UIWheel : MonoBehaviour
             {
                 int index = (int)_selectedSegmentIndex;
                 LeanTween.scale(iconWrappers[index], highlightedSpriteScale * Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+                iconWrappers[index].GetComponent<SpriteRenderer>().material.color = new Color(1,1,1,1);
             }
 
             NormalizeSegments();
@@ -55,6 +56,7 @@ public class UIWheel : MonoBehaviour
         {
             GameObject icon = Instantiate(iconWrapper, iconOffset.position, transform.rotation, transform);
             icon.GetComponent<SpriteRenderer>().sprite = towers[i].icon;
+            icon.GetComponent<SpriteRenderer>().material.color = new Color(1,1,1,0.5f);
             icon.transform.RotateAround(middleOrigin.position, Vector3.forward, -i * iconDegree);
             iconWrappers.Add(icon);
         }
@@ -95,6 +97,7 @@ public class UIWheel : MonoBehaviour
                 continue;
 
             LeanTween.scale(iconWrappers[i], Vector3.one, highlightScaleAnimationDuration).setEaseLinear();
+            iconWrappers[i].GetComponent<SpriteRenderer>().material.color = new Color(1, 1, 1, 0.5f);
         }
     }
 }

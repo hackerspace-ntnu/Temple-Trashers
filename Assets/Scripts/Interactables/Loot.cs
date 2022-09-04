@@ -17,6 +17,8 @@ public class Loot : Interactable
     [ReadOnly, SerializeField]
     private bool carried = false;
 
+    private PlayerStateController carryingPlayer = default;
+
     // Set the object to be destroyed
     private bool destroy = false;
 
@@ -66,14 +68,14 @@ public class Loot : Interactable
         baseController = BaseController.Singleton;
         inventory = InventoryManager.Singleton;
     }
-
+    
     void Update()
     {
         // Destroy the loot properly (to be replaced with animation)
         if (destroy && !canInteract)
             DestroyAnimation();
     }
-
+    
     private void DestroyAnimation()
     {
         transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
@@ -138,6 +140,7 @@ public class Loot : Interactable
             meshCollider.enabled = false;
 
             player.Lift(gameObject);
+            carryingPlayer = player;
         } else
         {
             // Drop the loot!
@@ -153,6 +156,7 @@ public class Loot : Interactable
             }
 
             player.Drop(gameObject);
+            carryingPlayer = null;
             absorbTarget = transform.position + new Vector3(0, 3, 0);
         }
     }
@@ -165,7 +169,8 @@ public class Loot : Interactable
         // Set the object to be destroyed
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
-
+        baseController.ArcLengthVFX(transform, 1);
+        Interact(carryingPlayer);
         // Create flashing tutorialtext
         tutorialText.GetComponent<Animator>().enabled = true;
     }

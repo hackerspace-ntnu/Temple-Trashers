@@ -53,6 +53,11 @@ public class RepairController : MonoBehaviour
             NextState();
     }
 
+    public void destroyGameObject()
+    {
+        Destroy(gameObject);
+    }
+
     public void Repair()
     {
         audioSource.Play();

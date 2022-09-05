@@ -277,6 +277,13 @@ public class BaseController : MonoBehaviour
             rb.AddForce(new Vector3(Random.Range(-250f, 250f), Random.Range(500f, 800f), Random.Range(-250f, 250f)));
         }
 
+        //Make every tower selfdestruct
+        RepairController[] repairControllers = FindObjectsOfType<RepairController>();
+        foreach (RepairController rp in repairControllers)
+        {
+            rp.destroyGameObject();
+        }
+
         // Switch camera focus to the new base
         Camera.main.GetComponent<CameraFocusController>().Focus(deadBase.transform);
 

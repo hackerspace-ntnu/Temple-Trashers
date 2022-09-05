@@ -61,6 +61,9 @@ public class BaseController : MonoBehaviour
     [SerializeField]
     private float explosionLightningSpawnDelay = 0.2f;
 
+    [SerializeField]
+    private float nukeLightningDelay = 1f;
+
     private HealthLogic healthController;
 
     public HealthLogic HealthController => healthController;
@@ -141,6 +144,15 @@ public class BaseController : MonoBehaviour
         Vector3 dirToEnemy = (enemy.transform.position - transform.position).normalized;
         Vector3 knockBackDir = (Vector3.up + enemyZapKnockBack_dirWeightAwayFromUp * dirToEnemy).normalized;
         enemyHealthLogic.OnReceiveDamage(this, enemyZapDamage, knockBackDir, enemyZapKnockBackForce);
+    }
+
+    public void updateCrystalInventory(int diff)
+    {
+        crystals += crystals+diff>0 ? diff : 0;
+        if (crystals >= 150) { 
+            StartCoroutine(NukeEnemies()); 
+            crystals = 0;
+        }
     }
 
     private void Die(DamageInfo damageInfo)
@@ -243,6 +255,16 @@ public class BaseController : MonoBehaviour
         }
 
         return -2;
+    }
+
+    private IEnumerator NukeEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            ZapAttackingEnemy(enemy.GetComponent<Enemy>());
+        }
+        yield return new WaitForSecondsRealtime(nukeLightningDelay);
     }
 
     IEnumerator Explode()

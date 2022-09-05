@@ -18,8 +18,10 @@ public class InventoryManager : MonoBehaviour
         get => resourceAmount;
         set
         {
+            int diff = value - resourceAmount;
             resourceAmount = value;
             ui.UpdateResourceUI();
+            BaseController.Singleton.updateCrystalInventory(diff);
         }
     }
 

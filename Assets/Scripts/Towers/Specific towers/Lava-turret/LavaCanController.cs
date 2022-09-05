@@ -6,7 +6,7 @@ using UnityEngine;
 public class LavaCanController : MonoBehaviour
 {
     [SerializeField]
-    private float timeToTarget = default;
+    public float timeToTarget = default;
 
     [SerializeField]
     private AnimationCurve yCurve = default;

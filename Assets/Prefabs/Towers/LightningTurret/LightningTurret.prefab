@@ -777,6 +777,7 @@ MonoBehaviour:
   lowWearVFXPrefab: {fileID: 1636322751830264242, guid: 0e5adf50f196e2a4497a432c56ddd9ea, type: 3}
   mediumWearVFXPrefab: {fileID: 5236176879605773532, guid: 9a39e88e44139244cbfb044c13588d1a, type: 3}
   highWearVFXPrefab: {fileID: 1192161847215171503, guid: fbe8f94bfed6761418a4f121957c4392, type: 3}
+  explosionVFXPrefab: {fileID: 5064482532363297040, guid: 589b04cd374b6b84eb13d4149577ee19, type: 3}
 --- !u!208 &-9140866788019457868
 NavMeshObstacle:
   m_ObjectHideFlags: 0

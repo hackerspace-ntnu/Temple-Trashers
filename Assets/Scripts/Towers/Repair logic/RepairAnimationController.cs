@@ -14,6 +14,9 @@ public class RepairAnimationController : RepairController
     [SerializeField]
     private GameObject highWearVFXPrefab = default;
 
+    [SerializeField]
+    private GameObject explosionVFXPrefab = default;
+
     // Prefab instances
     private GameObject lowWearVFX;
     private GameObject mediumWearVFX;
@@ -30,6 +33,10 @@ public class RepairAnimationController : RepairController
 
     void OnDestroy()
     {
+        GameObject explosion = Instantiate(explosionVFXPrefab);
+        explosion.GetComponent<LavaCanController>().timeToTarget = 0f;
+        explosion.GetComponent<LavaCanController>().Fly(transform.position);
+        Destroy(explosion, 5f);
         onWearStateChange -= UpdateParticles;
     }
 

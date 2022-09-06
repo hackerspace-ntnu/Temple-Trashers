@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Steamworks;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Contains button functionality for the Game Over screen UI Canvas
@@ -23,6 +24,11 @@ public class GameOverScreen : MonoBehaviour
     {
         scoreText.text = UIManager.Singleton.Score.ToString();
         PauseManager.Singleton.gameObject.SetActive(false);
+        if (Time.timeSinceLevelLoad < 30f)
+        {
+            SteamManager.Singleton.setAchievement("ACH_SPEEDRUN");
+        }
+        SteamManager.Singleton.resetAchievementProgress();
     }
 
     public void Restart()
@@ -39,8 +45,13 @@ public class GameOverScreen : MonoBehaviour
     {
         if (nameInput.text == "")
         {
-            errorMsg.enabled = true;
-            return;
+            if (!SteamClient.IsValid)
+            {
+                errorMsg.enabled = true;
+                return;
+            }
+            Task.Run(() => SteamManager.Singleton.addScore(UIManager.Singleton.Score));
+
         }
 
         // Update leaderboard

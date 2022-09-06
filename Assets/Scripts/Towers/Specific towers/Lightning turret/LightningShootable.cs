@@ -72,6 +72,11 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
         audioSource.Play();
 
+        if (zapTargets.Count == maxTargets)
+        {
+            SteamManager.Singleton.setAchievement("ACH_ZAPPED");
+        }
+
         //Clear all marked objects.
         zapTargets.Clear();
     }
@@ -96,7 +101,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, lightningRadius, shockLayers);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.GetComponent<HealthLogic>() && zapTargets.Count > maxTargets)
+            if (hitCollider.GetComponent<HealthLogic>() && zapTargets.Count < maxTargets)
                 AddZap(hitCollider.transform, target);
         }
     }

@@ -209,10 +209,12 @@ public class GolemController : Enemy
         {
             anim.SetTrigger(slapRightAnimatorParam);
             slap.Play();
+            SteamManager.Singleton.setAchievement("ACH_SLAPPED_GOLEM");
         } else
         {
             anim.SetTrigger(slapLeftAnimatorParam);
             slap.Play();
+            SteamManager.Singleton.setAchievement("ACH_SLAPPED_GOLEM");
         }
     }
 

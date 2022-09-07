@@ -35,14 +35,14 @@ The team used Trello for our agile development process, and [our Trello board](h
 ## Team members (at time of release)
 
 ### Developers
-* [ddabble](https://github.com/ddabble)
-* [Fueredoriku](https://github.com/Fueredoriku)
-* [jesper2k](https://github.com/jesper2k)
-* [SondreHus](https://github.com/SondreHus)
-* [TArchetype](https://github.com/TArchetype)
+* [Anders Hovden](https://github.com/ddabble)
+* [Fredrik Eiding](https://github.com/Fueredoriku)
+* [Jesper Norsted](https://github.com/jesper2k)
+* [Sondre Husøy](https://github.com/SondreHus)
+* [Thomas Jakob Gabrielsen](https://github.com/TArchetype)
 
 ### Designers
-* [imje](https://github.com/imje)
+* [Ingvild Mjelva](https://github.com/imje)
 * [magsve](https://github.com/magsve)
 
 ---

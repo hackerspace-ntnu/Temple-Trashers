@@ -53,9 +53,9 @@ public class RepairController : MonoBehaviour
             NextState();
     }
 
-    public void destroyGameObject()
+    public void Explode()
     {
-        Destroy(gameObject);
+        Debug.Log("Object should probably use the RepairAnimationController instead if you want this function");
     }
 
     public void Repair()

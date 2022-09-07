@@ -31,7 +31,7 @@ public class RepairAnimationController : RepairController
         onWearStateChange += UpdateParticles;
     }
 
-    void OnDestroy()
+    public new void Explode()
     {
         GameObject explosion = Instantiate(explosionVFXPrefab);
         explosion.GetComponent<LavaCanController>().timeToTarget = 0f;
@@ -48,6 +48,11 @@ public class RepairAnimationController : RepairController
 
     private void UpdateParticles(WearState newState, WearState previousState)
     {
+        if(previousState == WearState.HIGH && newState != WearState.NONE)
+        {
+            Explode();
+        }
+
         switch (newState)
         {
             case WearState.NONE:

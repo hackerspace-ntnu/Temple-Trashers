@@ -279,9 +279,9 @@ public class BaseController : MonoBehaviour
 
         //Make every tower selfdestruct
         RepairController[] repairControllers = FindObjectsOfType<RepairController>();
-        foreach (RepairController rp in repairControllers)
+        foreach (RepairAnimationController rp in repairControllers)
         {
-            rp.destroyGameObject();
+            rp.Explode();
         }
 
         // Switch camera focus to the new base

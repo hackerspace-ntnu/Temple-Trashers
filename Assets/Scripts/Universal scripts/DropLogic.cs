@@ -29,6 +29,7 @@ public class DropLogic : MonoBehaviour
 
     private void DropLoot(DamageInfo dmg)
     {
+        if (dmg.FromSource is BaseController) { return; }
         if (Random.Range(0, 100) < dropChance)
         {
             //... instantiating loot at position of enemy upon death. Need the new vector for the loot to spawn over the map.

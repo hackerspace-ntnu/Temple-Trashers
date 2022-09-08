@@ -134,6 +134,7 @@ public class HexGrid : MonoBehaviour
 
         PlacePlayerBase();
 
+        SpawnableEdgeCells = GetSpawnableEdgeCells();
         PlaceSceneryObjects();
     }
 

@@ -124,6 +124,7 @@ public class BaseController : MonoBehaviour
     void Start()
     {
         gameManager = EndlessMode.Singleton;
+        InvokeRepeating("WaveExplosionCounter",3f, 1f);
     }
 
     void OnDestroy()
@@ -259,12 +260,34 @@ public class BaseController : MonoBehaviour
         return -2;
     }
 
+    public void OnPlayerDeath()
+    {
+        waveExplosionTimer = waveExplosionTimer - waveTimePunishment < 0 ? 0 : waveExplosionTimer - waveTimePunishment;
+    }
+
+    public void OnCrystalCollected()
+    {
+        waveExplosionTimer += waveTimeReward;
+    }
+
+    //Called in start and then invoked every second
     private void WaveExplosionCounter()
     {
         waveExplosionTimer++;
         if (!(waveExplosionTimer >= timeToWaveExplode)) { return; }
+        StartCoroutine(ZapAllEnemies());
         waveExplosionTimer = 0;
 
+    }
+
+    private IEnumerator ZapAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            ZapAttackingEnemy(enemy.GetComponent<Enemy>());
+        }
+        yield return new WaitForSecondsRealtime(1f);
     }
 
     IEnumerator Explode()

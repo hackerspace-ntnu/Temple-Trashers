@@ -97,6 +97,7 @@ public partial class PlayerStateController : MonoBehaviour
 
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
+        BaseController.Singleton.OnPlayerDeath();
 
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);

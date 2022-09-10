@@ -546,6 +546,7 @@ MonoBehaviour:
   enemyZapKnockBack_dirWeightAwayFromUp: 0.1
   explosionLightningCount: 20
   explosionLightningSpawnDelay: 0.2
+  isGameOver: 0
 --- !u!114 &4549690278803359290
 MonoBehaviour:
   m_ObjectHideFlags: 0

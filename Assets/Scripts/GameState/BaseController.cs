@@ -37,6 +37,20 @@ public class BaseController : MonoBehaviour
     // Stored Resources
     public int crystals = 0;
 
+    [Header("WaveExplosion parameters")]
+    [SerializeField]
+    private float timeToWaveExplode = 380;
+
+    [ReadOnly, SerializeField]
+    private float waveExplosionTimer = 0;
+
+    [SerializeField]
+    private float waveTimeReward = 20;
+
+    [SerializeField]
+    private float waveTimePunishment = 20;
+
+    [Header("Base zapping parameters")]
     // Lightning arc
     [SerializeField]
     private GameObject drainRay = default;
@@ -243,6 +257,14 @@ public class BaseController : MonoBehaviour
         }
 
         return -2;
+    }
+
+    private void WaveExplosionCounter()
+    {
+        waveExplosionTimer++;
+        if (!(waveExplosionTimer >= timeToWaveExplode)) { return; }
+        waveExplosionTimer = 0;
+
     }
 
     IEnumerator Explode()

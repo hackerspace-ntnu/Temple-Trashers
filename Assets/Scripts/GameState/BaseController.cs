@@ -81,6 +81,9 @@ public class BaseController : MonoBehaviour
 
     private Animator anim;
 
+    [SerializeField]
+    private Material matCrystal;
+
     public bool isGameOver = false;
 
     // The gamemanager object that organizes enemies and player spawning
@@ -125,6 +128,7 @@ public class BaseController : MonoBehaviour
     {
         gameManager = EndlessMode.Singleton;
         InvokeRepeating("WaveExplosionCounter",3f, 1f);
+        matCrystal.SetFloat("Charge_Percent", 0);
     }
 
     void OnDestroy()
@@ -274,9 +278,11 @@ public class BaseController : MonoBehaviour
     private void WaveExplosionCounter()
     {
         waveExplosionTimer++;
+        matCrystal.SetFloat("Charge_Percent",waveExplosionTimer/timeToWaveExplode);
         if (!(waveExplosionTimer >= timeToWaveExplode)) { return; }
         StartCoroutine(ZapAllEnemies());
         waveExplosionTimer = 0;
+        matCrystal.SetFloat("Charge_Percent", 0);
 
     }
 

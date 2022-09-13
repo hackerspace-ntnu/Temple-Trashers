@@ -552,6 +552,9 @@ MonoBehaviour:
   explosionLightningSpawnDelay: 0.2
   matCrystal: {fileID: 2100000, guid: 58bdec41486863047971fee6ab91787f, type: 2}
   isGameOver: 0
+  audioCrystalAbsorbtion: {fileID: 8300000, guid: 90d24bf55c55628499e1092a95f894d8, type: 3}
+  audioBaseZap: {fileID: 8300000, guid: 630dc0e2c75ef014480dea7a18e733bd, type: 3}
+  audioBaseCharge: {fileID: 8300000, guid: e45b76a025cde0c42957608250cc7806, type: 3}
 --- !u!114 &4549690278803359290
 MonoBehaviour:
   m_ObjectHideFlags: 0

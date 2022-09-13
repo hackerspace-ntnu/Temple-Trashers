@@ -86,6 +86,16 @@ public class BaseController : MonoBehaviour
 
     public bool isGameOver = false;
 
+    [Header("WaveExplosion parameters")]
+    [SerializeField]
+    private AudioClip audioCrystalAbsorbtion;
+
+    [SerializeField]
+    private AudioClip audioBaseZap;
+
+    [SerializeField]
+    private AudioClip audioBaseCharge;
+
     // The gamemanager object that organizes enemies and player spawning
     private EndlessMode gameManager;
 
@@ -117,6 +127,7 @@ public class BaseController : MonoBehaviour
         healthController.onDamage += OnReceiveDamage;
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
@@ -129,6 +140,7 @@ public class BaseController : MonoBehaviour
         gameManager = EndlessMode.Singleton;
         InvokeRepeating("WaveExplosionCounter",3f, 1f);
         matCrystal.SetFloat("Charge_Percent", 0);
+        
     }
 
     void OnDestroy()
@@ -153,6 +165,8 @@ public class BaseController : MonoBehaviour
         rayTarget.SetParent(enemy.transform);
         // Set the ray target's position to the center of the enemy
         rayTarget.position = enemy.GetComponent<Collider>().bounds.center;
+
+        StartCoroutine(ZapSound());
 
         Destroy(ray.gameObject, 0.25f);
 
@@ -286,14 +300,26 @@ public class BaseController : MonoBehaviour
 
     }
 
+    private IEnumerator ZapSound()
+    {
+        audioSource.clip = audioBaseZap;
+        audioSource.Play();
+        yield return new WaitForSeconds(audioSource.clip.length);
+        audioSource.clip = audioCrystalAbsorbtion;
+    }
+
     private IEnumerator ZapAllEnemies()
     {
+        audioSource.clip = audioBaseCharge;
+        audioSource.Play();
+        yield return new WaitForSeconds(audioSource.clip.length);
+        audioSource.clip = audioCrystalAbsorbtion;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
             ZapAttackingEnemy(enemy.GetComponent<Enemy>());
         }
-        yield return new WaitForSecondsRealtime(1f);
+        
     }
 
     IEnumerator Explode()

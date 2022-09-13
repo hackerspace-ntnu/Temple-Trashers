@@ -259,15 +259,13 @@ public class HexGrid : MonoBehaviour
         List<HexCell> edgeCells = new List<HexCell>();
         // Start at the corner that is the farthest towards -X and -Z (not including the "mountain" cells)
         Vector2Int currentPos = new Vector2Int(1, 1);
-
+        Debug.Log("looking");
         void SetEdgeCellsAlongEdge(int outerEdgeCellCount, Vector2Int edgeDir)
         {
             for (int _ = 0; _ < outerEdgeCellCount - 3; _++)
             {
                 HexCell cell = cells[currentPos.x + currentPos.y * cellCountX];
-                // Don't add the "mountain" cells, as enemies shouldn't spawn on them
-                if (cell.CellType.elevation < tallestCellType.elevation)
-                    edgeCells.Add(cell);
+                edgeCells.Add(cell);
                 currentPos += edgeDir;
             }
         }

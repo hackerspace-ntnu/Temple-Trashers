@@ -47,8 +47,6 @@ public class HexCell : MonoBehaviour
         }
     }
 
-    public float dstToBase;
-
     /// <returns>
     /// The <c>GameObject</c> placed on top of this cell.
     /// <br/>
@@ -110,7 +108,6 @@ public class HexCell : MonoBehaviour
     void Awake()
     {
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        dstToBase = Vector3.Distance(transform.position, BaseController.Singleton.transform.position);
     }
 
     public GameObject InstantiatePrefabOnCell(GameObject prefab)

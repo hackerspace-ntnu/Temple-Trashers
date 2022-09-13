@@ -26,9 +26,9 @@ public class GameOverScreen : MonoBehaviour
         PauseManager.Singleton.gameObject.SetActive(false);
         if (Time.timeSinceLevelLoad < 30f)
         {
-            SteamManager.Singleton.setAchievement("ACH_SPEEDRUN");
+            SteamManager.Singleton.SetAchievement("ACH_SPEEDRUN");
         }
-        SteamManager.Singleton.resetAchievementProgress();
+        SteamManager.Singleton.ResetAchievementProgress();
     }
 
     public void Restart()
@@ -50,7 +50,7 @@ public class GameOverScreen : MonoBehaviour
                 errorMsg.enabled = true;
                 return;
             }
-            Task.Run(() => SteamManager.Singleton.addScore(UIManager.Singleton.Score));
+            Task.Run(() => SteamManager.Singleton.AddScore(UIManager.Singleton.Score));
 
         }
 

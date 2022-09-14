@@ -16,13 +16,12 @@ public class GalleryUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (GalleryEntry entry in entries)
+        for (int i = 0; i < entries.Length; i++)
         {
             var newButton = Instantiate(button, buttonHolder.transform);
-            //TODO: refactor to be done in button script
-            newButton.GetComponent<TextMesh>().text = entry.name;
-            //TODO: set button reference to entry
-
+            var gb = newButton.GetComponent<GalleryButton>();
+            gb.SetScriptableObject(entries[i]);
+            gb.SetGalleryView(galleryView);
         }
     }
 

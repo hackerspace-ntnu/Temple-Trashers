@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1208837660398506648}
   - component: {fileID: 1208837660398506655}
   - component: {fileID: 136984338839081732}
+  - component: {fileID: -8381959739489373487}
   m_Layer: 5
   m_Name: SelectionButtonUI
   m_TagString: Untagged
@@ -120,7 +121,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1208837660398506648}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -8381959739489373487}
+        m_TargetAssemblyTypeName: GalleryButton, Assembly-CSharp
+        m_MethodName: SelectButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &136984338839081732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +151,20 @@ MonoBehaviour:
   defaultButton: {fileID: 0}
   normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
   highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 0}
+--- !u!114 &-8381959739489373487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208837660398506653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31bcd2bf263fc58489947ced94b43c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetIncrement: -30
+  textMesh: {fileID: 1208837661432280000}
 --- !u!1 &1208837661432280006
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +240,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

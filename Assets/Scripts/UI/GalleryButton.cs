@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GalleryButton : MonoBehaviour
 {
@@ -13,10 +15,16 @@ public class GalleryButton : MonoBehaviour
 
     private GalleryEntry scriptableObject = default;
 
+    [SerializeField]
+    private TextMeshProUGUI textMesh;
+
     void Start()
     {
-        transform.Translate(new Vector3(0, positionOffset));
+        GetComponent<RectTransform>().LeanMoveLocalY(positionOffset, 0.2f);
         positionOffset += offsetIncrement;
+        var color = gameObject.GetComponent<Image>().color;
+        gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1);
+        textMesh.text = scriptableObject.name;
     }
 
     public void SetScriptableObject(GalleryEntry scObj)
@@ -41,7 +49,7 @@ public class GalleryButton : MonoBehaviour
             //TODO: Set showcaseObject to "locked"
             return;
         }
-
+        galleryView.transform.Find("Description").GetComponent<TextMesh>().text = scriptableObject.description;
         //TODO: Update galleryView with data from scriptableObject
     }
 

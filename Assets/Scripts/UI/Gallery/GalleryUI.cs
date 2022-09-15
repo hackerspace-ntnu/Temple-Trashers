@@ -28,7 +28,7 @@ public class GalleryUI : MonoBehaviour
             {
                 //setup first button
                 gb.SetGalleryView(galleryView); 
-                cbn.defaultButton = cbn; 
+                ControllerButtonNavigator.defaultButton = cbn; 
                 cbn.buttonUp = cbn;
             }
             else

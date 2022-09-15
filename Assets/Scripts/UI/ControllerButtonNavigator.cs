@@ -9,7 +9,7 @@ public class ControllerButtonNavigator : MonoBehaviour
     public static ControllerButtonNavigator currentButton;
     public ControllerButtonNavigator buttonUp;
     public ControllerButtonNavigator buttonDown;
-    public ControllerButtonNavigator defaultButton;
+    public static ControllerButtonNavigator defaultButton;
 
     [SerializeField]
     private Color normalColor;

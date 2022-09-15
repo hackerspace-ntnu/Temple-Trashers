@@ -39,7 +39,8 @@ public class GalleryButton : MonoBehaviour
 
     private bool IsUnlocked()
     {
-        return SteamManager.Singleton.IsAchievementUnlocked(scriptableObject.achievementId);
+        //return SteamManager.Singleton.IsAchievementUnlocked(scriptableObject.achievementId);
+        return true;
     }
 
     public void SelectButton()
@@ -49,7 +50,9 @@ public class GalleryButton : MonoBehaviour
             //TODO: Set showcaseObject to "locked"
             return;
         }
-        galleryView.transform.Find("Description").GetComponent<TextMesh>().text = scriptableObject.description;
+        galleryView.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = scriptableObject.description;
+        //galleryView.transform.Find("ObjectView");
+
         //TODO: Update galleryView with data from scriptableObject
     }
 

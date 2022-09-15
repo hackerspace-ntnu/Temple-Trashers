@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
   m_Name: Crew
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4315586048534869639, guid: 827fbd93af5ae20429acba0f8655ba3e, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 11acb2cee42adb34abbb5adcc2c63979, type: 3}
   description: The strongman
   achievementId: ACH_CROWD

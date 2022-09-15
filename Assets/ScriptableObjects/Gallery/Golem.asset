@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
   m_Name: Golem
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3862809870043681472, guid: 7497f65ba251e1e43b7af57f43abb4b1, type: 3}
+  prefab: {fileID: 919132149155446097, guid: fb994ffde90b8f24cb9816535ada9137, type: 3}
   description: A peculiar statue.
   achievementId: ACH_SLAPPED_GOLEM

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
   m_Name: Zap-Tower
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7425059109847644991, guid: 465be707821a3d14cbc434b02dc72bdb, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 7a907f3893d744f42b0ce8a509d8d421, type: 3}
   description: Zippity zap
   achievementId: ACH_ZAPPED

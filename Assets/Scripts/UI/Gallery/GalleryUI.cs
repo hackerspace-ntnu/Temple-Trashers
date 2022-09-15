@@ -14,9 +14,15 @@ public class GalleryUI : MonoBehaviour
 
     private List<GameObject> buttons = default;
 
-    // Start is called before the first frame update
+    private Transform objectView = default;
+
+    [SerializeField]
+    private float rotationSpeed = 12f;
+
+
     void Start()
     {
+        objectView = galleryView.transform.Find("ObjectView");
         buttons = new List<GameObject>();
         for (int i = 0; i < entries.Length; i++)
         {
@@ -42,6 +48,11 @@ public class GalleryUI : MonoBehaviour
             gb.SetScriptableObject(entries[i]);
             
         }
+    }
+
+    private void Update()
+    {
+        objectView.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
   m_Name: Lava-Tower
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8041440857710938632, guid: 85958d1124dc0cf43ac31a81a1755d3c, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 4ff9a2589b2e1d845be982c4733cdf66, type: 3}
   description: lavaaaaa
   achievementId: ACH_SPEEDRUN

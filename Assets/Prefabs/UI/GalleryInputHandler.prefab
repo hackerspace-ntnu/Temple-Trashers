@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8936033620954539759}
   - component: {fileID: 3298812596464493970}
-  - component: {fileID: -8546718001698008826}
+  - component: {fileID: 6103240309448417503}
   m_Layer: 0
   m_Name: GalleryInputHandler
   m_TagString: Untagged
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_DefaultActionMap: MovePlayer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &-8546718001698008826
+--- !u!114 &6103240309448417503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,6 +71,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6664089108390774705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0835d1bf43e328439a972fc4b133184, type: 3}
+  m_Script: {fileID: 11500000, guid: 460e769769bbe2d49a30c82b848cff4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

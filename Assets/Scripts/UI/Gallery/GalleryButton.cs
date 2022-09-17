@@ -44,21 +44,24 @@ public class GalleryButton : MonoBehaviour
 
     private bool IsUnlocked()
     {
-        //return SteamManager.Singleton.IsAchievementUnlocked(scriptableObject.achievementId);
-        return true;
+        return SteamManager.Singleton.IsAchievementUnlocked(scriptableObject.achievementId);
+        //Use return statement below instead of the above when in development and you don't want steam to keep pestering you about achievements to view gallery.
+        //return true;
     }
 
     public void SelectButton()
     {
-        if (!IsUnlocked())
-        {
-            //TODO: Set showcaseObject to "locked"
-            return;
-        }
-        galleryView.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = scriptableObject.description;
+        galleryView.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = "Unlock the related achievement to view!";
         if (currentViewObject) { Destroy(currentViewObject); }
-        currentViewObject = Instantiate(scriptableObject.prefab, objectView);
-        currentViewObject.transform.localScale = new Vector3(100f,100f,100f);
+        if (IsUnlocked())
+        {
+            galleryView.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = scriptableObject.description;
+            currentViewObject = Instantiate(scriptableObject.prefab, objectView);
+            currentViewObject.transform.localScale = new Vector3(100f, 100f, 100f);
+        }
+        
+
+
 
         //TODO: Update galleryView with data from scriptableObject
     }

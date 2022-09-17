@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Zap-Tower
   m_EditorClassIdentifier: 
   prefab: {fileID: 919132149155446097, guid: 7a907f3893d744f42b0ce8a509d8d421, type: 3}
-  description: Zippity zap
+  description: A peculiar monument indeed. While I have yet to decipher the true
+    purpose of this object, I infer it's purpose to be ritualistic in nature. While
+    I can't prove it with my current equipment, the crystals at it's foundation seem
+    to induce what I can only assume is electricity. I wonder if this might have
+    some practical applications back home?
   achievementId: ACH_ZAPPED

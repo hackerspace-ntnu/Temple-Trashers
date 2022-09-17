@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
   m_Name: Crew
   m_EditorClassIdentifier: 
-  prefab: {fileID: 919132149155446097, guid: 11acb2cee42adb34abbb5adcc2c63979, type: 3}
-  description: The strongman
+  prefab: {fileID: 919132149155446097, guid: 3de57b08f7605e545b6c57c609e0384f, type: 3}
+  description: While I admittedly do admire her physical prowess, I do find her a
+    bit intimidating. With me financing this expedition, partially atleast, I would
+    expect my very reasonable orders to be followed. In contrast to our strongman,
+    she merely parse my orders as suggestions at best however. Maybe her past is
+    more dubious than I first assesed when hiring her as captain of the Sea Cow.
   achievementId: ACH_CROWD

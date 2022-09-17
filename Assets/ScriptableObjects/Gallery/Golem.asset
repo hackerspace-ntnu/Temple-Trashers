@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   prefab: {fileID: 919132149155446097, guid: fb994ffde90b8f24cb9816535ada9137, type: 3}
-  description: A peculiar statue.
+  description: While traveling towards the mysterious lights we first observed at
+    arrival, my attention faltered to the many abandoned structures and monuments
+    resting at the wayside. In particular, the large statues. It wasn't their intricate
+    markings and ornaments, or their size for that matter, that intrigued me. It
+    was rather the sheer amount of them!
   achievementId: ACH_SLAPPED_GOLEM

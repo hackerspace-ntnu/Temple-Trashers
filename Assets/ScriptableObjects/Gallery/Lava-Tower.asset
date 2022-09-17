@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: Lava-Tower
   m_EditorClassIdentifier: 
   prefab: {fileID: 919132149155446097, guid: 4ff9a2589b2e1d845be982c4733cdf66, type: 3}
-  description: lavaaaaa
+  description: A true anomaly, it has the looks of an ancient mask, probably used
+    for some long forgotten hedonistic purpose. The mask features som very peculiar
+    properties. Seemingly endless amounts of impossibly hot liquid oozes out from
+    it's orifices constantly. While our main priority is to bring this anomaly back
+    for further study, it has proved indispensable as a heat source for preparing
+    our rations.
   achievementId: ACH_SPEEDRUN

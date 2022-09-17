@@ -37,6 +37,20 @@ public class BaseController : MonoBehaviour
     // Stored Resources
     public int crystals = 0;
 
+    [Header("WaveExplosion parameters")]
+    [SerializeField]
+    private float timeToWaveExplode = 380;
+
+    [ReadOnly, SerializeField]
+    private float waveExplosionTimer = 0;
+
+    [SerializeField]
+    private float waveTimeReward = 20;
+
+    [SerializeField]
+    private float waveTimePunishment = 20;
+
+    [Header("Base zapping parameters")]
     // Lightning arc
     [SerializeField]
     private GameObject drainRay = default;
@@ -67,7 +81,20 @@ public class BaseController : MonoBehaviour
 
     private Animator anim;
 
+    [SerializeField]
+    private Material matCrystal;
+
     public bool isGameOver = false;
+
+    [Header("WaveExplosion parameters")]
+    [SerializeField]
+    private AudioClip audioCrystalAbsorbtion;
+
+    [SerializeField]
+    private AudioClip audioBaseZap;
+
+    [SerializeField]
+    private AudioClip audioBaseCharge;
 
     // The gamemanager object that organizes enemies and player spawning
     private EndlessMode gameManager;
@@ -100,6 +127,7 @@ public class BaseController : MonoBehaviour
         healthController.onDamage += OnReceiveDamage;
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
@@ -110,6 +138,9 @@ public class BaseController : MonoBehaviour
     void Start()
     {
         gameManager = EndlessMode.Singleton;
+        InvokeRepeating("WaveExplosionCounter",3f, 1f);
+        matCrystal.SetFloat("Charge_Percent", 0);
+        
     }
 
     void OnDestroy()
@@ -134,6 +165,8 @@ public class BaseController : MonoBehaviour
         rayTarget.SetParent(enemy.transform);
         // Set the ray target's position to the center of the enemy
         rayTarget.position = enemy.GetComponent<Collider>().bounds.center;
+
+        StartCoroutine(ZapSound());
 
         Destroy(ray.gameObject, 0.25f);
 
@@ -243,6 +276,50 @@ public class BaseController : MonoBehaviour
         }
 
         return -2;
+    }
+
+    public void OnPlayerDeath()
+    {
+        waveExplosionTimer = waveExplosionTimer - waveTimePunishment < 0 ? 0 : waveExplosionTimer - waveTimePunishment;
+    }
+
+    public void OnCrystalCollected()
+    {
+        waveExplosionTimer += waveTimeReward;
+    }
+
+    //Called in start and then invoked every second
+    private void WaveExplosionCounter()
+    {
+        waveExplosionTimer++;
+        matCrystal.SetFloat("Charge_Percent",waveExplosionTimer/timeToWaveExplode);
+        if (!(waveExplosionTimer >= timeToWaveExplode)) { return; }
+        StartCoroutine(ZapAllEnemies());
+        waveExplosionTimer = 0;
+        matCrystal.SetFloat("Charge_Percent", 0);
+
+    }
+
+    private IEnumerator ZapSound()
+    {
+        audioSource.clip = audioBaseZap;
+        audioSource.Play();
+        yield return new WaitForSeconds(audioSource.clip.length);
+        audioSource.clip = audioCrystalAbsorbtion;
+    }
+
+    private IEnumerator ZapAllEnemies()
+    {
+        audioSource.clip = audioBaseCharge;
+        audioSource.Play();
+        yield return new WaitForSeconds(audioSource.clip.length);
+        audioSource.clip = audioCrystalAbsorbtion;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            ZapAttackingEnemy(enemy.GetComponent<Enemy>());
+        }
+        
     }
 
     IEnumerator Explode()

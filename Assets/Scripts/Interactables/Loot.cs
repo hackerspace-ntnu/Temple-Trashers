@@ -100,6 +100,7 @@ public class Loot : Interactable
 
                 //Add resources to inventory
                 baseController.crystals++;
+                baseController.OnCrystalCollected();
                 inventory.ResourceAmount += lootValue;
                 baseController.GetComponent<HealthLogic>().Heal(this, baseHealAmount);
 

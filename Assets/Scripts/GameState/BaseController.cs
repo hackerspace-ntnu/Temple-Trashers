@@ -171,8 +171,8 @@ public class BaseController : MonoBehaviour
         audioSource.Play();
 
         // Add VFX
-        if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
-        {
+        //if (GetIdVFX(player.transform) == -1) // Check that we have not added one already
+        //{
             Transform ray = Instantiate(drainRay, mainCrystal.transform.position, mainCrystal.transform.rotation).transform;
             ray.SetParent(mainCrystal);
 
@@ -184,7 +184,7 @@ public class BaseController : MonoBehaviour
 
             rays.Add(new Ray(ray, target));
             loot.target = target;
-        }
+        //}
     }
 
     void OnTriggerExit(Collider other)
@@ -275,6 +275,13 @@ public class BaseController : MonoBehaviour
         foreach (Rigidbody rb in deadBase.GetComponentsInChildren<Rigidbody>())
         {
             rb.AddForce(new Vector3(Random.Range(-250f, 250f), Random.Range(500f, 800f), Random.Range(-250f, 250f)));
+        }
+
+        //Make every tower selfdestruct
+        RepairController[] repairControllers = FindObjectsOfType<RepairController>();
+        foreach (RepairAnimationController rp in repairControllers)
+        {
+            rp.Explode();
         }
 
         // Switch camera focus to the new base

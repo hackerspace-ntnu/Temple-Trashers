@@ -64,6 +64,8 @@ public class UnigolemController : EnemyLight
 
         model.localRotation = Quaternion.Euler(forwardAngle, 0, lastSidewaysTilt);
 
+        if (baseTransform == null) { return; }
+
         if (Vector3.Distance(transform.position, baseTransform.position) < detonationDistance)
             baseHealth?.OnReceiveDamage(this, attackDamage);
     }

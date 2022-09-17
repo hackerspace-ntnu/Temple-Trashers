@@ -13,6 +13,10 @@ public class PlayerSpecificManager : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefabs = default;
 
+    [SerializeField]
+    private float respawnCost = 5f;
+
+
     private PlayerStateController instantiatedPlayer;
     public Vector3 spawnPoint;
 
@@ -44,11 +48,14 @@ public class PlayerSpecificManager : MonoBehaviour
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this, playerColor);
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
+
     }
 
     public void RespawnPlayer(float delay)
     {
         StartCoroutine(WaitForRespawn(delay));
+        //Hurt the base for respawning a player (Damage is based on players lifetotal)
+        BaseController.Singleton.HealthController.OnReceiveDamage(this, respawnCost);
     }
 
     private IEnumerator WaitForRespawn(float delay)

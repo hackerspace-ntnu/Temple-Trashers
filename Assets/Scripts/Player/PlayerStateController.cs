@@ -79,7 +79,7 @@ public partial class PlayerStateController : MonoBehaviour
         ui = GetComponent<PlayerUi>();
         messageUI = GetComponent<MessageUI>();
         uiInputController = GetComponent<UIInputController>();
-    }
+}
 
     void OnDestroy()
     {
@@ -223,7 +223,8 @@ public partial class PlayerStateController : MonoBehaviour
                     //Refund turret
                     SellTower();
                 }
-
+                //Slowmo kill effect
+                StartCoroutine(SlowMo());
                 SetFocusedInteractable(null);
                 break;
             case PlayerStates.FREE:
@@ -400,7 +401,23 @@ public partial class PlayerStateController : MonoBehaviour
     private IEnumerator SpawnEffectTimer()
     {
         ResetOutline();
+        float maxHealthPrev = health.maxHealth;
+        //Set health to an arbitrarly high amount
+        health.maxHealth = 10000;
+        health.health= 10000;
         yield return new WaitForSeconds(3f);
+        //Reset health
+        health.maxHealth = maxHealthPrev;
+        health.health = maxHealthPrev;
         DisableOutline();
+    }
+
+    private IEnumerator SlowMo()
+    {
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 }

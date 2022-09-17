@@ -53,6 +53,11 @@ public class RepairController : MonoBehaviour
             NextState();
     }
 
+    public void Explode()
+    {
+        Debug.Log("Object should probably use the RepairAnimationController instead if you want this function");
+    }
+
     public void Repair()
     {
         audioSource.Play();

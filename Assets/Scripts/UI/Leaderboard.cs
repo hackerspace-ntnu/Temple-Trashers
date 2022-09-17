@@ -24,6 +24,6 @@ public class Leaderboard : MonoBehaviour
         {
             leaderboardTiles.Add(leaderboardBody.GetChild(i));
         }
-        Task.Run(() => SteamManager.Singleton.getLeaderboard(leaderboardTiles));
+        Task.Run(() => SteamManager.Singleton.GetLeaderboard(leaderboardTiles));
     }
 }

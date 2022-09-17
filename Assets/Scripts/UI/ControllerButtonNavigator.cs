@@ -9,7 +9,7 @@ public class ControllerButtonNavigator : MonoBehaviour
     public static ControllerButtonNavigator currentButton;
     public ControllerButtonNavigator buttonUp;
     public ControllerButtonNavigator buttonDown;
-    public ControllerButtonNavigator defaultButton;
+    public static ControllerButtonNavigator defaultButton;
 
     [SerializeField]
     private Color normalColor;
@@ -21,6 +21,7 @@ public class ControllerButtonNavigator : MonoBehaviour
     {
         if (!currentButton)
         {
+            if (!defaultButton) { defaultButton = this; }
             currentButton = defaultButton;
             currentButton.GetComponent<Image>().color = highlightColor;
         }
@@ -38,5 +39,14 @@ public class ControllerButtonNavigator : MonoBehaviour
     public void PressButton()
     {
         GetComponent<Button>().onClick.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        if (currentButton)
+        {
+            currentButton = null;
+            defaultButton = null;
+        }
     }
 }

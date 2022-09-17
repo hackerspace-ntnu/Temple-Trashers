@@ -59,12 +59,12 @@ public class SteamManager : MonoBehaviour
         Steamworks.SteamClient.Shutdown();
     }
 
-    public string getPlayerName()
+    public string GetPlayerName()
     {
         return playerName;
     }
 
-    public void setAchievement(string name)
+    public void SetAchievement(string name)
     {
         if (!SteamClient.IsValid){return;}
 
@@ -86,12 +86,19 @@ public class SteamManager : MonoBehaviour
         
     }
 
-    public void resetAchievementProgress()
+    public bool IsAchievementUnlocked(string achievementId)
+    {
+        var ach = new Achievement(achievementId);
+        if (ach.State) { return true; }
+        return false;
+    }
+
+    public void ResetAchievementProgress()
     {
         golemsDestroyed = 0;
     }
 
-    public async Task getLeaderboard(List<Transform> tileParent)
+    public async Task GetLeaderboard(List<Transform> tileParent)
     {
         var leaderboard = await SteamUserStats.FindLeaderboardAsync("Scoreboard");
         if (leaderboard.HasValue)
@@ -106,7 +113,7 @@ public class SteamManager : MonoBehaviour
         }
     }
 
-    public async Task addScore(int score)
+    public async Task AddScore(int score)
     {
         var leaderboardGlobal = await SteamUserStats.FindLeaderboardAsync("Scoreboard");
         if (leaderboardGlobal.HasValue)

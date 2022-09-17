@@ -75,7 +75,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
         if (zapTargets.Count == maxTargets)
         {
-            SteamManager.Singleton.setAchievement("ACH_ZAPPED");
+            SteamManager.Singleton.SetAchievement("ACH_ZAPPED");
         }
 
         //Clear all marked objects.

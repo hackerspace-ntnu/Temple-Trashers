@@ -24,11 +24,13 @@ public class GameOverScreen : MonoBehaviour
     {
         scoreText.text = UIManager.Singleton.Score.ToString();
         PauseManager.Singleton.gameObject.SetActive(false);
+        ControllerButtonNavigator.defaultButton = null;
+        ControllerButtonNavigator.currentButton = null;
         if (Time.timeSinceLevelLoad < 30f)
         {
-            SteamManager.Singleton.setAchievement("ACH_SPEEDRUN");
+            SteamManager.Singleton.SetAchievement("ACH_SPEEDRUN");
         }
-        SteamManager.Singleton.resetAchievementProgress();
+        SteamManager.Singleton.ResetAchievementProgress();
     }
 
     public void Restart()
@@ -50,9 +52,11 @@ public class GameOverScreen : MonoBehaviour
                 errorMsg.enabled = true;
                 return;
             }
-            Task.Run(() => SteamManager.Singleton.addScore(UIManager.Singleton.Score));
+            Task.Run(() => SteamManager.Singleton.AddScore(UIManager.Singleton.Score));
 
         }
+
+        Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
 
         // Update leaderboard
         LeaderboardData.AddScore(UIManager.Singleton.Score, nameInput.text);

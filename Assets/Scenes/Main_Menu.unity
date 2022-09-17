@@ -1058,9 +1058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b58244e9d88c084c8c2d769cf23fe54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonUp: {fileID: 2007215728}
+  buttonUp: {fileID: 1431650149}
   buttonDown: {fileID: 899438832}
-  defaultButton: {fileID: 2007215728}
   normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
   highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &424034902
@@ -1536,7 +1535,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Story Mode
+  m_text: Gallery
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f027972298acae14e978368df0ba88f4, type: 2}
   m_sharedMaterial: {fileID: -1103543631157091081, guid: f027972298acae14e978368df0ba88f4, type: 2}
@@ -2186,7 +2185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonUp: {fileID: 417787818}
   buttonDown: {fileID: 2007215728}
-  defaultButton: {fileID: 2007215728}
   normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
   highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &902376838
@@ -2572,8 +2570,9 @@ GameObject:
   - component: {fileID: 1431650147}
   - component: {fileID: 1431650146}
   - component: {fileID: 1431650145}
+  - component: {fileID: 1431650149}
   m_Layer: 5
-  m_Name: Button Story Mode
+  m_Name: Button Gallery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2640,10 +2639,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 0.8666667}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2657,11 +2656,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1431650147}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7726891426493628493}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: Gallery
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1431650147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2675,7 +2686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2700,6 +2711,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431650143}
   m_CullTransparentMesh: 0
+--- !u!114 &1431650149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431650143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b58244e9d88c084c8c2d769cf23fe54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonUp: {fileID: 2007215728}
+  buttonDown: {fileID: 417787818}
+  normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &1460061611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4074,7 +4101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9fedf1e71d6f746b8a131b8aa18ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entries: []
   leaderboardBody: {fileID: 2118036311}
 --- !u!224 &1880647710 stripped
 RectTransform:
@@ -4536,7 +4562,7 @@ GameObject:
   - component: {fileID: 2007215724}
   - component: {fileID: 2007215728}
   m_Layer: 5
-  m_Name: Button Endless
+  m_Name: Button Arcade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4688,8 +4714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonUp: {fileID: 899438832}
-  buttonDown: {fileID: 417787818}
-  defaultButton: {fileID: 2007215728}
+  buttonDown: {fileID: 1431650149}
   normalColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
   highlightColor: {r: 0.6392157, g: 0.6392157, b: 0.6392157, a: 1}
 --- !u!1 &2017846405
@@ -4824,7 +4849,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Endless Mode
+  m_text: 'Arcade
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f027972298acae14e978368df0ba88f4, type: 2}
   m_sharedMaterial: {fileID: -1103543631157091081, guid: f027972298acae14e978368df0ba88f4, type: 2}

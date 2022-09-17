@@ -1,22 +1,15 @@
 fileFormatVersion: 2
-guid: 4ff9a2589b2e1d845be982c4733cdf66
+guid: a7e1edcc29c298944944a69b27b87c60
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: -7453387558714718212
-    second: Armature|Shoot
-  externalObjects:
+      74: 4781951162920444690
+    second: Armature|ArmatureAction
   - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Can
-    second: {fileID: 2100000, guid: 0562fa673b5bf0b4b915be9d7d6846c7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Main
-    second: {fileID: 2100000, guid: 50a116a4172e3e0418df7d3d9468cb67, type: 2}
+      74: -2430399904381643104
+    second: Armature|Open
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -43,36 +36,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Armature|Shoot
-      takeName: Armature|Shoot
-      internalID: 0
-      firstFrame: 219
-      lastFrame: 230
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []

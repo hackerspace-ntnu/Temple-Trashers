@@ -21,4 +21,9 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Credits");
     }
+
+    public void Gallery()
+    {
+        SceneManager.LoadScene("Gallery");
+    }
 }

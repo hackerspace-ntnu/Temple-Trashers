@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 
 public class UIInputController : MonoBehaviour
 {
-    private PlayerInput playerInput;
+    protected PlayerInput playerInput;
 
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
 
-    private void MoveInput_Performed(InputAction.CallbackContext ctx)
+    protected void MoveInput_Performed(InputAction.CallbackContext ctx)
     {
         Vector2 newMoveInput = ctx.ReadValue<Vector2>();
         if (newMoveInput.magnitude <= 0.1f // acts as a joystick deadzone
@@ -24,8 +24,8 @@ public class UIInputController : MonoBehaviour
         Move();
     }
 
-    private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
-    private void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
+    protected void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
+    protected void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
 
     public void SetUpInput(PlayerInput playerInput)
     {
@@ -39,14 +39,14 @@ public class UIInputController : MonoBehaviour
             RemoveListeners();
     }
 
-    private void AddListeners()
+    protected virtual void AddListeners()
     {
         playerInput.actions["Move"].performed += MoveInput_Performed;
         playerInput.actions["Move"].canceled += MoveInput_Canceled;
         playerInput.actions["Interact"].performed += InteractInput_Performed;
     }
 
-    private void RemoveListeners()
+    protected virtual void RemoveListeners()
     {
         playerInput.actions["Move"].performed -= MoveInput_Performed;
         playerInput.actions["Move"].canceled -= MoveInput_Canceled;

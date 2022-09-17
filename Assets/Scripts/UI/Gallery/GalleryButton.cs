@@ -32,6 +32,11 @@ public class GalleryButton : MonoBehaviour
         objectView = galleryView.transform.Find("ObjectView");
     }
 
+    private void OnDestroy()
+    {
+        positionOffset = 0f;
+    }
+
     public void SetScriptableObject(GalleryEntry scObj)
     {
         scriptableObject = scObj;
@@ -60,10 +65,6 @@ public class GalleryButton : MonoBehaviour
             currentViewObject.transform.localScale = new Vector3(100f, 100f, 100f);
         }
         
-
-
-
-        //TODO: Update galleryView with data from scriptableObject
     }
 
 }

@@ -11,14 +11,20 @@ public class ControllerButtonNavigator : MonoBehaviour
     public ControllerButtonNavigator buttonDown;
     public static ControllerButtonNavigator defaultButton;
 
-    [SerializeField]
-    private Color normalColor;
 
-    [SerializeField]
+    private Color normalColor;
     private Color highlightColor;
+    private Color pressedColor;
+    
 
     void Start()
     {
+        normalColor = GetComponent<Button>().colors.normalColor;
+        highlightColor = GetComponent<Button>().colors.highlightedColor;
+        pressedColor = GetComponent<Button>().colors.pressedColor;
+
+        GetComponent<Image>().color = normalColor;
+
         if (!currentButton)
         {
             if (!defaultButton) { defaultButton = this; }
@@ -30,8 +36,7 @@ public class ControllerButtonNavigator : MonoBehaviour
     public void SetCurrentButton()
     {
         //Reset highlight of previous currentButton
-        //There are better ways to do this, but Unity refused to cooperate :(
-        currentButton.GetComponent<Image>().color = normalColor;
+        currentButton.GetComponent<Image>().color = currentButton.normalColor;
         currentButton = this;
         currentButton.GetComponent<Image>().color = highlightColor;
     }
@@ -39,6 +44,8 @@ public class ControllerButtonNavigator : MonoBehaviour
     public void PressButton()
     {
         GetComponent<Button>().onClick.Invoke();
+        currentButton.GetComponent<Image>().color = pressedColor;
+        StartCoroutine(ColorReset());
     }
 
     private void OnDestroy()
@@ -48,5 +55,11 @@ public class ControllerButtonNavigator : MonoBehaviour
             currentButton = null;
             defaultButton = null;
         }
+    }
+
+    IEnumerator ColorReset()
+    {
+        yield return new WaitForSeconds(0.05f);
+        currentButton.GetComponent<Image>().color = highlightColor;
     }
 }

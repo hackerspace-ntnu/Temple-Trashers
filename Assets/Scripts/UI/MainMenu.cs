@@ -26,4 +26,9 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Gallery");
     }
+
+    public void Options()
+    {
+        SceneManager.LoadScene("Options");
+    }
 }

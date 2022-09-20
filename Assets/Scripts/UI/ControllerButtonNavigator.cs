@@ -45,7 +45,10 @@ public class ControllerButtonNavigator : MonoBehaviour
     {
         GetComponent<Button>().onClick.Invoke();
         currentButton.GetComponent<Image>().color = pressedColor;
-        StartCoroutine(ColorReset());
+        if (currentButton.isActiveAndEnabled)
+        {
+            StartCoroutine(ColorReset());
+        }
     }
 
     private void OnDestroy()
@@ -61,5 +64,6 @@ public class ControllerButtonNavigator : MonoBehaviour
     {
         yield return new WaitForSeconds(0.05f);
         currentButton.GetComponent<Image>().color = highlightColor;
+        
     }
 }

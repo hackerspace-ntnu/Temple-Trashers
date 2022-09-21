@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -73,6 +73,10 @@ public class PauseManager : MonoBehaviour
         AudioListener.volume = IsPaused ? pauseAudioVolume : normalAudioVolume;
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Main_Menu");
+    }
     public void QuitGame()
     {
         Application.Quit();

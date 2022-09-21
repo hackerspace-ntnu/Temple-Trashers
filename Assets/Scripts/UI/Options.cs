@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Options : MonoBehaviour
 {
@@ -18,8 +19,18 @@ public class Options : MonoBehaviour
 
     public Toggle fullscreenToggle; // Toggle UI element for fullscreen
 
+    [Header("Volume mixers")]
+    public AudioMixer masterMixer;
+    public AudioMixerGroup masterMixerGroup;
+    public AudioMixerGroup fXMixerGroup;
+    public AudioMixerGroup musicMixerGroup;
 
+    [Header("Volume Sliders")]
+    public Slider masterSlider;
+    public Slider fXSlider;
+    public Slider musicSlider;
 
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +39,7 @@ public class Options : MonoBehaviour
         resolution = Screen.currentResolution;
         resolutionText.text = resolution.ToString();
         resolutions = Screen.resolutions;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void NextResolution(){
@@ -67,6 +79,77 @@ public class Options : MonoBehaviour
         fullscreen = !fullscreen;
         fullscreenToggle.isOn = fullscreen;
         ApplyResolution();
+    }
+
+    private float intToDb(float level)
+    {
+        return level * 10 - 80;
+    }
+
+    public void IncreaseMasterVol()
+    {
+        if(masterSlider.value < masterSlider.maxValue)
+        {
+            masterMixer.SetFloat("MasterVol", intToDb(masterSlider.value + 1));
+            masterSlider.value += 1;
+            audioSource.outputAudioMixerGroup = masterMixerGroup;
+            audioSource.Play();
+        }
+    }
+
+    public void DecreaseMasterVol()
+    {
+        if (masterSlider.value > masterSlider.minValue)
+        {
+            masterMixer.SetFloat("MasterVol", intToDb(masterSlider.value - 1));
+            masterSlider.value -= 1;
+            audioSource.outputAudioMixerGroup = masterMixerGroup;
+            audioSource.Play();
+        }
+    }    
+    
+    public void IncreaseFXVol()
+    {
+        if (fXSlider.value < fXSlider.maxValue)
+        {
+            masterMixer.SetFloat("FXVol", intToDb(fXSlider.value + 1));
+            fXSlider.value += 1;
+            audioSource.outputAudioMixerGroup = fXMixerGroup;
+            audioSource.Play();
+        }
+    }
+
+    public void DecreaseFXVol()
+    {
+        if (fXSlider.value > fXSlider.minValue)
+        {
+            masterMixer.SetFloat("FXVol", intToDb(fXSlider.value - 1));
+            fXSlider.value -= 1;
+            audioSource.outputAudioMixerGroup = fXMixerGroup;
+            audioSource.Play();
+        }
+    }
+
+    public void IncreaseMusicVol()
+    {
+        if (musicSlider.value < musicSlider.maxValue)
+        {
+            masterMixer.SetFloat("MusicVol", intToDb(musicSlider.value + 1));
+            musicSlider.value += 1;
+            audioSource.outputAudioMixerGroup = musicMixerGroup;
+            audioSource.Play();
+        }
+    }
+
+    public void DecreaseMusicVol()
+    {
+        if (musicSlider.value > musicSlider.minValue)
+        {
+            masterMixer.SetFloat("MusicVol", intToDb(musicSlider.value - 1));
+            musicSlider.value -= 1;
+            audioSource.outputAudioMixerGroup = musicMixerGroup;
+            audioSource.Play();
+        }
     }
 
     public void Exit()

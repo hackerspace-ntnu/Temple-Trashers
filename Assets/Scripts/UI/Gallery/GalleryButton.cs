@@ -20,7 +20,7 @@ public class GalleryButton : MonoBehaviour
     private GalleryEntry scriptableObject = default;
 
     [SerializeField]
-    private TextMeshProUGUI textMesh;
+    private TextMeshProUGUI textMesh = default;
 
     void Start()
     {

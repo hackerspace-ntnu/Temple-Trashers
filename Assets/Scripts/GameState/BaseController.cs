@@ -82,22 +82,22 @@ public class BaseController : MonoBehaviour
     private Animator anim;
 
     [SerializeField]
-    private Material matCrystal;
+    private Material matCrystal = default;
 
     public bool isGameOver = false;
 
     [Header("WaveExplosion parameters")]
     [SerializeField]
-    private AudioClip audioCrystalAbsorbtion;
+    private AudioClip audioCrystalAbsorbtion = default;
 
     [SerializeField]
-    private AudioClip audioBaseZap;
+    private AudioClip audioBaseZap = default;
 
     [SerializeField]
-    private AudioClip audioBaseCharge;
+    private AudioClip audioBaseCharge = default;
 
     // The gamemanager object that organizes enemies and player spawning
-    private EndlessMode gameManager;
+    private EndlessMode gameManager = default;
 
     public Transform SpawnPoint => spawnPoint;
 

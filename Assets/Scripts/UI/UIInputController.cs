@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 public class UIInputController : MonoBehaviour
@@ -27,6 +28,8 @@ public class UIInputController : MonoBehaviour
     protected void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
     protected void InteractInput_Performed(InputAction.CallbackContext ctx) => Select();
 
+    protected void InteractInput_Canceled(InputAction.CallbackContext ctx) => Cancel();
+
     public void SetUpInput(PlayerInput playerInput)
     {
         this.playerInput = playerInput;
@@ -44,6 +47,7 @@ public class UIInputController : MonoBehaviour
         playerInput.actions["Move"].performed += MoveInput_Performed;
         playerInput.actions["Move"].canceled += MoveInput_Canceled;
         playerInput.actions["Interact"].performed += InteractInput_Performed;
+        playerInput.actions["Cancel"].performed += InteractInput_Canceled;
     }
 
     protected virtual void RemoveListeners()
@@ -51,6 +55,7 @@ public class UIInputController : MonoBehaviour
         playerInput.actions["Move"].performed -= MoveInput_Performed;
         playerInput.actions["Move"].canceled -= MoveInput_Canceled;
         playerInput.actions["Interact"].performed -= InteractInput_Performed;
+        playerInput.actions["Cancel"].performed -= InteractInput_Canceled;
     }
 
     protected virtual void Move()
@@ -71,5 +76,13 @@ public class UIInputController : MonoBehaviour
     {
         if (PauseManager.Singleton.IsPaused || BaseController.Singleton.isGameOver)
             ControllerButtonNavigator.currentButton.PressButton();
+    }
+
+    protected virtual void Cancel()
+    {
+        if(SceneManager.GetActiveScene().name == "Options")
+        {
+            SceneManager.LoadScene("Main_Menu");
+        }
     }
 }

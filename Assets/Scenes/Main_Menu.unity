@@ -6219,14 +6219,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficulties:
   - level: Easy
-    spawnrate: 1
-    spawnInterval: 20
+    spawnRate: 1
+    waveInterval: 20
   - level: Medium
-    spawnrate: 2
-    spawnInterval: 15
+    spawnRate: 2
+    waveInterval: 15
   - level: Hard
-    spawnrate: 3
-    spawnInterval: 15
+    spawnRate: 3
+    waveInterval: 15
   difficultyText: {fileID: 1354516260}
 --- !u!1 &7726891426861855280
 GameObject:

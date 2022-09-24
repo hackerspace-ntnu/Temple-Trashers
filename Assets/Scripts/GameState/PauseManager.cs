@@ -75,6 +75,12 @@ public class PauseManager : MonoBehaviour
 
     public void MainMenu()
     {
+        // Unpause the game
+        PauseGame();
+
+        //Make sure to remove button event listeners
+        Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
+
         SceneManager.LoadScene("Main_Menu");
     }
     public void QuitGame()

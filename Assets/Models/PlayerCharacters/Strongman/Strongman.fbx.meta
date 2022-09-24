@@ -23,16 +23,16 @@ ModelImporter:
     second: Armature|Armature|Armature|Armature|Armature|0Tpose|Armature|0Tpose|Arma
   - first:
       74: 1018593441746647079
-    second: Armature|Armature|Armature|Armature|Armature|Run|Armature|Run|Armature|A
+    second: Strongman|Run
   - first:
       74: 754856407437925082
-    second: Armature|Armature|Armature|Armature|Armature|Squat|Armature|Squat|Armatu
+    second: Strongman|Squat
   - first:
       74: -1943264942779144747
-    second: Armature|Armature|Armature|Armature|Armature|WalkAndHold|Armature|WalkAn
+    second: Strongman|WalkAndHold
   - first:
       74: -6856343793980612459
-    second: Armature|Armature|Armature|Armature|Armature|Walk|Armature|Walk|Armature
+    second: Strongman|Walk
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -67,11 +67,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Armature|Armature|Armature|Armature|Run|Armature|Run|Armature|A
+      name: Strongman|Run
       takeName: Armature|Armature|Armature|Armature|Armature|Run|Armature|Run|Armature|A
       internalID: 0
-      firstFrame: 0
-      lastFrame: 39
+      firstFrame: 9
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -96,10 +96,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Armature|Armature|Armature|Armature|Squat|Armature|Squat|Armatu
+      name: Strongman|Squat
       takeName: Armature|Armature|Armature|Armature|Armature|Squat|Armature|Squat|Armatu
       internalID: 0
-      firstFrame: 9
+      firstFrame: 0
       lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
@@ -125,7 +125,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Armature|Armature|Armature|Armature|WalkAndHold|Armature|WalkAn
+      name: Strongman|WalkAndHold
       takeName: Armature|Armature|Armature|Armature|Armature|WalkAndHold|Armature|WalkAn
       internalID: 0
       firstFrame: 9
@@ -154,7 +154,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Armature|Armature|Armature|Armature|Walk|Armature|Walk|Armature
+      name: Strongman|Walk
       takeName: Armature|Armature|Armature|Armature|Armature|Walk|Armature|Walk|Armature
       internalID: 0
       firstFrame: 9

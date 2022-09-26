@@ -74,7 +74,11 @@ public class EndlessMode : MonoBehaviour
     }
 
     void Start()
-    { // Ensure values are assigned
+    {
+        // Get difficulty;
+        linearSpawnRate = PlayerPrefs.GetFloat("spawnRate");
+        waveInterval = PlayerPrefs.GetFloat("waveInterval");
+        // Ensure values are assigned
         if (enemyPrefabs.Length == 0)
             Debug.LogError("Enemies are not assigned");
 

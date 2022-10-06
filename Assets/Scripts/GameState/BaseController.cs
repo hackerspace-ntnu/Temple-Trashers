@@ -300,6 +300,15 @@ public class BaseController : MonoBehaviour
 
     }
 
+    private IEnumerator SlowMo()
+    {
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
+
     private IEnumerator ZapSound()
     {
         audioSource.clip = audioBaseZap;
@@ -313,6 +322,7 @@ public class BaseController : MonoBehaviour
         audioSource.clip = audioBaseCharge;
         audioSource.Play();
         yield return new WaitForSeconds(audioSource.clip.length);
+        StartCoroutine(SlowMo());
         audioSource.clip = audioCrystalAbsorbtion;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)

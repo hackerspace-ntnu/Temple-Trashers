@@ -56,7 +56,12 @@ public class GameOverScreen : MonoBehaviour
 
         }
 
-        Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
+        UIInputController[] playerInputs = GameObject.FindObjectsOfType<UIInputController>();
+        foreach(UIInputController controller in playerInputs)
+        {
+            Destroy(controller.gameObject);
+        }
+        //Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
 
         // Update leaderboard
         LeaderboardData.AddScore(UIManager.Singleton.Score, nameInput.text);

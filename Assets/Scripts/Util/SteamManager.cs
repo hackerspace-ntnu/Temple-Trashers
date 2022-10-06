@@ -13,6 +13,7 @@ public class SteamManager : MonoBehaviour
     private float playerSteamId = 0;
     //Round based achievement tracking
     private int golemsDestroyed = 0;
+    private int golemsSlapped = 0;
     //Global leaderboard
 
     void Awake()
@@ -72,6 +73,14 @@ public class SteamManager : MonoBehaviour
             case "ACH_SLAPPED_GOLEM":
                 golemsDestroyed++;
                 if (golemsDestroyed == 5)
+                {
+                    var ach1 = new Achievement(name);
+                    ach1.Trigger();
+                }
+                break;
+            case "ACH_SLAPPED_BACK":
+                golemsSlapped++;
+                if (golemsSlapped == 5)
                 {
                     var ach1 = new Achievement(name);
                     ach1.Trigger();

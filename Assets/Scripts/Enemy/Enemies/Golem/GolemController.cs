@@ -55,6 +55,19 @@ public class GolemController : Enemy
     [SerializeField]
     private AudioSource headbutt = default;
 
+    protected override void Start()
+    {
+        baseTransform = BaseController.Singleton.transform;
+        CurrentTarget = baseTransform;
+        baseHealth = baseTransform.GetComponent<HealthLogic>();
+        healthLogic.onDeath += AchievementDeath;
+    }
+
+    private void AchievementDeath(DamageInfo dmg)
+    {
+        SteamManager.Singleton.SetAchievement("ACH_SLAPPED_BACK");
+    }
+
     public Transform AggroTarget
     {
         get => aggroTarget;

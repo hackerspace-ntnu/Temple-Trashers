@@ -181,6 +181,11 @@ public class BaseController : MonoBehaviour
         if (dead)
             return;
 
+        if (damageInfo.FromSource is PlayerSpecificManager)
+        {
+            SteamManager.Singleton.SetAchievement("ACH_MUTUAL_DESTRUCTION");
+        }
+
         // Disable spawning of enemies
         gameManager.enabled = false;
 

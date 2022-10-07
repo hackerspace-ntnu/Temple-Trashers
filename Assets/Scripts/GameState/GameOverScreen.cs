@@ -26,10 +26,11 @@ public class GameOverScreen : MonoBehaviour
         PauseManager.Singleton.gameObject.SetActive(false);
         ControllerButtonNavigator.defaultButton = null;
         ControllerButtonNavigator.currentButton = null;
-        if (Time.timeSinceLevelLoad < 30f)
-        {
-            SteamManager.Singleton.SetAchievement("ACH_SPEEDRUN");
-        }
+        //Achievement triggers
+        if (Time.timeSinceLevelLoad < 30f) { SteamManager.Singleton.SetAchievement("ACH_SPEEDRUN"); }
+        if (UIManager.Singleton.Score >= 2500) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MIN"); }
+        if (UIManager.Singleton.Score >= 5000) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MID"); }
+        if (UIManager.Singleton.Score >= 10000) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MAX"); }
         SteamManager.Singleton.ResetAchievementProgress();
     }
 
@@ -53,7 +54,6 @@ public class GameOverScreen : MonoBehaviour
                 return;
             }
             Task.Run(() => SteamManager.Singleton.AddScore(UIManager.Singleton.Score));
-
         }
 
         UIInputController[] playerInputs = GameObject.FindObjectsOfType<UIInputController>();
@@ -63,7 +63,7 @@ public class GameOverScreen : MonoBehaviour
         }
 
         // Update leaderboard
-        LeaderboardData.AddScore(UIManager.Singleton.Score, nameInput.text);
+        LeaderboardData.AddScore(UIManager.Singleton.Score, SteamManager.Singleton.GetPlayerName());
 
         SceneManager.LoadScene(sceneName);
     }

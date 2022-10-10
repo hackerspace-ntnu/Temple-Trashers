@@ -91,18 +91,43 @@ public class SteamManager : MonoBehaviour
                 skeletonsDestroyed++;
                 break;
             case "ACH_TOUCH_GRASS":
-                SteamUserStats.AddStat(name, skeletonsDestroyed);
-                if (SteamUserStats.GetStatInt(name) >= 500)
+                if (SteamUserStats.GetStatInt("stat_skeletons_destroyed") + skeletonsDestroyed > 500)
                 {
-                    var ach1 = new Achievement(name);
+                    var ach1 = new Achievement("ACH_TOUCH_GRASS");
                     ach1.Trigger();
                 }
+                else
+                {
+                    SteamUserStats.AddStat("stat_skeletons_destroyed", skeletonsDestroyed);
+                    Task.Run(ForceStatSave);
+                }
+                
                 break;
             default:
                 var ach = new Achievement(name);
                 ach.Trigger();
                 break;
 
+        }
+    }
+
+    public async Task ForceStatSave()
+    {
+        await updateStats();
+    }
+
+    private async Task updateStats()
+    {
+        bool updated = false;
+        while (!updated)
+        {
+            updated = SteamUserStats.StoreStats();
+        }
+        SteamUserStats.IndicateAchievementProgress("ACH_TOUCH_GRASS", SteamUserStats.GetStatInt("stat_skeletons_destroyed"), 500);
+        if (SteamUserStats.GetStatInt("stat_skeletons_destroyed") >= 500 )
+        {
+            var ach1 = new Achievement("ACH_TOUCH_GRASS");
+            ach1.Trigger();
         }
     }
 
@@ -118,7 +143,8 @@ public class SteamManager : MonoBehaviour
     {
         foreach (Achievement achievement in SteamUserStats.Achievements)
         {
-            if (achievement.Name == "ACH_SECRET") { continue; }
+            Debug.Log(achievement.Name);
+            if (achievement.Name == "The End") { continue; }
             if (!achievement.State) { return; }
         }
         var secret = new Achievement("ACH_SECRET");

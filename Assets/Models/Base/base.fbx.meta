@@ -9,7 +9,22 @@ ModelImporter:
   - first:
       74: 1052822190846345577
     second: LargeCrystal|Cylinder.004Action.003
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blue glow
+    second: {fileID: 2100000, guid: 192726f5656b1453f8ff6459c6882247, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: -6573833445411655760, guid: 6cc2273a0977186419821e042fcee3ff, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stone_brick
+    second: {fileID: -6573833445411655760, guid: 6cc2273a0977186419821e042fcee3ff, type: 3}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -40,7 +55,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.8
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -91,7 +106,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.008
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

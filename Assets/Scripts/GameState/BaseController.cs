@@ -388,6 +388,9 @@ public class BaseController : MonoBehaviour
         //Mark state as Game over
         isGameOver = true;
 
+        //Achievement triggers
+        if (crystals >= 20) { SteamManager.Singleton.SetAchievement("ACH_HOARDER"); }
+
         // Clean up
         Destroy(gameObject);
     }

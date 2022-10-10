@@ -36,6 +36,12 @@ public class SkeletonController : EnemyLight
         AnimationSetup();
         // Set random animation start time for current animation state
         anim.Play(0, -1, Random.value);
+        healthLogic.onDeath += AchievementDeath;
+    }
+
+    private void AchievementDeath(DamageInfo dmg)
+    {
+        SteamManager.Singleton.SetAchievement("SKELETON");
     }
 
     private void AnimationSetup()

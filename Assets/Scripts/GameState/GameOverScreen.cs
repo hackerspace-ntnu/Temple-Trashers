@@ -31,6 +31,7 @@ public class GameOverScreen : MonoBehaviour
         if (UIManager.Singleton.Score >= 2500) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MIN"); }
         if (UIManager.Singleton.Score >= 5000) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MID"); }
         if (UIManager.Singleton.Score >= 10000) { SteamManager.Singleton.SetAchievement("ACH_SCORE_MAX"); }
+        SteamManager.Singleton.SetAchievement("ACH_TOUCH_GRASS");
         SteamManager.Singleton.ResetAchievementProgress();
     }
 

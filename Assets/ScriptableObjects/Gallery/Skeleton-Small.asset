@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
+  m_Name: Skeleton-Small
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6262807936475223189, guid: bea369ea08a60fc43b97b3f7be9a859b, type: 3}
+  description: Curiosly, around the vincinity of forest lay many skeletons. At first
+    I was admittedly a bit shocked, but it seems that they have laid here for many
+    a decade, if not a century.
+  achievementId: ACH_SCORE_MIN

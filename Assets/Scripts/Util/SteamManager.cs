@@ -14,6 +14,7 @@ public class SteamManager : MonoBehaviour
     //Round based achievement tracking
     private int golemsDestroyed = 0;
     private int golemsSlapped = 0;
+    private int skeletonsDestroyed = 0;
     //Global leaderboard
 
     void Awake()
@@ -86,25 +87,49 @@ public class SteamManager : MonoBehaviour
                     ach1.Trigger();
                 }
                 break;
+            case "SKELETON":
+                skeletonsDestroyed++;
+                break;
+            case "ACH_TOUCH_GRASS":
+                SteamUserStats.AddStat(name, skeletonsDestroyed);
+                if (SteamUserStats.GetStatInt(name) >= 500)
+                {
+                    var ach1 = new Achievement(name);
+                    ach1.Trigger();
+                }
+                break;
             default:
                 var ach = new Achievement(name);
                 ach.Trigger();
                 break;
 
         }
-        
     }
 
     public bool IsAchievementUnlocked(string achievementId)
     {
+        TryUnlockSecret();
         var ach = new Achievement(achievementId);
         if (ach.State) { return true; }
         return false;
     }
 
+    public void TryUnlockSecret()
+    {
+        foreach (Achievement achievement in SteamUserStats.Achievements)
+        {
+            if (achievement.Name == "ACH_SECRET") { continue; }
+            if (!achievement.State) { return; }
+        }
+        var secret = new Achievement("ACH_SECRET");
+        secret.Trigger();
+    }
+
     public void ResetAchievementProgress()
     {
         golemsDestroyed = 0;
+        golemsSlapped = 0;
+        skeletonsDestroyed = 0;
     }
 
     public async Task GetLeaderboard(List<Transform> tileParent)

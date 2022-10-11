@@ -143,7 +143,6 @@ public class SteamManager : MonoBehaviour
     {
         foreach (Achievement achievement in SteamUserStats.Achievements)
         {
-            Debug.Log(achievement.Name);
             if (achievement.Name == "The End") { continue; }
             if (!achievement.State) { return; }
         }

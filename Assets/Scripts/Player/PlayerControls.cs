@@ -357,6 +357,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fbea72d5-397f-4fc6-9980-39fb1360484f"",
+                    ""path"": ""<Gamepad>/systemButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""43c9fc11-5452-4f1b-b055-121563ed34c0"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",

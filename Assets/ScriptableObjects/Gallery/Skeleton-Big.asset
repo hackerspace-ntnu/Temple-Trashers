@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
+  m_Name: Skeleton-Big
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 822805728555764523, guid: c2eb70ff676056f48a9f05ccb2aab476, type: 3}
+  description: It was after our first archeolagical dig that we found one. At first
+    we thought it to be a clay sculpture, but upon further inspection the material
+    seemed far too durable. Furthermore, the material seem to be organic in nature,
+    but somehow more akin to steel in strength than bone. Is this some heretical
+    religious sculpture created through some unknown means? Was this once a living
+    creature? Then surely not human in nature. As for it's age, I can't tell, but
+    I must admit to an uneasy fealing of dread when contemplating, as if I've found
+    something more ancient than civilization, nay even man himself.
+  achievementId: ACH_SCORE_MAX

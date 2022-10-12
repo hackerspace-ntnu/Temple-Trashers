@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
+  m_Name: Skeleton-Mid
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3879888277256051436, guid: 71793fb4b0027504b933226080096fa5, type: 3}
+  description: Incredible. It seems that there aren't just familiar skeltons that
+    lay here, but also seemingle larger humanoids. These seem to have been here far
+    longer than the smaller ones, as we've only been able to find them under heavy
+    vegetation and soil. As of now I can only infer guesswork in terms of their age,
+    but my current theory is that they are the ancient ancestors of the people that
+    used to live here, thus explaning their more... aggressive features. With this
+    in mind, I would estimate their age to be in the centuries, if not a millenia!
+  achievementId: ACH_SCORE_MID

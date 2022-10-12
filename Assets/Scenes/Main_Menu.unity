@@ -1811,7 +1811,7 @@ MonoBehaviour:
   m_NotificationBehavior: 0
   m_MaxPlayerCount: -1
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 1
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1819,16 +1819,80 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_JoinAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: 030bd41d-ec9b-4546-a5c0-e94b6db240b3
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 04f5880f-f5b6-4702-9421-c25a68605ae2
+        m_Path: <Joystick>/stick
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 356a2f7e-0e40-4123-8615-e3a13a3d5d28
+        m_Path: <Gamepad>/dpad
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 74c42cc9-973b-43ee-baa7-ab63951cac82
+        m_Path: <Gamepad>/start
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 04956863-5acc-49a5-b626-ee63d9534b6a
+        m_Path: <Gamepad>/buttonEast
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 490f4bbe-b3f7-458a-af8d-92f486f2f2c0
+        m_Path: <Gamepad>/buttonNorth
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 97c8f4eb-1925-415c-8c3d-4430cdff4643
+        m_Path: <Gamepad>/buttonSouth
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 3cf193c9-0aea-4f2f-8b9a-546359bec08f
+        m_Path: <Gamepad>/buttonWest
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: da633db2-f3c7-49c5-bbd5-6002260a6613
+        m_Path: <Keyboard>/anyKey
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+    m_Reference: {fileID: 1986741931561975355, guid: 8b82a8d608a484fe09211550e2283152, type: 3}
   m_PlayerPrefab: {fileID: 8307878755883973337, guid: f148a403f5706984996613b84ae42317, type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0

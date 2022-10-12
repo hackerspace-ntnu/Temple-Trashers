@@ -181,6 +181,11 @@ public class BaseController : MonoBehaviour
         if (dead)
             return;
 
+        if (damageInfo.FromSource is PlayerSpecificManager)
+        {
+            SteamManager.Singleton.SetAchievement("ACH_MUTUAL_DESTRUCTION");
+        }
+
         // Disable spawning of enemies
         gameManager.enabled = false;
 
@@ -300,6 +305,15 @@ public class BaseController : MonoBehaviour
 
     }
 
+    private IEnumerator SlowMo()
+    {
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
+
     private IEnumerator ZapSound()
     {
         audioSource.clip = audioBaseZap;
@@ -313,6 +327,7 @@ public class BaseController : MonoBehaviour
         audioSource.clip = audioBaseCharge;
         audioSource.Play();
         yield return new WaitForSeconds(audioSource.clip.length);
+        StartCoroutine(SlowMo());
         audioSource.clip = audioCrystalAbsorbtion;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
@@ -372,6 +387,9 @@ public class BaseController : MonoBehaviour
 
         //Mark state as Game over
         isGameOver = true;
+
+        //Achievement triggers
+        if (crystals >= 20) { SteamManager.Singleton.SetAchievement("ACH_HOARDER"); }
 
         // Clean up
         Destroy(gameObject);

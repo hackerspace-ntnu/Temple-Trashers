@@ -8,7 +8,7 @@ public class GalleryButton : MonoBehaviour
 {
     private static float positionOffset = default;
 
-    private static GameObject currentViewObject = default;
+    public static GameObject currentViewObject = default;
 
     [SerializeField]
     private float offsetIncrement = default;
@@ -63,6 +63,7 @@ public class GalleryButton : MonoBehaviour
             galleryView.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = scriptableObject.description;
             currentViewObject = Instantiate(scriptableObject.prefab, objectView);
             currentViewObject.transform.localScale = new Vector3(100f, 100f, 100f);
+            currentViewObject.transform.parent = null;
         }
         
     }

@@ -14,15 +14,12 @@ public class GalleryUI : MonoBehaviour
 
     private List<GameObject> buttons = default;
 
-    private Transform objectView = default;
-
     [SerializeField]
     private float rotationSpeed = 12f;
 
 
     void Start()
     {
-        objectView = galleryView.transform.Find("ObjectView");
         buttons = new List<GameObject>();
         for (int i = 0; i < entries.Length; i++)
         {
@@ -52,7 +49,10 @@ public class GalleryUI : MonoBehaviour
 
     private void Update()
     {
-        objectView.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        if (GalleryButton.currentViewObject) 
+        { 
+            GalleryButton.currentViewObject.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        }
     }
 
 }

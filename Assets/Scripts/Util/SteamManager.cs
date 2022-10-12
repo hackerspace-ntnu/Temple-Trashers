@@ -13,6 +13,8 @@ public class SteamManager : MonoBehaviour
     private float playerSteamId = 0;
     //Round based achievement tracking
     private int golemsDestroyed = 0;
+    private int golemsSlapped = 0;
+    private int skeletonsDestroyed = 0;
     //Global leaderboard
 
     void Awake()
@@ -77,25 +79,82 @@ public class SteamManager : MonoBehaviour
                     ach1.Trigger();
                 }
                 break;
+            case "ACH_SLAPPED_BACK":
+                golemsSlapped++;
+                if (golemsSlapped == 5)
+                {
+                    var ach1 = new Achievement(name);
+                    ach1.Trigger();
+                }
+                break;
+            case "SKELETON":
+                skeletonsDestroyed++;
+                break;
+            case "ACH_TOUCH_GRASS":
+                if (SteamUserStats.GetStatInt("stat_skeletons_destroyed") + skeletonsDestroyed > 500)
+                {
+                    var ach1 = new Achievement("ACH_TOUCH_GRASS");
+                    ach1.Trigger();
+                }
+                else
+                {
+                    SteamUserStats.AddStat("stat_skeletons_destroyed", skeletonsDestroyed);
+                    Task.Run(ForceStatSave);
+                }
+                
+                break;
             default:
                 var ach = new Achievement(name);
                 ach.Trigger();
                 break;
 
         }
-        
+    }
+
+    public async Task ForceStatSave()
+    {
+        await updateStats();
+    }
+
+    private async Task updateStats()
+    {
+        bool updated = false;
+        while (!updated)
+        {
+            updated = SteamUserStats.StoreStats();
+        }
+        SteamUserStats.IndicateAchievementProgress("ACH_TOUCH_GRASS", SteamUserStats.GetStatInt("stat_skeletons_destroyed"), 500);
+        if (SteamUserStats.GetStatInt("stat_skeletons_destroyed") >= 500 )
+        {
+            var ach1 = new Achievement("ACH_TOUCH_GRASS");
+            ach1.Trigger();
+        }
     }
 
     public bool IsAchievementUnlocked(string achievementId)
     {
+        TryUnlockSecret();
         var ach = new Achievement(achievementId);
         if (ach.State) { return true; }
         return false;
     }
 
+    public void TryUnlockSecret()
+    {
+        foreach (Achievement achievement in SteamUserStats.Achievements)
+        {
+            if (achievement.Name == "The End") { continue; }
+            if (!achievement.State) { return; }
+        }
+        var secret = new Achievement("ACH_SECRET");
+        secret.Trigger();
+    }
+
     public void ResetAchievementProgress()
     {
         golemsDestroyed = 0;
+        golemsSlapped = 0;
+        skeletonsDestroyed = 0;
     }
 
     public async Task GetLeaderboard(List<Transform> tileParent)

@@ -209,6 +209,7 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 anim.SetBool(planningAnimatorParam, false);
+                ui.SetActiveUI(false);
                 break;
         }
 

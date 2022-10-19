@@ -6,10 +6,10 @@ using UnityEngine;
 public class HurtBox : MonoBehaviour
 {
     [SerializeField]
-    private string[] tagsToDamage;
+    private string[] tagsToDamage = default;
 
     [SerializeField]
-    private int damage;
+    private int damage = default;
 
     void OnTriggerEnter(Collider other)
     {
@@ -18,7 +18,7 @@ public class HurtBox : MonoBehaviour
             if (!other.CompareTag(tagToDamage))
                 continue;
 
-            other.GetComponent<HealthLogic>().OnReceiveDamage(damage);
+            other.GetComponent<HealthLogic>().OnReceiveDamage(this, damage);
         }
     }
 }

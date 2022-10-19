@@ -53,8 +53,8 @@ public class TerrainData
 
     private float GetOccupierRotation(HexCell cell)
     {
-        RotatableTowerLogic rotatableTowerLogic = cell.OccupyingObject.GetComponent<RotatableTowerLogic>();
-        Transform occupierTransform = rotatableTowerLogic ? rotatableTowerLogic.rotAxis : cell.OccupyingObject.transform;
+        TowerLogic towerLogic = cell.OccupyingObject.GetComponent<TowerLogic>();
+        Transform occupierTransform = towerLogic ? towerLogic.RotationAxis : cell.OccupyingObject.transform;
         return occupierTransform.rotation.eulerAngles.y;
     }
 }

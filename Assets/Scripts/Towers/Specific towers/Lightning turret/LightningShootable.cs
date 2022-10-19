@@ -7,35 +7,45 @@ using UnityEngine.VFX;
 public class LightningShootable : MonoBehaviour, TurretInterface
 {
     [SerializeField]
-    private VisualEffect sparksEffect;
+    private VisualEffect sparksEffect = default;
 
     //The radius for the turret and all it's targets.
-    public float lightningRadius = 4;
+    [SerializeField]
+    private float lightningRadius = 4;
 
     //All targets in range of lightning turret's mesh collider hitbox
-    public CollisionManager collisionTargets;
+    [SerializeField]
+    private CollisionManager collisionTargets = default;
 
     //Damage per zap.
-    public float damage = 10;
+    [SerializeField]
+    private float damage = 10;
+
+    //Damage per zap.
+    [SerializeField, Range(1, 16)]
+    private int maxTargets = 8;
 
     //Lightning VFX
-    public GameObject drainRay;
+    [SerializeField]
+    private GameObject drainRay = default;
 
     //LighntingEffect duration
-    public float effectDuration = 0.7f;
+    [SerializeField]
+    private float effectDuration = 0.7f;
 
     //What layers the collider will check in, should be player and enemy layers.
-    public LayerMask shockLayers;
+    [SerializeField]
+    private LayerMask shockLayers = default;
 
     //Marked objects
     private List<Transform> zapTargets = new List<Transform>();
 
     //Making lightning spawn from top of turret
     [SerializeField]
-    private Transform zapOrigin;
+    private Transform zapOrigin = default;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = default;
 
     /// <summary>
     /// Called through an animation event on the <c>ShootLightning.anim</c> lightning turret animation.
@@ -55,13 +65,18 @@ public class LightningShootable : MonoBehaviour, TurretInterface
 
         foreach (Transform zap in zapTargets)
         {
+            if(zap == null) { continue; }
             Vector3 diff = (zap.position - transform.position).normalized;
             Vector3 knockBackDir = new Vector3(diff.x, 2, diff.z);
-            zap.GetComponent<HealthLogic>().OnReceiveDamage(damage, knockBackDir, 5f);
+            zap.GetComponent<HealthLogic>().OnReceiveDamage(this, damage, knockBackDir, 5f);
         }
 
-       
         audioSource.Play();
+
+        if (zapTargets.Count == maxTargets)
+        {
+            SteamManager.Singleton.SetAchievement("ACH_ZAPPED");
+        }
 
         //Clear all marked objects.
         zapTargets.Clear();
@@ -87,7 +102,7 @@ public class LightningShootable : MonoBehaviour, TurretInterface
         Collider[] hitColliders = Physics.OverlapSphere(target.transform.position, lightningRadius, shockLayers);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.GetComponent<HealthLogic>())
+            if (hitCollider.GetComponent<HealthLogic>() && zapTargets.Count < maxTargets)
                 AddZap(hitCollider.transform, target);
         }
     }

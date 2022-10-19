@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082a0fe0f7a3f804281dde6c26805562, type: 3}
+  m_Name: Base
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 919132149155446097, guid: 2dbfe86ee7179694797b77c9aaff39a7, type: 3}
+  description: Astonishing. Truly the uttermost curious object as of yet. This discovery
+    will surely be ressponsible for sementing Dahl in the archeological hall of fame.
+    I have already catalogued the object for transportation and sent word of this
+    discovery... Protocol would require me to study the object in detail after shipping
+    it back home, but surely, an immidiate quick examination won't hurt... surely.
+  achievementId: ACH_MUTUAL_DESTRUCTION

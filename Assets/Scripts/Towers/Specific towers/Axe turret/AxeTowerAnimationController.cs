@@ -5,22 +5,35 @@ using UnityEngine;
 
 public class AxeTowerAnimationController : MonoBehaviour, TurretInterface
 {
-    public MeshRenderer handAxe;
-    public MeshRenderer totemAxe;
-    public Transform spawnPoint;
-    public GameObject axeProjectilePrefab;
-    public float projectileSpeed = 5f;
-    public Transform forwardTransform;
+    [SerializeField]
+    private MeshRenderer handAxe = default;
 
     [SerializeField]
-    private AudioSource throws;
+    private MeshRenderer totemAxe = default;
+
     [SerializeField]
-    private AudioSource hits;
+    private Transform spawnPoint = default;
+
+    [SerializeField]
+    private GameObject axeProjectilePrefab = default;
+
+    [SerializeField]
+    private float projectileSpeed = 5f;
+
+    [SerializeField]
+    private Transform forwardTransform = default;
+
+    [SerializeField]
+    private AudioSource throws = default;
+
+    [SerializeField]
+    private AudioSource hits = default;
 
     public void Hit()
     {
         hits.Play();
     }
+
     public void Grab()
     {
         handAxe.enabled = true;

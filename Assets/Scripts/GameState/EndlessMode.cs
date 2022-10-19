@@ -21,7 +21,7 @@ public class EndlessMode : MonoBehaviour
 
     // Serialized variables
     [SerializeField]
-    private EnemySpawnData[] enemyPrefabs;
+    private EnemySpawnData[] enemyPrefabs = default;
 
     [Header("Enemies: f(x) = linearSpawnRate * x^(exponentialSpawnRate)")]
     [Range(1, 10), SerializeField]
@@ -34,7 +34,8 @@ public class EndlessMode : MonoBehaviour
     [SerializeField]
     private float waveInterval = 15f;
 
-    public int maxGroupSize = 10;
+    [SerializeField]
+    private int maxGroupSize = 10;
 
     // Private variables
     private int waveNumber = 1;
@@ -73,7 +74,11 @@ public class EndlessMode : MonoBehaviour
     }
 
     void Start()
-    { // Ensure values are assigned
+    {
+        // Get difficulty;
+        linearSpawnRate = PlayerPrefs.GetFloat("spawnRate");
+        waveInterval = PlayerPrefs.GetFloat("waveInterval");
+        // Ensure values are assigned
         if (enemyPrefabs.Length == 0)
             Debug.LogError("Enemies are not assigned");
 
@@ -97,18 +102,22 @@ public class EndlessMode : MonoBehaviour
         // Calculate the amount of enemies to spawn
         int spawnNum = Mathf.RoundToInt(linearSpawnRate * Mathf.Pow(waveNumber, exponentialSpawnRate));
 
-        HexCell spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
+        HexCell spawnCell = GetRandomSpawnableCell();
+        // Spawn enemies in groups no bigger than `maxGroupSize`
         for (int i = 0; i < spawnNum; i++)
         {
-            SpawnEnemy(spawnCell); // Spawn enemies in groups no bigger than maxGroupSize
-            if(i % maxGroupSize == 0)
-            {
-                spawnCell = spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
-            }
+            SpawnEnemy(spawnCell);
+            // When the number of spawned enemies on `spawnCell` is equal to `maxGroupSize`, change the cell to a new one
+            if (i % maxGroupSize == 0)
+                spawnCell = GetRandomSpawnableCell();
         }
-            
 
         waveNumber++;
+    }
+
+    private HexCell GetRandomSpawnableCell()
+    {
+        return spawnableCells[Random.Range(0, spawnableCells.Length - 1)];
     }
 
     /// <summary>
@@ -135,6 +144,7 @@ public class EndlessMode : MonoBehaviour
                 else
                     return spawnData.prefab;
         }
+
         // Should never be reached
         return null;
     }

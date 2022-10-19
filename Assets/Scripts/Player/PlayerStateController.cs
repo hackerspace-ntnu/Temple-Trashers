@@ -46,14 +46,17 @@ public partial class PlayerStateController : MonoBehaviour
     private HexCell targetCell;
 
     [SerializeField]
-    private Animator anim; //Reference to animation controller of the player
+    private Animator anim = default; //Reference to animation controller of the player
 
     [SerializeField]
-    private Transform heldItemBone;
+    private Transform heldItemBone = default;
 
     public Transform enemyViewFocus;
 
     private MessageUI messageUI;
+
+    [SerializeField]
+    private SkinnedMeshRenderer toggleMaterial = default;
 
     public PlayerStates CurrentState { get => _currentState; private set => _currentState = value; }
 
@@ -65,6 +68,7 @@ public partial class PlayerStateController : MonoBehaviour
 
     private static readonly int liftingAnimatorParam = Animator.StringToHash("Lifting");
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
+    private static readonly int borderScaleShaderProperty = Shader.PropertyToID("BorderScale");
 
     void Awake()
     {
@@ -74,7 +78,8 @@ public partial class PlayerStateController : MonoBehaviour
 
         ui = GetComponent<PlayerUi>();
         messageUI = GetComponent<MessageUI>();
-    }
+        uiInputController = GetComponent<UIInputController>();
+}
 
     void OnDestroy()
     {
@@ -89,12 +94,19 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
+
         SetState(PlayerStates.DEAD);
         manager.RespawnPlayer(1f);
+        BaseController.Singleton.OnPlayerDeath();
+
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
         GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
         anim.enabled = false;
+
+        //Makes sure respawn blink is disabled before ragdoll is made.
+        DisableOutline();
+
         Destroy(gameObject, 2f);
     }
 
@@ -103,6 +115,8 @@ public partial class PlayerStateController : MonoBehaviour
         inventoryManager = InventoryManager.Singleton;
 
         CurrentState = PlayerStates.FREE;
+
+        StartCoroutine(SpawnEffectTimer());
     }
 
     void FixedUpdate()
@@ -131,7 +145,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.BUILDING:
                 UpdateFocusedInteractable();
                 motion.Move();
-                UpdateConstructionTowerTargetCell();
+                UpdateConstructionTower();
                 if (Cancel)
                 {
                     SellTower();
@@ -145,14 +159,17 @@ public partial class PlayerStateController : MonoBehaviour
         }
     }
 
-    private void UpdateConstructionTowerTargetCell()
+    private void UpdateConstructionTower()
     {
+        TurretPrefabConstruction turretConstruction = focusedInteractable.GetComponent<TurretPrefabConstruction>();
+
         HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
         if (newTargetCell != targetCell)
         {
             targetCell = newTargetCell;
-            focusedInteractable.GetComponent<TurretPrefabConstruction>().FocusCell(targetCell);
+            turretConstruction.FocusCell(targetCell);
         }
+        turretConstruction.RotateFacing(transform.forward);
     }
 
     void OnTriggerEnter(Collider other)
@@ -192,6 +209,7 @@ public partial class PlayerStateController : MonoBehaviour
                 break;
             case PlayerStates.IN_TURRET_MENU:
                 anim.SetBool(planningAnimatorParam, false);
+                ui.SetActiveUI(false);
                 break;
         }
 
@@ -207,7 +225,8 @@ public partial class PlayerStateController : MonoBehaviour
                     //Refund turret
                     SellTower();
                 }
-
+                //Slowmo kill effect
+                StartCoroutine(SlowMo());
                 SetFocusedInteractable(null);
                 break;
             case PlayerStates.FREE:
@@ -244,8 +263,8 @@ public partial class PlayerStateController : MonoBehaviour
         if (CurrentState == PlayerStates.BUILDING && targetCell.CanPlaceTowerOnCell)
         {
             // Build the turret we are holding
-            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell);
-            messageUI.DisplayMessage("-" + focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.red);
+            focusedInteractable.GetComponent<TurretPrefabConstruction>().Construct(targetCell, transform.forward);
+            messageUI.DisplayMessage($"-{focusedInteractable.GetComponent<TurretPrefabConstruction>().TowerScriptableObject.Cost}", MessageTextColor.RED);
             Drop(focusedInteractable.gameObject);
             RemoveInteractable(focusedInteractable);
             SetState(PlayerStates.FREE);
@@ -341,7 +360,7 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
-        messageUI.DisplayMessage("+" + tower.TowerScriptableObject.Cost.ToString(), MessageUI.TextColors.green);
+        messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -368,6 +387,39 @@ public partial class PlayerStateController : MonoBehaviour
         AddInteractable(turret);
         heldInteractable = turret;
         SetFocusedInteractable(turret);
-        UpdateConstructionTowerTargetCell();
+        UpdateConstructionTower();
+    }
+
+    private void ResetOutline()
+    {
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 1.04f);
+    }
+
+    public void DisableOutline()
+    {
+        toggleMaterial.materials[1].SetFloat(borderScaleShaderProperty, 0.01f);
+    }
+
+    private IEnumerator SpawnEffectTimer()
+    {
+        ResetOutline();
+        float maxHealthPrev = health.maxHealth;
+        //Set health to an arbitrarly high amount
+        health.maxHealth = 10000;
+        health.health= 10000;
+        yield return new WaitForSeconds(3f);
+        //Reset health
+        health.maxHealth = maxHealthPrev;
+        health.health = maxHealthPrev;
+        DisableOutline();
+    }
+
+    private IEnumerator SlowMo()
+    {
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 }

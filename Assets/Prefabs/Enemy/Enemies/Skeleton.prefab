@@ -1514,10 +1514,10 @@ BoxCollider:
   m_GameObject: {fileID: 4422063928826571137}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 3.3345633, z: 0.7306381}
-  m_Center: {x: 0, y: 1.6659284, z: -0.04871437}
+  m_Size: {x: 1, y: 2.8, z: 0.7306381}
+  m_Center: {x: 0, y: 1.4, z: -0.04871437}
 --- !u!1 &4878646531778641708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,8 +1974,9 @@ MonoBehaviour:
   _currentTarget: {fileID: 0}
   currentState: 0
   anim: {fileID: 6942039963572180435}
-  attackDamage: 1
+  attackDamage: 5
   scoreValue: 10
+  durationBeforeDespawn: 2.5
   walkSpeed: 1.3
   chaseSpeed: 3
   baseAttackDistance: 2
@@ -1994,10 +1995,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 6942039963572180435}
   colliderToDisable: {fileID: 6262807936475223194}
   colliderToEnable: {fileID: 1737569877594554043}
-  launchSpeed: {x: 7, y: 15}
   launchRotationSpeed: 25
 --- !u!114 &6262807936475223196
 MonoBehaviour:
@@ -2037,7 +2036,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6262807936475223189}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.55
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -2089,7 +2088,7 @@ AudioSource:
   m_GameObject: {fileID: 6262807936475223189}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7906414818539945087, guid: c3264ffa6a020014580dda1189ab23ce, type: 2}
   m_audioClip: {fileID: 8300000, guid: c0694a25c2592b544a29e92e83c1b4d6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.11
@@ -2376,7 +2375,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 69439c36c083b9747a28963cf3639195, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class ProjectileTowerLogic : MonoBehaviour
 {
-    public GameObject bullet;
-    public GameObject bulletSpawnPoint;
-    public float bulletSpeed;
-    public float bulletDamage;
+    [SerializeField]
+    private GameObject bullet = default;
+
+    [SerializeField]
+    private GameObject bulletSpawnPoint = default;
+
+    [SerializeField]
+    private float bulletSpeed = default;
+
+    [SerializeField]
+    private float bulletDamage = default;
 
     public void LaunchProjectile()
     {

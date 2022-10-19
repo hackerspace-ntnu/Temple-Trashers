@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class ResourceUI : MonoBehaviour
 {
-    public Text resourceAmount;
+    [SerializeField]
+    private Text resourceAmount = default;
 
     private InventoryManager inventory;
 

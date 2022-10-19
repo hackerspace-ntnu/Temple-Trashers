@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 5246800848510687331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.74, y: 1.09, z: 6.03}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 4597634085673891231}
   - {fileID: 2257154895614808931}
@@ -135,6 +135,7 @@ MonoBehaviour:
   target: {fileID: 0}
   lootValue: 10
   tutorialText: {fileID: 5992633399951061925}
+  baseHealAmount: 10
 --- !u!64 &1973736755791022387
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -281,6 +282,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4042051552127044901}
     m_Modifications:
+    - target: {fileID: 684046417497730671, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 684046418129813649, guid: d6650570dfaa50443b7deca297dfdcdf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

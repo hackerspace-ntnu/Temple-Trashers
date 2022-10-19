@@ -7,22 +7,25 @@ using UnityEngine;
 public class Loot : Interactable
 {
     // Selection / highlight material
-    public Material selectionMaterial;
+    [SerializeField]
+    private Material selectionMaterial = default;
 
     // All mesh renderers attached to the object
     private MeshRenderer[] meshRenderers;
 
-    [ReadOnly]
     // Is the object being carried
-    public bool carried = false;
+    [ReadOnly, SerializeField]
+    private bool carried = false;
+
+    private PlayerStateController carryingPlayer = default;
 
     // Set the object to be destroyed
     private bool destroy = false;
 
     // The position to be absorbed in
-    private Vector3 absorbTarget;
+    private Vector3 absorbTarget = default;
 
-    private BaseController baseController;
+    private BaseController baseController = default;
 
     // The current dissolve state
     private float dissolveState = 0;
@@ -31,18 +34,24 @@ public class Loot : Interactable
     public Transform target;
 
     //Loot-value to resources in inventory
-    public int lootValue = 10;
-    private InventoryManager inventory;
+    [SerializeField]
+    private int lootValue = 10;
+
+    private InventoryManager inventory = default;
 
     // Loot Rigidbody
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
 
     // Loot collider
-    private MeshCollider meshCollider;
+    private MeshCollider meshCollider = default;
 
     // Tutorial text
     [SerializeField]
-    private TutorialText tutorialText;
+    private TutorialText tutorialText = default;
+
+    // Heal amount
+    [SerializeField]
+    private float baseHealAmount = 10f;
 
     private static readonly int stateMaterialProperty = Shader.PropertyToID("State");
     private static readonly int rateMaterialProperty = Shader.PropertyToID("Rate");
@@ -59,14 +68,14 @@ public class Loot : Interactable
         baseController = BaseController.Singleton;
         inventory = InventoryManager.Singleton;
     }
-
+    
     void Update()
     {
         // Destroy the loot properly (to be replaced with animation)
         if (destroy && !canInteract)
             DestroyAnimation();
     }
-
+    
     private void DestroyAnimation()
     {
         transform.position = Vector3.Lerp(transform.position, absorbTarget, Time.deltaTime);
@@ -87,11 +96,13 @@ public class Loot : Interactable
                 / meshRenderers[0].material.GetFloat(rateMaterialProperty)
                 > 1)
             {
-                baseController.crystals++;
                 baseController.RemoveRayVFX(transform, 10f);
 
                 //Add resources to inventory
+                baseController.crystals++;
+                baseController.OnCrystalCollected();
                 inventory.ResourceAmount += lootValue;
+                baseController.GetComponent<HealthLogic>().Heal(this, baseHealAmount);
 
                 Destroy(gameObject);
             }
@@ -130,6 +141,7 @@ public class Loot : Interactable
             meshCollider.enabled = false;
 
             player.Lift(gameObject);
+            carryingPlayer = player;
         } else
         {
             // Drop the loot!
@@ -145,6 +157,7 @@ public class Loot : Interactable
             }
 
             player.Drop(gameObject);
+            carryingPlayer = null;
             absorbTarget = transform.position + new Vector3(0, 3, 0);
         }
     }
@@ -157,7 +170,8 @@ public class Loot : Interactable
         // Set the object to be destroyed
         destroy = true;
         GetComponent<Collider>().enabled = false; //Prevents the vfx from being aborted when it leaves the base-sphere
-
+        baseController.ArcLengthVFX(transform, 1);
+        Interact(carryingPlayer);
         // Create flashing tutorialtext
         tutorialText.GetComponent<Animator>().enabled = true;
     }

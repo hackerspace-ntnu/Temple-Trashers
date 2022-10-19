@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Threading.Tasks;
 
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] entries;
-
-    public Transform leaderboardBody;
+    private Transform leaderboardBody = default;
 
     void Start()
     {
         List<Highscore> highscores = LeaderboardData.LoadScores();
 
-        entries = new GameObject[10];
         for (int i = 0; i < 10; i++)
         {
             Transform entry = leaderboardBody.GetChild(i);
             entry.GetChild(0).GetComponent<TextMeshProUGUI>().text = highscores[i].name;
             entry.GetChild(1).GetComponent<TextMeshProUGUI>().text = highscores[i].score.ToString();
         }
+
+        List<Transform> leaderboardTiles = new List<Transform>();
+        for (int i = 0; i < 10; i++)
+        {
+            leaderboardTiles.Add(leaderboardBody.GetChild(i));
+        }
+        Task.Run(() => SteamManager.Singleton.GetLeaderboard(leaderboardTiles));
     }
 }

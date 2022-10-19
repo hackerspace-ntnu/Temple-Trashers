@@ -7,7 +7,8 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Singleton { get; private set; }
 
-    public UIManager ui;
+    [SerializeField]
+    private UIManager ui = default;
 
     //Total amount of resources.
     private int resourceAmount = 100;
@@ -40,5 +41,11 @@ public class InventoryManager : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
+    }
+
+    void Start()
+    {
+        if (ui == null)
+            ui = UIManager.Singleton;
     }
 }

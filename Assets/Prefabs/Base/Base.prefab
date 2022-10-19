@@ -539,9 +539,22 @@ MonoBehaviour:
   mainCrystal: {fileID: 7990289546767576121}
   audioSource: {fileID: 3538501339153533698}
   crystals: 0
+  timeToWaveExplode: 380
+  waveExplosionTimer: 0
+  waveTimeReward: 20
+  waveTimePunishment: 20
   drainRay: {fileID: 2977432110045038679, guid: 1fa3e9df0696ada43b1fbfe045184210, type: 3}
+  enemyZap: {fileID: 2977432110045038679, guid: f1bc93ee2c672d948ab1f78aa23c5d21, type: 3}
+  enemyZapDamage: 40
+  enemyZapKnockBackForce: 20
+  enemyZapKnockBack_dirWeightAwayFromUp: 0.1
   explosionLightningCount: 20
   explosionLightningSpawnDelay: 0.2
+  matCrystal: {fileID: 2100000, guid: 58bdec41486863047971fee6ab91787f, type: 2}
+  isGameOver: 0
+  audioCrystalAbsorbtion: {fileID: 8300000, guid: 90d24bf55c55628499e1092a95f894d8, type: 3}
+  audioBaseZap: {fileID: 8300000, guid: 630dc0e2c75ef014480dea7a18e733bd, type: 3}
+  audioBaseCharge: {fileID: 8300000, guid: e45b76a025cde0c42957608250cc7806, type: 3}
 --- !u!114 &4549690278803359290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,7 +610,7 @@ AudioSource:
   m_GameObject: {fileID: 5829545455071137399}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7906414818539945087, guid: c3264ffa6a020014580dda1189ab23ce, type: 2}
   m_audioClip: {fileID: 8300000, guid: 90d24bf55c55628499e1092a95f894d8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.141

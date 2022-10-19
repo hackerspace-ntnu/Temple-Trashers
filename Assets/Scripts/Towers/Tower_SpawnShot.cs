@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Tower_SpawnShot : MonoBehaviour
 {
-    public GameObject bullet;
-    public float bulletSpeed;
+    [SerializeField]
+    private GameObject bullet = default;
+
+    [SerializeField]
+    private float bulletSpeed = default;
 
     public void Shoot()
     {

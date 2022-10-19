@@ -435,6 +435,10 @@ PrefabInstance:
       propertyPath: _towerScriptableObject
       value: 
       objectReference: {fileID: 11400000, guid: 2c0affb1e8eaf774a9e76ec9e5098216, type: 2}
+    - target: {fileID: 3777615045600658458, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
+      propertyPath: rotationAxis
+      value: 
+      objectReference: {fileID: 4681841355482768718}
     - target: {fileID: 7211280855749776597, guid: d969bee431a25e340a0ebb96f400aea0, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -16,7 +16,7 @@ public class BulletLogic : MonoBehaviour
     void Update()
     {
         //move the bullet with specified speed
-        transform.position += transform.forward * BulletSpeed * Time.deltaTime;
+        transform.position += BulletSpeed * Time.deltaTime * transform.forward;
     }
 
     //On collision -> call collided objects damagelogic if it has one and destroy this bullet
@@ -24,7 +24,7 @@ public class BulletLogic : MonoBehaviour
     {
         HealthLogic healthLogic = other.GetComponent<HealthLogic>();
         if (healthLogic)
-            healthLogic.OnReceiveDamage(Damage);
+            healthLogic.OnReceiveDamage(this, Damage);
 
         Destroy(gameObject);
     }

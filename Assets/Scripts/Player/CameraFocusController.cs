@@ -10,23 +10,30 @@ public class CameraFocusController : MonoBehaviour
 
     // Transforms the camera tries to focus on
     [SerializeField]
-    private List<Transform> focusObjects;
+    private List<Transform> focusObjects = default;
 
     // Scalars for how far the camera zooms depending on the horizontal and vertical distance between focus objects
-    public float widthScalar;
-    public float lengthScalar;
+    [SerializeField]
+    private float widthScalar = default;
+
+    [SerializeField]
+    private float lengthScalar = default;
 
     // Minimum distance the camera is from the `focusObjects`
-    public float minDistance;
+    [SerializeField]
+    private float minDistance = default;
 
     // Overview distance
-    public float overviewDistance;
+    [SerializeField]
+    private float overviewDistance = default;
 
     // Are we in overview mode
-    public bool overview;
+    [SerializeField]
+    private bool overview = default;
 
     // The Lerp point; higher = more snappy and responsive
-    public float smoothing;
+    [SerializeField]
+    private float smoothing = default;
 
     // Variables for calculating the ideal position of the camera
     private float distance;
@@ -59,10 +66,10 @@ public class CameraFocusController : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, boundingBoxCenter(), smoothing * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, BoundingBoxCenter(), smoothing * Time.deltaTime);
     }
 
-    private Vector3 boundingBoxCenter()
+    private Vector3 BoundingBoxCenter()
     {
         //Makes a "Bounding box"
         float xMin = focusObjects.Min(x => x.position.x);

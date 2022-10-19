@@ -7,14 +7,17 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "TowerScriptableObject")]
 public class TowerScriptableObject : ScriptableObject
 {
-    public string towerName;
+    [SerializeField]
+    private string towerName = default;
 
     [SerializeField]
-    private int cost;
+    private int cost = default;
 
-    public TurretPrefabConstruction towerConstructionPrefab;
-    public Sprite icon;
-    public Sprite iconHighlight;
+    [SerializeField]
+    private TurretPrefabConstruction towerConstructionPrefab = default;
+
+    public Sprite icon = default;
+    public Sprite iconHighlight = default;
 
     public int Cost => cost;
 
@@ -22,8 +25,11 @@ public class TowerScriptableObject : ScriptableObject
     {
         GameObject spawnedConstructionTower = Instantiate(towerConstructionPrefab.gameObject);
         controller.PrepareTurret(spawnedConstructionTower.GetComponent<Interactable>());
+
         TurretPrefabConstruction turretConstruction = spawnedConstructionTower.GetComponent<TurretPrefabConstruction>();
         turretConstruction.FocusCell(controller.TargetCell);
+        turretConstruction.RotateFacing(controller.transform.forward);
+
         return turretConstruction;
     }
 }

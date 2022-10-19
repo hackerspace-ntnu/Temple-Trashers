@@ -3,36 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TurretPrefabConstruction : Interactable
+public class TurretPrefabConstruction : AbstractTower
 {
     [SerializeField]
-    private GameObject towerPrefab;
+    private GameObject towerPrefab = default;
 
     [SerializeField]
-    private Material normalMaterial;
+    private Material normalMaterial = default;
 
     [SerializeField]
-    private Material errorMaterial;
+    private Material errorMaterial = default;
 
     [SerializeField]
-    private TowerScriptableObject _towerScriptableObject;
+    private TutorialText tutorialText = default;
 
-    [SerializeField]
-    private TutorialText tutorialText;
+    private Renderer[] renderers = default;
 
-    private Renderer[] renderers;
-
-    public TowerScriptableObject TowerScriptableObject => _towerScriptableObject;
-
-    void Awake()
+    new void Awake()
     {
+        base.Awake();
+
         renderers = GetComponentsInChildren<Renderer>();
     }
 
-    public void Construct(HexCell targetCell)
+    public void Construct(HexCell targetCell, Vector3 facingDir)
     {
         GameObject tower = Instantiate(towerPrefab, targetCell.transform.position, towerPrefab.transform.rotation, targetCell.transform);
         targetCell.OccupyingObject = tower;
+
+        TowerLogic towerLogic = tower.GetComponent<TowerLogic>();
+        towerLogic.RotateFacing(facingDir);
+
         Destroy(gameObject);
     }
 

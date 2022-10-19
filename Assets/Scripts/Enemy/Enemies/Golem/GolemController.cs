@@ -38,22 +38,35 @@ public class GolemController : Enemy
     private bool canJump = true;
 
     [SerializeField]
-    private float playerDamage;
+    private float playerDamage = default;
 
     [SerializeField]
-    private float baseDamage;
+    private float baseDamage = default;
 
     [ReadOnly, SerializeField]
-    private Transform aggroTarget;
+    private Transform aggroTarget = default;
 
     [SerializeField]
     private float baseStopDistance = 1.5f;
 
     [SerializeField]
-    private AudioSource slap;
+    private AudioSource slap = default;
 
     [SerializeField]
-    private AudioSource headbutt;
+    private AudioSource headbutt = default;
+
+    protected override void Start()
+    {
+        baseTransform = BaseController.Singleton.transform;
+        CurrentTarget = baseTransform;
+        baseHealth = baseTransform.GetComponent<HealthLogic>();
+        healthLogic.onDeath += AchievementDeath;
+    }
+
+    private void AchievementDeath(DamageInfo dmg)
+    {
+        SteamManager.Singleton.SetAchievement("ACH_SLAPPED_BACK");
+    }
 
     public Transform AggroTarget
     {
@@ -71,7 +84,7 @@ public class GolemController : Enemy
     }
 
     [SerializeField]
-    private GolemAnimationSyncer sync;
+    private GolemAnimationSyncer sync = default;
 
     private static readonly int headButtAnimatorParam = Animator.StringToHash("HeadButt");
     private static readonly int slapRightAnimatorParam = Animator.StringToHash("SlapRight");
@@ -81,6 +94,9 @@ public class GolemController : Enemy
 
     void FixedUpdate()
     {
+        if (currentState == EnemyState.DEAD)
+            return;
+
         switch (currentGolemState)
         {
             case GolemState.WAITING:
@@ -196,22 +212,22 @@ public class GolemController : Enemy
     {
         Vector3 diff = target - transform.position;
 
-        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * 180 / Mathf.PI - transform.rotation.eulerAngles.y, 360);
+        float angle = Mathf.Repeat(-Mathf.Atan2(-diff.x, diff.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y, 360);
 
         if (angle < 15f || angle > 345f)
         {
             anim.SetTrigger(headButtAnimatorParam);
             headbutt.PlayDelayed(0.45f);
-        }
-        else if (angle < 180f)
+        } else if (angle < 180f)
         {
             anim.SetTrigger(slapRightAnimatorParam);
             slap.Play();
-        }
-        else
+            SteamManager.Singleton.SetAchievement("ACH_SLAPPED_GOLEM");
+        } else
         {
             anim.SetTrigger(slapLeftAnimatorParam);
             slap.Play();
+            SteamManager.Singleton.SetAchievement("ACH_SLAPPED_GOLEM");
         }
     }
 
@@ -233,6 +249,6 @@ public class GolemController : Enemy
         float damage = currentGolemState == GolemState.ATTACKING_BASE ? baseDamage : playerDamage;
         HealthLogic targetHealth = AggroTarget.GetComponent<HealthLogic>();
         Vector3 knockBackDir = (AggroTarget.position - transform.position + Vector3.up * 2).normalized;
-        targetHealth.OnReceiveDamage(damage, knockBackDir, 10f);
+        targetHealth.OnReceiveDamage(this, damage, knockBackDir, 10f);
     }
 }

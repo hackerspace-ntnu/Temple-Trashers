@@ -9,11 +9,14 @@ partial class PlayerStateController
 {
     private PlayerInput input; // Controller input
 
+    public Color FocusedColor { get; private set; } = Color.white;
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 AimInput { get; private set; } = Vector2.zero;
     public bool Interact { get; private set; } = false;
     public bool Cancel { get; private set; } = false;
     public bool Select { get; private set; } = false;
+
+    private UIInputController uiInputController;
 
     #region D-pad
 
@@ -24,9 +27,22 @@ partial class PlayerStateController
 
     #endregion D-pad
 
-    private void MoveInput_Performed(InputAction.CallbackContext ctx) => MoveInput = ctx.ReadValue<Vector2>();
+    private void MoveInput_Performed(InputAction.CallbackContext ctx)
+    {
+        MoveInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
+            ? ctx.ReadValue<Vector2>()
+            : Vector2.zero;
+    }
+
     private void MoveInput_Canceled(InputAction.CallbackContext ctx) => MoveInput = Vector2.zero;
-    private void AimInput_Performed(InputAction.CallbackContext ctx) => AimInput = ctx.ReadValue<Vector2>();
+
+    private void AimInput_Performed(InputAction.CallbackContext ctx)
+    {
+        AimInput = ctx.ReadValue<Vector2>().magnitude > 0.1f
+            ? ctx.ReadValue<Vector2>()
+            : Vector2.zero;
+    }
+
     private void AimInput_Canceled(InputAction.CallbackContext ctx) => AimInput = Vector2.zero;
     private void InteractInput_Performed(InputAction.CallbackContext ctx) => OnInteract();
     private void CancelInput_Performed(InputAction.CallbackContext ctx) => Cancel = true;
@@ -76,10 +92,13 @@ partial class PlayerStateController
     private void ReadyForNextWaveInput_Performed(InputAction.CallbackContext ctx) => EnemyWaveManager.ReadyForNextWave();
 
     // Called by `PlayerSpecificManager` after instantiating the player
-    public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager)
+    public void SetUpInput(PlayerInput newInput, PlayerSpecificManager newManager, Color color)
     {
         input = newInput;
         manager = newManager;
+        uiInputController.SetUpInput(newInput);
+
+        FocusedColor = color;
 
         newInput.actions["Move"].performed += MoveInput_Performed;
         newInput.actions["Move"].canceled += MoveInput_Canceled;
@@ -164,7 +183,7 @@ partial class PlayerStateController
 
     private void OnDUp()
     {
-        DoDPadAction(0);
+        DoDPadAction(2);
     }
 
     private void OnDDown()
@@ -175,6 +194,8 @@ partial class PlayerStateController
     private void DoDPadAction(int towerIndex)
     {
         TowerScriptableObject tower = ui.ControllerWheel.GetTower(towerIndex);
+        if (inventoryManager.ResourceAmount < tower.Cost)
+            messageUI.DisplayMessage("Not enough crystals", MessageTextColor.RED);
         if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
         {
             inventoryManager.ResourceAmount -= tower.Cost;

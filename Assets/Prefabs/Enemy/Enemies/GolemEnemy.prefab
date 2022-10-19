@@ -523,7 +523,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1ea9a33d423ef66498786eac3c271fb6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 4423465569533801917}
   m_Layer: 11
   m_Name: GolemEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1121,8 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde39a3ed8a181143bd4f0d992b95909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
+  health: 100
+  maxHealth: 100
 --- !u!195 &864269227
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1197,7 +1197,7 @@ AudioSource:
   m_GameObject: {fileID: 3862809870043681472}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7906414818539945087, guid: c3264ffa6a020014580dda1189ab23ce, type: 2}
   m_audioClip: {fileID: 8300000, guid: 371599cd99b19a2499a6e3dd618a23f6, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.4

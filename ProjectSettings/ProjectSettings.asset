@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Hackerspace
-  productName: Temple Thrashers
+  productName: Temple Trashers
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.11764707, b: 0.121568635, a: 1}
@@ -128,7 +128,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.2
+  bundleVersion: 0.2.7a
   preloadedAssets:
   - {fileID: 11400000, guid: 512b6bc2accd0784baa634b562fa07be, type: 2}
   metroInputSource: 0

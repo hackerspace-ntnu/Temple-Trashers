@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager Singleton { get; private set; }
 
     [SerializeField]
-    public GameObject ui;
+    private GameObject ui = default;
 
     // An array of all audiosources in the game.
     [SerializeField]
-    private AudioSource[] audioSources;
+    private AudioSource[] audioSources = default;
 
     [SerializeField]
     private float normalAudioVolume = 1f;
@@ -73,6 +73,16 @@ public class PauseManager : MonoBehaviour
         AudioListener.volume = IsPaused ? pauseAudioVolume : normalAudioVolume;
     }
 
+    public void MainMenu()
+    {
+        // Unpause the game
+        PauseGame();
+
+        //Make sure to remove button event listeners
+        Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
+
+        SceneManager.LoadScene("Main_Menu");
+    }
     public void QuitGame()
     {
         Application.Quit();

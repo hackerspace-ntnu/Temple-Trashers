@@ -32,6 +32,11 @@ public class PlayerUi : MonoBehaviour
         messageUI = GetComponent<MessageUI>();
     }
 
+    public void SetActiveUI(bool value)
+    {
+            ui.SetActive(value);
+    }
+
     void LateUpdate()
     {
         //Points the UI to the main camera

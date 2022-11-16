@@ -21,7 +21,7 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - BaseColor: 1.52
-    - Charge_Percent: 0.028947368
+    - Charge_Percent: 0
     m_Colors:
     - Color_Albedo: {r: 0, g: 0.40026736, b: 1, a: 0}
     - EmissionColor: {r: 0, g: 0.2518901, b: 2.091783, a: 0}

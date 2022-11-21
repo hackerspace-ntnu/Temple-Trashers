@@ -1108,6 +1108,7 @@ MonoBehaviour:
   baseStopDistance: 2.5
   slap: {fileID: -8063788094010961536}
   headbutt: {fileID: 4423465569533801917}
+  deadGolem: {fileID: 4969720865562201433, guid: 82e8b4d583f0b114aa310d670f41a778, type: 3}
   sync: {fileID: 4272603375916495953}
 --- !u!114 &2043701056
 MonoBehaviour:

@@ -140,7 +140,7 @@ public class BaseController : MonoBehaviour
         gameManager = EndlessMode.Singleton;
         InvokeRepeating("WaveExplosionCounter",3f, 1f);
         matCrystal.SetFloat("Charge_Percent", 0);
-        
+        Cursor.visible = false;
     }
 
     void OnDestroy()
@@ -381,6 +381,7 @@ public class BaseController : MonoBehaviour
 
         // Creates the GUI "GameOverScreen"
         Instantiate(gameOverScreen);
+        Cursor.visible = true;
 
         // Add particle system
         Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);

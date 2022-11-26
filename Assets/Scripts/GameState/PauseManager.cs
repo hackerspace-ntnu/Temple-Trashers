@@ -59,6 +59,7 @@ public class PauseManager : MonoBehaviour
         IsPaused = !IsPaused;
         Time.timeScale = IsPaused ? 0 : initialTimeScale;
         ui.SetActive(IsPaused);
+        Cursor.visible = IsPaused;
 
         // Pause every audiosource in array.
         foreach (AudioSource source in audioSources)
@@ -77,10 +78,12 @@ public class PauseManager : MonoBehaviour
     {
         // Unpause the game
         PauseGame();
-
-        //Make sure to remove button event listeners
+        // Make sure to remove slow-mo FX
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        // Make sure to remove button event listeners
         Destroy(GameObject.FindObjectOfType<UIInputController>().gameObject);
-
+        Cursor.visible = true;
         SceneManager.LoadScene("Main_Menu");
     }
     public void QuitGame()

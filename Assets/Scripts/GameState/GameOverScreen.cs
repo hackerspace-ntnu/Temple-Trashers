@@ -66,6 +66,10 @@ public class GameOverScreen : MonoBehaviour
         // Update leaderboard
         LeaderboardData.AddScore(UIManager.Singleton.Score, SteamManager.Singleton.GetPlayerName());
 
+        // Make sure slow-mo fx are normalized
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
         SceneManager.LoadScene(sceneName);
     }
 }

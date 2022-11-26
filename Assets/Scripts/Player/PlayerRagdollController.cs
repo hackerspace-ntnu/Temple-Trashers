@@ -17,11 +17,11 @@ public class PlayerRagdollController : MonoBehaviour
     [SerializeField]
     private List<Collider> collidersToDisable = default;
 
-    [SerializeField]
-    private Rigidbody initialForceTarget = default;
+    public Rigidbody initialForceTarget = default;
 
     [SerializeField]
     private float impactForceMultiplier = 1f;
+
 
     public void Ragdoll(DamageInfo info)
     {
@@ -38,5 +38,15 @@ public class PlayerRagdollController : MonoBehaviour
             collider.enabled = true;
 
         initialForceTarget.AddForce(info.KnockBackDir * info.KnockBackForce * impactForceMultiplier, ForceMode.Impulse);
+    }
+
+    public void UnRagdoll()
+    {
+        foreach (var body in GetComponentsInChildren<Rigidbody>())
+        {
+            body.isKinematic = true;
+            body.velocity = Vector3.zero; body.angularVelocity = Vector3.zero;
+        }
+            
     }
 }

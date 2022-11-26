@@ -70,6 +70,12 @@ public partial class PlayerStateController : MonoBehaviour
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
     private static readonly int borderScaleShaderProperty = Shader.PropertyToID("BorderScale");
 
+    public bool deathCooldownOver = false;
+    private float deathCooldown = 2f;
+    private PlayerRagdollController ragdollCont;
+
+    private Transform deadplayerVFX;
+
     void Awake()
     {
         motion = GetComponent<PlayerMotion>();
@@ -79,6 +85,7 @@ public partial class PlayerStateController : MonoBehaviour
         ui = GetComponent<PlayerUi>();
         messageUI = GetComponent<MessageUI>();
         uiInputController = GetComponent<UIInputController>();
+        ragdollCont = GetComponent<PlayerRagdollController>();
 }
 
     void OnDestroy()
@@ -94,11 +101,8 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
-
         SetState(PlayerStates.DEAD);
-        manager.RespawnPlayer(1f);
-        BaseController.Singleton.OnPlayerDeath();
-
+        manager.StartRespawnPlayer(deathCooldown);
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
         GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
@@ -106,8 +110,6 @@ public partial class PlayerStateController : MonoBehaviour
 
         //Makes sure respawn blink is disabled before ragdoll is made.
         DisableOutline();
-
-        Destroy(gameObject, 2f);
     }
 
     void Start()
@@ -130,6 +132,7 @@ public partial class PlayerStateController : MonoBehaviour
                 motion.Move();
                 break;
             case PlayerStates.DEAD:
+                MoveBackToSpawn();
                 break;
             case PlayerStates.FREE:
                 UpdateFocusedInteractable();
@@ -156,6 +159,35 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.FREE);
 
                 break;
+        }
+    }
+
+    public void ReturnPlayerToSpawn()
+    {
+        deathCooldownOver = true;
+        deadplayerVFX = BaseController.Singleton.OnPlayerDeath(this.transform);
+    }
+
+    private void MoveBackToSpawn()
+    {
+        if(deathCooldownOver)
+        {
+            foreach (var t in ragdollCont.initialForceTarget.transform.parent.GetComponentsInChildren<Transform>())
+            {
+                t.localPosition = Vector3.Lerp(t.localPosition, Vector3.zero, Time.deltaTime);
+            }
+
+            ragdollCont.initialForceTarget.transform.parent.position = Vector3.Lerp(ragdollCont.initialForceTarget.transform.parent.position, manager.spawnPoint, Time.deltaTime);
+            
+            transform.position = Vector3.Lerp(transform.position, manager.spawnPoint, Time.deltaTime);
+            anim.enabled = true;
+
+            if (Vector3.Distance(ragdollCont.transform.position, manager.spawnPoint) < 0.1f)
+            {
+                manager.RespawnPlayer();// Respawn a new play
+                Destroy(deadplayerVFX.gameObject); // Destroy lightning
+                Destroy(gameObject);    // Destroy Game object
+            }
         }
     }
 

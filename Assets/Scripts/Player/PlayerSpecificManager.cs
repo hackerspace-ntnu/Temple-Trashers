@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,20 +48,37 @@ public class PlayerSpecificManager : MonoBehaviour
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this, playerColor);
+        
+        //instantiatedPlayer.GetComponent<HealthLogic>().onDeath += 
+        
         CameraFocusController.Singleton.AddFocusObject(instantiatedPlayer.transform);
 
     }
 
-    public void RespawnPlayer(float delay)
+    public void StartRespawnPlayer(float delay)
     {
         StartCoroutine(WaitForRespawn(delay));
         //Hurt the base for respawning a player (Damage is based on players lifetotal)
         BaseController.Singleton.HealthController.OnReceiveDamage(this, respawnCost);
     }
 
+    public void RespawnPlayer()
+    {
+        GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
+        instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
+        instantiatedPlayer.SetUpInput(input, this, playerColor);
+    }
+
     private IEnumerator WaitForRespawn(float delay)
     {
+        //Create new spawnpoint
+        spawnPoint = BaseController.Singleton ? BaseController.Singleton.SpawnPoint.position : Vector3.zero;
+        spawnPoint += new Vector3(Random.Range(-5, 5), 1, Random.Range(-5, 5));
+
+        // Delay
         yield return new WaitForSeconds(delay);
-        InitializePlayer();
+
+        instantiatedPlayer.ReturnPlayerToSpawn();
+        instantiatedPlayer.GetComponent<PlayerRagdollController>().UnRagdoll();
     }
 }

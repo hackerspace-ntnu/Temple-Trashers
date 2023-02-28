@@ -37,8 +37,6 @@ public class Loot : Interactable
     [SerializeField]
     private int lootValue = 10;
 
-    private InventoryManager inventory = default;
-
     // Loot Rigidbody
     private new Rigidbody rigidbody;
 
@@ -66,7 +64,6 @@ public class Loot : Interactable
     void Start()
     {
         baseController = BaseController.Singleton;
-        inventory = InventoryManager.Singleton;
     }
     
     void Update()
@@ -101,7 +98,7 @@ public class Loot : Interactable
                 //Add resources to inventory
                 baseController.crystals++;
                 baseController.OnCrystalCollected();
-                inventory.ResourceAmount += lootValue;
+                UIManager.Singleton.SetResourceAmount(new ResourceInfo(lootValue, gameObject));
                 baseController.GetComponent<HealthLogic>().Heal(this, baseHealAmount);
 
                 Destroy(gameObject);

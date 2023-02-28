@@ -194,11 +194,11 @@ partial class PlayerStateController
     private void DoDPadAction(int towerIndex)
     {
         TowerScriptableObject tower = ui.ControllerWheel.GetTower(towerIndex);
-        if (inventoryManager.ResourceAmount < tower.Cost)
+        if (UIManager.Singleton.ResourceAmount < tower.Cost)
             messageUI.DisplayMessage("Not enough crystals", MessageTextColor.RED);
-        if (_currentState == PlayerStates.FREE && inventoryManager.ResourceAmount >= tower.Cost)
+        if (_currentState == PlayerStates.FREE && UIManager.Singleton.ResourceAmount >= tower.Cost)
         {
-            inventoryManager.ResourceAmount -= tower.Cost;
+            UIManager.Singleton.SetResourceAmount(new ResourceInfo(-tower.Cost, gameObject));
             tower.InstantiateConstructionTower(this);
             SetState(PlayerStates.BUILDING);
         }

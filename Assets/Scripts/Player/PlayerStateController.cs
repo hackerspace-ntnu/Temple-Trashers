@@ -27,7 +27,6 @@ public partial class PlayerStateController : MonoBehaviour
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
-    private InventoryManager inventoryManager;
 
     private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
 
@@ -114,8 +113,6 @@ public partial class PlayerStateController : MonoBehaviour
 
     void Start()
     {
-        inventoryManager = InventoryManager.Singleton;
-
         CurrentState = PlayerStates.FREE;
 
         StartCoroutine(SpawnEffectTimer());
@@ -391,7 +388,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(heldInteractable is TurretPrefabConstruction tower))
             return;
 
-        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+        UIManager.Singleton.SetResourceAmount(new ResourceInfo(tower.TowerScriptableObject.Cost, gameObject));
         messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);

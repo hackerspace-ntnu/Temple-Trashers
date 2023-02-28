@@ -13,7 +13,6 @@ public class PlayerUi : MonoBehaviour
     private GameObject ui = default;
 
     private Transform mainCameraTransform;
-    private InventoryManager inventory;
     private UIWheel controllerWheel;
     private MessageUI messageUI;
 
@@ -28,7 +27,6 @@ public class PlayerUi : MonoBehaviour
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
-        inventory = InventoryManager.Singleton;
         messageUI = GetComponent<MessageUI>();
     }
 
@@ -59,15 +57,15 @@ public class PlayerUi : MonoBehaviour
         {
             TowerScriptableObject selectedSegment = GetSelectedSegment();
             if (selectedSegment
-                && inventory.ResourceAmount - selectedSegment.Cost >= 0)
+                && UIManager.Singleton.ResourceAmount - selectedSegment.Cost >= 0)
             {
-                inventory.ResourceAmount -= selectedSegment.Cost;
+                UIManager.Singleton.SetResourceAmount(new ResourceInfo(-selectedSegment.Cost, gameObject));
                 selectedSegment.InstantiateConstructionTower(playerStateController);
                 playerStateController.SetState(PlayerStates.BUILDING);
             } else
             {
                 playerStateController.SetState(PlayerStates.FREE);
-                if (inventory.ResourceAmount - selectedSegment.Cost < 0)
+                if (UIManager.Singleton.ResourceAmount - selectedSegment.Cost < 0)
                     messageUI.DisplayMessage("Missing crystals", MessageTextColor.RED);
             }
 

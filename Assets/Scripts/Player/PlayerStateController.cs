@@ -195,7 +195,7 @@ public partial class PlayerStateController : MonoBehaviour
     {
         TurretPrefabConstruction turretConstruction = focusedInteractable.GetComponent<TurretPrefabConstruction>();
 
-        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexGrid.OUTER_RADIUS * 2f * transform.forward);
         if (newTargetCell != targetCell)
         {
             targetCell = newTargetCell;

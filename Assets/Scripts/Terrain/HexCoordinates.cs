@@ -30,10 +30,10 @@ public struct HexCoordinates
 
     public static HexCoordinates FromPosition(Vector3 position)
     {
-        float x = position.x / (HexMetrics.INNER_RADIUS * 2f);
+        float x = position.x / (HexGrid.INNER_RADIUS * 2f);
         float y = -x;
 
-        float offset = position.z / (HexMetrics.OUTER_RADIUS * 3f);
+        float offset = position.z / (HexGrid.OUTER_RADIUS * 3f);
         x -= offset;
         y -= offset;
 

@@ -413,7 +413,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6094904989433470017}
   - component: {fileID: 8135351288033698040}
-  - component: {fileID: 7936769435568181584}
   - component: {fileID: 1188638836342214499}
   - component: {fileID: 5596777997928769972}
   - component: {fileID: 7415659850581668381}
@@ -458,25 +457,13 @@ MonoBehaviour:
   attackDamage: 5
   scoreValue: 10
   durationBeforeDespawn: 2.5
+  colliderToDisable: {fileID: 7415659850581668381}
+  colliderToEnable: {fileID: 7712605073058049184}
+  launchRotationSpeed: 0
   model: {fileID: 7764703935131286064}
   tiltAngleSide: 10
   tiltAngleFront: 15
   detonationDistance: 2
---- !u!114 &7936769435568181584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6094904989433470016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038f81e2cfae591409b8a2244bbe762f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderToDisable: {fileID: 7415659850581668381}
-  colliderToEnable: {fileID: 7712605073058049184}
-  launchRotationSpeed: 0
 --- !u!114 &1188638836342214499
 MonoBehaviour:
   m_ObjectHideFlags: 0

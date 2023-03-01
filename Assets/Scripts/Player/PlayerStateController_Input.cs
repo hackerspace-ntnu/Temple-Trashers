@@ -200,7 +200,6 @@ partial class PlayerStateController
         {
             UIManager.Singleton.SetResourceAmount(new ResourceInfo(-tower.Cost, gameObject));
             tower.InstantiateConstructionTower(this);
-            SetState(PlayerStates.BUILDING);
         }
     }
 

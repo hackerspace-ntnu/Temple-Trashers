@@ -139,7 +139,6 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.IN_TURRET_MENU);
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                ui.Select();
                 motion.Move();
                 break;
             case PlayerStates.BUILDING:
@@ -263,6 +262,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.IN_TURRET_MENU:
                 SetFocusedInteractable(null);
                 anim.SetBool(planningAnimatorParam, true);
+                ui.SetActiveUI(true);
                 break;
             case PlayerStates.BUILDING:
                 anim.SetBool(liftingAnimatorParam, true);
@@ -307,7 +307,6 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         tower.TowerScriptableObject.InstantiateConstructionTower(this);
-        SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);

@@ -8,6 +8,17 @@ public class HexGrid : MonoBehaviour
 {
     public static HexGrid Singleton { get; private set; }
 
+    public const float OUTER_RADIUS = 1f;
+
+    public static readonly float INNER_RADIUS = OUTER_RADIUS * Mathf.Sqrt(3) / 2f;
+
+    public const float ELEVATION_STEP = 0.1f;
+
+    public const int CHUNK_SIZE_X = 5;
+    public const int CHUNK_SIZE_Z = 5;
+
+
+
     private int cellCountX;
     private int cellCountZ;
 
@@ -54,7 +65,7 @@ public class HexGrid : MonoBehaviour
 
     [Header("Noise Scale")]
     [SerializeField]
-    private float noiseScale = default;
+    private float noiseScale = 0.003f;
 
     // Custom inspector variables
     [Header("Cell Variables")]
@@ -71,11 +82,6 @@ public class HexGrid : MonoBehaviour
     private IDictionary<GameObject, string> gameObjectToName;
 
     public HexCell[] SpawnableEdgeCells { get => _spawnableEdgeCells; private set => _spawnableEdgeCells = value; }
-
-    void OnEnable()
-    {
-        HexMetrics.noiseScale = noiseScale;
-    }
 
     void Awake()
     {
@@ -102,8 +108,8 @@ public class HexGrid : MonoBehaviour
         tallestCellType = cellTypes.Aggregate((t1, t2) => t1.elevation > t2.elevation ? t1 : t2);
 
         // Calculate borders for the terrain
-        cellCountX = chunkCountX * HexMetrics.CHUNK_SIZE_X;
-        cellCountZ = chunkCountZ * HexMetrics.CHUNK_SIZE_Z;
+        cellCountX = chunkCountX * CHUNK_SIZE_X;
+        cellCountZ = chunkCountZ * CHUNK_SIZE_Z;
 
         SpawnableEdgeCells = GetSpawnableEdgeCells();
 
@@ -125,8 +131,8 @@ public class HexGrid : MonoBehaviour
     public void RebuildTerrain()
     {
         // Calculate borders
-        cellCountX = chunkCountX * HexMetrics.CHUNK_SIZE_X;
-        cellCountZ = chunkCountZ * HexMetrics.CHUNK_SIZE_Z;
+        cellCountX = chunkCountX * CHUNK_SIZE_X;
+        cellCountZ = chunkCountZ * CHUNK_SIZE_Z;
 
         // Create the terrain
         CreateChunks();
@@ -166,9 +172,9 @@ public class HexGrid : MonoBehaviour
                 chunk.transform.SetParent(transform);
                 chunk.name = $"Chunk ({x}, {z})";
                 chunk.transform.position -= new Vector3(
-                    HexMetrics.INNER_RADIUS * cellCountX,
+                    INNER_RADIUS * cellCountX,
                     0,
-                    HexMetrics.OUTER_RADIUS * cellCountZ * 1.5f / 2f
+                    OUTER_RADIUS * cellCountZ * 1.5f / 2f
                 );
             }
         }
@@ -201,9 +207,9 @@ public class HexGrid : MonoBehaviour
     {
         // Determine the position of the cell
         Vector3 position;
-        position.x = (x + z * 0.5f - z / 2) * (HexMetrics.INNER_RADIUS * 2f);
+        position.x = (x + z * 0.5f - z / 2) * (INNER_RADIUS * 2f);
         position.y = 0f;
-        position.z = z * (HexMetrics.OUTER_RADIUS * 1.5f);
+        position.z = z * (OUTER_RADIUS * 1.5f);
 
         // Instantiate and set up the cell
         HexCell cell = cells[i] = Instantiate(cellPrefab);
@@ -231,8 +237,8 @@ public class HexGrid : MonoBehaviour
         }
 
         // Add cell to correlating chunk
-        int chunkX = x / HexMetrics.CHUNK_SIZE_X;
-        int chunkZ = z / HexMetrics.CHUNK_SIZE_Z;
+        int chunkX = x / CHUNK_SIZE_X;
+        int chunkZ = z / CHUNK_SIZE_Z;
 
         cell.transform.SetParent(chunks[chunkX + chunkZ * chunkCountX]);
 
@@ -245,7 +251,7 @@ public class HexGrid : MonoBehaviour
     /// <param name="cell">The target cell</param>
     private void SetTypeForCell(HexCell cell)
     {
-        float noiseValue = HexMetrics.SampleNoise(cell.transform.localPosition, noise).y; // will be between 0.0 and 1.0 (both inclusive)
+        float noiseValue = SampleNoise(cell.transform.localPosition, noise).y; // will be between 0.0 and 1.0 (both inclusive)
         int cellTypeIndex = Mathf.FloorToInt(noiseValue * cellTypes.Length * 0.99f); // will be between 0 and the last index of `cellTypes`
         cell.CellType = cellTypes[cellTypeIndex];
     }
@@ -335,6 +341,14 @@ public class HexGrid : MonoBehaviour
             if (!occupying)
                 cell.OccupyingObject = null;
         }
+    }
+
+    private Vector4 SampleNoise(Vector3 position, Texture2D noiseSource)
+    {
+        return noiseSource.GetPixelBilinear(
+            position.x * noiseScale,
+            position.z * noiseScale
+        );
     }
 
     public void SaveTerrain()

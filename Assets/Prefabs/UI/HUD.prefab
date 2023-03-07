@@ -1116,6 +1116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8991e59881edcb4bbaa22c6a3c44f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resourceStartAmount: 100
   resourceText: {fileID: 3875453902857254870}
   scoreText: {fileID: 143523117}
   score: 0

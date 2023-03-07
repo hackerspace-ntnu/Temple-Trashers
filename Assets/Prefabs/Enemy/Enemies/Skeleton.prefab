@@ -1928,7 +1928,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6262807936475223192}
   - component: {fileID: 6262807936475223191}
-  - component: {fileID: 6262807936475223195}
   - component: {fileID: 6262807936475223196}
   - component: {fileID: 5862766765972872273}
   - component: {fileID: 6262807936475223190}
@@ -1977,27 +1976,15 @@ MonoBehaviour:
   attackDamage: 5
   scoreValue: 10
   durationBeforeDespawn: 2.5
+  colliderToDisable: {fileID: 6262807936475223194}
+  colliderToEnable: {fileID: 1737569877594554043}
+  launchRotationSpeed: 25
   walkSpeed: 1.3
   chaseSpeed: 3
   baseAttackDistance: 2
   playerAttackDistance: 2.5
   playerChaseStopDistance: 8
   audioSource: {fileID: 5299323398470747327}
---- !u!114 &6262807936475223195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6262807936475223189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44aeb75c17c6bb242b9da7bec99c01aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderToDisable: {fileID: 6262807936475223194}
-  colliderToEnable: {fileID: 1737569877594554043}
-  launchRotationSpeed: 25
 --- !u!114 &6262807936475223196
 MonoBehaviour:
   m_ObjectHideFlags: 0

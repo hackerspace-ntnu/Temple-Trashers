@@ -27,7 +27,6 @@ public partial class PlayerStateController : MonoBehaviour
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
-    private InventoryManager inventoryManager;
 
     private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
 
@@ -114,8 +113,6 @@ public partial class PlayerStateController : MonoBehaviour
 
     void Start()
     {
-        inventoryManager = InventoryManager.Singleton;
-
         CurrentState = PlayerStates.FREE;
 
         StartCoroutine(SpawnEffectTimer());
@@ -142,7 +139,6 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.IN_TURRET_MENU);
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                ui.Select();
                 motion.Move();
                 break;
             case PlayerStates.BUILDING:
@@ -195,7 +191,7 @@ public partial class PlayerStateController : MonoBehaviour
     {
         TurretPrefabConstruction turretConstruction = focusedInteractable.GetComponent<TurretPrefabConstruction>();
 
-        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexGrid.OUTER_RADIUS * 2f * transform.forward);
         if (newTargetCell != targetCell)
         {
             targetCell = newTargetCell;
@@ -266,6 +262,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.IN_TURRET_MENU:
                 SetFocusedInteractable(null);
                 anim.SetBool(planningAnimatorParam, true);
+                ui.SetActiveUI(true);
                 break;
             case PlayerStates.BUILDING:
                 anim.SetBool(liftingAnimatorParam, true);
@@ -310,7 +307,6 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         tower.TowerScriptableObject.InstantiateConstructionTower(this);
-        SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -391,7 +387,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(heldInteractable is TurretPrefabConstruction tower))
             return;
 
-        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+        UIManager.Singleton.SetResourceAmount(new ResourceInfo(tower.TowerScriptableObject.Cost, gameObject));
         messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);

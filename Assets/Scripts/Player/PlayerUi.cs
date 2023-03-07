@@ -39,6 +39,7 @@ public class PlayerUi : MonoBehaviour
     {
         if (ui.activeInHierarchy)
         {
+            // If the select button is no longer pressed, handle the selection
             if (!playerStateController.Select)
             {
                 Select();

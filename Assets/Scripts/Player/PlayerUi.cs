@@ -43,6 +43,7 @@ public class PlayerUi : MonoBehaviour
 
     public void ToggleBuildMenu()
     {
+        if (playerStateController.CurrentState == PlayerStates.BUILDING) { return; }
         buildToggle = !buildToggle;
         SetActiveUI(buildToggle);
         if (buildToggle)

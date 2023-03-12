@@ -152,8 +152,10 @@ public partial class PlayerStateController : MonoBehaviour
                 }
 
                 if (Interact && !ui.GetBuildToggle())
-                    SetState(PlayerStates.FREE);
-
+                {
+                    OnInteract();
+                    //SetState(PlayerStates.FREE);
+                }
                 break;
         }
     }

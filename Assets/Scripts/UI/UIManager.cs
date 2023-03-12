@@ -37,6 +37,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private RectTransform startHelpPanel = default;
 
+    [SerializeField]
+    private RectTransform startTutorial = default;
+
     [Header("Health bar variables")]
     [SerializeField]
     private Slider healthbar = default;
@@ -103,6 +106,7 @@ public class UIManager : MonoBehaviour
 
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
         healthbar.value = followBar.value = actualHealth;
+        StartCoroutine(DisableControlTutorial());
     }
 
     void OnDestroy()
@@ -162,6 +166,14 @@ public class UIManager : MonoBehaviour
 
         // Sets the noon-tweened bar to the actual health 
         (healthAnimDiff >= 0 ? healthbar : followBar).value = actualHealth;
+    }
+
+    private IEnumerator DisableControlTutorial()
+    {
+        yield return new WaitForSeconds(16f);
+        startTutorial.LeanAlpha(0, 2f);
+        yield return new WaitForSeconds(2f);
+        startTutorial.gameObject.SetActive(false);
     }
 
     public void DisableTutorial()

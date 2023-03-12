@@ -15,10 +15,10 @@ public class SkeletonController : EnemyLight
     protected float baseAttackDistance = 2f;
 
     [SerializeField]
-    protected float playerAttackDistance = 1f;
+    protected float playerAttackDistance = 0.8f;
 
     [SerializeField]
-    protected float playerChaseStopDistance = 4f;
+    protected float playerChaseStopDistance = 1f;
 
     [SerializeField]
     private AudioSource audioSource = default;

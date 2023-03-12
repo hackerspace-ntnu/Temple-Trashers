@@ -25,6 +25,7 @@ public class GalleryInputController : UIInputController
     protected override void Move()
     {
         ChangeSelectedButton();
+        Select();
     }
 
     protected override void Select()

@@ -121,6 +121,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f32dc60-99a7-4bfe-b879-e62dd5de833d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -475,6 +483,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36179d5c-e459-48a7-b483-65037e386747"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d81c03c-c3f5-49cf-b2a1-5dc6c38f9775"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -767,6 +797,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MovePlayer_DLeft = m_MovePlayer.FindAction("DLeft", throwIfNotFound: true);
         m_MovePlayer_DRight = m_MovePlayer.FindAction("DRight", throwIfNotFound: true);
         m_MovePlayer_Join = m_MovePlayer.FindAction("Join", throwIfNotFound: true);
+        m_MovePlayer_Build = m_MovePlayer.FindAction("Build", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_MouseMove = m_Menu.FindAction("MouseMove", throwIfNotFound: true);
@@ -837,6 +868,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MovePlayer_DLeft;
     private readonly InputAction m_MovePlayer_DRight;
     private readonly InputAction m_MovePlayer_Join;
+    private readonly InputAction m_MovePlayer_Build;
     public struct MovePlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -854,6 +886,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @DLeft => m_Wrapper.m_MovePlayer_DLeft;
         public InputAction @DRight => m_Wrapper.m_MovePlayer_DRight;
         public InputAction @Join => m_Wrapper.m_MovePlayer_Join;
+        public InputAction @Build => m_Wrapper.m_MovePlayer_Build;
         public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -902,6 +935,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Join.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnJoin;
                 @Join.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnJoin;
                 @Join.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnJoin;
+                @Build.started -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_MovePlayerActionsCallbackInterface.OnBuild;
             }
             m_Wrapper.m_MovePlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -945,6 +981,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
             }
         }
     }
@@ -1055,6 +1094,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDLeft(InputAction.CallbackContext context);
         void OnDRight(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

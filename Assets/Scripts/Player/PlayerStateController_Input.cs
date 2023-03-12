@@ -44,12 +44,16 @@ partial class PlayerStateController
     }
 
     private void AimInput_Canceled(InputAction.CallbackContext ctx) => AimInput = Vector2.zero;
-    private void InteractInput_Performed(InputAction.CallbackContext ctx) => OnInteract();
+    private void InteractInput(InputAction.CallbackContext ctx) => OnInteract();
+    private void InteractInput_Performed(InputAction.CallbackContext ctx) => Interact = true;
+    private void InteractInput_Cancelled(InputAction.CallbackContext ctx) => Interact = false;
     private void CancelInput_Performed(InputAction.CallbackContext ctx) => Cancel = true;
     private void CancelInput_Canceled(InputAction.CallbackContext ctx) => Cancel = false;
     private void SelectInput_Performed(InputAction.CallbackContext ctx) => Select = true;
     private void SelectInput_Canceled(InputAction.CallbackContext ctx) => Select = false;
     private void PauseInput_Performed(InputAction.CallbackContext ctx) => PauseManager.Singleton.PauseGame();
+
+    private void BuildInput_performed(InputAction.CallbackContext ctx) => ToggleBuild();
 
     #region D-pad
 
@@ -105,12 +109,15 @@ partial class PlayerStateController
         newInput.actions["Aim"].performed += AimInput_Performed;
         newInput.actions["Aim"].canceled += AimInput_Canceled;
         newInput.actions["Interact"].performed += InteractInput_Performed;
+        newInput.actions["Interact"].canceled += InteractInput_Cancelled;
+        newInput.actions["Interact"].performed += InteractInput;
         newInput.actions["Cancel"].performed += CancelInput_Performed;
         newInput.actions["Cancel"].canceled += CancelInput_Canceled;
         newInput.actions["Select"].performed += SelectInput_Performed;
         newInput.actions["Select"].canceled += SelectInput_Canceled;
         newInput.actions["Pause"].performed += PauseInput_Performed;
         newInput.actions["Move tower"].performed += MoveTowerInput_Performed;
+        newInput.actions["Build"].performed += BuildInput_performed;
 
         #region D-pad
 
@@ -141,6 +148,8 @@ partial class PlayerStateController
             input.actions["Aim"].performed -= AimInput_Performed;
             input.actions["Aim"].canceled -= AimInput_Canceled;
             input.actions["Interact"].performed -= InteractInput_Performed;
+            input.actions["Interact"].canceled -= InteractInput_Cancelled;
+            input.actions["Interact"].performed -= InteractInput;
             input.actions["Cancel"].performed -= CancelInput_Performed;
             input.actions["Cancel"].canceled -= CancelInput_Canceled;
             input.actions["Select"].performed -= SelectInput_Performed;

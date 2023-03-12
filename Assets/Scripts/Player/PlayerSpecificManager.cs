@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,6 +63,7 @@ public class PlayerSpecificManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        if (BaseController.Singleton.isGameOver) { return; }
         GameObject playerToSpawn = playerPrefabs[playerIndex % playerPrefabs.Length];
         instantiatedPlayer = Instantiate(playerToSpawn, spawnPoint, playerToSpawn.transform.rotation).GetComponent<PlayerStateController>();
         instantiatedPlayer.SetUpInput(input, this, playerColor);

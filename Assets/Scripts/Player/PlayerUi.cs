@@ -15,6 +15,7 @@ public class PlayerUi : MonoBehaviour
     private Transform mainCameraTransform;
     private UIWheel controllerWheel;
     private MessageUI messageUI;
+    private bool buildToggle = false;
 
     public UIWheel ControllerWheel => controllerWheel;
 
@@ -30,15 +31,53 @@ public class PlayerUi : MonoBehaviour
         messageUI = GetComponent<MessageUI>();
     }
 
+    public bool GetBuildToggle()
+    {
+        return buildToggle;
+    }
+
     public void SetActiveUI(bool value)
     {
         ui.SetActive(value);
+    }
+
+    public void ToggleBuildMenu()
+    {
+        buildToggle = !buildToggle;
+        SetActiveUI(buildToggle);
+        if (buildToggle)
+        {
+            playerStateController.SetState(PlayerStates.IN_TURRET_MENU);
+        }
+        else
+        {
+            playerStateController.SetState(PlayerStates.FREE);
+        }
     }
 
     private void FixedUpdate()
     {
         if (ui.activeInHierarchy)
         {
+            if (buildToggle)
+            {
+                if (playerStateController.Cancel)
+                {
+                    ToggleBuildMenu();
+                }
+
+                if (playerStateController.Interact)
+                {
+                    SetActiveUI(false);
+                    StartCoroutine(WaitChange());
+                    Select();
+                    return;
+
+                }
+                UpdatePos();
+                return;
+            }
+
             // If the select button is no longer pressed, handle the selection
             if (!playerStateController.Select)
             {
@@ -92,5 +131,12 @@ public class PlayerUi : MonoBehaviour
         // Find/set correct index
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
         controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
+    }
+
+    private IEnumerator WaitChange()
+    {
+        yield return new WaitForSeconds(1f);
+        buildToggle = false;
+        SetActiveUI(false);
     }
 }

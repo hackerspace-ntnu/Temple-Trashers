@@ -151,7 +151,7 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.FREE);
                 }
 
-                if (Interact)
+                if (Interact && !ui.GetBuildToggle())
                     SetState(PlayerStates.FREE);
 
                 break;
@@ -416,6 +416,11 @@ public partial class PlayerStateController : MonoBehaviour
         heldInteractable = turret;
         SetFocusedInteractable(turret);
         UpdateConstructionTower();
+    }
+
+    private void ToggleBuild()
+    {
+        ui.ToggleBuildMenu();
     }
 
     private void ResetOutline()

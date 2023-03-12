@@ -128,6 +128,7 @@ public class BaseController : MonoBehaviour
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        Camera.main.orthographic = true;
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
@@ -370,6 +371,7 @@ public class BaseController : MonoBehaviour
 
             // Ensure correct camera focus
             Camera.main.GetComponent<CameraFocusController>().Focus(transform);
+            Camera.main.orthographic = false;
 
             yield return new WaitForSeconds(explosionLightningSpawnDelay);
         }

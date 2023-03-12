@@ -21,6 +21,8 @@ public class TowerLogic : AbstractTower
     private RepairAnimationController repairAnimationController;
     private int lastTweenId = -1;
 
+    private PlayerStateController currentPlayer;
+
     new void Awake()
     {
         base.Awake();
@@ -56,6 +58,8 @@ public class TowerLogic : AbstractTower
     // Allow turret to be operated when focused
     public override void Focus(PlayerStateController player)
     {
+        if (currentPlayer != null) { return; }
+        currentPlayer = player;
         turretInput = player.GetComponent<TurretInput>();
 
         if (directionalPointer)
@@ -71,6 +75,8 @@ public class TowerLogic : AbstractTower
     // When player leaves, prevent it from changing the turret position
     public override void Unfocus(PlayerStateController player)
     {
+        if (currentPlayer != player) { return; }
+        currentPlayer = null;
         turretInput = null;
 
         if (directionalPointer)

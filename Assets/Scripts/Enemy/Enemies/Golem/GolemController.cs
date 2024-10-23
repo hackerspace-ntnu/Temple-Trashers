@@ -55,6 +55,9 @@ public class GolemController : Enemy
     [SerializeField]
     private AudioSource headbutt = default;
 
+    [SerializeField]
+    private GameObject deadGolem = default;
+
     protected override void Start()
     {
         baseTransform = BaseController.Singleton.transform;
@@ -65,7 +68,8 @@ public class GolemController : Enemy
 
     private void AchievementDeath(DamageInfo dmg)
     {
-        SteamManager.Singleton.SetAchievement("ACH_SLAPPED_BACK");
+        if(SteamManager.Singleton != null)
+            SteamManager.Singleton.SetAchievement("ACH_SLAPPED_BACK");
     }
 
     public Transform AggroTarget
@@ -123,7 +127,7 @@ public class GolemController : Enemy
     protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
     {
         if (newState == EnemyState.DEAD)
-            Destroy(gameObject);
+            StartCoroutine(nameof(Death));
     }
 
     private void UpdateNextPosition()
@@ -250,5 +254,28 @@ public class GolemController : Enemy
         HealthLogic targetHealth = AggroTarget.GetComponent<HealthLogic>();
         Vector3 knockBackDir = (AggroTarget.position - transform.position + Vector3.up * 2).normalized;
         targetHealth.OnReceiveDamage(this, damage, knockBackDir, 10f);
+    }
+
+    IEnumerator Death()
+    {
+        yield return new  WaitForSeconds(0.5f);
+        GameObject DeadGolem = Instantiate(deadGolem, transform.position, transform.rotation);
+        
+        // Add an explosion force on the base
+        foreach (Rigidbody rb in DeadGolem.GetComponentsInChildren<Rigidbody>())
+        {
+            // Add force
+            rb.AddForce(new Vector3(Random.Range(-250f, 250f), Random.Range(500f, 800f), Random.Range(-250f, 250f)));
+            // Add torque
+            Vector3 torque = new Vector3(
+                Random.Range(-200, 200),
+                Random.Range(-200, 200),
+                Random.Range(-200, 200));
+            rb.GetComponent<ConstantForce>().torque = torque;
+        }
+
+        // Cleanup
+        Destroy(DeadGolem, 5f);
+        Destroy(gameObject);
     }
 }

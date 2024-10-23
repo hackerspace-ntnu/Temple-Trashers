@@ -4,12 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public struct ResourceInfo
+{
+    public int delta;
+    public GameObject source;
 
+    public ResourceInfo(int delta, GameObject source)
+    {
+        this.delta = delta;
+        this.source = source;
+    }
+}
 public class UIManager : MonoBehaviour
 {
     public static UIManager Singleton { get; private set; }
 
     [Header("Resource UI")]
+
+    [SerializeField]
+    private int resourceStartAmount = 100;
+
     [SerializeField]
     private TextMeshProUGUI resourceText = default;
 
@@ -22,6 +36,9 @@ public class UIManager : MonoBehaviour
     [Header("Tutorial UI")]
     [SerializeField]
     private RectTransform startHelpPanel = default;
+
+    [SerializeField]
+    private RectTransform startTutorial = default;
 
     [Header("Health bar variables")]
     [SerializeField]
@@ -39,7 +56,6 @@ public class UIManager : MonoBehaviour
     [Range(0, 5), SerializeField]
     private float followBarDelay = 2f;
 
-    private InventoryManager inventory;
     private BaseController baseController;
 
     private float baseMaxHealth;
@@ -51,6 +67,10 @@ public class UIManager : MonoBehaviour
     private float healthAnimDiff = 0f;
 
     public int Score => score;
+
+    private int resourceAmount = 0;
+
+    public int ResourceAmount { get => resourceAmount; }
 
     void Awake()
     {
@@ -70,11 +90,11 @@ public class UIManager : MonoBehaviour
         Singleton = this;
 
         #endregion Singleton boilerplate
+        resourceAmount = resourceStartAmount;
     }
 
     void Start()
     {
-        inventory = InventoryManager.Singleton;
         baseController = BaseController.Singleton;
 
         UpdateResourceUI();
@@ -86,6 +106,7 @@ public class UIManager : MonoBehaviour
 
         healthbar.maxValue = followBar.maxValue = baseMaxHealth;
         healthbar.value = followBar.value = actualHealth;
+        StartCoroutine(DisableControlTutorial());
     }
 
     void OnDestroy()
@@ -98,7 +119,13 @@ public class UIManager : MonoBehaviour
 
     public void UpdateResourceUI()
     {
-        resourceText.text = inventory.ResourceAmount.ToString();
+        resourceText.text = ResourceAmount.ToString();
+    }
+
+    public void SetResourceAmount(ResourceInfo resourceInfo)
+    {
+        resourceAmount += resourceInfo.delta;
+        UpdateResourceUI();
     }
 
     public void IncreaseScore(int increase)
@@ -139,6 +166,14 @@ public class UIManager : MonoBehaviour
 
         // Sets the noon-tweened bar to the actual health 
         (healthAnimDiff >= 0 ? healthbar : followBar).value = actualHealth;
+    }
+
+    private IEnumerator DisableControlTutorial()
+    {
+        yield return new WaitForSeconds(16f);
+        startTutorial.LeanAlpha(0, 2f);
+        yield return new WaitForSeconds(2f);
+        startTutorial.gameObject.SetActive(false);
     }
 
     public void DisableTutorial()

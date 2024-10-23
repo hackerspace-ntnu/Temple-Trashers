@@ -128,6 +128,7 @@ public class BaseController : MonoBehaviour
         healthController.onDeath += Die;
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        Camera.main.orthographic = true;
 
         if (mainCrystal == null)
             Debug.LogError("Main Crystal not set.");
@@ -140,7 +141,7 @@ public class BaseController : MonoBehaviour
         gameManager = EndlessMode.Singleton;
         InvokeRepeating("WaveExplosionCounter",3f, 1f);
         matCrystal.SetFloat("Charge_Percent", 0);
-        
+        Cursor.visible = false;
     }
 
     void OnDestroy()
@@ -283,9 +284,23 @@ public class BaseController : MonoBehaviour
         return -2;
     }
 
-    public void OnPlayerDeath()
+    public Transform OnPlayerDeath(Transform player)
     {
         waveExplosionTimer = waveExplosionTimer - waveTimePunishment < 0 ? 0 : waveExplosionTimer - waveTimePunishment;
+
+        // Create lightning VFX
+        Transform ray = Instantiate(enemyZap, mainCrystal.transform.position, mainCrystal.transform.rotation, mainCrystal).transform;
+
+        // TODO: refactor this, to reduce code duplication with `OnTriggerEnter()` below
+        // 1 is the index of the first child (after the parent itself)
+        Transform rayTarget = ray.GetComponentsInChildren<Transform>()[1];
+        rayTarget.SetParent(player.GetComponent<PlayerRagdollController>().initialForceTarget.transform);
+        rayTarget.localPosition = Vector3.zero;
+        // Set the ray target's position to the center of the enemy
+
+        StartCoroutine(ZapSound());
+
+        return ray;
     }
 
     public void OnCrystalCollected()
@@ -356,6 +371,7 @@ public class BaseController : MonoBehaviour
 
             // Ensure correct camera focus
             Camera.main.GetComponent<CameraFocusController>().Focus(transform);
+            Camera.main.orthographic = false;
 
             yield return new WaitForSeconds(explosionLightningSpawnDelay);
         }
@@ -381,6 +397,7 @@ public class BaseController : MonoBehaviour
 
         // Creates the GUI "GameOverScreen"
         Instantiate(gameOverScreen);
+        Cursor.visible = true;
 
         // Add particle system
         Instantiate(deathParticles, transform.position + new Vector3(0, 3, 0), deathParticles.transform.rotation);

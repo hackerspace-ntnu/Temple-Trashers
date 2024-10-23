@@ -15,17 +15,20 @@ public class SkeletonController : EnemyLight
     protected float baseAttackDistance = 2f;
 
     [SerializeField]
-    protected float playerAttackDistance = 1f;
+    protected float playerAttackDistance = 0.8f;
 
     [SerializeField]
-    protected float playerChaseStopDistance = 4f;
+    protected float playerChaseStopDistance = 1f;
 
     [SerializeField]
     private AudioSource audioSource = default;
 
+
     private static readonly int attackAnimatorParam = Animator.StringToHash("Attack");
     private static readonly int chasingAnimatorParam = Animator.StringToHash("Chasing");
     private static readonly int walkModeAnimatorParam = Animator.StringToHash("WalkMode");
+    private static readonly int deadAnimatorParam = Animator.StringToHash("Dead");
+    private static readonly int deathModeAnimatorParam = Animator.StringToHash("DeathMode");
 
     protected override void Start()
     {
@@ -48,6 +51,14 @@ public class SkeletonController : EnemyLight
     {
         // Set random walk animation
         anim.SetFloat(walkModeAnimatorParam, Random.Range(0, 3));
+    }
+    protected override void SetRagdollAnimatorParams()
+    {
+        base.SetRagdollAnimatorParams();
+
+        anim.SetBool(deadAnimatorParam, true);
+        // Set random death animation
+        anim.SetFloat(deathModeAnimatorParam, Random.Range(0, 8));
     }
 
     void FixedUpdate()

@@ -27,7 +27,6 @@ public partial class PlayerStateController : MonoBehaviour
     private PlayerSpecificManager manager;
     private PlayerMotion motion;
     private PlayerUi ui;
-    private InventoryManager inventoryManager;
 
     private HashSet<Interactable> interactables = new HashSet<Interactable>(); // List of interactables in range
 
@@ -70,6 +69,12 @@ public partial class PlayerStateController : MonoBehaviour
     private static readonly int planningAnimatorParam = Animator.StringToHash("Planning");
     private static readonly int borderScaleShaderProperty = Shader.PropertyToID("BorderScale");
 
+    public bool deathCooldownOver = false;
+    private float deathCooldown = 2f;
+    private PlayerRagdollController ragdollCont;
+
+    private Transform deadplayerVFX;
+
     void Awake()
     {
         motion = GetComponent<PlayerMotion>();
@@ -79,6 +84,7 @@ public partial class PlayerStateController : MonoBehaviour
         ui = GetComponent<PlayerUi>();
         messageUI = GetComponent<MessageUI>();
         uiInputController = GetComponent<UIInputController>();
+        ragdollCont = GetComponent<PlayerRagdollController>();
 }
 
     void OnDestroy()
@@ -94,11 +100,8 @@ public partial class PlayerStateController : MonoBehaviour
         if (liftedObject)
             liftedObject.GetComponent<Interactable>().Interact(this);
 
-
         SetState(PlayerStates.DEAD);
-        manager.RespawnPlayer(1f);
-        BaseController.Singleton.OnPlayerDeath();
-
+        manager.StartRespawnPlayer(deathCooldown);
 
         CameraFocusController.Singleton.RemoveFocusObject(transform);
         GetComponent<PlayerRagdollController>()?.Ragdoll(dmg);
@@ -106,14 +109,10 @@ public partial class PlayerStateController : MonoBehaviour
 
         //Makes sure respawn blink is disabled before ragdoll is made.
         DisableOutline();
-
-        Destroy(gameObject, 2f);
     }
 
     void Start()
     {
-        inventoryManager = InventoryManager.Singleton;
-
         CurrentState = PlayerStates.FREE;
 
         StartCoroutine(SpawnEffectTimer());
@@ -130,6 +129,7 @@ public partial class PlayerStateController : MonoBehaviour
                 motion.Move();
                 break;
             case PlayerStates.DEAD:
+                MoveBackToSpawn();
                 break;
             case PlayerStates.FREE:
                 UpdateFocusedInteractable();
@@ -139,7 +139,6 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.IN_TURRET_MENU);
                 break;
             case PlayerStates.IN_TURRET_MENU:
-                ui.Select();
                 motion.Move();
                 break;
             case PlayerStates.BUILDING:
@@ -152,10 +151,41 @@ public partial class PlayerStateController : MonoBehaviour
                     SetState(PlayerStates.FREE);
                 }
 
-                if (Interact)
-                    SetState(PlayerStates.FREE);
-
+                if (Interact && !ui.GetBuildToggle())
+                {
+                    OnInteract();
+                    //SetState(PlayerStates.FREE);
+                }
                 break;
+        }
+    }
+
+    public void ReturnPlayerToSpawn()
+    {
+        deathCooldownOver = true;
+        deadplayerVFX = BaseController.Singleton.OnPlayerDeath(this.transform);
+    }
+
+    private void MoveBackToSpawn()
+    {
+        if(deathCooldownOver)
+        {
+            foreach (var t in ragdollCont.initialForceTarget.transform.parent.GetComponentsInChildren<Transform>())
+            {
+                t.localPosition = Vector3.Lerp(t.localPosition, Vector3.zero, Time.deltaTime);
+            }
+
+            ragdollCont.initialForceTarget.transform.parent.position = Vector3.Lerp(ragdollCont.initialForceTarget.transform.parent.position, manager.spawnPoint, Time.deltaTime);
+            
+            transform.position = Vector3.Lerp(transform.position, manager.spawnPoint, Time.deltaTime);
+            anim.enabled = true;
+
+            if (Vector3.Distance(ragdollCont.transform.position, manager.spawnPoint) < 0.1f)
+            {
+                manager.RespawnPlayer();// Respawn a new play
+                Destroy(deadplayerVFX.gameObject); // Destroy lightning
+                Destroy(gameObject);    // Destroy Game object
+            }
         }
     }
 
@@ -163,7 +193,7 @@ public partial class PlayerStateController : MonoBehaviour
     {
         TurretPrefabConstruction turretConstruction = focusedInteractable.GetComponent<TurretPrefabConstruction>();
 
-        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexMetrics.OUTER_RADIUS * 2f * transform.forward);
+        HexCell newTargetCell = HexGrid.Singleton.GetCell(transform.position + HexGrid.OUTER_RADIUS * 2f * transform.forward);
         if (newTargetCell != targetCell)
         {
             targetCell = newTargetCell;
@@ -234,6 +264,7 @@ public partial class PlayerStateController : MonoBehaviour
             case PlayerStates.IN_TURRET_MENU:
                 SetFocusedInteractable(null);
                 anim.SetBool(planningAnimatorParam, true);
+                ui.SetActiveUI(true);
                 break;
             case PlayerStates.BUILDING:
                 anim.SetBool(liftingAnimatorParam, true);
@@ -278,7 +309,6 @@ public partial class PlayerStateController : MonoBehaviour
             return;
 
         tower.TowerScriptableObject.InstantiateConstructionTower(this);
-        SetState(PlayerStates.BUILDING);
 
         RemoveInteractable(tower);
         Destroy(tower.gameObject);
@@ -359,7 +389,7 @@ public partial class PlayerStateController : MonoBehaviour
         if (!(heldInteractable is TurretPrefabConstruction tower))
             return;
 
-        inventoryManager.ResourceAmount += tower.TowerScriptableObject.Cost;
+        UIManager.Singleton.SetResourceAmount(new ResourceInfo(tower.TowerScriptableObject.Cost, gameObject));
         messageUI.DisplayMessage($"+{tower.TowerScriptableObject.Cost}", MessageTextColor.GREEN);
 
         RemoveInteractable(tower);
@@ -388,6 +418,11 @@ public partial class PlayerStateController : MonoBehaviour
         heldInteractable = turret;
         SetFocusedInteractable(turret);
         UpdateConstructionTower();
+    }
+
+    private void ToggleBuild()
+    {
+        ui.ToggleBuildMenu();
     }
 
     private void ResetOutline()

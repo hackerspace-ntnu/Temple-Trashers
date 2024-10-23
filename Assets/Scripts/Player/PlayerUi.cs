@@ -13,9 +13,9 @@ public class PlayerUi : MonoBehaviour
     private GameObject ui = default;
 
     private Transform mainCameraTransform;
-    private InventoryManager inventory;
     private UIWheel controllerWheel;
     private MessageUI messageUI;
+    private bool buildToggle = false;
 
     public UIWheel ControllerWheel => controllerWheel;
 
@@ -28,13 +28,65 @@ public class PlayerUi : MonoBehaviour
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
-        inventory = InventoryManager.Singleton;
         messageUI = GetComponent<MessageUI>();
+    }
+
+    public bool GetBuildToggle()
+    {
+        return buildToggle;
     }
 
     public void SetActiveUI(bool value)
     {
-            ui.SetActive(value);
+        ui.SetActive(value);
+    }
+
+    public void ToggleBuildMenu()
+    {
+        if (playerStateController.CurrentState == PlayerStates.BUILDING) { return; }
+        buildToggle = !buildToggle;
+        SetActiveUI(buildToggle);
+        if (buildToggle)
+        {
+            playerStateController.SetState(PlayerStates.IN_TURRET_MENU);
+        }
+        else
+        {
+            playerStateController.SetState(PlayerStates.FREE);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (ui.activeInHierarchy)
+        {
+            if (buildToggle)
+            {
+                if (playerStateController.Cancel)
+                {
+                    ToggleBuildMenu();
+                }
+
+                if (playerStateController.Interact)
+                {
+                    SetActiveUI(false);
+                    StartCoroutine(WaitChange());
+                    Select();
+                    return;
+
+                }
+                UpdatePos();
+                return;
+            }
+
+            // If the select button is no longer pressed, handle the selection
+            if (!playerStateController.Select)
+            {
+                Select();
+                return;
+            }
+            UpdatePos();
+        }
     }
 
     void LateUpdate()
@@ -51,50 +103,41 @@ public class PlayerUi : MonoBehaviour
 
     public void Select()
     {
-        //Turns on the UI
-        ui.gameObject.SetActive(true);
-        UpdatePos();
-        //Turns off the UI if button no longer held
-        if (!playerStateController.Select)
+        TowerScriptableObject selectedSegment = GetSelectedSegment();
+        if (UIManager.Singleton.ResourceAmount - selectedSegment.Cost >= 0)
         {
-            TowerScriptableObject selectedSegment = GetSelectedSegment();
-            if (selectedSegment
-                && inventory.ResourceAmount - selectedSegment.Cost >= 0)
-            {
-                inventory.ResourceAmount -= selectedSegment.Cost;
-                selectedSegment.InstantiateConstructionTower(playerStateController);
-                playerStateController.SetState(PlayerStates.BUILDING);
-            } else
-            {
-                playerStateController.SetState(PlayerStates.FREE);
-                if (inventory.ResourceAmount - selectedSegment.Cost < 0)
-                    messageUI.DisplayMessage("Missing crystals", MessageTextColor.RED);
-            }
-
-            ui.gameObject.SetActive(false);
+            UIManager.Singleton.SetResourceAmount(new ResourceInfo(-selectedSegment.Cost, gameObject));
+            selectedSegment.InstantiateConstructionTower(playerStateController);
+        }
+        else
+        {
+            playerStateController.SetState(PlayerStates.FREE);
+            if (UIManager.Singleton.ResourceAmount - selectedSegment.Cost < 0)
+                messageUI.DisplayMessage("Missing crystals", MessageTextColor.RED);
         }
     }
 
-    //Finds which segment of the radialUi the control stick is pointing towards
+    // Finds which segment of the radialUi the control stick is pointing towards
     private void UpdatePos()
     {
-        if (playerStateController.CurrentState != PlayerStates.IN_TURRET_MENU)
-        {
-            Debug.LogError("You seem to be in the wrong state for the UI");
-            return;
-        }
-
         // The controller points to nothing
         if (playerStateController.AimInput == Vector2.zero)
             return;
 
         float inputAngle = Mathf.Atan2(playerStateController.AimInput.x, playerStateController.AimInput.y) * Mathf.Rad2Deg;
         float segmentAreaDegrees = 360f / controllerWheel.GetNumSegments();
-        //Update inputAngle to take into account that the origin of the icon is the middle and not the start of a segment
+        // Update inputAngle to take into account that the origin of the icon is the middle and not the start of a segment
         inputAngle = MathUtils.NormalizeDegreeAngle(inputAngle + segmentAreaDegrees / 2f);
 
-        //Find/set correct index
+        // Find/set correct index
         int selectedSegmentIndex = Mathf.FloorToInt(inputAngle / segmentAreaDegrees);
         controllerWheel.SelectedSegmentIndex = selectedSegmentIndex;
+    }
+
+    private IEnumerator WaitChange()
+    {
+        yield return new WaitForSeconds(1f);
+        buildToggle = false;
+        SetActiveUI(false);
     }
 }
